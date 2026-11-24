@@ -295,6 +295,7 @@ uv run streamlit run src/vigia/app.py        # panel de la demo (http://localhos
 uv run python -m vigia --fallo               # recorrido completo en la consola
 uv run python -m vigia.data.synthetic        # regenerar la clínica sintética
 uv run python -m vigia.connectors.http_api   # API del ERP de demo (VIGIA_ERP_TOKEN obligatorio)
+uv run python -m vigia.connectors.balter_probe --autorizado  # prueba de la clave de BALTER (solo con visto bueno; ADR 006)
 ```
 
 Antes de cada commit tienen que pasar el formato, el lint, los tipos y los tests. La CI (`.github/workflows/ci.yml`) los ejecuta en cada push, en Linux y en Windows.

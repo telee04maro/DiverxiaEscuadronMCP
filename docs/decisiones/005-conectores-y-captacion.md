@@ -1,7 +1,7 @@
 # 005. Conectores ERP/CRM, agente de atención y captación, y entrada de datos
 
 - **Fecha:** 2026-11-24
-- **Estado:** aceptada. Amplía la [ADR 002](002-vigia-equipo-de-agentes.md).
+- **Estado:** aceptada. Amplía la [ADR 002](002-vigia-equipo-de-agentes.md); ampliada por la [ADR 006](006-api-balter.md) (API real de BALTER).
 - **Origen:**
   - la memoria del asistente de WhatsApp conectado a un ERP de un compañero del equipo (Hermes + Zernio + BALTER);
   - la pregunta «¿cómo entraría una empresa?».

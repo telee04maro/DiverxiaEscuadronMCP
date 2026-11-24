@@ -17,7 +17,7 @@ Memoria compartida del equipo: **por dónde vamos y hacia dónde**. Se actualiza
   - re-medición con un «mes después» simulado.
 - **Caso de la demo:** clínica de fisioterapia ficticia de Málaga, con datos sintéticos.
 - **Entrada de una empresa real:** «Tu empresa» (entrevista + Excel/CSV con plantillas). ERP de demo con API para el asistente de WhatsApp (Hermes).
-- **Hoja de ruta del pitch:** los otros especialistas (marketing y clientes, legal, organización y personas, chat del dueño) y conectores con ERP reales (BALTER, con su API y permiso).
+- **Hoja de ruta del pitch:** los otros especialistas (marketing y clientes, legal, organización y personas, chat del dueño) y la lectura de oportunidades de BALTER, que su API actual no ofrece (ADR 006).
 
 ## Hoja de ruta
 
@@ -88,7 +88,7 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 | Tarea | Responsable | Desde |
 |-------|-------------|-------|
 | E9. Entrega: subir `docs/entrega/` al Drive, vídeo de respaldo y ensayo del pitch | Equipo (dueño del repositorio) | 24/11, 16:20 |
-| BALTER real: documentación de la API, visto bueno de la empresa y credenciales en `.env` (ver `docs/integracion-balter.md`) | Equipo (dueño del repositorio) | 24/11, 16:20 |
+| BALTER real: **falta el visto bueno por escrito** de la empresa (documentación y credenciales ya están; ver `docs/integracion-balter.md`) | Equipo (dueño del repositorio) | 24/11, 16:20 |
 
 ## Siguiente paso
 1. Hecho: probado con Claude real; coste medido en `docs/uso-ia.md`, el canvas y el pitch.
@@ -110,7 +110,8 @@ Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.
 - **La causa redactada por Claude varía entre ejecuciones** (mismo fondo, distinto título y orden). Las cifras siempre salen de los hallazgos; para un pitch reproducible, el modo reglas da siempre el mismo texto.
 - **Fuentes de competencia:** Meta y Google Ads exigen identidad verificada o no tienen API de autoservicio, y Google prohíbe el scraping de resultados. Se usan instantáneas sintéticas con el formato oficial (ver `docs/fuentes.md`).
 - **Red team R01, pendiente (P2):** el coordinador con IA acepta una hipótesis descartada si cita hallazgos existentes aunque no sean los relevantes (p. ej. descartar «la temporada» citando la caja). En modo reglas no ocurre.
-- **BALTER real sin probar:** falta la documentación de su API y el visto bueno de la empresa dueña. No se conecta a producción; la primera prueba será de solo lectura y sin datos personales (ADR 005).
+- **BALTER real:** su API v1 no permite leer oportunidades, así que el agente de atención no puede analizar BALTER en directo. Las consultas reales entran por exportación a «Tu empresa». La prueba de la clave (catálogo, sin datos personales) espera al visto bueno de la empresa (ADR 006).
+- **Riesgos de BALTER para el asistente de WhatsApp:** posibles contactos duplicados por el formato del teléfono, y sin idempotencia (un reintento crea otra oportunidad). El ERP de demo no los tiene; no se presenta como prueba de BALTER (ADR 006).
 - **Hermes y Zernio** son componentes previos del compañero: pendiente de que la organización confirme que se pueden usar declarados como tales.
 - **El ERP de demo serializa los registros** con un bloqueo por proceso: suficiente para la demo, no para varios servidores a la vez (ahí lo garantizan los índices únicos de la base de datos).
 - **Streamlit no recarga los módulos de `vigia` al cambiar el código:** tras modificar algo, hay que reiniciar el panel.
@@ -121,6 +122,7 @@ Registro de pivotes, errores de enfoque y cambios de dirección, el más recient
 
 | Fecha | Cambio | Motivo | Decisión |
 |---|---|---|---|
+| 2026-11-24 | **No hay conector de lectura de BALTER**; prueba de solo lectura del catálogo (con `--autorizado`) y consultas reales por exportación a «Tu empresa» | Su API v1 no permite listar oportunidades; las otras operaciones leen datos personales o escriben en producción | [006](decisiones/006-api-balter.md) |
 | 2026-11-24 | Nuevo agente de atención y captación, contrato de conector ERP/CRM, ERP de demo con la forma de BALTER y entrada «Tu empresa». **BALTER de producción descartado** | Integrar el asistente de WhatsApp del compañero y mostrar cómo entra una empresa; BALTER real tiene datos de clientes y las bases lo impiden | [005](decisiones/005-conectores-y-captacion.md) |
 | 2026-11-24 | El producto pasa a llamarse **Vigía** (antes, Centra); paquete `vigia` y variables `VIGIA_*` | Hay otras empresas que se llaman Centra | [004](decisiones/004-nombre-vigia.md) |
 | 2026-11-24 | De consultor único a **Vigía**: especialistas + coordinador que cruza la información. En la demo, competencia y finanzas en profundidad. El documento legal pasa a la hoja de ruta | Centralizar no aporta por sí solo; el valor es la causa cruzada. «Dos agentes muy buenos mejor que seis a medias» | [002](decisiones/002-vigia-equipo-de-agentes.md) |

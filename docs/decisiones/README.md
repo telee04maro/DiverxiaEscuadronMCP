@@ -36,4 +36,5 @@ Qué se elige, cómo funciona y por qué. Si es una combinación, qué papel tie
 | 002 | [Vigía: equipo de agentes especialistas con un coordinador que cruza la información](002-vigia-equipo-de-agentes.md) | aceptada |
 | 003 | [Stack del prototipo](003-stack-del-prototipo.md) | aceptada |
 | 004 | [Cambio de nombre: de Centra a Vigía](004-nombre-vigia.md) | aceptada |
-| 005 | [Conectores ERP/CRM, atención y captación, y entrada de datos](005-conectores-y-captacion.md) | aceptada |
+| 005 | [Conectores ERP/CRM, atención y captación, y entrada de datos](005-conectores-y-captacion.md) | aceptada, ampliada por 006 |
+| 006 | [Qué permite la API de BALTER y cómo la usa Vigía](006-api-balter.md) | aceptada |

@@ -2,30 +2,38 @@
 
 Hoy Vigía lee las consultas de un **ERP de demo con la forma de BALTER** ([ADR 005](decisiones/005-conectores-y-captacion.md)). Para conectarlo al BALTER de verdad hacen falta las tres cosas de abajo. **Sin las tres no se conecta**: BALTER tiene datos de clientes reales, y las bases del hackathon prohíben usarlos sin autorización.
 
-## Lo que tiene que aportar el equipo
+## Estado (24/11/2026)
 
-| # | Qué | Dónde va | Cómo |
-|---|---|---|---|
-| 1 | **Documentación de la API de BALTER**: URL base, cómo se autentica (token, usuario y contraseña, OAuth…), endpoints de contactos y oportunidades, formato de las respuestas y límites de uso | `docs/balter/` (PDF o enlace) | Se puede compartir con Claude: no es un secreto. Si incluye ejemplos con datos reales de clientes, quítalos antes |
-| 2 | **Visto bueno por escrito** de la empresa dueña de BALTER para una prueba **de solo lectura** | Una línea en la tabla «Cambios de rumbo» de `docs/ESTADO.md`: quién lo da, fecha y alcance | Basta un correo o un mensaje. Si existe un **entorno de pruebas**, mejor que producción |
-| 3 | **Credenciales** | `.env` (nunca en el chat, nunca en `.env.example`, nunca en un commit) | Rellenar `BALTER_URL`, `BALTER_USER` y `BALTER_TOKEN`. Si la autenticación es de otro tipo, se añade la variable que diga la documentación |
+| # | Qué | Estado |
+|---|---|---|
+| 1 | **Documentación de la API** | ✅ Recibida (v1, 27/10/2026). **Se guarda fuera del repositorio**, porque es de un tercero y el repositorio es público. Resumen y decisión en la [ADR 006](decisiones/006-api-balter.md) |
+| 2 | **Visto bueno por escrito** de la empresa dueña de BALTER para una prueba de solo lectura | ⏳ Pendiente. Cuando llegue, se apunta en la tabla «Cambios de rumbo» de `docs/ESTADO.md`: quién lo da, fecha y alcance |
+| 3 | **Credenciales en `.env`** | ✅ `BALTER_URL` y `BALTER_TOKEN`. `BALTER_USER` no hace falta: la API se autentica solo con la clave |
 
-Comprobar que `.env` no se sube:
+## Lo que hemos aprendido de la API
+
+**No permite leer oportunidades.** Solo busca contactos (devuelve nombres), crea oportunidades (escribe en producción) y consulta el catálogo de artículos. Por eso:
+- Vigía **no se conecta a BALTER para analizar**: las consultas reales entran exportándolas a la plantilla «Consultas y oportunidades» de «Tu empresa».
+- La única prueba sin datos personales es pedir **un artículo del catálogo**.
+
+## La prueba (solo con el visto bueno)
 
 ```powershell
-git check-ignore -v .env
+uv run python -m vigia.connectors.balter_probe --autorizado
 ```
 
-Tiene que responder con una línea de `.gitignore`. Si no responde nada, **no hagas commit** y avisa.
+Solo muestra el código HTTP y cuántos artículos llegaron (0 o 1), nunca su contenido ni la clave:
 
-## Lo que hará Claude después (en este orden)
+| Resultado | Qué significa |
+|---|---|
+| `HTTP 200 · artículos recibidos: 1` | La clave funciona y puede leer el catálogo |
+| `HTTP 401` | Clave inválida, revocada o caducada |
+| `HTTP 403` | Clave válida, pero sin permiso de catálogo (`articles.read`). Normal si es la clave de Hermes, que solo busca y escribe |
 
-1. **Leer la documentación** y apuntar en una ADR nueva qué endpoints se usan y cuáles no.
-2. **Prueba mínima de solo lectura**: autenticarse y pedir un recuento o un catálogo, sin descargar datos personales. Resultado en `docs/ESTADO.md` (fecha, comando y respuesta, sin secretos).
-3. **`BalterConnector`**: una implementación nueva de `CrmConnector` (`src/vigia/connectors/`), **solo con `list_opportunities`**. Los agentes y el coordinador no cambian.
-4. **Tests** con respuestas grabadas y anonimizadas, nunca contra producción en la CI.
-5. **Nunca** se escribe en BALTER desde Vigía (crear contactos, notas u oportunidades) sin un segundo visto bueno explícito y un entorno de pruebas.
+Sin `--autorizado`, no se ejecuta.
 
-## Qué se gana
+## Lo que nunca hace Vigía con BALTER
 
-El agente de atención y captación medirá las consultas reales: tiempo de respuesta fuera de horario, consultas perdidas y oportunidades sin responsable. El coordinador las cruzará con finanzas y competencia como hoy hace con la demo. La demo del hackathon **no depende de esto**: funciona igual con el ERP de demo.
+- Buscar contactos: devuelve nombres de personas.
+- Crear oportunidades o contactos: escribe en producción. Eso es cosa del asistente de WhatsApp.
+- Guardar o mostrar la clave en logs, informes o pantallas.
