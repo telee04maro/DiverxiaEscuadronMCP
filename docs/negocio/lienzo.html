@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lienzo del reto · Centra</title>
+<style>
+  :root {
+    --dark: #2b2f33;
+    --green: #8cc63f;
+    --green-soft: #eef5df;
+    --line: #c9cfd6;
+    --text: #1f2933;
+    --hint: #7b8794;
+  }
+  @page { size: A3 landscape; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #fff; color: var(--text); }
+  body {
+    font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    width: 420mm; height: 297mm;
+    display: flex; flex-direction: column;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  header {
+    background: var(--dark); color: #fff;
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    padding: 5mm 9mm 4mm; border-bottom: 1.6mm solid var(--green);
+  }
+  .brand { font-weight: 700; font-size: 12pt; line-height: 1; }
+  .brand small { display: block; font-weight: 600; font-size: 9pt; opacity: .9; }
+  .title { text-align: center; }
+  .title h1 { margin: 0; font-size: 22pt; letter-spacing: .06em; font-weight: 800; }
+  .title h1 span { color: var(--green); }
+  .title p { margin: 1mm 0 0; font-size: 8.5pt; color: #c5ccd3; }
+  .tag { justify-self: end; font-weight: 800; font-size: 13pt; letter-spacing: .05em; }
+  .tag span { color: var(--green); }
+  .meta {
+    display: flex; gap: 14mm; padding: 3mm 9mm 2.5mm; font-size: 9.5pt;
+    border-bottom: .3mm solid var(--line);
+  }
+  .meta b { color: var(--hint); font-weight: 600; margin-right: 2mm; }
+  main {
+    flex: 1; display: grid; padding: 0 6mm;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 1fr 1fr 1fr 0.9fr;
+    grid-template-areas:
+      "cli pro val ven act ali"
+      "usu sol val ven rec ali"
+      "usu sol val ven can fid"
+      "cos cos cos ing ing ing";
+  }
+  section {
+    border-right: .3mm solid var(--line); border-bottom: .3mm solid var(--line);
+    padding: 3mm 3.2mm 2mm; overflow: hidden;
+  }
+  section.last { border-right: none; }
+  section.bottom { border-bottom: none; }
+  .val { background: var(--green-soft); }
+  h2 {
+    margin: 0; font-size: 9.5pt; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 1.6mm;
+  }
+  h2::before { content: ""; width: 2.4mm; height: 2.4mm; background: var(--green); border-radius: .4mm; }
+  .hint { margin: .6mm 0 1.6mm 4mm; font-size: 6.8pt; color: var(--hint); }
+  ul, ol { margin: 0; padding-left: 4.2mm; }
+  li { font-size: 8.6pt; line-height: 1.28; margin-bottom: 1.1mm; }
+  p.lead { font-size: 8.8pt; line-height: 1.3; margin: 0 0 1.6mm; }
+  .quote { font-size: 13pt; font-weight: 800; line-height: 1.2; margin: 1mm 0 2.4mm; color: #24402a; }
+  .now { font-size: 7.4pt; color: #3f6212; font-weight: 700; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 5mm; }
+  footer {
+    background: var(--dark); color: #c5ccd3; font-size: 8pt;
+    display: flex; justify-content: space-between; align-items: center; padding: 2.6mm 9mm;
+  }
+  footer b { color: #fff; letter-spacing: .08em; }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Talent Land<small>España</small></div>
+  <div class="title">
+    <h1>HACKATHON <span>IA FIRST</span></h1>
+    <p>Lienzo del reto · Del reto a la solución validada con IA</p>
+  </div>
+  <div class="tag">IA <span>FIRST</span></div>
+</header>
+
+<div class="meta">
+  <div><b>Equipo:</b>EscuadronMCP · Proyecto: Centra</div>
+  <div><b>Reto:</b>04 – La IA como servicio</div>
+  <div><b>Fecha:</b>24/11/2026</div>
+</div>
+
+<main>
+  <section style="grid-area: cli">
+    <h2>Clientes</h2><div class="hint">¿Quién paga por la solución? Segmentos de cliente</div>
+    <ul>
+      <li>Pymes tradicionales de <b>5 a 50 empleados</b> (clínicas, hostelería, comercio, talleres, despachos).</li>
+      <li><b>Gestorías y asesorías</b>, que lo ofrecen a sus clientes.</li>
+    </ul>
+  </section>
+
+  <section style="grid-area: pro">
+    <h2>Problemas</h2><div class="hint">Los 2-3 problemas o necesidades principales a resolver</div>
+    <ol>
+      <li>La gestión está <b>repartida entre proveedores</b> que no se comunican: se decide sin el contexto completo.</li>
+      <li>No detectan a tiempo <b>dónde pierden dinero</b> (cobros, caja) <b>ni clientes</b>, ni en qué les supera la competencia.</li>
+      <li>No tienen <b>dinero ni tiempo</b> para una consultora ni para departamentos propios.</li>
+    </ol>
+  </section>
+
+  <section class="val" style="grid-area: val">
+    <h2>Propuesta de valor</h2><div class="hint">Mensaje único y claro: qué ofrece y por qué es diferente</div>
+    <p class="quote">«Cada proveedor ve su parte. Centra ve la causa.»</p>
+    <p class="lead">Todos los departamentos de tu pyme decidiendo juntos, con todo el contexto… <b>y ejecutando</b>.</p>
+    <ul>
+      <li>Te dice <b>por qué</b> pierdes dinero o clientes.</li>
+      <li><b>Plan priorizado</b> y adaptado a cada pyme.</li>
+      <li><b>Actúa y comprueba el resultado</b>: no es un informe que se queda en un cajón.</li>
+    </ul>
+    <p class="lead" style="margin-top:3mm"><b>Ejemplo (demo):</b> la clínica pierde pacientes. No es la temporada: la competencia ofrece 20 € y «sin esperas», y sus reseñas se quejan de la espera. Con la caja para 9 días, Centra reclama 10.554 € vencidos y propone una contraoferta que finanzas valida (30 €, no 20 €).</p>
+  </section>
+
+  <section style="grid-area: ven">
+    <h2>Ventaja competitiva</h2><div class="hint">Lo que hace difícil de copiar</div>
+    <ul>
+      <li>Decide <b>cruzando todas las áreas</b>, algo que los proveedores por separado no pueden hacer.</li>
+      <li><b>Los datos que acumula de cada empresa</b>: cuanto más tiempo lleva, mejores son sus decisiones.</li>
+      <li><b>La red de gestorías</b> como canal de confianza.</li>
+      <li><b>Ciclo cerrado y verificable</b>: un cobro solo cuenta si cuadra con el banco al céntimo.</li>
+      <li><b>Expertos humanos</b> supervisan lo legal y lo financiero.</li>
+    </ul>
+  </section>
+
+  <section style="grid-area: act">
+    <h2>Actividades clave</h2><div class="hint">Lo que hay que hacer sí o sí para que funcione</div>
+    <ul>
+      <li>Desarrollar y mejorar los agentes.</li>
+      <li>Conectarlos con las herramientas de la empresa (contabilidad, banco, CRM, reseñas, anuncios).</li>
+      <li>Entrevista inicial y diagnóstico de cada empresa.</li>
+      <li>Mantener al día la normativa y revisar con humanos lo delicado.</li>
+    </ul>
+  </section>
+
+  <section class="last" style="grid-area: ali">
+    <h2>Aliados</h2><div class="hint">Socios y colaboradores clave</div>
+    <ul>
+      <li>Gestorías y asesorías.</li>
+      <li>Asociaciones empresariales y Cámara de Comercio.</li>
+      <li>Promálaga e incubadoras.</li>
+      <li>Abogados y economistas colaboradores.</li>
+      <li>Integraciones: banca, ERP y CRM.</li>
+    </ul>
+  </section>
+
+  <section style="grid-area: usu">
+    <h2>Usuarios</h2><div class="hint">¿Quién la usa? (si es distinto de quien paga)</div>
+    <ul>
+      <li><b>El dueño o gerente</b>: pregunta y aprueba desde el panel o por WhatsApp.</li>
+      <li>Los <b>responsables de cada área</b>, que reciben tareas con fecha.</li>
+      <li>El <b>asesor de la gestoría</b>, que supervisa.</li>
+    </ul>
+  </section>
+
+  <section style="grid-area: sol">
+    <h2>Soluciones</h2><div class="hint">Cómo los resuelves, con la IA como herramienta</div>
+    <ul>
+      <li><b>Agentes especialistas con sus propias fuentes</b>. <span class="now">YA FUNCIONAN:</span> finanzas (banco y facturas) y competencia (anuncios, precios, reseñas, Google).</li>
+      <li>Un <b>coordinador con IA</b> que cruza los hallazgos, encuentra la causa y prioriza por impacto, esfuerzo y urgencia.</li>
+      <li><b>Plan a 7, 30 y 90 días</b>: ejecuta lo seguro, una persona aprueba lo delicado, y <b>mide si funcionó</b>.</li>
+      <li>Las reglas calculan; la IA interpreta y redacta, y todo se verifica.</li>
+      <li><b>Próximos agentes:</b> clientes por WhatsApp, marketing, legal, RR. HH. y organización.</li>
+    </ul>
+  </section>
+
+  <section style="grid-area: rec">
+    <h2>Recursos</h2><div class="hint">Qué necesitas: datos, modelos de IA, equipo, tecnología</div>
+    <ul>
+      <li><b>IA:</b> Claude (Opus 5.5 y Haiku 5.5), con orquestación propia en Python.</li>
+      <li><b>Datos:</b> los de la pyme y fuentes públicas (Biblioteca de Anuncios de Meta, reseñas, BOE).</li>
+      <li><b>Equipo</b> técnico, de negocio y expertos en legal y finanzas.</li>
+      <li>Servidores en Europa (RGPD).</li>
+    </ul>
+  </section>
+
+  <section style="grid-area: can">
+    <h2>Canales</h2><div class="hint">Cómo llegas a clientes y usuarios</div>
+    <ul>
+      <li>Venta a través de gestorías.</li>
+      <li>Diagnóstico gratuito online como gancho.</li>
+      <li>Ferias y asociaciones (piloto en Málaga).</li>
+      <li>LinkedIn y contenido.</li>
+    </ul>
+  </section>
+
+  <section class="last" style="grid-area: fid">
+    <h2>Fidelización</h2><div class="hint">Cómo retienes y haces crecer la base de usuarios</div>
+    <ul>
+      <li>Plan que se actualiza cada mes.</li>
+      <li>Informe mensual de resultados: dinero y clientes recuperados.</li>
+      <li>Cuanto más tiempo lleva, más afinado es; dejarlo supone perder ese conocimiento.</li>
+      <li>Nuevos módulos a medida que crece.</li>
+    </ul>
+  </section>
+
+  <section class="bottom" style="grid-area: cos">
+    <h2>Costes</h2><div class="hint">Principales costes (incluida la IA y la infraestructura)</div>
+    <div class="row">
+      <ul>
+        <li><b>IA:</b> céntimos por análisis (≈ 0,10–0,15 $, estimado y con tope de gasto).</li>
+        <li><b>Infraestructura y seguridad</b> en la UE.</li>
+        <li><b>Desarrollo</b> de agentes y conectores.</li>
+      </ul>
+      <ul>
+        <li><b>Expertos humanos</b> (legal y finanzas).</li>
+        <li><b>Captación</b> de clientes y comisiones a las gestorías.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="last bottom" style="grid-area: ing">
+    <h2>Ingresos</h2><div class="hint">Cómo genera dinero la solución</div>
+    <div class="row">
+      <ul>
+        <li><b>Suscripción mensual</b> por módulos y tamaño: <b>de 99 € a 399 € al mes</b> (hay que validarlo con pilotos).</li>
+      </ul>
+      <ul>
+        <li><b>Diagnóstico inicial gratis</b> como gancho; el plan con ejecución es de pago.</li>
+        <li><b>Licencia en marca blanca</b> para gestorías.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>Talent Land España · FYCMA, Málaga · noviembre de 2026</span>
+  <span>Mentorizado por <b>DIVERXIA</b></span>
+</footer>
+</body>
+</html>
