@@ -15,7 +15,7 @@ Memoria compartida del equipo: **por dónde vamos y hacia dónde**. Se actualiza
   - reclamar facturas vencidas, conciliando con el banco al céntimo;
   - contraoferta, solo si finanzas confirma el margen;
   - re-medición con un «mes después» simulado.
-- **Caso de la demo:** clínica de fisioterapia ficticia de Málaga, con datos sintéticos (por confirmar).
+- **Caso de la demo:** clínica de fisioterapia ficticia de Málaga, con datos sintéticos.
 - **Hoja de ruta del pitch:** los otros especialistas (marketing y clientes, legal, organización y personas, atención al cliente).
 
 ## Hoja de ruta
@@ -25,23 +25,23 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 - [x] **P. Preparación:** repositorio, normas (`CLAUDE.md`), permisos compartidos y plantillas.
 - [x] **R. Reto recibido:** 04 «La IA como servicio»; enunciado y entregables en `docs/reto/`.
 - [x] **D. Idea elegida:** Centra, especialistas + coordinador (ADR 002, que sustituye a la 001).
-- [ ] **E0. Esqueleto del prototipo:** stack (ADR 003), dependencias fijadas, formato, lint y tests mínimos. Incluye el **contrato del hallazgo** (área, evidencia, confianza, impacto, esfuerzo, urgencia) y las interfaces de especialista, fuente y acción.
-- [ ] **E1. Datos sintéticos de la clínica:**
+- [x] **E0. Esqueleto del prototipo:** stack (ADR 003), dependencias fijadas, formato, lint y tests mínimos. Incluye el **contrato del hallazgo** (área, evidencia, confianza, impacto, esfuerzo, urgencia) y las interfaces de especialista, fuente y acción.
+- [x] **E1. Datos sintéticos de la clínica:**
   - contabilidad, facturas a aseguradoras y particulares, y extracto bancario;
   - sesiones por mes;
   - reseñas propias;
   - competencia (anuncios, precios, reseñas);
   - el «mes después».
-- [ ] **E2. Fuentes de competencia verificadas** (`docs/fuentes.md`): condiciones, acceso y límites de la Biblioteca de Anuncios de Meta, el Centro de Transparencia de Google Ads, los buscadores y las reseñas. Fuente real o instantánea sintética con el mismo formato.
-- [ ] **E3. Especialista de finanzas:** indicadores con reglas (caja, márgenes, días de cobro, morosos), hallazgos con evidencia y la acción de reclamar facturas vencidas, con conciliación al céntimo.
-- [ ] **E4. Especialista de competencia y mercado:** anuncios, precios, posicionamiento y reseñas → hallazgos con evidencia.
-- [ ] **E5. Coordinador:** cruza los hallazgos, identifica la causa citando a los especialistas, prioriza, crea el plan a 7, 30 y 90 días y valida la contraoferta con finanzas.
-- [ ] **E6. MVP de principio a fin** (hito: unas 3–4 h desde E0): panel con el recorrido completo de la demo y el ejemplo de causa cruzada.
-- [ ] **E7. Re-medición:** el «mes después» simulado comprueba qué indicadores se movieron y reordena el plan.
-- [ ] **N1. Canvas** (modelo de negocio) en el Drive. Responsable: B.
-- [ ] **N2. Marketing** (logo, eslogan y estrategia de comunicación) en el Drive. Responsable: B.
-- [ ] **N3. Uso de la IA** (`docs/uso-ia.md`) y presentación del prototipo en el Drive.
-- [ ] **N4. Guion del pitch** y `DEMO.md`, ensayados con el tiempo real.
+- [x] **E2. Fuentes de competencia verificadas** (`docs/fuentes.md`): condiciones, acceso y límites de la Biblioteca de Anuncios de Meta, el Centro de Transparencia de Google Ads, los buscadores y las reseñas. Fuente real o instantánea sintética con el mismo formato.
+- [x] **E3. Especialista de finanzas:** indicadores con reglas (caja, márgenes, días de cobro, morosos), hallazgos con evidencia y la acción de reclamar facturas vencidas, con conciliación al céntimo.
+- [x] **E4. Especialista de competencia y mercado:** anuncios, precios, posicionamiento y reseñas → hallazgos con evidencia.
+- [x] **E5. Coordinador:** cruza los hallazgos, identifica la causa citando a los especialistas, prioriza, crea el plan a 7, 30 y 90 días y valida la contraoferta con finanzas.
+- [x] **E6. MVP de principio a fin** (hito: unas 3–4 h desde E0): panel con el recorrido completo de la demo y el ejemplo de causa cruzada.
+- [x] **E7. Re-medición:** el «mes después» simulado comprueba qué indicadores se movieron y reordena el plan.
+- [x] **N1. Canvas:** `docs/negocio/canvas.md`. **Falta subirlo al Drive** (B).
+- [x] **N2. Marketing:** `docs/negocio/marketing.md` y `logo.svg`. **Falta subirlo al Drive** (B).
+- [x] **N3. Uso de la IA:** `docs/uso-ia.md`. **Falta subirlo al Drive, con capturas del panel.**
+- [x] **N4. Guion del pitch:** `docs/negocio/pitch.md` y `docs/DEMO.md`. **Falta ensayarlo con el tiempo real.**
 - [ ] **E8. Congelación de funciones** (unas 3 h antes de entregar): solo endurecer, reunir evidencias y preparar el pitch.
 - [ ] **E9. Entrega:** los 4 entregables en el Drive, repositorio limpio y README final.
 
@@ -57,7 +57,27 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 | ¿«Uso de la IA» incluye cómo la hemos usado para construir, o solo la IA del producto? | Contenido del entregable 2 | | |
 
 ## Funciona
-- Repositorio con las normas del equipo, permisos de Claude Code y plantillas de estado, ADR, demo y red team.
+- **Recorrido completo** (`uv run streamlit run src/centra/app.py`, o en consola `uv run python -m centra --fallo`):
+  empresa → especialistas → causa cruzada → plan a 7/30/90 días → acciones con aprobación → un mes después → registro y coste de IA.
+- **Finanzas:**
+  - caja (9 días de gasto);
+  - cobros vencidos por cliente;
+  - días de cobro;
+  - caída de particulares no estacional;
+  - conciliación al céntimo;
+  - validación de la contraoferta (20 € y 25 € no compensan; 30 € sí).
+- **Competencia:** oferta nueva en Meta (instantánea sintética), precio, reseñas con quejas por espera y visibilidad en Google. Lo que propone la IA se verifica contra el texto.
+- **Coordinador:**
+  - causa cruzada (finanzas + competencia) y «es la temporada» descartada;
+  - causas de la IA validadas (se rechazan los hallazgos inexistentes);
+  - modo reglas sin clave.
+- **Acciones:**
+  - el recordatorio amable sale solo y la reclamación formal espera aprobación;
+  - el correo de la IA se verifica (facturas, importes, ningún importe inventado) y se identifica como IA;
+  - no se envía nada dos veces;
+  - bandeja local o SMTP solo al buzón de prueba.
+- **Un mes después:** cobros comprobados al céntimo (el fallo de un céntimo no se da por cobrado); el resto de indicadores, «coincide» (no prueba la causa); el plan se reordena.
+- **Entregables de negocio** en `docs/negocio/` (canvas, marketing con logo, guion del pitch) y uso de la IA en `docs/uso-ia.md`.
 
 ## En curso
 | Tarea | Responsable | Desde |
@@ -65,19 +85,21 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 | — | — | — |
 
 ## Siguiente paso
-1. Aprobar el stack del prototipo (ADR 003) y arrancar E0.
-2. Confirmar el caso de la demo (clínica de fisioterapia) y verificar las fuentes de competencia (E2).
-3. Hacer las preguntas a los mentores (tabla de arriba) y confirmar el tamaño del equipo: las bases hablan de 6 y somos 3.
-4. Repartir:
-   - A: E0, finanzas y coordinador.
-   - B: canvas, marketing, el ejemplo de causa cruzada para el pitch y el canal de gestorías.
-   - C: datos sintéticos (E1), fuentes (E2) y red team.
+1. Corregir los hallazgos P1 del red team (si los hay) antes de añadir nada.
+2. Probar con clave de Anthropic (`ANTHROPIC_API_KEY` en `.env`) y apuntar el coste real por análisis en `docs/uso-ia.md` y en el canvas.
+3. Subir los 4 entregables al Drive (los .md se pueden pegar en un documento o en diapositivas; el logo es `docs/negocio/logo.svg`).
+4. Ensayar el pitch con el tiempo real y las preguntas a los mentores (tabla de arriba). Confirmar el tamaño del equipo: las bases hablan de 6 y somos 3.
+5. Antes de entregar: decidir si `docs/ideas.md` sale del repositorio (es interno).
 
 ## Última verificación
-_Ninguna todavía._ Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.
+Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.
+- 24/11, 13:00 · `20c9af6` · CI de GitHub Actions (Linux y Windows) en verde en todos los commits · `uv run pytest`: 44 tests en verde.
+- 24/11, 13:05 · `20c9af6` · Recorrido completo en el panel (navegador) y en la consola, en **modo reglas** (sin clave de IA en este equipo). **No verificado aún con Claude real.**
 
 ## Problemas conocidos
-- Ninguno.
+- **Sin clave de IA en el portátil de desarrollo:** el modo Claude está cubierto por tests con respuestas guionizadas, pero no se ha ejecutado contra la API real.
+- **Fuentes de competencia:** Meta y Google Ads exigen identidad verificada o no tienen API de autoservicio, y Google prohíbe el scraping de resultados. Se usan instantáneas sintéticas con el formato oficial (ver `docs/fuentes.md`).
+- **La re-medición no prueba causalidad** salvo en los cobros, que se comprueban al céntimo. El panel lo dice («coincide en el tiempo»).
 
 ## Cambios de rumbo
 Registro de pivotes, errores de enfoque y cambios de dirección, el más reciente primero. Cada uno enlaza a su decisión en `docs/decisiones/`.

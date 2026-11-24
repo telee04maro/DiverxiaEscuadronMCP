@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 160" role="img" aria-labelledby="title desc">
+  <title id="title">Centra</title>
+  <desc id="desc">Cinco puntos (los especialistas) unidos a un punto central (el coordinador), junto al nombre Centra.</desc>
+  <g stroke="#0F766E" stroke-width="5" stroke-linecap="round">
+    <line x1="80" y1="80" x2="80" y2="28"/>
+    <line x1="80" y1="80" x2="130" y2="64"/>
+    <line x1="80" y1="80" x2="111" y2="122"/>
+    <line x1="80" y1="80" x2="49" y2="122"/>
+    <line x1="80" y1="80" x2="30" y2="64"/>
+  </g>
+  <g fill="#14B8A6">
+    <circle cx="80" cy="28" r="11"/>
+    <circle cx="130" cy="64" r="11"/>
+    <circle cx="111" cy="122" r="11"/>
+    <circle cx="49" cy="122" r="11"/>
+    <circle cx="30" cy="64" r="11"/>
+  </g>
+  <circle cx="80" cy="80" r="21" fill="#0F766E"/>
+  <circle cx="80" cy="80" r="8" fill="#FFFFFF"/>
+  <text x="170" y="98" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="64" font-weight="700" fill="#0F2E2B">Centra</text>
+  <text x="172" y="132" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="19" fill="#4B5D5B">Cada proveedor ve su parte. Centra ve la causa.</text>
+</svg>

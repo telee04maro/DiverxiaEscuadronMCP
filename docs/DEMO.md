@@ -1,38 +1,32 @@
 # Guía de la demo
 
-Pensada para que cualquier miembro del equipo pueda presentar sin conocer el código. Se escribe **en cuanto existe el MVP**, no la noche antes. _Duración y formato: pendiente (según las bases)._
+Pensada para que cualquier miembro del equipo pueda presentarla sin conocer el código. El guion del pitch está en [`negocio/pitch.md`](negocio/pitch.md); aquí está la parte práctica.
 
 ## Antes de empezar (10 minutos antes)
 
-- [ ] Nadie usa los recursos compartidos (cuentas, claves) mientras corre la demo.
-- [ ] Red, `.env` y datos de demo preparados y probados.
-- [ ] **Respaldo abierto:** vídeo grabado e informe o resultado bueno guardado, por si falla la red en directo.
-- [ ] Este guion a mano.
+- [ ] `uv sync` hecho y `uv run pytest` en verde.
+- [ ] Panel abierto: `uv run streamlit run src/centra/app.py` → <http://localhost:8501>, con la ventana ancha (diseño amplio).
+- [ ] Pulsa **«Reiniciar la demo»** en la barra lateral para empezar limpio.
+- [ ] Decide el modo de IA. Con `ANTHROPIC_API_KEY` en `.env`, Claude lee, cruza y redacta. Sin clave, se usan reglas y la demo es idéntica y reproducible. **Si la red falla, la demo sin IA es el plan B.**
+- [ ] Respaldo: `uv run python -m centra --fallo` imprime todo el recorrido en la consola.
 
-## Guion
+## Recorrido (unos 2 minutos de demo)
 
-| Tiempo | Qué contar | Qué enseñar |
-|---|---|---|
-| 0:00 | **El problema** reformulado en la tesis de una frase | _pendiente_ |
-| | **Lanzar en directo** y explicar mientras corre | _pendiente_ |
-| | **El resultado** y su evidencia | _pendiente_ |
-| | **Detecta fallos:** la prueba que falla a propósito o un fallo real detectado | _pendiente_ |
-| | **Escala y generaliza:** un segundo caso sin código nuevo | _pendiente_ |
-| | **Coste y retorno:** cifras grandes con su fuente | _pendiente_ |
-| | **Cierre:** tres cifras y el repositorio | _pendiente_ |
+| Paso | Pestaña | Qué hacer | Qué señalar |
+|---|---|---|---|
+| 1 | 1 · Empresa | «Analizar con el equipo de agentes» | La clínica es ficticia; estas son las fuentes conectadas |
+| 2 | 2 · Especialistas | Abrir un hallazgo de cada agente | Cada hallazgo lleva **evidencia y fuente**. Y «Lo que me falta para afinar»: no inventa datos |
+| 3 | 3 · Coordinador | Leer la causa cruzada en voz alta | **Finanzas + Competencia**. «Es la temporada» queda descartado con datos. Plan en 7, 30 y 90 días con niveles de autonomía |
+| 4 | 4 · Acciones | «Ejecutar…» → «Aprobar y enviar» → marcar las tareas hechas (no la campaña) | El recordatorio sale solo; la reclamación formal espera aprobación. **Enviar no es cobrar** |
+| 5 | 5 · Un mes después | Activar en la barra lateral «Fallo inyectado» → «Medir un mes después» | El pago con **1 céntimo de menos no se da por cobrado**. El plan se reordena |
+| 6 | 6 · Registro | Enseñar el registro y el coste de IA | Qué vio, qué decidió, qué hizo y qué comprobó cada agente |
 
 ## Si algo falla en directo
 
-- **La red o el servicio van lentos:** pasa al respaldo (vídeo o informe guardado).
-- **Sale un error o un FAIL:** lee el motivo; demuestra que el sistema no da por bueno lo que no puede probar.
+- **Sin red o sin clave de IA:** la app pasa sola a modo reglas y el recorrido es el mismo.
+- **La app no arranca:** ejecutar `uv run python -m centra --fallo` en la terminal.
+- **Sale algo «sin efecto» o «no se ejecutó»:** es la prueba de que Centra no da nada por hecho sin evidencia.
 
 ## Preguntas probables del jurado
 
-| Pregunta | Respuesta corta |
-|---|---|
-| ¿Por qué este enfoque y no otro? | _pendiente (ADR 001)_ |
-| ¿Cuánto cuesta (IA, infraestructura) por uso y a escala? | _pendiente_ |
-| ¿Qué pasa si cambia la entrada, el cliente o la interfaz? | _pendiente_ |
-| ¿Cómo sabéis que el resultado es correcto? | _pendiente_ |
-| ¿Cómo protegéis los datos y los secretos? | _pendiente_ |
-| ¿Qué no funciona todavía? | _pendiente (limitaciones honestas)_ |
+Están en [`negocio/pitch.md`](negocio/pitch.md#preguntas-probables-del-jurado).

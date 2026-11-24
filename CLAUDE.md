@@ -266,20 +266,33 @@ El código no se entrega para revisión, así que la calidad es **proporcional a
 
 ```
 CLAUDE.md              Normas para Claude Code (este archivo)
-.claude/settings.json  Permisos compartidos: git sin prompts, sin force push, sin leer .env
+.claude/               Permisos compartidos (settings.json) y arranque del panel (launch.json)
 README.md              Descripción, instalación y uso (único README de contenido)
+src/centra/            Código: domain, data, specialists, finance, coordinator, actions, llm,
+                       remeasure.py, pipeline.py, app.py (panel) y __main__.py (consola)
+tests/                 Tests unitarios y de extremo a extremo (sobre la clínica sintética)
+data/demo/             Clínica sintética: mes-0 (antes) y mes-1 (un mes después)
 docs/ESTADO.md         Estado del proyecto y traspaso entre sesiones
 docs/reto/             Enunciado, entregables y bases oficiales (fuente de verdad)
 docs/decisiones/       Registro de decisiones de arquitectura (ADR)
+docs/negocio/          Entregables: canvas, marketing (con logo) y guion del pitch
 docs/uso-ia.md         Cómo usamos la IA (entregable 2)
 docs/fuentes.md        Fuentes externas: condiciones de uso, acceso y límites
-docs/DEMO.md           Guion de la demo y preguntas del jurado
+docs/DEMO.md           Guía práctica de la demo
 docs/red-team.md       Protocolo de auditoría independiente
 docs/ideas.md          Ideas descartadas (interno: sale antes de entregar)
 ```
 
-_Pendiente: se amplía en E0 con el código, los datos sintéticos y los tests, según el stack de la ADR 003._
-
 ## Comandos
 
-_Pendiente de la ADR 003 (stack)._ Deben existir comandos para instalar, dar formato, pasar el lint, comprobar tipos, ejecutar los tests y arrancar la demo. Antes de cada commit deben pasar todos.
+```bash
+uv sync                                       # instalar (Python 3.13, versiones de uv.lock)
+uv run ruff format . && uv run ruff check .   # formato y lint
+uv run mypy src tests                         # tipado estricto
+uv run pytest                                 # tests (incluye el recorrido de extremo a extremo)
+uv run streamlit run src/centra/app.py        # panel de la demo (http://localhost:8501)
+uv run python -m centra --fallo               # recorrido completo en la consola
+uv run python -m centra.data.synthetic        # regenerar la clínica sintética
+```
+
+Antes de cada commit tienen que pasar el formato, el lint, los tipos y los tests. La CI (`.github/workflows/ci.yml`) los ejecuta en cada push, en Linux y en Windows.
