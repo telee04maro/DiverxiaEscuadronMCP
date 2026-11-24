@@ -89,16 +89,22 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 |-------|-------------|-------|
 | E9. Entrega: subir `docs/entrega/` al Drive, vídeo de respaldo y ensayo del pitch | Equipo (dueño del repositorio) | 24/11, 16:20 |
 | BALTER real: anotar **quién dio el visto bueno** y guardar el correo (ver `docs/integracion-balter.md`) | Equipo (dueño del repositorio) | 24/11, 16:27 |
-| Ideas de un kit de auditoría de negocio aplicadas al pitch, al canvas y a una imagen de antes y después (solo documentos; congelación respetada). **En la rama `claude/gracious-pascal-xq2iyx`, no en `main`** | Claude Code (sesión de negocio) | 24/11, 16:51 |
-
 ## Siguiente paso
 1. Hecho: probado con Claude real; coste medido en `docs/uso-ia.md`, el canvas y el pitch.
 2. Subir los 4 entregables al Drive (los .md se pueden pegar en un documento o en diapositivas; el logo es `docs/negocio/logo.svg`).
 3. Ensayar el pitch con el tiempo real y las preguntas a los mentores (tabla de arriba). Confirmar el tamaño del equipo: las bases hablan de 6 y somos 3.
 4. Hecho: `docs/ideas.md` (interno) ya no está en el repositorio; sigue en el historial de git.
+5. **Revisar y fusionar en `main` la rama `claude/gracious-pascal-xq2iyx`** (solo documentos, ideas de un kit de auditoría de negocio):
+   - pitch con 4 respuestas nuevas para el jurado (auditoría frente a Vigía, por qué no pedimos el banco el primer día, otras causas cruzadas y qué no se automatiza; lo que no está construido va marcado como hoja de ruta);
+   - canvas con el diagnóstico gratis concretado;
+   - diapositiva de respaldo `docs/negocio/recorrido-antes-despues.png` (y `.svg`);
+   - uso de la IA declarado.
+   
+   Se han reexportado `1-canvas-detalle.pdf`, `2-uso-de-la-ia.pdf` y `4-guion-del-pitch.pdf` (Chromium en Linux, con la fuente Inter: puede verse algo distinto de los otros PDF). **Si ya estaban en el Drive, hay que sustituirlos.** El lienzo A3 no cambia: su texto sigue siendo válido.
 
 ## Última verificación
 Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.
+- 24/11, 16:56 · `71f7cf4` (código sin cambios desde `1fcf110`) · **Cifras de la imagen de antes y después**, sacadas de `analyze()` en modo reglas sobre `mes-0` y `mes-1`: 59 % fuera de horario (29 de 49), mediana de 12,0 h fuera y 0,4 h dentro, 41 % perdidas fuera y 0 % dentro, 8 sin responsable → un mes después (simulado): 58 %, 0,0 h, 21 %, 1; nota 3,0 → 3,6 y quejas por espera 86 % → 75 %; contraoferta: 20 € y 25 € no compensan, 30 € sí (`OFFER_STEPS` y `tests/test_pipeline.py`). `uv run pytest`: 128 en verde; ruff y mypy limpios.
 - 24/11, 13:00 · `20c9af6` · CI de GitHub Actions (Linux y Windows) en verde en todos los commits · `uv run pytest`: 44 tests en verde.
 - 24/11, 13:05 · `20c9af6` · Recorrido completo en el panel (navegador) y en la consola, en **modo reglas** (sin clave de IA en este equipo). **No verificado aún con Claude real.**
 - 24/11, 15:05 · `720f4ef` · Panel en el navegador tras reiniciarlo: análisis de la clínica (59 %, 12,0 h, 41 %), pestaña 7 (mensaje de WhatsApp simulado → nota, sin duplicar) y «un mes después» con unidades (12,0 h → 0,0 h); sin ejecutar acciones, no atribuye ningún cambio. Búsqueda de secretos en el repositorio: nada.
