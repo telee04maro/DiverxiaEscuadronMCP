@@ -17,7 +17,7 @@ from centra.domain.findings import (
     Signal,
     SpecialistReport,
 )
-from centra.domain.money import fmt_eur, pct_change
+from centra.domain.money import fmt_eur, fmt_num, pct_change
 from centra.finance.reconciliation import InvoiceStatus, PaymentStatus, reconcile
 from centra.llm.base import LanguageModel
 
@@ -264,22 +264,23 @@ def _private_revenue_findings(sessions: tuple[MonthlySessions, ...]) -> list[Fin
     trend = private_trend(sessions)
     if trend is None or trend.change_pct is None or trend.change_pct > DROP_THRESHOLD_PCT:
         return []
-    seasonal_known = trend.last_year_change_pct is not None
-    not_seasonal = seasonal_known and trend.last_year_change_pct > SEASONAL_TOLERANCE_PCT  # type: ignore[operator]
+    last_year = trend.last_year_change_pct
+    seasonal_known = last_year is not None
+    not_seasonal = last_year is not None and last_year > SEASONAL_TOLERANCE_PCT
     evidence = [
         Evidence(
             source="Sesiones por mes",
             fact=(
                 f"Sesiones de particulares en {' y '.join(trend.recent_months)}: "
-                f"{trend.change_pct} % frente a {' y '.join(trend.base_months)}"
+                f"{fmt_num(trend.change_pct)} % frente a {' y '.join(trend.base_months)}"
             ),
         )
     ]
-    if seasonal_known:
+    if last_year is not None:
         evidence.append(
             Evidence(
                 source="Sesiones por mes (año anterior)",
-                fact=f"Los mismos meses del año pasado: {trend.last_year_change_pct} %",
+                fact=f"Los mismos meses del año pasado: {fmt_num(last_year)} %",
             )
         )
     signals = {Signal.PRIVATE_PATIENTS_DROP}
@@ -289,7 +290,7 @@ def _private_revenue_findings(sessions: tuple[MonthlySessions, ...]) -> list[Fin
         Finding(
             id="FIN-PARTICULARES",
             area=Area.FINANCE,
-            title=f"Las sesiones de particulares caen un {abs(trend.change_pct)} %",
+            title=f"Las sesiones de particulares caen un {fmt_num(abs(trend.change_pct))} %",
             detail=(
                 "El año pasado esos meses no bajaron: no parece estacional."
                 if not_seasonal

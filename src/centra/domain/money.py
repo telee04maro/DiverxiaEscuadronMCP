@@ -46,3 +46,8 @@ def pct_change(before: Decimal, after: Decimal) -> Decimal | None:
     if before == 0:
         return None
     return ((after - before) / before * 100).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+
+
+def fmt_num(value: Decimal) -> str:
+    """Spanish decimal comma: 15.4 -> "15,4"."""
+    return str(value).replace(".", ",")
