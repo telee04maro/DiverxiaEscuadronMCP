@@ -73,9 +73,9 @@ def _state() -> None:
 
 def _fmt_kpi(kpi: Kpi) -> str:
     if kpi.value is None:
-        return "No disponible"
+        return "—"
     if kpi.unit == "€":
-        return fmt_eur(kpi.value)
+        return fmt_eur(kpi.value.quantize(Decimal(1))).replace(",00 €", " €")
     return f"{_fmt_value(kpi.value, '')} {kpi.unit}".strip()
 
 
@@ -167,10 +167,14 @@ def _report_column(report: SpecialistReport) -> None:
         st.markdown(f"### {report.specialist}")
         st.caption("Fuentes: " + " · ".join(report.sources))
         kpis = [k for k in report.kpis if not k.key.startswith("dias_cobro_")] or list(report.kpis)
-        for row in range(0, len(kpis), 3):
-            columns = st.columns(3)
-            for column, kpi in zip(columns, kpis[row : row + 3], strict=False):
-                column.metric(kpi.label, _fmt_kpi(kpi), help=kpi.note or None)
+        for row in range(0, len(kpis), 2):
+            columns = st.columns(2)
+            for column, kpi in zip(columns, kpis[row : row + 2], strict=False):
+                column.metric(
+                    kpi.label,
+                    _fmt_kpi(kpi),
+                    help=kpi.note or ("No disponible" if kpi.value is None else None),
+                )
         st.markdown("**Hallazgos**")
         for finding in report.findings:
             _finding_card(finding)
