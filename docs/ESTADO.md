@@ -89,6 +89,7 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 |-------|-------------|-------|
 | E9. Entrega: subir `docs/entrega/` al Drive, vídeo de respaldo y ensayo del pitch | Equipo (dueño del repositorio) | 24/11, 16:20 |
 | BALTER real: anotar **quién dio el visto bueno** y guardar el correo (ver `docs/integracion-balter.md`) | Equipo (dueño del repositorio) | 24/11, 16:27 |
+| Ideas de un kit de auditoría de negocio aplicadas al pitch, al canvas y a una imagen de antes y después (solo documentos; congelación respetada). **En la rama `claude/gracious-pascal-xq2iyx`, no en `main`** | Claude Code (sesión de negocio) | 24/11, 16:51 |
 
 ## Siguiente paso
 1. Hecho: probado con Claude real; coste medido en `docs/uso-ia.md`, el canvas y el pitch.
