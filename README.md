@@ -57,7 +57,7 @@ La guía paso a paso de la demo está en [`docs/DEMO.md`](docs/DEMO.md).
 
 **Cómo entra una empresa:** en la pestaña «1 · Empresa», opción «Tu empresa». Rellena la entrevista inicial y sube sus Excel o CSV (facturas, banco, ventas, consultas, reseñas, competidores) con plantillas en español. Cada fila se valida, y lo que no suba aparece como «lo que me falta», nunca como cero. Con ERP o CRM, se conecta mediante la interfaz `CrmConnector` ([ADR 005](docs/decisiones/005-conectores-y-captacion.md); contrato en [`docs/integracion-whatsapp-erp.md`](docs/integracion-whatsapp-erp.md)).
 
-**Hoja de ruta:** agentes de marketing y clientes, legal y cumplimiento, organización y personas (con encuesta anónima), chat del dueño por WhatsApp y conector BALTER real (pendiente de documentación y permiso).
+**Hoja de ruta:** agentes de marketing y clientes, legal y cumplimiento, organización y personas (con encuesta anónima), chat del dueño por WhatsApp y conector BALTER real (pendiente de documentación y permiso; ver [`docs/integracion-balter.md`](docs/integracion-balter.md)).
 
 ### Uso de la IA
 Las reglas calculan y la IA interpreta. Claude Haiku 5.5 lee anuncios y reseñas, y Claude Opus 5.5 cruza hallazgos y redacta. **Todo lo que propone la IA se verifica:**

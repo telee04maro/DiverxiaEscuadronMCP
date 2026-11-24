@@ -87,7 +87,8 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 ## En curso
 | Tarea | Responsable | Desde |
 |-------|-------------|-------|
-| — | — | — |
+| E9. Entrega: subir `docs/entrega/` al Drive, vídeo de respaldo y ensayo del pitch | Equipo (dueño del repositorio) | 24/11, 16:20 |
+| BALTER real: documentación de la API, visto bueno de la empresa y credenciales en `.env` (ver `docs/integracion-balter.md`) | Equipo (dueño del repositorio) | 24/11, 16:20 |
 
 ## Siguiente paso
 1. Hecho: probado con Claude real; coste medido en `docs/uso-ia.md`, el canvas y el pitch.

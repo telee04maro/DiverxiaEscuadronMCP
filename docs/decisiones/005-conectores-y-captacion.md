@@ -44,6 +44,8 @@ Un compañero tiene en producción un asistente de WhatsApp que atiende, cualifi
    - el **visto bueno de la empresa** propietaria de los datos;
    - las credenciales en `.env`, puestas por el equipo.
 
+   Lista exacta y pasos en [`docs/integracion-balter.md`](../integracion-balter.md).
+
    La primera prueba será **de solo lectura, sin datos personales** (autenticación y un catálogo o recuento). **Nunca se escribe en producción.**
 4. **Agente de atención y captación** (`src/vigia/specialists/customers.py`). Lee las oportunidades del ERP o CRM y detecta:
    - consultas fuera de horario que tardan en contestarse;
