@@ -153,7 +153,7 @@ flowchart LR
 | Entregable | Archivo |
 |---|---|
 | 1 · Canvas del modelo de negocio | [`docs/entrega/1-lienzo.pdf`](docs/entrega/1-lienzo.pdf), detalle en [`1-canvas-detalle.pdf`](docs/entrega/1-canvas-detalle.pdf) |
-| 2 · Prototipo y uso de la IA | **este repositorio** y [`docs/entrega/2-uso-de-la-ia.pdf`](docs/entrega/2-uso-de-la-ia.pdf) |
+| 2 · Prototipo y uso de la IA | **este repositorio**, [`docs/entrega/2-prototipo.pdf`](docs/entrega/2-prototipo.pdf) (capturas del panel) y [`2-uso-de-la-ia.pdf`](docs/entrega/2-uso-de-la-ia.pdf) |
 | 3 · Marketing (logo, eslogan, estrategia) | [`docs/entrega/3-marketing.pdf`](docs/entrega/3-marketing.pdf), [`3-logo.png`](docs/entrega/3-logo.png) |
 | 4 · Guion del pitch | [`docs/entrega/4-guion-del-pitch.pdf`](docs/entrega/4-guion-del-pitch.pdf) |
 
