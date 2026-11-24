@@ -215,9 +215,7 @@ def _company_summary(data: CompanyData) -> None:
             f"{len(data.competitor_ads)}\n- Competidores: {len(data.competitors)}"
         )
         if data.missing_sources:
-            st.warning(
-                "Faltan (se verá como «lo que me falta»): " + ", ".join(data.missing_sources)
-            )
+            st.warning("Faltan (se verá como «lo que me falta»): " + ", ".join(data.missing_labels))
 
 
 def _amount(raw: str) -> Decimal | None:
@@ -596,7 +594,7 @@ def _log_tab() -> None:
     st.markdown("### Registro de los agentes")
     st.dataframe(
         [
-            {"Hora": e.at.strftime("%H:%M:%S"), "Agente": e.agent, "Qué": e.kind.value,
+            {"Hora": e.at.astimezone().strftime("%H:%M:%S"), "Agente": e.agent, "Qué": e.kind.value,
              "Detalle": e.message, "Referencias": ", ".join(e.refs)}
             for e in log.events
         ],

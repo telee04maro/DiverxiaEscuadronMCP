@@ -28,6 +28,18 @@ class Service(BaseModel):
     direct_cost: Decimal
 
 
+SOURCE_LABELS = {
+    "facturas.csv": "Facturas emitidas",
+    "banco.csv": "Extracto bancario",
+    "sesiones.csv": "Ventas o sesiones por mes",
+    "resenas.json": "Reseñas propias",
+    "competencia/anuncios.json": "Anuncios de la competencia",
+    "competencia/competidores.json": "Precios de la competencia",
+    "competencia/busqueda.json": "Resultados de búsqueda",
+    "crm/oportunidades.json": "Consultas y oportunidades (CRM)",
+}
+
+
 class Company(BaseModel):
     """Profile collected in the initial interview."""
 
@@ -167,3 +179,7 @@ class CompanyData(BaseModel):
     search_results: tuple[SearchResult, ...] = ()
     opportunities: tuple[Opportunity, ...] = ()
     missing_sources: tuple[str, ...] = ()
+
+    @property
+    def missing_labels(self) -> tuple[str, ...]:
+        return tuple(SOURCE_LABELS.get(name, name) for name in self.missing_sources)

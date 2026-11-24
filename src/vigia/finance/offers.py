@@ -6,6 +6,7 @@ from pydantic import BaseModel, ConfigDict
 
 from vigia.data.model import Company
 from vigia.domain.money import fmt_eur
+from vigia.domain.vocabulary import vocabulary_for
 
 # A first-visit discount may cost at most this share of what a new patient normally leaves.
 MAX_PATIENT_MARGIN_LOSS = Decimal("0.15")
@@ -23,6 +24,7 @@ class OfferCheck(BaseModel):
 
 
 def check_first_visit_offer(company: Company, price: Decimal) -> OfferCheck:
+    words = vocabulary_for(company)
     service = company.service(company.main_service)
     if service is None:
         return OfferCheck(price=price, viable=False, reason="No conozco el coste del servicio")
@@ -31,7 +33,10 @@ def check_first_visit_offer(company: Company, price: Decimal) -> OfferCheck:
         return OfferCheck(
             price=price,
             viable=False,
-            reason="Falta cuántas sesiones hace de media un paciente nuevo: no puedo validarlo",
+            reason=(
+                f"Falta cuántas {words.repeat_units} hace de media un {words.customer} nuevo: "
+                "no puedo validarlo"
+            ),
         )
     unit_margin = service.price - service.direct_cost
     first_margin = price - service.direct_cost
@@ -42,7 +47,8 @@ def check_first_visit_offer(company: Company, price: Decimal) -> OfferCheck:
     loss_pct = (loss * 100).quantize(Decimal("1"), rounding=ROUND_HALF_UP)
     verdict = "asumible" if viable else "no compensa"
     reason = (
-        f"Primera visita a {fmt_eur(price)}: el paciente medio deja {fmt_eur(with_offer)} "
+        f"{words.first_offer.capitalize()} a {fmt_eur(price)}: el {words.customer} medio deja "
+        f"{fmt_eur(with_offer)} "
         f"en lugar de {fmt_eur(normal)} ({loss_pct} % menos): {verdict}"
     )
     return OfferCheck(

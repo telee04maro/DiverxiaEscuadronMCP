@@ -14,6 +14,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from vigia.audit import AuditLog, EventKind
 from vigia.domain.findings import AREA_LABELS, Area, Confidence, Finding, Signal
 from vigia.domain.money import fmt_eur, money_mentions
+from vigia.domain.vocabulary import GENERAL, Vocabulary
 from vigia.llm.base import LanguageModel, Tier
 
 NAME = "Agente coordinador"
@@ -87,7 +88,10 @@ _SYSTEM = (
 
 
 def cross_findings(
-    findings: tuple[Finding, ...], model: LanguageModel, log: AuditLog
+    findings: tuple[Finding, ...],
+    model: LanguageModel,
+    log: AuditLog,
+    words: Vocabulary = GENERAL,
 ) -> CrossAnalysis:
     by_id = {f.id: f for f in findings}
     answer = model.structured(
@@ -102,7 +106,7 @@ def cross_findings(
         if analysis.causes:
             return analysis
         log.record(NAME, EventKind.REJECTED, "Ninguna causa de la IA tenía evidencia válida")
-    return _rule_crossing(findings, log)
+    return _rule_crossing(findings, log, words)
 
 
 def _prompt(findings: tuple[Finding, ...]) -> str:
@@ -222,7 +226,9 @@ def _with(findings: tuple[Finding, ...], *signals: Signal) -> list[Finding]:
     return [f for f in findings if f.signals & set(signals)]
 
 
-def _rule_crossing(findings: tuple[Finding, ...], log: AuditLog) -> CrossAnalysis:
+def _rule_crossing(
+    findings: tuple[Finding, ...], log: AuditLog, words: Vocabulary
+) -> CrossAnalysis:
     present = {s for f in findings for s in f.signals}
     causes: list[RootCause] = []
 
@@ -249,9 +255,9 @@ def _rule_crossing(findings: tuple[Finding, ...], log: AuditLog) -> CrossAnalysi
         attacks_weakness = Signal.COMPETITOR_PROMISES_NO_WAIT in present
         slow = [f for f in _with(findings, Signal.SLOW_RESPONSE) if losing_after_hours(f)]
         add(
-            "Se pierden pacientes particulares por precio y por la espera"
+            f"Se pierden {words.customers} particulares por precio y por la espera"
             + (", también al escribir fuera de horario" if slow else ""),
-            "Las sesiones de particulares caen mientras la competencia lanza una oferta más "
+            f"Las {words.private_units} caen mientras la competencia lanza una oferta más "
             "barata y nuestras reseñas se quejan de la espera"
             + (", justo lo que la competencia promete resolver" if attacks_weakness else "")
             + _slow_response_clause(slow)
@@ -268,7 +274,7 @@ def _rule_crossing(findings: tuple[Finding, ...], log: AuditLog) -> CrossAnalysi
         )
     elif Signal.PRIVATE_PATIENTS_DROP in present and price_pressure:
         add(
-            "Se pierden pacientes particulares por precio",
+            f"Se pierden {words.customers} particulares por precio",
             "La caída coincide con una oferta más barata de la competencia.",
             _with(
                 findings, Signal.PRIVATE_PATIENTS_DROP, Signal.COMPETITOR_OFFER, Signal.HIGHER_PRICE
@@ -277,7 +283,7 @@ def _rule_crossing(findings: tuple[Finding, ...], log: AuditLog) -> CrossAnalysi
         )
     elif Signal.PRIVATE_PATIENTS_DROP in present and Signal.WAIT_COMPLAINTS in present:
         add(
-            "Se pierden pacientes particulares por la espera",
+            f"Se pierden {words.customers} particulares por la espera",
             "La caída coincide con quejas por la espera en las reseñas.",
             _with(findings, Signal.PRIVATE_PATIENTS_DROP, Signal.WAIT_COMPLAINTS),
             Confidence.MEDIUM,

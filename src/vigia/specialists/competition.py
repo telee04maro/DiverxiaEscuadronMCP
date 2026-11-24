@@ -25,6 +25,7 @@ from vigia.domain.findings import (
     SpecialistReport,
 )
 from vigia.domain.money import MoneyError, eur, fmt_eur, fmt_num, pct_change
+from vigia.domain.vocabulary import vocabulary_for
 from vigia.llm.base import LanguageModel, Tier
 
 NAME = "Agente de competencia y mercado"
@@ -124,7 +125,7 @@ class CompetitionSpecialist:
             if ad.active_on(today) and ad.ad_delivery_start_time >= today - timedelta(NEW_AD_DAYS)
         ]
         ad_facts = _read_ads(new_ads, model, log)
-        themes = _classify_reviews(data.reviews, model, log)
+        themes = _classify_reviews(data.reviews, model, log, data.company.sector)
         findings = [
             *_offer_findings(ad_facts, today),
             *_price_findings(data),
@@ -212,7 +213,7 @@ def _safe_eur(raw: str) -> Decimal | None:
 
 
 def _classify_reviews(
-    reviews: tuple[Review, ...], model: LanguageModel, log: AuditLog
+    reviews: tuple[Review, ...], model: LanguageModel, log: AuditLog, sector: str
 ) -> list[frozenset[Theme]]:
     rules = [_rule_themes(r.text) for r in reviews]
     if not reviews:
@@ -222,8 +223,8 @@ def _classify_reviews(
         task="Clasificar reseñas por tema",
         tier=Tier.FAST,
         system=(
-            "Clasifica cada reseña de una clínica en sus temas: espera (citas, retrasos), trato, "
-            "precio, resultado, instalaciones u otro."
+            f"Clasifica cada reseña de una empresa del sector «{sector}» en sus temas: espera "
+            "(citas, retrasos), trato, precio, resultado, instalaciones u otro."
         ),
         prompt=f"Reseñas:\n{listing}",
         schema=ReviewTags,
@@ -428,6 +429,7 @@ def _review_title(recent_avg: Decimal, percent: int, signals: set[Signal]) -> st
 
 
 def _search_findings(data: CompanyData) -> list[Finding]:
+    searched_for = vocabulary_for(data.company).searched_for
     own_name = data.company.name
     findings = []
     for index, query in enumerate(data.company.queries_of_interest):
@@ -447,7 +449,7 @@ def _search_findings(data: CompanyData) -> list[Finding]:
                 area=Area.COMPETITION,
                 title=f"En «{query}» aparecemos {place}"
                 + (f"; {sponsored[0].business} paga anuncios" if sponsored else ""),
-                detail="Quien busca fisioterapeuta en Google encuentra antes a la competencia.",
+                detail=f"Quien busca {searched_for} en Google encuentra antes a la competencia.",
                 evidence=tuple(evidence),
                 confidence=Confidence.MEDIUM,
                 impact=3,

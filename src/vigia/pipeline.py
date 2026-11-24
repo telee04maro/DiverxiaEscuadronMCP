@@ -15,6 +15,7 @@ from vigia.coordinator.causes import CrossAnalysis, cross_findings
 from vigia.coordinator.plan import Autonomy, Kind, Plan, PlanItem, build_plan
 from vigia.data.model import BankMovement, CompanyData
 from vigia.domain.findings import Finding, SpecialistReport
+from vigia.domain.vocabulary import vocabulary_for
 from vigia.finance.reconciliation import reconcile
 from vigia.llm.base import LanguageModel
 from vigia.remeasure import Remeasurement, remeasure
@@ -55,7 +56,7 @@ def analyze(
     team = specialists if specialists is not None else default_specialists()
     reports = tuple(s.analyze(data, model, log) for s in team)
     findings = tuple(f for r in reports for f in r.findings)
-    crossing = cross_findings(findings, model, log)
+    crossing = cross_findings(findings, model, log, vocabulary_for(data.company))
     plan = build_plan(data, findings, crossing)
     log.record(
         COORDINATOR,
