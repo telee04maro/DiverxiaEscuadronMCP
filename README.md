@@ -43,14 +43,14 @@ Pulsa **«Analizar con el equipo de agentes»** y recorre las pestañas:
 | 2 · Especialistas | Lo que ve cada agente, con su evidencia: caja para 9 días, oferta de la competencia a 20 €, 59 % de consultas fuera de horario… |
 | 3 · Coordinador | **La causa cruzada**, de qué especialistas sale y las hipótesis descartadas («no es la temporada») |
 | 4 · Acciones | El plan a 7/30/90 días: lo que hace solo, lo que espera tu aprobación y lo que va a una persona |
-| 5 · Un mes después | Qué indicadores se movieron. Con el **fallo inyectado**, un pago con 1 céntimo de menos **no** se da por cobrado |
+| 5 · Un mes después | Qué indicadores se movieron. Un cobro solo cuenta si **aparece en el banco**; lo demás dice «coincide», no «lo causó», y lo que no se hizo no se mide |
 | 6 · Registro y uso de IA | Qué vio, decidió e hizo cada agente, y el coste de cada llamada a Claude |
 | 7 · ERP y WhatsApp | El asistente de WhatsApp registra consultas en el ERP de demo **sin duplicar** |
 | 8 · Clientes (CRM) | **Una ficha por cliente** con lo que sabe cada agente (deuda, consultas, reclamaciones), unida por correo o teléfono. Si un cliente debe dinero y tiene una consulta sin atender: «contéstale antes de reclamarle» |
 
 | Quiero… | Comando |
 |---|---|
-| El mismo recorrido en la consola, con el fallo de 1 céntimo | `uv run python -m vigia --fallo` |
+| El mismo recorrido en la consola | `uv run python -m vigia` |
 | Forzar modo reglas aunque haya clave | `VIGIA_USE_AI=0` en `.env` |
 | La API del ERP de demo para el asistente de WhatsApp | `uv run python -m vigia.connectors.http_api` (`VIGIA_ERP_TOKEN` obligatorio) |
 | Regenerar la clínica sintética | `uv run python -m vigia.data.synthetic` |
@@ -88,7 +88,7 @@ Los correos se identifican como escritos por IA, nunca se envían dos veces y en
 ### Verificación honesta
 - **Las reglas calculan; la IA interpreta.** Dinero, plazos y prioridad son código determinista con `Decimal`.
 - **Desconocido no es cero:** lo que falta aparece como «sin datos» o «lo que me falta».
-- **Una acción no es una prueba:** una factura solo se da por cobrada si **cuadra con el banco al céntimo**; el resto de indicadores dice «coincide», no «lo causó».
+- **Una acción no es una prueba:** una factura solo se da por cobrada si **el pago cuadra con el banco**; el resto de indicadores dice «coincide», no «lo causó».
 - **Todo lo que propone la IA se valida:** un precio que no está en el anuncio, una causa que cita un hallazgo inexistente o un correo con un importe inventado se rechazan; una salida fuera del esquema vuelve al modo reglas.
 
 ---
@@ -105,7 +105,7 @@ Los correos se identifican como escritos por IA, nunca se envían dos veces y en
 | Tope de gasto por ejecución | `AI_BUDGET_USD` (0,50 $); al alcanzarlo, reglas |
 | Sin clave de IA | 0 $: misma demo en modo reglas |
 
-Las 12 cifras que citó Claude en su causa salen todas de hallazgos calculados por reglas; los correos suman el total al céntimo.
+**Lo que escribe Claude se comprueba contra los datos:** cada cifra (con su unidad), cada fecha; una cuenta bancaria, un enlace o un teléfono que no estén en los datos descartan el texto. Con Claude real, 3 causas y 2 correos aceptados y ninguno descartado; con textos inventados, los tests demuestran que se descartan. Claude no ve los nombres de quien debe dinero ([datos personales](docs/datos-personales.md)).
 
 ### 🧩 Se adapta a cada empresa
 - **«Tu empresa»:** entrevista inicial y Excel/CSV con plantillas en español (facturas, banco, ventas, consultas, reseñas, competidores). Cada fila se valida; los errores salen como avisos con su número de fila.
@@ -145,7 +145,7 @@ flowchart LR
 | **Causa cruzada** | Una explicación que solo aparece al juntar hallazgos de varias áreas |
 | **Re-medición** | Comprobar un mes después si el indicador objetivo de cada acción se movió |
 | **Modo reglas** | Funcionamiento sin IA: mismos cálculos, textos fijos |
-| **Fallo inyectado** | Un pago con 1 céntimo de menos para enseñar que el sistema no lo da por bueno |
+| **Ficha única de cliente** | Lo que sabe cada agente de un mismo cliente, unido por correo o teléfono (pestaña 8) |
 
 ---
 
@@ -170,16 +170,18 @@ flowchart LR
 |---|---|---|
 | **Coordinador que cruza tres áreas** y descarta hipótesis | Es la tesis: la causa que nadie ve por separado | `coordinator/causes.py` |
 | **Agentes que se contrastan** | La contraoferta solo se propone si finanzas confirma margen | `finance/`, `coordinator/plan.py` |
-| **Conciliación al céntimo** y fallo inyectado | Una acción no se da por hecha sin su efecto | `finance/`, `remeasure.py` |
-| **Salidas de IA validadas** | Nada inventado llega al usuario | `llm/claude.py`, `actions/collections.py` |
-| **Dos rondas de red team** (8 P1 y 18 hallazgos, todos corregidos) | Auditoría independiente con test de aceptación por hallazgo | `tests/test_red_team*.py`, [`docs/red-team.md`](docs/red-team.md) |
+| **Conciliación con el banco** (y un fallo inyectado en los tests) | Una acción no se da por hecha sin su efecto | `finance/`, `remeasure.py` |
+| **Salidas de IA comprobadas contra los datos** | Ni una cifra, fecha, cuenta o enlace inventados llegan al usuario o a un cliente | `domain/grounding.py`, `coordinator/causes.py`, `actions/collections.py` |
+| **Datos personales al mínimo** | Reseñas sin nombres ni contactos; Claude no ve a los morosos; borrado real | `domain/privacy.py`, [`docs/datos-personales.md`](docs/datos-personales.md) |
+| **Tres rondas de red team** (R1: 8 P1; R2: 18 hallazgos; R3: 8 P1 y 9 más, todos corregidos) | Auditoría independiente con test de aceptación por hallazgo | `tests/test_red_team*.py`, [`docs/red-team.md`](docs/red-team.md) |
+| **Rendimiento medido con oha** | API del ERP: 1.562 pet./s sin rechazos con 50 a la vez (antes 774 y 17 rechazos) | [`docs/ESTADO.md`](docs/ESTADO.md) |
 
 ### Calidad
 
 ```bash
 uv run ruff format . && uv run ruff check .   # formato y lint
 uv run mypy src tests                         # tipado estricto
-uv run pytest                                 # 128 tests, incluido el recorrido de extremo a extremo
+uv run pytest                                 # 177 tests, incluido el recorrido de extremo a extremo
 ```
 
 La CI (`.github/workflows/ci.yml`) los ejecuta en cada push, en Linux y en Windows.
@@ -191,19 +193,22 @@ La CI (`.github/workflows/ci.yml`) los ejecuta en cada push, en Linux y en Windo
 - [004 · Cambio de nombre a Vigía](docs/decisiones/004-nombre-vigia.md)
 - [005 · Conectores ERP/CRM, atención y captación, y entrada de datos](docs/decisiones/005-conectores-y-captacion.md)
 - [006 · Qué permite la API de BALTER](docs/decisiones/006-api-balter.md)
+- [007 · CRM de Vigía: ficha única de cliente](docs/decisiones/007-ficha-unica-de-cliente.md)
 
 ### Estructura
 
 ```
 src/vigia/
-  domain/          Contrato del hallazgo, dinero (Decimal), prioridad
+  domain/          Contrato del hallazgo, dinero (Decimal), prioridad, vocabulario por sector,
+                   comprobación de la IA contra los datos y privacidad
   data/            Modelo de la empresa, carga, entrada «Tu empresa» y clínica sintética
   specialists/     Finanzas, competencia y atención y captación (interfaz común)
-  finance/         Conciliación al céntimo y validación de ofertas
+  finance/         Conciliación con el banco y validación de ofertas
   coordinator/     Causa cruzada y plan a 7, 30 y 90 días
   actions/         Reclamaciones de cobro y envío de correo
   connectors/      Contrato ERP/CRM, ERP de demo, su API HTTP y prueba de BALTER
   llm/             Claude tras una interfaz (salidas estructuradas, tope de gasto, modo sin IA)
+  crm.py           Ficha única de cliente (ADR 007)
   remeasure.py     Un mes después: ¿se movió el indicador?
   pipeline.py      El ciclo completo
   app.py           Panel de la demo (Streamlit)

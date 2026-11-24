@@ -28,6 +28,15 @@ El **asistente de WhatsApp** (Hermes, componente previo del compañero, pendient
 
 Todo eso lo hacen reglas deterministas o una persona.
 
+**Todo lo que escribe la IA se comprueba contra los datos** (red team R3, `domain/grounding.py`):
+- **Causa del coordinador:** cada cifra (importe, porcentaje, días, horas, estrellas, metros) tiene que existir en los hallazgos **con su unidad**: «45 %» no se valida porque exista «45 días». Si no, la causa se descarta.
+- **Correo de reclamación:** además de los importes, no puede añadir una cuenta bancaria (IBAN), un enlace, un teléfono, una fecha ni un plazo que no estén en las facturas. Si los añade, sale la plantilla.
+- **Comprobado con Claude real** (24/11): 3 causas y 2 correos aceptados, 0 descartados. Al principio la regla era demasiado estricta (descartaba «a 350 m» por venir de un hallazgo no citado y el total de la reclamación); se ajustó y se volvió a medir.
+
+**Datos personales al mínimo** (`domain/privacy.py`, detalle en [`datos-personales.md`](datos-personales.md)):
+- Las reseñas se guardan sin nombres, teléfonos, correos ni DNI, así que no llegan ni al panel ni a Claude.
+- Claude no ve el nombre de quien debe dinero: lee «Aseguradora 1», «Empresa 2»…, y Vigía pone el nombre real después, en local. Los correos se redactan con `[CLIENTE]` y el nombre se rellena aquí.
+
 **Protección frente a instrucciones escondidas:** los anuncios, las reseñas y los correos son datos de terceros. El mensaje de sistema prohíbe obedecer instrucciones que vengan dentro de ellos, y todas las salidas pasan por un esquema (Pydantic, con salidas estructuradas de la API) y por las comprobaciones de la tabla.
 
 **Coste:**

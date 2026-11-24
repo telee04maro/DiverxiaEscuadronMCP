@@ -190,7 +190,7 @@ Es lo que más nos diferenció. Un jurado o un mentor que pilla un falso positiv
   
   Dinero siempre con `Decimal`.
 - **Controles positivos:** arreglar un falso positivo no puede consistir en que todo falle.
-- **Fallo inyectado:** la demo debe poder enseñar que el sistema detecta un error, por ejemplo un pago que llega con un céntimo de menos y la factura **no** se cierra.
+- **Fallo inyectado:** el sistema tiene que detectar un error inyectado, por ejemplo un pago que llega con un céntimo de menos y la factura **no** se cierra. Se comprueba en los tests y en la consola (`uv run python -m vigia --fallo`). Por decisión del equipo (24/11), no se enseña en el panel ni en el pitch: distrae del valor.
 - **Tests de las uniones** entre especialistas, coordinador, acciones e informe. Unos tests unitarios en verde no las cubren.
 - **Separa «código corregido» de «validado de verdad».** Un test con mocks en verde no es una demo que funciona. Una afirmación en `ESTADO.md` necesita SHA, comando y resultado.
 - **No borres tests, no rebajes requisitos y no cambies expectativas** para que algo pase.
@@ -214,7 +214,8 @@ Es lo que más nos diferenció. Un jurado o un mentor que pilla un falso positiv
 
 - **Cero secretos en el repositorio.** Credenciales, tokens y claves van en `.env` (ignorado por git) y, en GitHub, en Secrets. Mantén `.env.example` sin valores reales. Revisa el diff antes de cada commit buscando secretos.
 - **Los secretos tampoco pueden aparecer en la interfaz, los informes, las capturas, el vídeo ni la presentación.**
-- **Datos:** la empresa de la demo es ficticia. Nada de datos personales reales: lo exigen las bases. De fuentes públicas, solo lo necesario y sin identificar a personas.
+- **Datos:** la empresa de la demo es ficticia. Nada de datos personales reales: lo exigen las bases. De fuentes públicas, solo lo necesario y sin identificar a personas. Las reseñas se limpian al entrar y Claude no ve nombres de clientes (`domain/privacy.py`, `docs/datos-personales.md`).
+- **Todo lo que escribe la IA se comprueba contra los datos** (`domain/grounding.py`): cifras con su unidad, fechas, cuentas, enlaces y teléfonos. Lo nuevo que genere texto de la IA tiene que pasar por ahí.
 - **Respeta los sistemas de terceros:** sin carga abusiva (concurrencia limitada y esperas razonables), sin saltarse captchas ni protecciones y cumpliendo las condiciones de cada fuente.
 - Valida y sanea toda entrada externa: configuración, URLs, respuestas web, salida de modelos.
 - **Acciones con efecto real** (enviar correos, publicar respuestas): solo a destinatarios de prueba en la demo. Condiciones previas comprobadas, un tope, sin reintentos ciegos y sin repetir una acción ya hecha.
@@ -283,6 +284,7 @@ docs/uso-ia.md         Cómo usamos la IA (entregable 2)
 docs/fuentes.md        Fuentes externas: condiciones de uso, acceso y límites
 docs/DEMO.md           Guía práctica de la demo
 docs/red-team.md       Protocolo de auditoría independiente
+docs/datos-personales.md  Qué datos personales se tratan, qué llega a Claude y cómo se borran
 ```
 
 ## Comandos

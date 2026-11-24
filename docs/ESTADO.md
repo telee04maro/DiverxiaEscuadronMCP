@@ -93,13 +93,15 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 | BALTER real: anotar **quién dio el visto bueno** y guardar el correo (ver `docs/integracion-balter.md`) | Equipo (dueño del repositorio) | 24/11, 16:27 |
 
 ## Siguiente paso
-1. Hecho: probado con Claude real; coste medido en `docs/uso-ia.md`, el canvas y el pitch.
+1. Hecho: probado con Claude real; coste medido en `docs/uso-ia.md`, el canvas y el pitch. Red team R3 cerrado.
 2. Subir los 4 entregables al Drive (los .md se pueden pegar en un documento o en diapositivas; el logo es `docs/negocio/logo.svg`).
 3. Ensayar el pitch con el tiempo real y las preguntas a los mentores (tabla de arriba). Confirmar el tamaño del equipo: las bases hablan de 6 y somos 3.
 4. Hecho: `docs/ideas.md` (interno) ya no está en el repositorio; sigue en el historial de git.
 
 ## Última verificación
 Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.
+- 24/11, 18:40 · `0ea4357` · **Red team R03** (seguridad, datos personales y proceso de los agentes, auditor independiente de solo lectura): 8 P1, 6 P2 y 3 P3, todos corregidos con su test en `tests/test_red_team_r3.py`. `uv run pytest`: 177 en verde; ruff y mypy limpios; CI en verde. **Con Claude real** tras los verificadores nuevos: 3 causas y 2 correos de la IA aceptados, 0 descartados (0,07 $, 27 s). Textos de la demo idénticos salvo lo previsto (detalle de reseñas; mes 1 de 75 % a 50 % de quejas por espera).
+- 24/11, 18:00 · `a3514bf` · **Rendimiento con oha** contra la API del ERP de demo: lectura con 50 a la vez de 774 a 1.562 pet./s, de 17 rechazos a 0, el 1 % más lento de 1.026 ms a 47 ms; ráfaga de 200 a la vez, 100 % de éxito; escritura, el 1 % más lento de 586 ms a 188 ms. WAL medido y descartado (1,7 veces más lento en Windows). Análisis por reglas 2 ms, CRM 3 ms; con Claude 14 s, de ellos 12 s el cruce de Opus (con menos esfuerzo solo baja a 10 s: no compensa). Las dos lecturas de Haiku en paralelo: de 3,5 s a 2,0 s.
 - 24/11, 13:00 · `20c9af6` · CI de GitHub Actions (Linux y Windows) en verde en todos los commits · `uv run pytest`: 44 tests en verde.
 - 24/11, 13:05 · `20c9af6` · Recorrido completo en el panel (navegador) y en la consola, en **modo reglas** (sin clave de IA en este equipo). **No verificado aún con Claude real.**
 - 24/11, 15:05 · `720f4ef` · Panel en el navegador tras reiniciarlo: análisis de la clínica (59 %, 12,0 h, 41 %), pestaña 7 (mensaje de WhatsApp simulado → nota, sin duplicar) y «un mes después» con unidades (12,0 h → 0,0 h); sin ejecutar acciones, no atribuye ningún cambio. Búsqueda de secretos en el repositorio: nada.
@@ -123,7 +125,10 @@ Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.
 - **Competencia con datos propios de una empresa:** «Tu empresa» no tiene plantilla de anuncios ni de resultados de búsqueda, así que el agente compara precios y reseñas y lo demás lo da como dato que falta. Los anuncios de Meta y las posiciones en Google solo están en la demo (instantáneas sintéticas).
 - **Umbrales sin calibrar:** horas de respuesta lentas, caída no estacional, etc., son razonables pero no se han ajustado con empresas reales; hace falta un piloto.
 - **Streamlit no recarga los módulos de `vigia` al cambiar el código:** tras modificar algo, hay que reiniciar el panel.
-- **La re-medición no prueba causalidad** salvo en los cobros, que se comprueban al céntimo. El panel lo dice («coincide en el tiempo»).
+- **La re-medición no prueba causalidad** salvo en los cobros, que se comprueban contra el banco. El panel lo dice («coincide en el tiempo»).
+- **Tope de gasto con llamadas en paralelo:** las dos lecturas de Haiku comprueban el tope a la vez, así que se puede pasar como mucho en una llamada pequeña (≈0,0002 $).
+- **Nombres en reseñas:** la limpieza quita nombres completos y nombres tras pistas («me atendió Laura»); un nombre suelto sin pista puede pasar (ver `docs/datos-personales.md`).
+- **Extracto que empieza tarde:** una factura emitida antes del primer movimiento del extracto y sin ningún movimiento que la cite queda «sin datos del banco», no «impagada»: no se reclama hasta tener el extracto completo.
 
 ## Cambios de rumbo
 Registro de pivotes, errores de enfoque y cambios de dirección, el más reciente primero. Cada uno enlaza a su decisión en `docs/decisiones/`.

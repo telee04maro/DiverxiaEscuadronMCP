@@ -36,7 +36,7 @@ Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la soluc
 - Decide cruzando todas las áreas, algo que los proveedores por separado no pueden hacer.
 - **Los datos que acumula de cada empresa:** cuanto más tiempo lleva, mejores son sus decisiones.
 - **La red de gestorías** como canal de confianza.
-- **Ciclo cerrado y verificable:** un cobro solo cuenta si cuadra con el banco al céntimo; expertos humanos supervisan lo legal y lo financiero.
+- **Ciclo cerrado y verificable:** un cobro solo cuenta si aparece en el banco; expertos humanos supervisan lo legal y lo financiero.
 
 ## Actividades clave
 - Desarrollar y mejorar los agentes.
@@ -96,7 +96,7 @@ Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la soluc
   - reclamar lo vencido (un recordatorio enviado solo y una reclamación formal aprobada);
   - contraoferta validada por finanzas: 30 € y no 20 €;
   - cita en 48 horas.
-- **Un mes después:** cobradas al céntimo 3 de las 4 facturas reclamadas, y lo que no funcionó vuelve al plan.
+- **Un mes después:** cobradas 3 de las 4 facturas reclamadas, comprobado con el banco, y lo que no funcionó vuelve al plan.
 
 ## Fuentes
 1. Ministerio de Industria, *Cifras PYME*, mayo de 2026 (1,36 millones de pymes con asalariados): <https://ipyme.org/Publicaciones/Cifras%20PYME/CifrasPyme_mayo_2026.pdf>
