@@ -177,19 +177,25 @@ def _areas(findings: Iterable[Finding]) -> tuple[Area, ...]:
     return tuple(dict.fromkeys(f.area for f in findings))
 
 
+def losing_after_hours(finding: Finding) -> bool:
+    """Only claim that late answers lose customers if the data shows more losses after hours."""
+    late, on_time = finding.metrics.get("late_lost"), finding.metrics.get("on_time_lost")
+    return late is not None and late > 0 and (on_time is None or late > on_time)
+
+
 def _slow_response_clause(slow: list[Finding]) -> str:
     """Figures from the customer-service finding, never from the template."""
-    if not slow:
+    if not slow or not losing_after_hours(slow[0]):
         return ""
     metrics = slow[0].metrics
     hours, lost = metrics.get("late_hours"), metrics.get("late_lost")
-    if hours is None:
+    if hours is None or lost is None:
         return ""
     shown = str(hours).replace(".", ",")
-    clause = f"; además, las consultas que llegan fuera de horario tardan {shown} h en contestarse"
-    if lost is not None:
-        clause += f" y se pierde el {lost} % de ellas"
-    return clause
+    return (
+        f"; además, las consultas que llegan fuera de horario tardan {shown} h en contestarse "
+        f"y se pierde el {lost} % de ellas"
+    )
 
 
 def _cash_cause_text(findings: tuple[Finding, ...]) -> tuple[str, str]:
@@ -241,7 +247,7 @@ def _rule_crossing(findings: tuple[Finding, ...], log: AuditLog) -> CrossAnalysi
         and Signal.WAIT_COMPLAINTS in present
     ):
         attacks_weakness = Signal.COMPETITOR_PROMISES_NO_WAIT in present
-        slow = _with(findings, Signal.SLOW_RESPONSE)
+        slow = [f for f in _with(findings, Signal.SLOW_RESPONSE) if losing_after_hours(f)]
         add(
             "Se pierden pacientes particulares por precio y por la espera"
             + (", también al escribir fuera de horario" if slow else ""),
@@ -256,8 +262,8 @@ def _rule_crossing(findings: tuple[Finding, ...], log: AuditLog) -> CrossAnalysi
                 Signal.COMPETITOR_OFFER,
                 Signal.HIGHER_PRICE,
                 Signal.WAIT_COMPLAINTS,
-                Signal.SLOW_RESPONSE,
-            ),
+            )
+            + slow,
             Confidence.HIGH,
         )
     elif Signal.PRIVATE_PATIENTS_DROP in present and price_pressure:

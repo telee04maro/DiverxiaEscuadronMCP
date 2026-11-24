@@ -25,6 +25,7 @@ from vigia.connectors.base import Enquiry, NewContact, NewOpportunity, register_
 from vigia.connectors.demo_erp import DemoErp, UnknownRecordError
 
 MAX_BODY = 64 * 1024
+REQUEST_TIMEOUT_S = 10
 PREFIX = "/api/v1"
 _NOTES = re.compile(rf"^{PREFIX}/opportunities/(?P<id>[\w-]{{1,40}})/notes$")
 _ORIGIN = re.compile(rf"^{PREFIX}/opportunities/(?P<id>[\w-]{{1,40}})/origin$")
@@ -53,6 +54,7 @@ def build_server(host: str, port: int, erp: DemoErp, token: str) -> ThreadingHTT
     class Handler(BaseHTTPRequestHandler):
         server_version = "VigiaDemoERP/1.0"
         sys_version = ""
+        timeout = REQUEST_TIMEOUT_S  # slow or idle clients cannot hold a thread forever
 
         def do_GET(self) -> None:
             self._handle(self._get)
@@ -82,16 +84,24 @@ def build_server(host: str, port: int, erp: DemoErp, token: str) -> ThreadingHTT
                 status, payload = HTTPStatus.NOT_FOUND, {"error": str(error)}
             except ValueError:
                 status, payload = HTTPStatus.BAD_REQUEST, {"error": "Petición no válida"}
+            except Exception:  # never leak a stack trace to the client
+                status, payload = HTTPStatus.INTERNAL_SERVER_ERROR, {"error": "Error interno"}
             self._send(status, payload)
 
         def _authorize(self) -> None:
             header = self.headers.get("Authorization", "")
-            given = header.removeprefix("Bearer ").strip()
-            if not header.startswith("Bearer ") or not hmac.compare_digest(given, token):
+            given = header.removeprefix("Bearer ").strip().encode("utf-8", "surrogateescape")
+            expected = token.encode("utf-8")
+            if not header.startswith("Bearer ") or not hmac.compare_digest(given, expected):
                 raise ApiError(HTTPStatus.UNAUTHORIZED, "Token no válido")
 
         def _body(self) -> Any:  # noqa: ANN401 - raw JSON, validated by the caller
-            length = int(self.headers.get("Content-Length") or 0)
+            raw_length = self.headers.get("Content-Length")
+            if raw_length is None:
+                raise ApiError(HTTPStatus.LENGTH_REQUIRED, "Falta Content-Length")
+            length = int(raw_length)
+            if length < 0:
+                raise ApiError(HTTPStatus.BAD_REQUEST, "Content-Length no válido")
             if length > MAX_BODY:
                 raise ApiError(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, "Cuerpo demasiado grande")
             raw = self.rfile.read(length)
@@ -155,6 +165,11 @@ def main() -> None:
     token = os.environ.get("VIGIA_ERP_TOKEN", "")
     server = build_server(args.host, args.port, DemoErp(args.db), token)
     print(f"ERP de demo escuchando en http://{args.host}:{args.port}{PREFIX}")
+    if args.host not in {"127.0.0.1", "localhost"}:
+        print(
+            "Aviso: la API es HTTP sin cifrar. Úsala solo en una red de confianza "
+            "y apágala al terminar."
+        )
     server.serve_forever()
 
 

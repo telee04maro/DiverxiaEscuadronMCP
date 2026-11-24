@@ -42,8 +42,10 @@ def test_cross_cause_now_spans_three_areas(before: CompanyData) -> None:
     analysis = analyze(before, OfflineModel(), AuditLog())
     main = analysis.crossing.causes[0]
     assert {Area.FINANCE, Area.COMPETITION, Area.CUSTOMERS} <= set(main.areas)
+    slow = analysis.finding("CLI-RESPUESTA")
+    assert slow is not None
     assert "fuera de horario" in main.explanation
-    assert "12,2 h" in main.explanation
+    assert str(slow.metrics["late_hours"]).replace(".", ",") + " h" in main.explanation
 
 
 def test_plan_proposes_whatsapp_assistant_with_approval(before: CompanyData) -> None:

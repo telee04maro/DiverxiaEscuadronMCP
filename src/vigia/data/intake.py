@@ -16,7 +16,7 @@ from decimal import Decimal
 from typing import Any
 
 import pandas as pd
-from pydantic import BaseModel, Field, ValidationError
+from pydantic import BaseModel, Field, ValidationError, model_validator
 
 from vigia.data.model import (
     BankMovement,
@@ -118,6 +118,12 @@ class Interview(BaseModel):
     opening_hour: int = Field(default=9, ge=0, le=23)
     closing_hour: int = Field(default=20, ge=1, le=24)
 
+    @model_validator(mode="after")
+    def _opens_before_closing(self) -> "Interview":
+        if self.closing_hour <= self.opening_hour:
+            raise ValueError("La hora de cierre tiene que ser posterior a la de apertura")
+        return self
+
 
 @dataclass
 class IntakeResult:
@@ -142,12 +148,21 @@ def read_table(filename: str, content: bytes) -> list[dict[str, str]]:
         frame = frame.fillna("")
         rows = [{str(k): str(v) for k, v in r.items()} for r in frame.to_dict("records")]
     else:
-        text = content.decode("utf-8-sig")
-        dialect = csv.Sniffer().sniff(text.splitlines()[0] if text else ",", delimiters=",;")
-        rows = list(csv.DictReader(io.StringIO(text), dialect=dialect))
+        text = _decode(content)
+        header = text.splitlines()[0] if text.strip() else ""
+        delimiter = ";" if header.count(";") >= header.count(",") and ";" in header else ","
+        rows = list(csv.DictReader(io.StringIO(text), delimiter=delimiter))
     if len(rows) > MAX_ROWS:
         raise RowError(f"Demasiadas filas (máximo {MAX_ROWS})")
     return [{_key(k): (v or "").strip() for k, v in row.items() if k} for row in rows]
+
+
+def _decode(content: bytes) -> str:
+    """UTF-8 first; Excel in Spanish saves CSV as Windows-1252."""
+    try:
+        return content.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        return content.decode("cp1252", errors="strict")
 
 
 def _date(raw: str) -> date:
@@ -187,15 +202,24 @@ def _slug(text: str) -> str:
 
 
 def _invoice(row: dict[str, str]) -> Invoice:
+    issued, due, amount = (
+        _date(row["fecha_emision"]),
+        _date(row["fecha_vencimiento"]),
+        _money(row["importe"]),
+    )
+    if amount <= 0:
+        raise RowError("el importe de una factura debe ser positivo")
+    if due < issued:
+        raise RowError("el vencimiento es anterior a la emisión")
     return Invoice(
         id=row["numero"],
         client_id=_slug(row["cliente"]),
         client_name=row["cliente"],
         client_type=_client_type(row["tipo_cliente"]),
         contact_email=row.get("email_cliente", ""),
-        issued=_date(row["fecha_emision"]),
-        due=_date(row["fecha_vencimiento"]),
-        amount=_money(row["importe"]),
+        issued=issued,
+        due=due,
+        amount=amount,
     )
 
 
@@ -209,13 +233,16 @@ def _movement(row: dict[str, str]) -> BankMovement:
 
 
 def _sales(row: dict[str, str]) -> MonthlySessions:
-    if not re.fullmatch(r"\d{4}-\d{2}", row["mes"]):
+    if not re.fullmatch(r"\d{4}-(0[1-9]|1[0-2])", row["mes"]):
         raise RowError(f"mes no válido «{row['mes']}» (formato AAAA-MM)")
+    units, revenue = int(row["unidades"]), _money(row["ingresos"])
+    if units < 0 or revenue < 0:
+        raise RowError("unidades e ingresos no pueden ser negativos")
     return MonthlySessions(
         month=row["mes"],
         client_type=_client_type(row["tipo_cliente"]),
-        sessions=int(row["unidades"]),
-        revenue=_money(row["ingresos"]),
+        sessions=units,
+        revenue=revenue,
     )
 
 
@@ -251,10 +278,22 @@ def _competitor(row: dict[str, str]) -> Competitor:
         distance_m=int(row.get("distancia_m") or 0),
         prices={row["servicio"]: _money(row["precio"])},
         first_visit_price=_money(first) if first else None,
-        rating=Decimal(rating.replace(",", ".")) if rating else None,
+        rating=_rating(rating) if rating else None,
         review_count=int(count) if count else None,
     )
 
+
+def _rating(raw: str) -> Decimal:
+    try:
+        value = Decimal(raw.replace(",", "."))
+    except ArithmeticError as error:
+        raise RowError(f"nota no válida «{raw}»") from error
+    if not value.is_finite() or not 0 <= value <= 5:  # noqa: PLR2004 - star ratings
+        raise RowError(f"nota no válida «{raw}» (de 0 a 5)")
+    return value
+
+
+_UNIQUE_IDS = {"facturas": "numero", "oportunidades": "id"}
 
 _PARSERS: dict[str, Callable[[dict[str, str]], Any]] = {
     "facturas": _invoice,
@@ -275,13 +314,25 @@ def _parse(key: str, rows: list[dict[str, str]], errors: list[str]) -> tuple[Any
     if required_missing:
         errors.append(f"{template.label}: faltan columnas {', '.join(required_missing)}")
         return ()
+    if not rows:
+        errors.append(f"{template.label}: el fichero no tiene filas")
+        return ()
     parsed = []
+    seen: set[str] = set()
+    unique = _UNIQUE_IDS.get(key)
     for line, row in enumerate(rows, start=2):
         if not any(row.values()):
             continue
+        if unique and row.get(unique) in seen:
+            errors.append(
+                f"{template.label}, fila {line}: «{row[unique]}» está repetido; no se suma"
+            )
+            continue
         try:
             parsed.append(_PARSERS[key](row))
-        except (RowError, ValidationError, ValueError, KeyError) as error:
+            if unique:
+                seen.add(row[unique])
+        except (RowError, ValidationError, ValueError, KeyError, ArithmeticError) as error:
             reason = (
                 str(error).splitlines()[0] if not isinstance(error, KeyError) else f"falta {error}"
             )
@@ -298,8 +349,13 @@ def build_company_data(
     for key, (filename, content) in files.items():
         try:
             tables[key] = _parse(key, read_table(filename, content), errors)
-        except (RowError, UnicodeDecodeError, ValueError, csv.Error) as error:
-            errors.append(f"{TEMPLATES[key].label}: no se puede leer el fichero ({error})")
+        except RowError as error:
+            errors.append(f"{TEMPLATES[key].label}: {error}")
+        except Exception:  # corrupt or foreign files: a clear message, never a stack trace
+            errors.append(
+                f"{TEMPLATES[key].label}: no se puede leer «{filename}». Usa la plantilla "
+                "(CSV con ; o ,, o Excel .xlsx)"
+            )
     competitors = _merge_competitors(tables.get("competidores", ()))
     company = Company(
         name=interview.name,

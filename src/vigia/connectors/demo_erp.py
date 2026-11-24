@@ -13,6 +13,7 @@ from pathlib import Path
 
 from vigia.connectors.base import (
     Contact,
+    DuplicateOpenOpportunityError,
     NewContact,
     NewOpportunity,
     normalize_email,
@@ -29,6 +30,11 @@ CREATE TABLE IF NOT EXISTS opportunities (
     topic TEXT NOT NULL, summary TEXT NOT NULL, urgent INTEGER NOT NULL, created_at TEXT NOT NULL,
     first_response_at TEXT, assigned_to TEXT, status TEXT NOT NULL, origin TEXT
 );
+-- The ERP itself guarantees the contract, even under concurrent requests.
+CREATE UNIQUE INDEX IF NOT EXISTS ux_contacts_phone ON contacts(phone) WHERE phone IS NOT NULL;
+CREATE UNIQUE INDEX IF NOT EXISTS ux_contacts_email ON contacts(email) WHERE email IS NOT NULL;
+CREATE UNIQUE INDEX IF NOT EXISTS ux_one_open_opportunity
+    ON opportunities(contact_id) WHERE status = 'abierta';
 CREATE TABLE IF NOT EXISTS notes (
     id INTEGER PRIMARY KEY AUTOINCREMENT, opportunity_id TEXT NOT NULL REFERENCES opportunities(id),
     text TEXT NOT NULL, created_at TEXT NOT NULL
@@ -70,39 +76,49 @@ class DemoErp:
 
     def create_contact(self, contact: NewContact) -> Contact:
         new_id = f"CT-{uuid.uuid4().hex[:8].upper()}"
-        with self._db() as db:
-            db.execute(
-                "INSERT INTO contacts (id, name, phone, email, created_at) VALUES (?, ?, ?, ?, ?)",
-                (new_id, contact.name, contact.phone, contact.email, self._clock().isoformat()),
-            )
+        try:
+            with self._db() as db:
+                db.execute(
+                    "INSERT INTO contacts (id, name, phone, email, created_at) "
+                    "VALUES (?, ?, ?, ?, ?)",
+                    (new_id, contact.name, contact.phone, contact.email, self._clock().isoformat()),
+                )
+        except sqlite3.IntegrityError:
+            existing = self.find_contact(phone=contact.phone, email=contact.email)
+            if existing is None:
+                raise
+            return existing
         return Contact(id=new_id, name=contact.name, phone=contact.phone, email=contact.email)
 
     def create_opportunity(self, opportunity: NewOpportunity) -> Opportunity:
         new_id = f"OP-{uuid.uuid4().hex[:8].upper()}"
-        now = self._clock()
-        with self._db() as db:
-            if not db.execute(
-                "SELECT 1 FROM contacts WHERE id = ?", (opportunity.contact_id,)
-            ).fetchone():
-                raise UnknownRecordError(f"No existe el contacto {opportunity.contact_id}")
-            db.execute(
-                "INSERT INTO opportunities (id, contact_id, channel, topic, summary, urgent, "
-                "created_at, first_response_at, assigned_to, status, origin) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, NULL)",
-                (
-                    new_id,
-                    opportunity.contact_id,
-                    opportunity.channel,
-                    opportunity.topic,
-                    opportunity.summary,
-                    int(opportunity.urgent),
-                    now.isoformat(),
-                    opportunity.first_response_at.isoformat()
-                    if opportunity.first_response_at
-                    else None,
-                    OpportunityStatus.OPEN.value,
-                ),
-            )
+        received = opportunity.received_at or self._clock()
+        answered = opportunity.first_response_at
+        try:
+            with self._db() as db:
+                exists = db.execute(
+                    "SELECT 1 FROM contacts WHERE id = ?", (opportunity.contact_id,)
+                ).fetchone()
+                if not exists:
+                    raise UnknownRecordError(f"No existe el contacto {opportunity.contact_id}")
+                db.execute(
+                    "INSERT INTO opportunities (id, contact_id, channel, topic, summary, urgent, "
+                    "created_at, first_response_at, assigned_to, status, origin) "
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, NULL)",
+                    (
+                        new_id,
+                        opportunity.contact_id,
+                        opportunity.channel,
+                        opportunity.topic,
+                        opportunity.summary,
+                        int(opportunity.urgent),
+                        received.isoformat(),
+                        answered.isoformat() if answered and answered >= received else None,
+                        OpportunityStatus.OPEN.value,
+                    ),
+                )
+        except sqlite3.IntegrityError as error:
+            raise DuplicateOpenOpportunityError(opportunity.contact_id) from error
         return self._opportunity(new_id)
 
     def add_note(self, opportunity_id: str, text: str) -> None:

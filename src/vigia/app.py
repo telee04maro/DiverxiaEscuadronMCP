@@ -4,7 +4,7 @@ The panel only presents; every decision lives in the agents (see vigia.pipeline)
 """
 
 from datetime import date, datetime
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal
 from pathlib import Path
 
 import streamlit as st
@@ -21,7 +21,7 @@ from vigia.data.loader import load_company_data
 from vigia.data.model import CompanyData
 from vigia.data.synthetic import AFTER, BEFORE, DEMO_ROOT
 from vigia.domain.findings import AREA_LABELS, Area, Finding, Kpi, SpecialistReport
-from vigia.domain.money import fmt_eur, fmt_num
+from vigia.domain.money import MoneyError, eur, fmt_eur, fmt_num
 from vigia.domain.priority import HORIZON_LABELS, Horizon
 from vigia.llm.base import LanguageModel, total_cost
 from vigia.llm.factory import build_model
@@ -169,6 +169,11 @@ def _company_tab() -> None:
         "Incluir también las consultas registradas en el ERP de demo (pestaña 7)",
         key="with_erp",
     )
+    if choice == DEMO and st.session_state.get("with_erp"):
+        st.caption(
+            "La clínica de ejemplo se analiza a fecha de sus datos: las consultas que entren hoy "
+            "por WhatsApp cuentan en el análisis de «Tu empresa», no en este."
+        )
     if st.button("Analizar con el equipo de agentes", type="primary", use_container_width=True):
         with st.spinner("Los especialistas están analizando y el coordinador cruza lo que ven…"):
             st.session_state.analysis = analyze(data, st.session_state.model, st.session_state.log)
@@ -212,10 +217,11 @@ def _company_summary(data: CompanyData) -> None:
             )
 
 
-def _decimal(raw: str) -> Decimal | None:
+def _amount(raw: str) -> Decimal | None:
+    """Empty or unreadable is None, never 0: the interview then asks for it again."""
     try:
-        return Decimal(raw.replace(",", ".")) if raw.strip() else None
-    except InvalidOperation:
+        return eur(raw) if raw.strip() else None
+    except MoneyError:
         return None
 
 
@@ -258,21 +264,26 @@ def _intake_section() -> None:
     if not submitted:
         return
     try:
-        interview = Interview(
-            name=name,
-            sector=sector,
-            city=city,
-            employees=int(employees),
-            main_service=service,
-            main_price=_decimal(price) or Decimal(0),
-            main_cost=_decimal(cost) or Decimal(0),
-            sessions_per_new_client=_decimal(repeat),
-            goals=tuple(line.strip() for line in goals.splitlines() if line.strip()),
-            opening_hour=int(opening),
-            closing_hour=int(closing),
+        interview = Interview.model_validate(
+            {
+                "name": name,
+                "sector": sector,
+                "city": city,
+                "employees": int(employees),
+                "main_service": service,
+                "main_price": _amount(price),
+                "main_cost": _amount(cost),
+                "sessions_per_new_client": _amount(repeat) if repeat.strip() else None,
+                "goals": tuple(line.strip() for line in goals.splitlines() if line.strip()),
+                "opening_hour": int(opening),
+                "closing_hour": int(closing),
+            }
         )
     except ValidationError as error:
-        fields = ", ".join(FIELD_LABELS.get(str(err["loc"][0]), "?") for err in error.errors())
+        fields = ", ".join(
+            FIELD_LABELS.get(str(err["loc"][0]) if err["loc"] else "", "horario")
+            for err in error.errors()
+        )
         st.error(f"Revisa la entrevista: faltan o no son válidos estos campos: {fields}")
         return
     uploads = {k: (u.name, u.getvalue()) for k, u in files.items() if u is not None}
@@ -498,13 +509,15 @@ def _erp_tab() -> None:
         sent = st.form_submit_button("Simular mensaje de WhatsApp")
     if sent:
         try:
+            now = datetime.now()
             enquiry = Enquiry(
                 name=name,
                 phone=phone,
                 topic=topic,
                 summary=summary,
                 urgent=urgent,
-                answered_at=datetime.now(),
+                received_at=now,
+                answered_at=now,  # the assistant answers in the moment
             )
             outcome = register_enquiry(erp, enquiry, st.session_state.log)
         except ValueError as error:

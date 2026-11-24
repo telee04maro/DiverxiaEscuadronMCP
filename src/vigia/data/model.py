@@ -4,7 +4,14 @@ from datetime import date, datetime
 from decimal import Decimal
 from enum import StrEnum
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+
+def to_local_naive(value: datetime | None) -> datetime | None:
+    """All times are local wall-clock times without zone, so they can be compared safely."""
+    if value is None or value.tzinfo is None:
+        return value
+    return value.astimezone().replace(tzinfo=None)
 
 
 class ClientType(StrEnum):
@@ -143,6 +150,8 @@ class Opportunity(BaseModel):
     assigned_to: str | None = None
     status: OpportunityStatus = OpportunityStatus.OPEN
     summary: str = ""
+
+    _times = field_validator("created_at", "first_response_at")(to_local_naive)
 
 
 class CompanyData(BaseModel):

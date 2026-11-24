@@ -44,7 +44,17 @@ def _hours(opportunity: Opportunity) -> Decimal | None:
     if opportunity.first_response_at is None:
         return None
     seconds = (opportunity.first_response_at - opportunity.created_at).total_seconds()
+    if seconds < 0:  # an answer before the enquiry is bad data, not a fast answer
+        return None
     return (Decimal(seconds) / _HOUR).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+
+
+def _pct(value: Decimal | None) -> str:
+    return f"{value} %" if value is not None else "sin datos"
+
+
+def _h(value: Decimal | None) -> str:
+    return f"{fmt_num(value)} h" if value is not None else "sin datos"
 
 
 def _median(values: list[Decimal]) -> Decimal | None:
@@ -65,7 +75,8 @@ class CustomersSpecialist:
         return SOURCES
 
     def analyze(self, data: CompanyData, model: LanguageModel, log: AuditLog) -> SpecialistReport:
-        today = datetime.combine(data.company.analysis_date, time(0))
+        # The analysis date is included: today's enquiries count.
+        today = datetime.combine(data.company.analysis_date + timedelta(days=1), time(0))
         recent = [
             o for o in data.opportunities if today - timedelta(WINDOW_DAYS) <= o.created_at < today
         ]
@@ -154,19 +165,25 @@ class _Stats:
         share = self._share(self.late, self.recent)
         lost = self._share(self._lost(self.late), self.late)
         lost_on_time = self._share(self._lost(self.on_time), self.on_time)
+        metrics = {"late_hours": self.late_hours}
+        if share is not None:
+            metrics["late_share"] = share
+        if lost is not None:
+            metrics["late_lost"] = lost
+        if lost_on_time is not None:
+            metrics["on_time_lost"] = lost_on_time
         return [
             Finding(
                 id="CLI-RESPUESTA",
                 area=Area.CUSTOMERS,
                 title=(
-                    f"Las consultas fuera de horario ({share} % del total) tardan "
-                    f"{fmt_num(self.late_hours)} h en contestarse"
+                    f"Las consultas fuera de horario ({_pct(share)} del total) tardan "
+                    f"{_h(self.late_hours)} en contestarse"
                 ),
                 detail=(
-                    f"Dentro del horario se contestan en "
-                    f"{fmt_num(self.on_time_hours or Decimal(0))} h. "
-                    f"Fuera de horario se pierde el {lost} % de las consultas, frente al "
-                    f"{lost_on_time} % dentro."
+                    f"Dentro del horario se contestan en {_h(self.on_time_hours)}. "
+                    f"Consultas perdidas: {_pct(lost)} fuera de horario y {_pct(lost_on_time)} "
+                    "dentro."
                 ),
                 evidence=(
                     Evidence(
@@ -179,13 +196,15 @@ class _Stats:
                     Evidence(
                         source=SOURCES[0],
                         fact=(
-                            f"Mediana de primera respuesta: {fmt_num(self.late_hours)} h fuera de "
-                            f"horario y {fmt_num(self.on_time_hours or Decimal(0))} h dentro"
+                            f"Mediana de primera respuesta: {_h(self.late_hours)} fuera de "
+                            f"horario y {_h(self.on_time_hours)} dentro"
                         ),
                     ),
                     Evidence(
                         source=SOURCES[0],
-                        fact=f"Perdidas: {lost} % fuera de horario y {lost_on_time} % dentro",
+                        fact=(
+                            f"Perdidas: {_pct(lost)} fuera de horario y {_pct(lost_on_time)} dentro"
+                        ),
                     ),
                 ),
                 confidence=Confidence.HIGH,
@@ -193,11 +212,7 @@ class _Stats:
                 urgency=4,
                 effort=2,
                 signals=frozenset({Signal.SLOW_RESPONSE}),
-                metrics={
-                    "late_hours": self.late_hours,
-                    "late_share": share or Decimal(0),
-                    "late_lost": lost or Decimal(0),
-                },
+                metrics=metrics,
             )
         ]
 
