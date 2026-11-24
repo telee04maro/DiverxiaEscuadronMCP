@@ -9,14 +9,15 @@ Memoria compartida del equipo: **por dónde vamos y hacia dónde**. Se actualiza
 **Tesis (candidata):** «Cada proveedor ve su parte. Vigía ve la causa».
 
 **Prototipo:**
-- **Especialistas en profundidad:** competencia y mercado, y finanzas.
-- **Coordinador:** cruza los dos hallazgos, encuentra la causa y crea el plan a 7, 30 y 90 días.
+- **Especialistas en profundidad:** competencia y mercado, finanzas, y atención y captación (consultas del ERP/CRM).
+- **Coordinador:** cruza los hallazgos de las tres áreas, encuentra la causa y crea el plan a 7, 30 y 90 días.
 - **Acciones reales:**
   - reclamar facturas vencidas, conciliando con el banco al céntimo;
   - contraoferta, solo si finanzas confirma el margen;
   - re-medición con un «mes después» simulado.
 - **Caso de la demo:** clínica de fisioterapia ficticia de Málaga, con datos sintéticos.
-- **Hoja de ruta del pitch:** los otros especialistas (marketing y clientes, legal, organización y personas, atención al cliente).
+- **Entrada de una empresa real:** «Tu empresa» (entrevista + Excel/CSV con plantillas). ERP de demo con API para el asistente de WhatsApp (Hermes).
+- **Hoja de ruta del pitch:** los otros especialistas (marketing y clientes, legal, organización y personas, chat del dueño) y conectores con ERP reales (BALTER, con su API y permiso).
 
 ## Hoja de ruta
 
@@ -78,9 +79,9 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
   - no se envía nada dos veces;
   - bandeja local o SMTP solo al buzón de prueba.
 - **Un mes después:** cobros comprobados al céntimo (el fallo de un céntimo no se da por cobrado); el resto de indicadores, «coincide» (no prueba la causa); el plan se reordena.
-- **Atención y captación:** consultas fuera de horario (60 % del total, 12,2 h de respuesta, 43 % perdidas en la demo) cruzadas en la causa principal de tres áreas; plan con «activar el asistente de WhatsApp» (con aprobación) y re-medición (de 12,2 h a minutos).
-- **ERP de demo con la forma de BALTER** y su API (token, 127.0.0.1 por defecto): Hermes registra consultas sin duplicar contactos; en el panel, pestaña 7, con mensaje de WhatsApp simulado y borrado de datos.
-- **«Tu empresa»:** entrevista inicial y subida de Excel/CSV con plantillas en español; validación fila a fila; lo que falta es un hueco.
+- **Atención y captación:** consultas fuera de horario (en la demo, 59 % del total, 12,0 h de respuesta frente a 0,4 h en horario y 41 % perdidas frente a 0 %) cruzadas en la causa principal de tres áreas solo si los datos muestran más pérdidas fuera de horario; plan con «activar el asistente de WhatsApp» (con aprobación) y re-medición (de 12,0 h a minutos; perdidas del 41 % al 21 %).
+- **ERP de demo con la forma de BALTER** y su API (token, 127.0.0.1 por defecto): Hermes registra consultas sin duplicar contactos ni oportunidades, también con 20 mensajes simultáneos; en el panel, pestaña 7, con mensaje de WhatsApp simulado y borrado de datos.
+- **«Tu empresa»:** entrevista inicial y subida de Excel/CSV con plantillas en español; validación fila a fila (CSV de Excel en Windows-1252, facturas repetidas, ficheros corruptos o importes imposibles salen como avisos); lo que falta es un hueco.
 - **Entregables de negocio** en `docs/negocio/` (canvas, marketing con logo, guion del pitch) y uso de la IA en `docs/uso-ia.md`.
 
 ## En curso
@@ -98,12 +99,16 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.
 - 24/11, 13:00 · `20c9af6` · CI de GitHub Actions (Linux y Windows) en verde en todos los commits · `uv run pytest`: 44 tests en verde.
 - 24/11, 13:05 · `20c9af6` · Recorrido completo en el panel (navegador) y en la consola, en **modo reglas** (sin clave de IA en este equipo). **No verificado aún con Claude real.**
+- 24/11, 14:55 · `a29b738` · **Red team R02** (conector ERP, agente de atención y «Tu empresa»): 18 hallazgos, todos corregidos con su test de aceptación en `tests/test_red_team_r2.py`. `uv run pytest`: 112 tests en verde; ruff y mypy estricto limpios.
 - 24/11, 13:20 · `babfc75` · **Red team R01:** 8 hallazgos P1 y 10 P2. Corregidos los 8 P1 y 9 de los P2, cada uno con su test de aceptación en `tests/test_red_team.py`. `uv run pytest`: 65 tests en verde. Recorrido completo repetido en el panel y en la consola con el código corregido.
 
 ## Problemas conocidos
 - **Sin clave de IA en el portátil de desarrollo:** el modo Claude está cubierto por tests con respuestas guionizadas, pero no se ha ejecutado contra la API real.
 - **Fuentes de competencia:** Meta y Google Ads exigen identidad verificada o no tienen API de autoservicio, y Google prohíbe el scraping de resultados. Se usan instantáneas sintéticas con el formato oficial (ver `docs/fuentes.md`).
 - **Red team R01, pendiente (P2):** el coordinador con IA acepta una hipótesis descartada si cita hallazgos existentes aunque no sean los relevantes (p. ej. descartar «la temporada» citando la caja). En modo reglas no ocurre.
+- **BALTER real sin probar:** falta la documentación de su API y el visto bueno de la empresa dueña. No se conecta a producción; la primera prueba será de solo lectura y sin datos personales (ADR 005).
+- **Hermes y Zernio** son componentes previos del compañero: pendiente de que la organización confirme que se pueden usar declarados como tales.
+- **El ERP de demo serializa los registros** con un bloqueo por proceso: suficiente para la demo, no para varios servidores a la vez (ahí lo garantizan los índices únicos de la base de datos).
 - **Streamlit no recarga los módulos de `vigia` al cambiar el código:** tras modificar algo, hay que reiniciar el panel.
 - **La re-medición no prueba causalidad** salvo en los cobros, que se comprueban al céntimo. El panel lo dice («coincide en el tiempo»).
 
