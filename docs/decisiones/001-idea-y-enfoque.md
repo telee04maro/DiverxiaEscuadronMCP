@@ -26,6 +26,8 @@ Nuestra ventaja del Malackathon es demostrar el efecto real («un clic no es pru
 
 ## Opciones evaluadas
 
+> **Actualización (24/11):** la comparación se amplió en [`docs/ideas.md`](../ideas.md). Hay cinco finalistas: COBRA (A), RECLAMA (nueva), LICITA (nueva), TE TOCA (B) y VATIO (nueva). De cada una se describe el problema, el negocio, el flujo del agente, el prototipo, la demo, el canvas, el marketing y los riesgos. La tabla siguiente es la primera versión.
+
 | | A. Agente de cobros para pymes y autónomos | B. Agente de ayudas para ciudadanos | C. Agente de incidencias urbanas | D. Agente de atención y reservas para comercio local |
 |---|---|---|---|---|
 | **Qué hace** | Lee facturas emitidas y movimientos del banco. Detecta las vencidas, decide la acción según el cliente y su historial (recordatorio → aviso formal → reclamación con intereses de demora), la ejecuta y **solo cierra la factura cuando el cobro aparece en el banco y cuadra al céntimo** | Detecta a qué ayudas tiene derecho una familia (IMV, complemento por infancia, bono social, alquiler…), prepara el expediente y los documentos, rellena la solicitud y vigila plazos y requerimientos | El ciudadano envía una foto o un audio. El agente clasifica, geolocaliza, agrupa duplicados, abre el aviso en el servicio correcto, hace seguimiento y **verifica la resolución** con una foto posterior | Atiende por WhatsApp, reserva, cobra la señal y recuerda la cita |
