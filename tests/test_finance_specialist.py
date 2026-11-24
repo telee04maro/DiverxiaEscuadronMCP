@@ -39,7 +39,7 @@ def test_without_bank_cash_is_not_available_not_zero(before: CompanyData) -> Non
     cash = report.kpi("caja")
     assert cash is not None
     assert cash.value is None
-    assert any(gap.missing == "banco.csv" for gap in report.gaps)
+    assert any(gap.missing == "Extracto bancario" for gap in report.gaps)  # a label, not a file
     assert not any(Signal.TIGHT_CASH in f.signals for f in report.findings)
 
 

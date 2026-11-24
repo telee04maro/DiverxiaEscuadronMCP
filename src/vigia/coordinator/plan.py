@@ -14,6 +14,7 @@ from vigia.data.model import CompanyData
 from vigia.domain.findings import Finding, Signal
 from vigia.domain.money import fmt_eur
 from vigia.domain.priority import Horizon, horizon_for, score
+from vigia.domain.vocabulary import Vocabulary, vocabulary_for
 from vigia.finance.offers import OfferCheck, check_first_visit_offer
 from vigia.specialists.competition import NAME as COMPETITION
 from vigia.specialists.customers import NAME as CUSTOMERS
@@ -81,7 +82,7 @@ def build_plan(data: CompanyData, findings: tuple[Finding, ...], crossing: Cross
     offer_item, checks = _counter_offer(data, findings, crossing)
     if offer_item is not None:
         items.append(offer_item)
-    items.extend(_service_items(findings, crossing))
+    items.extend(_service_items(findings, crossing, vocabulary_for(data.company)))
     items.extend(_cash_and_search_items(findings, crossing))
     items.extend(_customer_items(findings, crossing))
     ordered = sorted(items, key=lambda i: (i.horizon, -i.score))
@@ -143,7 +144,11 @@ def _counter_offer(
     ids = tuple(f.id for f in support)
     promise = " y cita garantizada en 48 horas" if waits else ""
     if viable is not None:
-        title = f"Contraoferta: primera visita a {fmt_eur(viable.price)}{promise}"
+        words = vocabulary_for(data.company)
+        title = (
+            f"Contraoferta: {words.first_offer} a {fmt_eur(viable.price)}"
+            f"{words.offer_audience}{promise}"
+        )
         detail = (
             f"{COMPETITION} propone igualar la oferta; {FINANCE} lo comprueba precio a precio. "
             f"Se elige el más bajo que compensa: {viable.reason}."
@@ -172,7 +177,9 @@ def _counter_offer(
     return item, checks
 
 
-def _service_items(findings: tuple[Finding, ...], crossing: CrossAnalysis) -> list[PlanItem]:
+def _service_items(
+    findings: tuple[Finding, ...], crossing: CrossAnalysis, words: Vocabulary
+) -> list[PlanItem]:
     waits = [f for f in findings if Signal.WAIT_COMPLAINTS in f.signals]
     if not waits:
         return []
@@ -195,7 +202,7 @@ def _service_items(findings: tuple[Finding, ...], crossing: CrossAnalysis) -> li
         PlanItem(
             id="PLAN-AGENDA",
             kind=Kind.AGENDA,
-            title="Reservar huecos diarios para primeras visitas (cita en 48 horas)",
+            title=f"Reservar huecos diarios para {words.new_customer_slots} (cita en 48 horas)",
             why=waits[0].title,
             horizon=horizon_for(urgency=waits[0].urgency, effort=waits[0].effort),
             owner=f"{MANAGER} (agente de organización: hoja de ruta)",

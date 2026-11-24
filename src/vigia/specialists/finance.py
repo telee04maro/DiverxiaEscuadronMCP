@@ -19,6 +19,7 @@ from vigia.domain.findings import (
     SpecialistReport,
 )
 from vigia.domain.money import fmt_eur, fmt_num, pct_change
+from vigia.domain.vocabulary import Vocabulary, vocabulary_for
 from vigia.finance.reconciliation import InvoiceStatus, PaymentStatus, reconcile
 from vigia.llm.base import LanguageModel
 
@@ -79,13 +80,13 @@ class FinanceSpecialist:
         findings: list[Finding] = []
         findings.extend(_collection_findings(statuses, today, cash))
         findings.extend(_cash_findings(cash, statuses, today))
-        findings.extend(_private_revenue_findings(data.sessions))
+        findings.extend(_private_revenue_findings(data.sessions, vocabulary_for(data.company)))
         for finding in findings:
             log.record(NAME, EventKind.DECIDED, finding.title, finding.id)
         return SpecialistReport(
             specialist=NAME,
             area=Area.FINANCE,
-            sources=SOURCES,
+            sources=_sources(data),
             kpis=_kpis(data, statuses, cash, today),
             findings=tuple(findings),
             gaps=_gaps(data, broken),
@@ -283,7 +284,13 @@ def _minus_year(month: str) -> str:
     return f"{int(year) - 1}-{number}"
 
 
-def _private_revenue_findings(sessions: tuple[MonthlySessions, ...]) -> list[Finding]:
+def _sources(data: CompanyData) -> tuple[str, ...]:
+    return (*SOURCES[:2], f"{vocabulary_for(data.company).units_title} por mes (CSV)")
+
+
+def _private_revenue_findings(
+    sessions: tuple[MonthlySessions, ...], words: Vocabulary
+) -> list[Finding]:
     trend = private_trend(sessions)
     if trend is None or trend.change_pct is None or trend.change_pct > DROP_THRESHOLD_PCT:
         return []
@@ -292,9 +299,9 @@ def _private_revenue_findings(sessions: tuple[MonthlySessions, ...]) -> list[Fin
     not_seasonal = last_year is not None and last_year > SEASONAL_TOLERANCE_PCT
     evidence = [
         Evidence(
-            source="Sesiones por mes",
+            source=f"{words.units_title} por mes",
             fact=(
-                f"Sesiones de particulares en {' y '.join(trend.recent_months)}: "
+                f"{words.private_units.capitalize()} en {' y '.join(trend.recent_months)}: "
                 f"{fmt_num(trend.change_pct)} % frente a {' y '.join(trend.base_months)}"
             ),
         )
@@ -302,7 +309,7 @@ def _private_revenue_findings(sessions: tuple[MonthlySessions, ...]) -> list[Fin
     if last_year is not None:
         evidence.append(
             Evidence(
-                source="Sesiones por mes (año anterior)",
+                source=f"{words.units_title} por mes (año anterior)",
                 fact=f"Los mismos meses del año pasado: {fmt_num(last_year)} %",
             )
         )
@@ -313,7 +320,7 @@ def _private_revenue_findings(sessions: tuple[MonthlySessions, ...]) -> list[Fin
         Finding(
             id="FIN-PARTICULARES",
             area=Area.FINANCE,
-            title=f"Las sesiones de particulares caen un {fmt_num(abs(trend.change_pct))} %",
+            title=f"Las {words.private_units} caen un {fmt_num(abs(trend.change_pct))} %",
             detail=(
                 "El año pasado esos meses no bajaron: no parece estacional."
                 if not_seasonal
@@ -352,7 +359,7 @@ def _kpis(
         ),
         Kpi(
             key="variacion_particulares",
-            label="Sesiones de particulares (últimos 2 meses)",
+            label=f"{vocabulary_for(data.company).private_units.capitalize()} (últimos 2 meses)",
             value=trend.change_pct if trend else None,
             unit="%",
         ),
@@ -381,6 +388,7 @@ def _client_name(statuses: tuple[InvoiceStatus, ...], client_id: str) -> str:
 
 
 def _gaps(data: CompanyData, balance_breaks: int = 0) -> tuple[DataGap, ...]:
+    words = vocabulary_for(data.company)
     gaps = [
         DataGap(
             area=Area.FINANCE,
@@ -390,16 +398,27 @@ def _gaps(data: CompanyData, balance_breaks: int = 0) -> tuple[DataGap, ...]:
         DataGap(
             area=Area.FINANCE,
             missing="Coste de captación por canal",
-            why_it_matters="Con él sabría qué campañas y ofertas atraen pacientes rentables",
+            why_it_matters=(
+                f"Con él sabría qué campañas y ofertas atraen {words.customers} rentables"
+            ),
         ),
     ]
-    for name, why in (
-        ("banco.csv", "Sin extracto no puedo calcular la caja ni confirmar cobros"),
-        ("facturas.csv", "Sin facturas no puedo detectar cobros vencidos"),
-        ("sesiones.csv", "Sin sesiones por mes no puedo ver la evolución de pacientes"),
+    monthly = f"{words.units_title} por mes"
+    for name, what, why in (
+        (
+            "banco.csv",
+            "Extracto bancario",
+            "Sin extracto no puedo calcular la caja ni confirmar cobros",
+        ),
+        ("facturas.csv", "Facturas emitidas", "Sin facturas no puedo detectar cobros vencidos"),
+        (
+            "sesiones.csv",
+            monthly,
+            f"Sin {monthly.lower()} no puedo ver la evolución de {words.customers}",
+        ),
     ):
         if name in data.missing_sources:
-            gaps.append(DataGap(area=Area.FINANCE, missing=name, why_it_matters=why))
+            gaps.append(DataGap(area=Area.FINANCE, missing=what, why_it_matters=why))
     if balance_breaks:
         gaps.append(
             DataGap(
@@ -412,8 +431,10 @@ def _gaps(data: CompanyData, balance_breaks: int = 0) -> tuple[DataGap, ...]:
         gaps.append(
             DataGap(
                 area=Area.FINANCE,
-                missing="Sesiones medias por paciente nuevo",
-                why_it_matters="Sin ellas no puedo validar si una oferta de primera visita compensa",  # noqa: E501
+                missing=f"{words.repeat_units.capitalize()} medias por {words.customer} nuevo",
+                why_it_matters=(
+                    f"Sin ese dato no puedo validar si una oferta de {words.first_offer} compensa"
+                ),
             )
         )
     return tuple(gaps)

@@ -215,9 +215,7 @@ def _company_summary(data: CompanyData) -> None:
             f"{len(data.competitor_ads)}\n- Competidores: {len(data.competitors)}"
         )
         if data.missing_sources:
-            st.warning(
-                "Faltan (se verá como «lo que me falta»): " + ", ".join(data.missing_sources)
-            )
+            st.warning("Faltan (se verá como «lo que me falta»): " + ", ".join(data.missing_labels))
 
 
 def _amount(raw: str) -> Decimal | None:
