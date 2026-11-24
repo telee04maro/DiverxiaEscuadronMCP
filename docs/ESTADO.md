@@ -93,7 +93,7 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 1. Probar con clave de Anthropic (`ANTHROPIC_API_KEY` en `.env`) y apuntar el coste real por análisis en `docs/uso-ia.md` y en el canvas.
 2. Subir los 4 entregables al Drive (los .md se pueden pegar en un documento o en diapositivas; el logo es `docs/negocio/logo.svg`).
 3. Ensayar el pitch con el tiempo real y las preguntas a los mentores (tabla de arriba). Confirmar el tamaño del equipo: las bases hablan de 6 y somos 3.
-4. Antes de entregar: decidir si `docs/ideas.md` sale del repositorio (es interno).
+4. Hecho: `docs/ideas.md` (interno) ya no está en el repositorio; sigue en el historial de git.
 
 ## Última verificación
 Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.

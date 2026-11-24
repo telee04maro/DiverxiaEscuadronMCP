@@ -254,7 +254,7 @@ El código no se entrega para revisión, así que la calidad es **proporcional a
 - **Los mentores pueden evaluar durante el día:** enseñadles avances pronto. Las bases puntúan la evolución durante el hackathon.
 - `docs/DEMO.md` en cuanto exista el MVP: checklist, guion con tiempos, plan B (vídeo o captura de respaldo) y preguntas del jurado.
 - **Cifras grandes con fuente:** coste por empresa y mes, tiempo del análisis frente a una consultora y precio frente a gestoría + agencia + consultora.
-- **Antes de entregar:** el repositorio que ve el jurado contiene el producto. Decide qué documentos internos salen (`docs/ideas.md`, guiones, estrategia) y que solo haya un README.
+- **Antes de entregar:** el repositorio que ve el jurado contiene el producto. Decide qué documentos internos salen (las ideas descartadas ya salieron; quedan en el historial de git) y que solo haya un README.
 
 ## 8. Flujo de trabajo de cada sesión
 
@@ -282,7 +282,6 @@ docs/uso-ia.md         Cómo usamos la IA (entregable 2)
 docs/fuentes.md        Fuentes externas: condiciones de uso, acceso y límites
 docs/DEMO.md           Guía práctica de la demo
 docs/red-team.md       Protocolo de auditoría independiente
-docs/ideas.md          Ideas descartadas (interno: sale antes de entregar)
 ```
 
 ## Comandos

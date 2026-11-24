@@ -107,7 +107,10 @@ def _fmt_value(value: Decimal | None, unit_hint: str) -> str:
         return "—"
     if unit_hint == "€":
         return fmt_eur(value)
-    return fmt_num(Decimal(format(value.normalize(), "f")))
+    if unit_hint == "h":  # 0,0 h reads as "minutes", never as a bare 0
+        return f"{fmt_num(value.quantize(Decimal('0.1')))} h"
+    number = fmt_num(Decimal(format(value.normalize(), "f")))
+    return f"{number} {unit_hint}".strip()
 
 
 def _sidebar() -> None:
@@ -472,8 +475,9 @@ def _remeasure_tab(analysis: Analysis) -> None:
     result: Remeasurement | None = st.session_state.remeasure
     if result is None:
         return
+    units = {k.key: k.unit for report in analysis.reports for k in report.kpis}
     for r in result.results:
-        unit = "€" if r.item.kind is Kind.COLLECT else ""
+        unit = "€" if r.item.kind is Kind.COLLECT else units.get(r.item.target_kpi, "")
         with st.container(border=True):
             st.markdown(
                 f"{EFFECT_ICON[r.effect]} **{r.effect.value.capitalize()}** · {r.item.title}"
