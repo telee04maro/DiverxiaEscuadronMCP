@@ -88,7 +88,7 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 | Tarea | Responsable | Desde |
 |-------|-------------|-------|
 | E9. Entrega: subir `docs/entrega/` al Drive, vídeo de respaldo y ensayo del pitch | Equipo (dueño del repositorio) | 24/11, 16:20 |
-| BALTER real: **falta el visto bueno por escrito** de la empresa (documentación y credenciales ya están; ver `docs/integracion-balter.md`) | Equipo (dueño del repositorio) | 24/11, 16:20 |
+| BALTER real: anotar **quién dio el visto bueno** y guardar el correo (ver `docs/integracion-balter.md`) | Equipo (dueño del repositorio) | 24/11, 16:27 |
 
 ## Siguiente paso
 1. Hecho: probado con Claude real; coste medido en `docs/uso-ia.md`, el canvas y el pitch.
@@ -101,6 +101,7 @@ Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.
 - 24/11, 13:00 · `20c9af6` · CI de GitHub Actions (Linux y Windows) en verde en todos los commits · `uv run pytest`: 44 tests en verde.
 - 24/11, 13:05 · `20c9af6` · Recorrido completo en el panel (navegador) y en la consola, en **modo reglas** (sin clave de IA en este equipo). **No verificado aún con Claude real.**
 - 24/11, 15:05 · `720f4ef` · Panel en el navegador tras reiniciarlo: análisis de la clínica (59 %, 12,0 h, 41 %), pestaña 7 (mensaje de WhatsApp simulado → nota, sin duplicar) y «un mes después» con unidades (12,0 h → 0,0 h); sin ejecutar acciones, no atribuye ningún cambio. Búsqueda de secretos en el repositorio: nada.
+- 24/11, 16:27 · `48f6920` · **BALTER real, prueba de solo lectura** (`uv run python -m vigia.connectors.balter_probe --autorizado`, con el visto bueno confirmado por el equipo): **HTTP 200 · 1 artículo recibido**. La clave es válida y tiene permiso de lectura del catálogo. No se leyó ni guardó ningún dato personal ni el contenido del artículo, y no se escribió nada.
 - 24/11, 16:10 · `b44e161` · **Claude real** (clave en `.env`, Opus 5.5 + Haiku 5.5): análisis 0,038–0,042 $ en 3 llamadas y 14–20 s; `uv run python -m vigia --fallo` 0,067 $ en 6 llamadas, sin errores; panel en el navegador 0,0383 $. Las 12 cifras de la causa de Claude existen en los hallazgos; los 2 correos suman al céntimo, cambian de tono y se identifican como IA; el fallo de un céntimo no se da por cobrado.
 - 24/11, 15:10 · Ruta de Claude sin red (cliente falso, `tests/test_claude_model.py`): salida fuera del esquema → reglas, coste medido, tope de gasto y modelo desconocido nunca gratis. `uv run pytest`: 115 tests en verde.
 - 24/11, 14:55 · `a29b738` · **Red team R02** (conector ERP, agente de atención y «Tu empresa»): 18 hallazgos, todos corregidos con su test de aceptación en `tests/test_red_team_r2.py`. `uv run pytest`: 112 tests en verde; ruff y mypy estricto limpios.
@@ -110,7 +111,7 @@ Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.
 - **La causa redactada por Claude varía entre ejecuciones** (mismo fondo, distinto título y orden). Las cifras siempre salen de los hallazgos; para un pitch reproducible, el modo reglas da siempre el mismo texto.
 - **Fuentes de competencia:** Meta y Google Ads exigen identidad verificada o no tienen API de autoservicio, y Google prohíbe el scraping de resultados. Se usan instantáneas sintéticas con el formato oficial (ver `docs/fuentes.md`).
 - **Red team R01, pendiente (P2):** el coordinador con IA acepta una hipótesis descartada si cita hallazgos existentes aunque no sean los relevantes (p. ej. descartar «la temporada» citando la caja). En modo reglas no ocurre.
-- **BALTER real:** su API v1 no permite leer oportunidades, así que el agente de atención no puede analizar BALTER en directo. Las consultas reales entran por exportación a «Tu empresa». La prueba de la clave (catálogo, sin datos personales) espera al visto bueno de la empresa (ADR 006).
+- **BALTER real:** su API v1 no permite leer oportunidades, así que el agente de atención no puede analizar BALTER en directo. Las consultas reales entran por exportación a «Tu empresa». La clave se probó el 24/11 en solo lectura: funciona (ADR 006).
 - **Riesgos de BALTER para el asistente de WhatsApp:** posibles contactos duplicados por el formato del teléfono, y sin idempotencia (un reintento crea otra oportunidad). El ERP de demo no los tiene; no se presenta como prueba de BALTER (ADR 006).
 - **Hermes y Zernio** son componentes previos del compañero: pendiente de que la organización confirme que se pueden usar declarados como tales.
 - **El ERP de demo serializa los registros** con un bloqueo por proceso: suficiente para la demo, no para varios servidores a la vez (ahí lo garantizan los índices únicos de la base de datos).
@@ -122,6 +123,7 @@ Registro de pivotes, errores de enfoque y cambios de dirección, el más recient
 
 | Fecha | Cambio | Motivo | Decisión |
 |---|---|---|---|
+| 2026-11-24 | **Visto bueno para una prueba de solo lectura en BALTER**, confirmado por el equipo en la sesión (16:27). Alcance: un artículo del catálogo, sin datos personales ni escrituras. Falta anotar quién lo dio | Requisito de la ADR 005 antes de tocar BALTER | [006](decisiones/006-api-balter.md) |
 | 2026-11-24 | **No hay conector de lectura de BALTER**; prueba de solo lectura del catálogo (con `--autorizado`) y consultas reales por exportación a «Tu empresa» | Su API v1 no permite listar oportunidades; las otras operaciones leen datos personales o escriben en producción | [006](decisiones/006-api-balter.md) |
 | 2026-11-24 | Nuevo agente de atención y captación, contrato de conector ERP/CRM, ERP de demo con la forma de BALTER y entrada «Tu empresa». **BALTER de producción descartado** | Integrar el asistente de WhatsApp del compañero y mostrar cómo entra una empresa; BALTER real tiene datos de clientes y las bases lo impiden | [005](decisiones/005-conectores-y-captacion.md) |
 | 2026-11-24 | El producto pasa a llamarse **Vigía** (antes, Centra); paquete `vigia` y variables `VIGIA_*` | Hay otras empresas que se llaman Centra | [004](decisiones/004-nombre-vigia.md) |

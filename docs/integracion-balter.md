@@ -7,7 +7,7 @@ Hoy Vigía lee las consultas de un **ERP de demo con la forma de BALTER** ([ADR 
 | # | Qué | Estado |
 |---|---|---|
 | 1 | **Documentación de la API** | ✅ Recibida (v1, 27/10/2026). **Se guarda fuera del repositorio**, porque es de un tercero y el repositorio es público. Resumen y decisión en la [ADR 006](decisiones/006-api-balter.md) |
-| 2 | **Visto bueno por escrito** de la empresa dueña de BALTER para una prueba de solo lectura | ⏳ Pendiente. Cuando llegue, se apunta en la tabla «Cambios de rumbo» de `docs/ESTADO.md`: quién lo da, fecha y alcance |
+| 2 | **Visto bueno** de la empresa dueña de BALTER para una prueba de solo lectura | ✅ Confirmado por el equipo el 24/11 (16:27) y anotado en `docs/ESTADO.md`. Falta añadir quién lo dio |
 | 3 | **Credenciales en `.env`** | ✅ `BALTER_URL` y `BALTER_TOKEN`. `BALTER_USER` no hace falta: la API se autentica solo con la clave |
 
 ## Lo que hemos aprendido de la API
@@ -17,6 +17,8 @@ Hoy Vigía lee las consultas de un **ERP de demo con la forma de BALTER** ([ADR 
 - La única prueba sin datos personales es pedir **un artículo del catálogo**.
 
 ## La prueba (solo con el visto bueno)
+
+**Resultado del 24/11, 16:27:** `HTTP 200 · artículos recibidos: 1`. La clave funciona y puede leer el catálogo.
 
 ```powershell
 uv run python -m vigia.connectors.balter_probe --autorizado

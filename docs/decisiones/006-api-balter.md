@@ -34,7 +34,11 @@ Lo recoge la propia documentación y conviene que lo sepa el compañero de Herme
 
 El ERP de demo de Vigía ya evita estos duplicados (índices únicos y bloqueo). Por eso la demo no se puede presentar como prueba de lo que pasa en BALTER.
 
+## Verificación
+
+24/11/2026, 16:27, con el visto bueno confirmado por el equipo: `HTTP 200 · artículos recibidos: 1`. La clave es válida y tiene permiso de lectura del catálogo. No se leyó ni guardó ningún dato personal, y no se escribió nada.
+
 ## Consecuencias
 
 - La demo no cambia: sigue con el ERP de demo.
-- «Conectado a BALTER» no se afirma en el pitch. Lo verificable es que tenemos el contrato y su documentación y que la clave funciona, si la prueba da 200. Las consultas reales entran por exportación.
+- «Conectado a BALTER» no se afirma en el pitch. Lo verificado es que tenemos el contrato y su documentación y que la clave funciona (prueba del 24/11, HTTP 200). Las consultas reales entran por exportación.
