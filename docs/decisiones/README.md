@@ -38,3 +38,4 @@ Qué se elige, cómo funciona y por qué. Si es una combinación, qué papel tie
 | 004 | [Cambio de nombre: de Centra a Vigía](004-nombre-vigia.md) | aceptada |
 | 005 | [Conectores ERP/CRM, atención y captación, y entrada de datos](005-conectores-y-captacion.md) | aceptada, ampliada por 006 |
 | 006 | [Qué permite la API de BALTER y cómo la usa Vigía](006-api-balter.md) | aceptada |
+| 007 | [CRM de Vigía: una ficha única por cliente](007-ficha-unica-de-cliente.md) | aceptada |

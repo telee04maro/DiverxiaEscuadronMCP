@@ -56,6 +56,7 @@ La gestoría ve los impuestos, la agencia ve las redes y el Excel ve las cuentas
 | Legal y cumplimiento | Calendario de obligaciones, revisión de contratos, documentos y plazos. Lo complejo va a un abogado | Reglas de obligaciones según tamaño y sector, con la norma citada |
 | Organización y personas | Procesos lentos, cuellos de botella y clima del equipo | Agenda y tareas; **encuesta anónima** |
 | **Atención y captación** | Consultas de los clientes: tiempo de respuesta dentro y fuera de horario, perdidas, sin responsable. El asistente de WhatsApp las registra en el ERP/CRM sin duplicar | Oportunidades del ERP/CRM mediante `CrmConnector` (en la demo, ERP de demo con la forma de BALTER) |
+| **CRM de Vigía** (ADR 007) | Una ficha por cliente con lo que aporta cada agente (deuda, consultas, reclamaciones), unida por correo o teléfono, con alertas cruzadas | Las piezas de finanzas, atención y acciones; mismas reglas que los agentes |
 | Chat del dueño | Canal único por el que el dueño pregunta o aprueba (WhatsApp) y el sistema responde o actúa | Todos los anteriores |
 
 **Personalización:** una entrevista inicial (sector, tamaño, objetivos, recursos) adapta el plan a cada empresa.
@@ -271,7 +272,7 @@ CLAUDE.md              Normas para Claude Code (este archivo)
 .claude/               Permisos compartidos (settings.json) y arranque del panel (launch.json)
 README.md              Descripción, instalación y uso (único README de contenido)
 src/vigia/            Código: domain, data (incl. intake), specialists, finance, coordinator, actions, connectors, llm,
-                       remeasure.py, pipeline.py, app.py (panel) y __main__.py (consola)
+                       crm.py (ficha única), remeasure.py, pipeline.py, app.py (panel) y __main__.py (consola)
 tests/                 Tests unitarios y de extremo a extremo (sobre la clínica sintética)
 data/demo/             Clínica sintética: mes-0 (antes) y mes-1 (un mes después)
 docs/ESTADO.md         Estado del proyecto y traspaso entre sesiones

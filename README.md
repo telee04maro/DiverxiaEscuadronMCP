@@ -46,6 +46,7 @@ Pulsa **«Analizar con el equipo de agentes»** y recorre las pestañas:
 | 5 · Un mes después | Qué indicadores se movieron. Con el **fallo inyectado**, un pago con 1 céntimo de menos **no** se da por cobrado |
 | 6 · Registro y uso de IA | Qué vio, decidió e hizo cada agente, y el coste de cada llamada a Claude |
 | 7 · ERP y WhatsApp | El asistente de WhatsApp registra consultas en el ERP de demo **sin duplicar** |
+| 8 · Clientes (CRM) | **Una ficha por cliente** con lo que sabe cada agente (deuda, consultas, reclamaciones), unida por correo o teléfono. Si un cliente debe dinero y tiene una consulta sin atender: «contéstale antes de reclamarle» |
 
 | Quiero… | Comando |
 |---|---|

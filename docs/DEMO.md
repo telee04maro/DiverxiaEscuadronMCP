@@ -21,7 +21,8 @@ Pensada para que cualquier miembro del equipo pueda presentarla sin conocer el c
 | 5 | 5 · Un mes después | Activar en la barra lateral «Fallo inyectado» → «Medir un mes después» | El pago con **1 céntimo de menos no se da por cobrado**. El plan se reordena |
 | 6 | 6 · Registro | Enseñar el registro y el coste de IA | Qué vio, qué decidió, qué hizo y qué comprobó cada agente |
 | 7 | 7 · ERP y WhatsApp | «Simular mensaje de WhatsApp» dos veces con el mismo teléfono (o que escriba Hermes de verdad) | La 1.ª vez crea la oportunidad **sin responsable**; la 2.ª la añade como **nota**, sin duplicar. Al acabar: «Borrar todos los datos» |
-| 8 | 1 · Empresa → «Tu empresa» | Descargar una plantilla y subir un Excel | **Así entra cualquier pyme:** con sus Excel; lo que no sube sale como «lo que me falta» |
+| 8 | 7 → 8 · Clientes (CRM) | En la pestaña 7, nombre «Mutua Beta (ficticia)», **teléfono vacío** y correo `pagos@mutuabeta.example`; «Simular mensaje». Después, pestaña 8 | **La ficha única:** finanzas (debe 8.633,50 €, paga a 95 días) y atención (consulta sin responsable) en el mismo cliente, con la alerta «contéstale antes de reclamarle». Ningún agente lo ve solo |
+| 9 | 1 · Empresa → «Tu empresa» | Descargar una plantilla y subir un Excel | **Así entra cualquier pyme:** con sus Excel; lo que no sube sale como «lo que me falta» |
 
 ## Asistente de WhatsApp real (opcional)
 Solo si la organización acepta Hermes y Zernio como componentes previos declarados:
