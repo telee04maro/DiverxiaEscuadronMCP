@@ -21,8 +21,24 @@ Este método es el que nos hizo ganar el Malackathon 2026 (reto Betsson). Las se
   - Se evalúa un **proyecto de empresa**, no solo código. El prototipo debe funcionar de principio a fin en la demo y verse que **actúa** (no que solo conversa).
   - «Cómo habéis usado la IA» se cuenta **en dos sentidos**: la IA dentro del producto y la IA con la que lo construimos (Claude Code, investigación, canvas, logo, pitch). Se registra sobre la marcha en `docs/uso-ia.md`.
   - El código no se entrega para revisión: la calidad de la sección 6 es **proporcional a un prototipo**, pero las secciones 3 (verificación honesta) y 5 (seguridad) se cumplen enteras.
-- **Restricciones:** _pendiente de confirmar_ (herramientas, APIs, datos permitidos).
-- **Evaluación:** _pendiente de confirmar_ (criterios, pesos, quién evalúa y cuándo; duración del pitch; ¿demo en directo?).
+- **Restricciones (bases legales):**
+  - **Prohibido introducir datos personales, secretos empresariales o información confidencial sin autorización**: en la demo se usan datos sintéticos o abiertos.
+  - Hay que declarar las herramientas, los modelos y los datos usados, e identificar los componentes previos y de terceros.
+  - Participación humana sustancial.
+  - El proyecto se desarrolla durante el hackathon.
+- **Evaluación (bases legales; pesos sin publicar):**
+  - innovación;
+  - impacto;
+  - adecuación al reto;
+  - viabilidad técnica y económica;
+  - **uso estratégico y responsable de la IA**;
+  - capacidad de implementación;
+  - calidad de los entregables;
+  - **evolución durante el hackathon**;
+  - trabajo en equipo;
+  - pitch y claridad.
+  
+  Puede haber fases con entregas parciales. Quedan pendientes los pesos, los horarios y la duración del pitch.
 - **Cambios comunicados por la organización:** en `docs/reto/README.md`, con su fecha.
 
 ### Tesis

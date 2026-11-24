@@ -28,6 +28,48 @@ Cada equipo sube sus entregables a su carpeta del **Drive del Hackathon** (acces
 | 3 | **Marketing** | Logo, eslogan y estrategia de comunicación |
 | 4 | **Guion del pitch** | El guion con el que presentaréis vuestro proyecto |
 
+## Bases legales oficiales (resumen)
+
+Fuente: <https://talent-land.es/bases-legales-hackathon/> (leídas el 24/11/2026). Resumen propio; ante cualquier duda, mandan las bases.
+
+- **Organiza:** Rupture Events S.L. (Talent Land España). **Gestiona:** Diverxia (inscripciones, equipos, mentores y jurado).
+- **Fechas:** 24 y 25/11/2026, unas 16 h, presencial. El pie de la web dice 24–26: hay que confirmarlo.
+- **Equipos:** las bases hablan de equipos de **6 personas**, con ajustes razonables por bajas. **Nosotros somos 3: confirmarlo con la organización.**
+- **Criterios de evaluación** (lista abierta; los pesos «se comunicarán antes de la evaluación»):
+  - innovación;
+  - impacto;
+  - adecuación al reto;
+  - viabilidad técnica;
+  - viabilidad económica;
+  - **uso estratégico y responsable de la IA**;
+  - capacidad de implementación;
+  - calidad de los entregables;
+  - **evolución durante el hackathon**;
+  - trabajo en equipo;
+  - calidad del pitch;
+  - claridad y comunicación.
+- **Puede haber varias fases:** entregas parciales, preselección, revisión de prototipos y presentación final.
+- **Entregables posibles:**
+  - descripción;
+  - pitch;
+  - prototipo o demo;
+  - modelo de negocio;
+  - documentación técnica;
+  - **lista de herramientas, modelos y datos usados**;
+  - materiales previos o de terceros;
+  - **explicación del uso de la IA**.
+- **Uso de IA:** permitido, pero hay que:
+  - verificar la exactitud y la legalidad de los resultados;
+  - declarar las herramientas de IA usadas;
+  - identificar componentes de terceros;
+  - mantener una **participación humana sustancial**;
+  - **no introducir datos personales, secretos empresariales ni información confidencial sin autorización**.
+- **Trabajo previo:** el proyecto se desarrolla sustancialmente durante el hackathon. Se pueden usar componentes previos identificándolos (por ejemplo, nuestra plantilla del repositorio), pero no presentar un proyecto previo que ya resuelva el reto.
+- **Propiedad:** el proyecto es del equipo. La organización solo recibe permiso para difundirlo.
+- **Premios** (por equipo): cheques de Amazon de 1.000 €, 700 € y 400 €.
+- **Jurado:** perfiles de industria, tecnología, IA, emprendimiento, academia e inversión.
+- **Lo que las bases no dicen:** horarios, hora límite de entrega, duración del pitch, formatos ni pesos de los criterios.
+
 ## Datos aportados por la organización
 Cambios o aclaraciones comunicados de palabra, con su fecha y qué se ha comprobado.
 
