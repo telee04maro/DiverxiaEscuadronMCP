@@ -11,10 +11,10 @@ from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from centra.audit import AuditLog, EventKind
-from centra.domain.findings import AREA_LABELS, Area, Confidence, Finding, Signal
-from centra.domain.money import fmt_eur, money_mentions
-from centra.llm.base import LanguageModel, Tier
+from vigia.audit import AuditLog, EventKind
+from vigia.domain.findings import AREA_LABELS, Area, Confidence, Finding, Signal
+from vigia.domain.money import fmt_eur, money_mentions
+from vigia.llm.base import LanguageModel, Tier
 
 NAME = "Agente coordinador"
 MAX_CAUSES = 3

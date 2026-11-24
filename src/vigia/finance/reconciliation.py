@@ -14,7 +14,7 @@ from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict
 
-from centra.data.model import BankMovement, Invoice
+from vigia.data.model import BankMovement, Invoice
 
 
 class PaymentStatus(StrEnum):

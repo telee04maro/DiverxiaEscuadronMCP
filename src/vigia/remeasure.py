@@ -10,12 +10,12 @@ from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict
 
-from centra.audit import AuditLog, EventKind
-from centra.coordinator.plan import Direction, Kind, Plan, PlanItem
-from centra.data.model import CompanyData
-from centra.domain.findings import SpecialistReport
-from centra.domain.priority import Horizon
-from centra.finance.reconciliation import InvoiceStatus, PaymentStatus, reconcile
+from vigia.audit import AuditLog, EventKind
+from vigia.coordinator.plan import Direction, Kind, Plan, PlanItem
+from vigia.data.model import CompanyData
+from vigia.domain.findings import SpecialistReport
+from vigia.domain.priority import Horizon
+from vigia.finance.reconciliation import InvoiceStatus, PaymentStatus, reconcile
 
 NAME = "Agente coordinador"
 

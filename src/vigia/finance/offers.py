@@ -4,8 +4,8 @@ from decimal import ROUND_HALF_UP, Decimal
 
 from pydantic import BaseModel, ConfigDict
 
-from centra.data.model import Company
-from centra.domain.money import fmt_eur
+from vigia.data.model import Company
+from vigia.domain.money import fmt_eur
 
 # A first-visit discount may cost at most this share of what a new patient normally leaves.
 MAX_PATIENT_MARGIN_LOSS = Decimal("0.15")

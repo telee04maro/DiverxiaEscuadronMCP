@@ -1,8 +1,8 @@
 from datetime import date
 from decimal import Decimal
 
-from centra.data.model import BankMovement, ClientType, CompanyData, Invoice
-from centra.finance.reconciliation import PaymentStatus, reconcile
+from vigia.data.model import BankMovement, ClientType, CompanyData, Invoice
+from vigia.finance.reconciliation import PaymentStatus, reconcile
 
 INVOICE = Invoice(
     id="F-2026-07-ASG-BETA",

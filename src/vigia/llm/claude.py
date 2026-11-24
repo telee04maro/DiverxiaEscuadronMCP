@@ -7,8 +7,8 @@ import anthropic
 from anthropic.types import OutputConfigParam
 from pydantic import BaseModel
 
-from centra.config import PRICES_PER_MTOK, Settings
-from centra.llm.base import LlmCall, Tier, total_cost
+from vigia.config import PRICES_PER_MTOK, Settings
+from vigia.llm.base import LlmCall, Tier, total_cost
 
 logger = logging.getLogger(__name__)
 

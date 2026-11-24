@@ -10,7 +10,7 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from centra.data.model import (
+from vigia.data.model import (
     BankMovement,
     Company,
     CompanyData,
@@ -21,7 +21,7 @@ from centra.data.model import (
     Review,
     SearchResult,
 )
-from centra.domain.money import eur
+from vigia.domain.money import eur
 
 COMPANY_FILE = "empresa.json"
 INVOICES_FILE = "facturas.csv"

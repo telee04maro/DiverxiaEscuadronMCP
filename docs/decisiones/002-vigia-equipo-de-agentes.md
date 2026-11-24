@@ -1,4 +1,4 @@
-# 002. Centra: equipo de agentes especialistas con un coordinador que cruza la información
+# 002. Vigía: equipo de agentes especialistas con un coordinador que cruza la información
 
 - **Fecha:** 2026-11-24
 - **Estado:** aceptada (idea del equipo). Sustituye a la [ADR 001](001-idea-y-enfoque.md).
@@ -6,7 +6,7 @@
 
 ## Contexto
 
-La ADR 001 planteaba un consultor de IA que diagnostica cinco áreas, actúa y mide. El equipo la reorienta a **Centra**: una plataforma con un **agente especialista por área** y un **agente coordinador** que los une.
+La ADR 001 planteaba un consultor de IA que diagnostica cinco áreas, actúa y mide. El equipo la reorienta a **Vigía**: una plataforma con un **agente especialista por área** y un **agente coordinador** que los une.
 
 **El problema:** las pymes tienen la gestión repartida (gestoría, agencia, Excel) y nadie cruza la información. El dueño no tiene una visión global y los problemas se detectan tarde.
 
@@ -25,7 +25,7 @@ La ADR 001 planteaba un consultor de IA que diagnostica cinco áreas, actúa y m
 
 ## Decisión
 
-- **Tesis (candidata):** «Cada proveedor ve su parte. Centra ve la causa».
+- **Tesis (candidata):** «Cada proveedor ve su parte. Vigía ve la causa».
 - **Especialistas:**
   - competencia y mercado;
   - marketing y clientes;
@@ -61,4 +61,4 @@ La ADR 001 planteaba un consultor de IA que diagnostica cinco áreas, actúa y m
 - **Pendiente:**
   - stack (ADR 003);
   - confirmar el caso de la clínica;
-  - nombre definitivo («Centra» es provisional: hay que comprobar la marca).
+  - nombre definitivo («Vigía» es provisional: hay que comprobar la marca).

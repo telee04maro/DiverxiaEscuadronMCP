@@ -2,7 +2,7 @@ from decimal import Decimal
 
 import pytest
 
-from centra.domain.money import MoneyError, eur, fmt_eur, pct_change
+from vigia.domain.money import MoneyError, eur, fmt_eur, pct_change
 
 
 @pytest.mark.parametrize(

@@ -1,7 +1,7 @@
 from decimal import Decimal
 
-from centra.domain.findings import Area, Confidence, Evidence, Finding
-from centra.domain.priority import Horizon, horizon_for, score
+from vigia.domain.findings import Area, Confidence, Evidence, Finding
+from vigia.domain.priority import Horizon, horizon_for, score
 
 
 def _finding(impact: int, urgency: int, effort: int) -> Finding:

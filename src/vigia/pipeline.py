@@ -1,4 +1,4 @@
-"""The whole Centra loop: specialists → coordinator → plan → act → re-measure."""
+"""The whole Vigía loop: specialists → coordinator → plan → act → re-measure."""
 
 from dataclasses import dataclass, field
 from datetime import date
@@ -6,21 +6,21 @@ from decimal import Decimal
 
 from pydantic import BaseModel, ConfigDict
 
-from centra.actions.collections import Claim, SentClaim, prepare_claim, send_claim
-from centra.actions.mailer import Mailer
-from centra.audit import AuditLog, EventKind
-from centra.config import Settings
-from centra.coordinator.causes import NAME as COORDINATOR
-from centra.coordinator.causes import CrossAnalysis, cross_findings
-from centra.coordinator.plan import Autonomy, Kind, Plan, PlanItem, build_plan
-from centra.data.model import BankMovement, CompanyData
-from centra.domain.findings import Finding, SpecialistReport
-from centra.finance.reconciliation import reconcile
-from centra.llm.base import LanguageModel
-from centra.remeasure import Remeasurement, remeasure
-from centra.specialists.base import Specialist
-from centra.specialists.competition import CompetitionSpecialist
-from centra.specialists.finance import FinanceSpecialist, overdue_by_client
+from vigia.actions.collections import Claim, SentClaim, prepare_claim, send_claim
+from vigia.actions.mailer import Mailer
+from vigia.audit import AuditLog, EventKind
+from vigia.config import Settings
+from vigia.coordinator.causes import NAME as COORDINATOR
+from vigia.coordinator.causes import CrossAnalysis, cross_findings
+from vigia.coordinator.plan import Autonomy, Kind, Plan, PlanItem, build_plan
+from vigia.data.model import BankMovement, CompanyData
+from vigia.domain.findings import Finding, SpecialistReport
+from vigia.finance.reconciliation import reconcile
+from vigia.llm.base import LanguageModel
+from vigia.remeasure import Remeasurement, remeasure
+from vigia.specialists.base import Specialist
+from vigia.specialists.competition import CompetitionSpecialist
+from vigia.specialists.finance import FinanceSpecialist, overdue_by_client
 
 ONE_CENT = Decimal("0.01")
 

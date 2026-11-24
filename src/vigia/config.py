@@ -52,11 +52,11 @@ class Settings(BaseModel):
             )
         rate = env.get("LATE_INTEREST_RATE_PCT")
         return cls(
-            main_model=env.get("CENTRA_MAIN_MODEL", "claude-opus-5-5"),
-            fast_model=env.get("CENTRA_FAST_MODEL", "claude-haiku-5-5"),
+            main_model=env.get("VIGIA_MAIN_MODEL", "claude-opus-5-5"),
+            fast_model=env.get("VIGIA_FAST_MODEL", "claude-haiku-5-5"),
             ai_budget_usd=Decimal(env.get("AI_BUDGET_USD", "0.50")),
-            use_ai=env.get("CENTRA_USE_AI", "1") != "0",
-            outbox_dir=Path(env.get("CENTRA_OUTBOX", "outbox")),
+            use_ai=env.get("VIGIA_USE_AI", "1") != "0",
+            outbox_dir=Path(env.get("VIGIA_OUTBOX", "outbox")),
             demo_recipient=env.get("DEMO_RECIPIENT") or None,
             smtp=smtp,
             late_interest_rate_pct=Decimal(rate) if rate else None,

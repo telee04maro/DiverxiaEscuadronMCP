@@ -1,18 +1,18 @@
-<p align="center"><img src="docs/negocio/logo.svg" alt="Centra" width="420"></p>
+<p align="center"><img src="docs/negocio/logo.svg" alt="Vigía" width="420"></p>
 
-# Centra: un equipo de expertos de IA para toda tu pyme
+# Vigía: un equipo de expertos de IA para toda tu pyme
 
-> **Cada proveedor ve su parte. Centra ve la causa.**
+> **Cada proveedor ve su parte. Vigía ve la causa.**
 
 Proyecto del equipo EscuadronMCP para el hackathon **IA First** de Talent Land España (Málaga, 24/11/2026), reto **04 «La IA como servicio: agentes inteligentes que actúan»**.
 
-Las pymes tienen la gestión repartida: la gestoría lleva los impuestos, una agencia las redes y las cuentas están en un Excel. **Nadie cruza la información**, así que los problemas se detectan tarde. Centra tiene un **agente especialista por área**, cada uno con sus fuentes, y un **agente coordinador** que cruza lo que ve cada uno. Con eso encuentra la causa real, prioriza un plan a 7, 30 y 90 días, **ejecuta** lo que puede hacer solo y **mide si funcionó**.
+Las pymes tienen la gestión repartida: la gestoría lleva los impuestos, una agencia las redes y las cuentas están en un Excel. **Nadie cruza la información**, así que los problemas se detectan tarde. Vigía tiene un **agente especialista por área**, cada uno con sus fuentes, y un **agente coordinador** que cruza lo que ve cada uno. Con eso encuentra la causa real, prioriza un plan a 7, 30 y 90 días, **ejecuta** lo que puede hacer solo y **mide si funcionó**.
 
 ## 1. Cómo usarlo
 
 ### Requisitos
 - [uv](https://docs.astral.sh/uv/getting-started/installation/), que instala Python 3.13 y las dependencias exactas.
-- Opcional: una clave de Anthropic. **Sin clave, Centra funciona igual en modo reglas.**
+- Opcional: una clave de Anthropic. **Sin clave, Vigía funciona igual en modo reglas.**
 
 ### Instalación
 ```bash
@@ -24,8 +24,8 @@ cp .env.example .env      # en Windows (PowerShell): Copy-Item .env.example .env
 
 ### Arrancar la demo
 ```bash
-uv run streamlit run src/centra/app.py      # panel en http://localhost:8501
-uv run python -m centra --fallo             # el mismo recorrido, en la consola
+uv run streamlit run src/vigia/app.py      # panel en http://localhost:8501
+uv run python -m vigia --fallo             # el mismo recorrido, en la consola
 ```
 La guía paso a paso de la demo está en [`docs/DEMO.md`](docs/DEMO.md).
 
@@ -34,7 +34,7 @@ La guía paso a paso de la demo está en [`docs/DEMO.md`](docs/DEMO.md).
 |---|---|
 | `ANTHROPIC_API_KEY` | Activa Claude (si no está, se usan reglas) |
 | `AI_BUDGET_USD` | Tope de gasto de IA por ejecución (0,50 $ por defecto) |
-| `CENTRA_USE_AI=0` | Fuerza el modo reglas aunque haya clave |
+| `VIGIA_USE_AI=0` | Fuerza el modo reglas aunque haya clave |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM` y `DEMO_RECIPIENT` | Correo real, **siempre redirigido al buzón de prueba** `DEMO_RECIPIENT`. Sin estas variables, los correos se guardan en `outbox/` |
 | `LATE_INTEREST_RATE_PCT` | Tipo de interés de demora legal vigente. Si no se indica, el importe de los intereses no se calcula ni se inventa |
 
@@ -86,7 +86,7 @@ La CI (`.github/workflows/ci.yml`) los ejecuta en cada push, en Linux y en Windo
 
 ### Estructura
 ```
-src/centra/
+src/vigia/
   domain/          Contrato del hallazgo, dinero (Decimal), prioridad
   data/            Modelo de datos de la empresa, carga desde CSV/JSON y clínica sintética
   specialists/     Agentes especialistas (finanzas, competencia); interfaz común
@@ -103,7 +103,7 @@ docs/              Reto, decisiones (ADR), fuentes, uso de la IA, demo y negocio
 
 ### Decisiones
 - [001 · Idea inicial](docs/decisiones/001-idea-y-enfoque.md) (sustituida)
-- [002 · Centra: especialistas y coordinador](docs/decisiones/002-centra-equipo-de-agentes.md)
+- [002 · Vigía: especialistas y coordinador](docs/decisiones/002-vigia-equipo-de-agentes.md)
 - [003 · Stack del prototipo](docs/decisiones/003-stack-del-prototipo.md)
 
-Para añadir un especialista, se implementa la interfaz `Specialist` (`src/centra/specialists/base.py`) y se registra en `pipeline.default_specialists()`. El cruce de causas con IA recoge sus hallazgos sin cambios; solo hay que añadir sus acciones al catálogo del plan (`coordinator/plan.py`) y, si se quiere, sus reglas de cruce.
+Para añadir un especialista, se implementa la interfaz `Specialist` (`src/vigia/specialists/base.py`) y se registra en `pipeline.default_specialists()`. El cruce de causas con IA recoge sus hallazgos sin cambios; solo hay que añadir sus acciones al catálogo del plan (`coordinator/plan.py`) y, si se quiere, sus reglas de cruce.

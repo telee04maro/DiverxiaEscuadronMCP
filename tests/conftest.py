@@ -2,9 +2,9 @@ from pathlib import Path
 
 import pytest
 
-from centra.data.loader import load_company_data
-from centra.data.model import CompanyData
-from centra.data.synthetic import AFTER, BEFORE, DEMO_ROOT
+from vigia.data.loader import load_company_data
+from vigia.data.model import CompanyData
+from vigia.data.synthetic import AFTER, BEFORE, DEMO_ROOT
 
 ROOT = Path(__file__).resolve().parents[1]
 

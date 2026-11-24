@@ -1,11 +1,11 @@
 from decimal import Decimal
 
-from centra.audit import AuditLog
-from centra.data.model import CompanyData
-from centra.domain.findings import Signal
-from centra.finance.offers import check_first_visit_offer
-from centra.llm.base import OfflineModel
-from centra.specialists.finance import FinanceSpecialist
+from vigia.audit import AuditLog
+from vigia.data.model import CompanyData
+from vigia.domain.findings import Signal
+from vigia.finance.offers import check_first_visit_offer
+from vigia.llm.base import OfflineModel
+from vigia.specialists.finance import FinanceSpecialist
 
 
 def _report(data: CompanyData):  # type: ignore[no-untyped-def]

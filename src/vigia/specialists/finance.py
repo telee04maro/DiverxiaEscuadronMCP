@@ -6,9 +6,9 @@ from datetime import date
 from decimal import ROUND_HALF_UP, Decimal
 from itertools import pairwise
 
-from centra.audit import AuditLog, EventKind
-from centra.data.model import BankMovement, ClientType, CompanyData, MonthlySessions
-from centra.domain.findings import (
+from vigia.audit import AuditLog, EventKind
+from vigia.data.model import BankMovement, ClientType, CompanyData, MonthlySessions
+from vigia.domain.findings import (
     Area,
     Confidence,
     DataGap,
@@ -18,9 +18,9 @@ from centra.domain.findings import (
     Signal,
     SpecialistReport,
 )
-from centra.domain.money import fmt_eur, fmt_num, pct_change
-from centra.finance.reconciliation import InvoiceStatus, PaymentStatus, reconcile
-from centra.llm.base import LanguageModel
+from vigia.domain.money import fmt_eur, fmt_num, pct_change
+from vigia.finance.reconciliation import InvoiceStatus, PaymentStatus, reconcile
+from vigia.llm.base import LanguageModel
 
 NAME = "Agente de finanzas"
 SOURCES = ("Facturas emitidas (CSV)", "Extracto bancario (CSV)", "Sesiones por mes (CSV)")

@@ -1,4 +1,4 @@
-"""What Centra knows about a company. Every collection may be empty: missing data is a gap."""
+"""What Vigía knows about a company. Every collection may be empty: missing data is a gap."""
 
 from datetime import date
 from decimal import Decimal

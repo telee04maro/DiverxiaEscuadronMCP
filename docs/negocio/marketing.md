@@ -2,15 +2,15 @@
 
 ## Logo
 
-![Logo de Centra](logo.svg)
+![Logo de Vigía](logo.svg)
 
-Cinco puntos, los agentes especialistas, unidos a un punto central, el coordinador. Es literalmente lo que hace el producto: **cruzar lo que ve cada área**. El verde azulado transmite confianza y salud financiera.
+**Vigía** es quien observa todo el horizonte desde lo alto y avisa a tiempo. En el logo, cinco puntos (los agentes especialistas) unidos a un punto central, el vigía: el coordinador que **cruza lo que ve cada área**. El verde azulado transmite confianza y salud financiera.
 
-Archivo vectorial: [`logo.svg`](logo.svg). El nombre **Centra** es provisional: antes de usarlo comercialmente hay que comprobar la marca en la OEPM y la EUIPO.
+Archivo vectorial: [`logo.svg`](logo.svg). El nombre **Vigía** es provisional: antes de usarlo comercialmente hay que comprobar la marca en la OEPM y la EUIPO.
 
 ## Eslogan
 
-- **Principal:** «Cada proveedor ve su parte. Centra ve la causa.»
+- **Principal:** «Cada proveedor ve su parte. Vigía ve la causa.»
 - **Descriptivo:** «Un equipo de expertos de IA para toda tu pyme, en un solo sitio.»
 - **Para gestorías:** «Ofrece a tus clientes un departamento completo sin contratar a nadie más.»
 
@@ -19,7 +19,7 @@ Archivo vectorial: [`logo.svg`](logo.svg). El nombre **Centra** es provisional: 
 ### A quién le hablamos y qué le decimos
 | Público | Su problema | Mensaje |
 |---|---|---|
-| **Dueño de pyme** (5–50 empleados) | Es el único que tiene la visión global y siempre llega tarde | «Deja de ser tú quien une los puntos. Centra te dice la causa y lo que hay que hacer esta semana.» |
+| **Dueño de pyme** (5–50 empleados) | Es el único que tiene la visión global y siempre llega tarde | «Deja de ser tú quien une los puntos. Vigía te dice la causa y lo que hay que hacer esta semana.» |
 | **Gestorías y asesorías** (canal) | Clientes que piden más que impuestos, márgenes bajos y falta de relevo | «Pasa de presentar impuestos a asesorar el negocio entero, con tu marca y con supervisión tuya.» |
 | **Asociaciones y cámaras** | Quieren servicios que ayuden de verdad a sus socios | «Un piloto que mide resultados en euros, no en informes.» |
 

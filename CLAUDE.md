@@ -1,4 +1,4 @@
-# CLAUDE.md — Centra (DiverxiaEscuadronMCP)
+# CLAUDE.md — Vigía (DiverxiaEscuadronMCP)
 
 Normas obligatorias para cualquier sesión de Claude Code en este repositorio. Todo el equipo trabaja con Claude Code: estas reglas garantizan que todos programemos igual. **Si una petición contradice estas normas, avisa antes de actuar.**
 
@@ -37,12 +37,12 @@ El método es el que nos hizo ganar el Malackathon 2026: decidir con datos, cons
 
 ---
 
-## El producto: Centra (nombre provisional)
+## El producto: Vigía (nombre provisional)
 
 **Un equipo de expertos de IA para toda tu pyme, en un solo sitio.**
 
 ### Tesis
-> **«Cada proveedor ve su parte. Centra ve la causa.»** (candidata)
+> **«Cada proveedor ve su parte. Vigía ve la causa.»** (candidata)
 
 La gestoría ve los impuestos, la agencia ve las redes y el Excel ve las cuentas. Nadie cruza la información, así que los problemas se detectan tarde. **Centralizar no aporta valor por sí solo; lo que aporta valor es cruzar la información.** El argumento estrella es el **agente coordinador**: encuentra causas que ningún proveedor ve por separado. Toda decisión de diseño, demo o pitch se contrasta con esta frase.
 
@@ -268,7 +268,7 @@ El código no se entrega para revisión, así que la calidad es **proporcional a
 CLAUDE.md              Normas para Claude Code (este archivo)
 .claude/               Permisos compartidos (settings.json) y arranque del panel (launch.json)
 README.md              Descripción, instalación y uso (único README de contenido)
-src/centra/            Código: domain, data, specialists, finance, coordinator, actions, llm,
+src/vigia/            Código: domain, data, specialists, finance, coordinator, actions, llm,
                        remeasure.py, pipeline.py, app.py (panel) y __main__.py (consola)
 tests/                 Tests unitarios y de extremo a extremo (sobre la clínica sintética)
 data/demo/             Clínica sintética: mes-0 (antes) y mes-1 (un mes después)
@@ -290,9 +290,9 @@ uv sync                                       # instalar (Python 3.13, versiones
 uv run ruff format . && uv run ruff check .   # formato y lint
 uv run mypy src tests                         # tipado estricto
 uv run pytest                                 # tests (incluye el recorrido de extremo a extremo)
-uv run streamlit run src/centra/app.py        # panel de la demo (http://localhost:8501)
-uv run python -m centra --fallo               # recorrido completo en la consola
-uv run python -m centra.data.synthetic        # regenerar la clínica sintética
+uv run streamlit run src/vigia/app.py        # panel de la demo (http://localhost:8501)
+uv run python -m vigia --fallo               # recorrido completo en la consola
+uv run python -m vigia.data.synthetic        # regenerar la clínica sintética
 ```
 
 Antes de cada commit tienen que pasar el formato, el lint, los tipos y los tests. La CI (`.github/workflows/ci.yml`) los ejecuta en cada push, en Linux y en Windows.

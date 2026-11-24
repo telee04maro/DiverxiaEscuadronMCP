@@ -37,7 +37,7 @@ Todo eso lo hacen reglas deterministas o una persona.
 | Para qué | Herramienta | Revisión humana |
 |---|---|---|
 | Analizar cómo ganamos el Malackathon y preparar el método (`CLAUDE.md`, plantillas) | Claude Code | El equipo eligió y corrigió el método |
-| Leer el reto y las bases, e investigar problemas reales con datos (España, Málaga, agentes en producción, fuentes de datos y sus condiciones) | Claude Code con búsqueda web y agentes de investigación en paralelo | El equipo descartó ideas y eligió la suya (Centra) |
+| Leer el reto y las bases, e investigar problemas reales con datos (España, Málaga, agentes en producción, fuentes de datos y sus condiciones) | Claude Code con búsqueda web y agentes de investigación en paralelo | El equipo descartó ideas y eligió la suya (Vigía) |
 | Decisiones de arquitectura y stack (ADR 001–003) | Claude Code | Aprobadas por el equipo |
 | Programar el prototipo, los tests y la CI | Claude Code (Claude Opus 5.5) | Revisión del diff en cada commit; puertas de calidad (ruff, mypy estricto, pytest en Linux y Windows) |
 | Auditoría independiente («red team») del código | Agente de Claude separado, solo lectura | El equipo decide qué se corrige |
@@ -47,5 +47,5 @@ Todo eso lo hacen reglas deterministas o una persona.
 
 - **Modelos:** Claude Opus 5.5 y Claude Haiku 5.5 (Anthropic), a través del SDK oficial `anthropic` 2.12.0.
 - **Software:** Python 3.13, Streamlit 1.67, pandas 3.1, Pydantic 2.14 y python-dotenv. En desarrollo: ruff, mypy y pytest. Versiones fijadas en `uv.lock`.
-- **Datos:** **todos sintéticos**, generados por `centra.data.synthetic`. La clínica, las aseguradoras y los competidores son ficticios, y los correos usan el dominio reservado `.example`. Los datos de la competencia imitan el formato oficial de la Biblioteca de Anuncios de Meta y de los resultados de búsqueda (`docs/fuentes.md`).
-- **Componentes previos:** la plantilla de normas del equipo (`CLAUDE.md`), adaptada de nuestro proyecto del Malackathon 2026. El código de Centra se ha escrito durante el hackathon.
+- **Datos:** **todos sintéticos**, generados por `vigia.data.synthetic`. La clínica, las aseguradoras y los competidores son ficticios, y los correos usan el dominio reservado `.example`. Los datos de la competencia imitan el formato oficial de la Biblioteca de Anuncios de Meta y de los resultados de búsqueda (`docs/fuentes.md`).
+- **Componentes previos:** la plantilla de normas del equipo (`CLAUDE.md`), adaptada de nuestro proyecto del Malackathon 2026. El código de Vigía se ha escrito durante el hackathon.

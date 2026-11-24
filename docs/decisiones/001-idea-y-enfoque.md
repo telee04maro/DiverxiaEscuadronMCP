@@ -1,7 +1,7 @@
 # 001. Idea: consultor de IA permanente para pymes que diagnostica, actúa y mide
 
 - **Fecha:** 2026-11-24
-- **Estado:** sustituida por [002](002-centra-equipo-de-agentes.md)
+- **Estado:** sustituida por [002](002-vigia-equipo-de-agentes.md)
 - **Origen:** reto 04 «La IA como servicio» (`docs/reto/`). Sustituye a las propuestas anteriores de este mismo archivo, que siguen en el historial de git y en `docs/ideas.md`.
 
 ## Contexto

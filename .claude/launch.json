@@ -2,9 +2,9 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "centra",
+      "name": "vigia",
       "runtimeExecutable": "uv",
-      "runtimeArgs": ["run", "streamlit", "run", "src/centra/app.py", "--server.port", "8501", "--server.headless", "true"],
+      "runtimeArgs": ["run", "streamlit", "run", "src/vigia/app.py", "--server.port", "8501", "--server.headless", "true"],
       "port": 8501
     }
   ]

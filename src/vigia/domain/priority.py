@@ -3,7 +3,7 @@
 from decimal import ROUND_HALF_UP, Decimal
 from enum import IntEnum
 
-from centra.domain.findings import Finding
+from vigia.domain.findings import Finding
 
 
 class Horizon(IntEnum):

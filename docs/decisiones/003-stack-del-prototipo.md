@@ -6,7 +6,7 @@
 
 ## Contexto
 
-Hay que construir en pocas horas un prototipo de Centra con:
+Hay que construir en pocas horas un prototipo de Vigía con:
 - dos especialistas en profundidad (competencia y finanzas);
 - un coordinador que cruza sus hallazgos;
 - acciones reales;

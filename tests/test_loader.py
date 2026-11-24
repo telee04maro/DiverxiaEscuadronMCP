@@ -3,8 +3,8 @@ from pathlib import Path
 
 import pytest
 
-from centra.data.loader import DataError, load_company_data
-from centra.data.synthetic import AFTER, BEFORE, DEMO_ROOT
+from vigia.data.loader import DataError, load_company_data
+from vigia.data.synthetic import AFTER, BEFORE, DEMO_ROOT
 
 DEMO_BEFORE = Path(__file__).resolve().parents[1] / DEMO_ROOT / BEFORE
 DEMO_AFTER = Path(__file__).resolve().parents[1] / DEMO_ROOT / AFTER

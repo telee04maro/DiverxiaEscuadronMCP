@@ -2,9 +2,9 @@
 
 import os
 
-from centra.config import Settings
-from centra.llm.base import LanguageModel, OfflineModel
-from centra.llm.claude import ClaudeModel
+from vigia.config import Settings
+from vigia.llm.base import LanguageModel, OfflineModel
+from vigia.llm.claude import ClaudeModel
 
 
 def build_model(settings: Settings) -> LanguageModel:

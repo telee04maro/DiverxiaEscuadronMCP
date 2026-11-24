@@ -1,19 +1,19 @@
-"""Console run of the whole demo journey: uv run python -m centra [--fallo]"""
+"""Console run of the whole demo journey: uv run python -m vigia [--fallo]"""
 
 import argparse
 import sys
 from pathlib import Path
 
-from centra.actions.mailer import build_mailer
-from centra.audit import AuditLog
-from centra.config import Settings
-from centra.data.loader import load_company_data
-from centra.data.synthetic import AFTER, BEFORE, DEMO_ROOT
-from centra.domain.findings import AREA_LABELS
-from centra.domain.priority import HORIZON_LABELS, Horizon
-from centra.llm.base import total_cost
-from centra.llm.factory import build_model
-from centra.pipeline import (
+from vigia.actions.mailer import build_mailer
+from vigia.audit import AuditLog
+from vigia.config import Settings
+from vigia.data.loader import load_company_data
+from vigia.data.synthetic import AFTER, BEFORE, DEMO_ROOT
+from vigia.domain.findings import AREA_LABELS
+from vigia.domain.priority import HORIZON_LABELS, Horizon
+from vigia.llm.base import total_cost
+from vigia.llm.factory import build_model
+from vigia.pipeline import (
     Analysis,
     Execution,
     analyze,
@@ -24,7 +24,7 @@ from centra.pipeline import (
     mark_done,
     measure_after,
 )
-from centra.remeasure import Remeasurement
+from vigia.remeasure import Remeasurement
 
 SIMULATED = "Gerencia (aprobación simulada en la demo de consola)"
 
@@ -55,7 +55,7 @@ def _print_results(execution: Execution, result: Remeasurement) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Recorrido completo de la demo de Centra")
+    parser = argparse.ArgumentParser(description="Recorrido completo de la demo de Vigía")
     parser.add_argument("--fallo", action="store_true", help="un pago llega con 1 céntimo de menos")
     args = parser.parse_args()
     if hasattr(sys.stdout, "reconfigure"):

@@ -2,10 +2,10 @@
 
 from typing import Protocol
 
-from centra.audit import AuditLog
-from centra.data.model import CompanyData
-from centra.domain.findings import Area, SpecialistReport
-from centra.llm.base import LanguageModel
+from vigia.audit import AuditLog
+from vigia.data.model import CompanyData
+from vigia.domain.findings import Area, SpecialistReport
+from vigia.llm.base import LanguageModel
 
 
 class Specialist(Protocol):

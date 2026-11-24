@@ -12,9 +12,9 @@ from enum import StrEnum
 
 from pydantic import BaseModel, Field
 
-from centra.audit import AuditLog, EventKind
-from centra.data.model import CompanyData, CompetitorAd, Review, SearchResult
-from centra.domain.findings import (
+from vigia.audit import AuditLog, EventKind
+from vigia.data.model import CompanyData, CompetitorAd, Review, SearchResult
+from vigia.domain.findings import (
     Area,
     Confidence,
     DataGap,
@@ -24,8 +24,8 @@ from centra.domain.findings import (
     Signal,
     SpecialistReport,
 )
-from centra.domain.money import MoneyError, eur, fmt_eur, fmt_num, pct_change
-from centra.llm.base import LanguageModel, Tier
+from vigia.domain.money import MoneyError, eur, fmt_eur, fmt_num, pct_change
+from vigia.llm.base import LanguageModel, Tier
 
 NAME = "Agente de competencia y mercado"
 SOURCES = (

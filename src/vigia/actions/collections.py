@@ -12,15 +12,15 @@ from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from centra.actions.mailer import Mailer
-from centra.audit import AuditLog, EventKind
-from centra.data.model import Company
-from centra.domain.money import MoneyError, eur, fmt_eur, money_mentions
-from centra.finance.reconciliation import InvoiceStatus
-from centra.llm.base import LanguageModel, Tier
-from centra.specialists.finance import NAME as FINANCE
+from vigia.actions.mailer import Mailer
+from vigia.audit import AuditLog, EventKind
+from vigia.data.model import Company
+from vigia.domain.money import MoneyError, eur, fmt_eur, money_mentions
+from vigia.finance.reconciliation import InvoiceStatus
+from vigia.llm.base import LanguageModel, Tier
+from vigia.specialists.finance import NAME as FINANCE
 
-DEMO_SENDER = "administracion@centra-demo.example"
+DEMO_SENDER = "administracion@vigia-demo.example"
 FRIENDLY_MAX_DAYS = 15
 FIRM_MAX_DAYS = 60
 _BARE_DECIMAL = re.compile(r"\d+(?:[.,]\d{3})*[.,]\d{2}(?!\d)")
@@ -32,7 +32,7 @@ _NOT_FRIENDLY = re.compile(
 )
 MAX_SUBJECT = 120
 DISCLOSURE = (
-    "Este mensaje lo ha redactado Centra, el asistente de IA de {company}, en su nombre. "
+    "Este mensaje lo ha redactado Vigía, el asistente de IA de {company}, en su nombre. "
     "Si ya ha realizado el pago, por favor ignórelo y disculpe las molestias."
 )
 

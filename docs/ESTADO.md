@@ -4,9 +4,9 @@ Memoria compartida del equipo: **por dónde vamos y hacia dónde**. Se actualiza
 
 ## Rumbo
 
-**Producto:** **Centra** (nombre provisional), un equipo de agentes de IA para toda la pyme ([ADR 002](decisiones/002-centra-equipo-de-agentes.md)).
+**Producto:** **Vigía** (nombre provisional), un equipo de agentes de IA para toda la pyme ([ADR 002](decisiones/002-vigia-equipo-de-agentes.md)).
 
-**Tesis (candidata):** «Cada proveedor ve su parte. Centra ve la causa».
+**Tesis (candidata):** «Cada proveedor ve su parte. Vigía ve la causa».
 
 **Prototipo:**
 - **Especialistas en profundidad:** competencia y mercado, y finanzas.
@@ -24,7 +24,7 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 
 - [x] **P. Preparación:** repositorio, normas (`CLAUDE.md`), permisos compartidos y plantillas.
 - [x] **R. Reto recibido:** 04 «La IA como servicio»; enunciado y entregables en `docs/reto/`.
-- [x] **D. Idea elegida:** Centra, especialistas + coordinador (ADR 002, que sustituye a la 001).
+- [x] **D. Idea elegida:** Vigía, especialistas + coordinador (ADR 002, que sustituye a la 001).
 - [x] **E0. Esqueleto del prototipo:** stack (ADR 003), dependencias fijadas, formato, lint y tests mínimos. Incluye el **contrato del hallazgo** (área, evidencia, confianza, impacto, esfuerzo, urgencia) y las interfaces de especialista, fuente y acción.
 - [x] **E1. Datos sintéticos de la clínica:**
   - contabilidad, facturas a aseguradoras y particulares, y extracto bancario;
@@ -57,7 +57,7 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 | ¿«Uso de la IA» incluye cómo la hemos usado para construir, o solo la IA del producto? | Contenido del entregable 2 | | |
 
 ## Funciona
-- **Recorrido completo** (`uv run streamlit run src/centra/app.py`, o en consola `uv run python -m centra --fallo`):
+- **Recorrido completo** (`uv run streamlit run src/vigia/app.py`, o en consola `uv run python -m vigia --fallo`):
   empresa → especialistas → causa cruzada → plan a 7/30/90 días → acciones con aprobación → un mes después → registro y coste de IA.
 - **Finanzas:**
   - caja (9 días de gasto);
@@ -100,7 +100,7 @@ Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.
 - **Sin clave de IA en el portátil de desarrollo:** el modo Claude está cubierto por tests con respuestas guionizadas, pero no se ha ejecutado contra la API real.
 - **Fuentes de competencia:** Meta y Google Ads exigen identidad verificada o no tienen API de autoservicio, y Google prohíbe el scraping de resultados. Se usan instantáneas sintéticas con el formato oficial (ver `docs/fuentes.md`).
 - **Red team R01, pendiente (P2):** el coordinador con IA acepta una hipótesis descartada si cita hallazgos existentes aunque no sean los relevantes (p. ej. descartar «la temporada» citando la caja). En modo reglas no ocurre.
-- **Streamlit no recarga los módulos de `centra` al cambiar el código:** tras modificar algo, hay que reiniciar el panel.
+- **Streamlit no recarga los módulos de `vigia` al cambiar el código:** tras modificar algo, hay que reiniciar el panel.
 - **La re-medición no prueba causalidad** salvo en los cobros, que se comprueban al céntimo. El panel lo dice («coincide en el tiempo»).
 
 ## Cambios de rumbo
@@ -108,5 +108,6 @@ Registro de pivotes, errores de enfoque y cambios de dirección, el más recient
 
 | Fecha | Cambio | Motivo | Decisión |
 |---|---|---|---|
-| 2026-11-24 | De consultor único a **Centra**: especialistas + coordinador que cruza la información. En la demo, competencia y finanzas en profundidad. El documento legal pasa a la hoja de ruta | Centralizar no aporta por sí solo; el valor es la causa cruzada. «Dos agentes muy buenos mejor que seis a medias» | [002](decisiones/002-centra-equipo-de-agentes.md) |
+| 2026-11-24 | El producto pasa a llamarse **Vigía** (antes, Centra); paquete `vigia` y variables `VIGIA_*` | Hay otras empresas que se llaman Centra | [004](decisiones/004-nombre-vigia.md) |
+| 2026-11-24 | De consultor único a **Vigía**: especialistas + coordinador que cruza la información. En la demo, competencia y finanzas en profundidad. El documento legal pasa a la hoja de ruta | Centralizar no aporta por sí solo; el valor es la causa cruzada. «Dos agentes muy buenos mejor que seis a medias» | [002](decisiones/002-vigia-equipo-de-agentes.md) |
 | 2026-11-24 | Idea elegida: consultor de IA permanente para pymes (caso de la clínica de fisioterapia) | Idea del equipo. Las propuestas v1 se descartaron por básicas y las v2 se dejaron como alternativas | [001](decisiones/001-idea-y-enfoque.md) |

@@ -33,4 +33,6 @@ Qué se elige, cómo funciona y por qué. Si es una combinación, qué papel tie
 | Nº | Decisión | Estado |
 |---|---|---|
 | 001 | [Idea: consultor de IA permanente para pymes que diagnostica, actúa y mide](001-idea-y-enfoque.md) | sustituida por 002 |
-| 002 | [Centra: equipo de agentes especialistas con un coordinador que cruza la información](002-centra-equipo-de-agentes.md) | aceptada |
+| 002 | [Vigía: equipo de agentes especialistas con un coordinador que cruza la información](002-vigia-equipo-de-agentes.md) | aceptada |
+| 003 | [Stack del prototipo](003-stack-del-prototipo.md) | aceptada |
+| 004 | [Cambio de nombre: de Centra a Vigía](004-nombre-vigia.md) | aceptada |

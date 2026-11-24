@@ -10,22 +10,22 @@ from typing import Any
 import pytest
 from pydantic import SecretStr
 
-from centra.actions.collections import EmailDraft, Origin, prepare_claim
-from centra.actions.mailer import SmtpMailer
-from centra.audit import AuditLog
-from centra.config import Settings, SmtpSettings
-from centra.coordinator.causes import LlmCause, LlmCrossing
-from centra.coordinator.causes import Origin as CauseOrigin
-from centra.coordinator.plan import Kind
-from centra.data.model import BankMovement, ClientType, CompanyData, Invoice, Review
-from centra.domain.findings import Confidence, Signal
-from centra.domain.money import eur
-from centra.finance.reconciliation import PaymentStatus, reconcile
-from centra.llm.base import LlmCall, OfflineModel, Tier
-from centra.pipeline import Execution, analyze, execute_plan, measure_after
-from centra.remeasure import Effect
-from centra.specialists.competition import CompetitionSpecialist, ReviewTag, ReviewTags, Theme
-from centra.specialists.finance import FinanceSpecialist, overdue_by_client
+from vigia.actions.collections import EmailDraft, Origin, prepare_claim
+from vigia.actions.mailer import SmtpMailer
+from vigia.audit import AuditLog
+from vigia.config import Settings, SmtpSettings
+from vigia.coordinator.causes import LlmCause, LlmCrossing
+from vigia.coordinator.causes import Origin as CauseOrigin
+from vigia.coordinator.plan import Kind
+from vigia.data.model import BankMovement, ClientType, CompanyData, Invoice, Review
+from vigia.domain.findings import Confidence, Signal
+from vigia.domain.money import eur
+from vigia.finance.reconciliation import PaymentStatus, reconcile
+from vigia.llm.base import LlmCall, OfflineModel, Tier
+from vigia.pipeline import Execution, analyze, execute_plan, measure_after
+from vigia.remeasure import Effect
+from vigia.specialists.competition import CompetitionSpecialist, ReviewTag, ReviewTags, Theme
+from vigia.specialists.finance import FinanceSpecialist, overdue_by_client
 
 
 class FakeMailer:

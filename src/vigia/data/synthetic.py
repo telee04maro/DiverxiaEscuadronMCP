@@ -4,7 +4,7 @@ The hackathon rules forbid real personal data, so every person, client and compe
 here is invented (e-mail domains use the reserved ``.example`` TLD). The data is
 deterministic so the demo is reproducible.
 
-Run ``uv run python -m centra.data.synthetic`` to regenerate ``data/demo/clinica-fisio``.
+Run ``uv run python -m vigia.data.synthetic`` to regenerate ``data/demo/clinica-fisio``.
 """
 
 import csv
@@ -15,7 +15,7 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
-from centra.domain.money import eur
+from vigia.domain.money import eur
 
 DEMO_ROOT = Path("data/demo/clinica-fisio")
 BEFORE = "mes-0"
@@ -77,7 +77,7 @@ MONTHLY_COSTS = (
 OPENING_BALANCE = Decimal("42780.00")
 BANK_START = date(2026, 5, 1)
 
-# Payments that happen after Centra's actions (only in the "after" snapshot).
+# Payments that happen after Vigía's actions (only in the "after" snapshot).
 # Gamma pays September two days earlier than usual after the friendly reminder;
 # Beta pays July and August after the formal claim, September is still pending.
 AFTER_ACTION_PAYMENTS = {

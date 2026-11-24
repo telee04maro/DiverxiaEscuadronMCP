@@ -1,10 +1,10 @@
 from decimal import Decimal
 
-from centra.audit import AuditLog, EventKind
-from centra.data.model import CompanyData
-from centra.domain.findings import Signal
-from centra.llm.base import LlmCall, OfflineModel, Tier
-from centra.specialists.competition import (
+from vigia.audit import AuditLog, EventKind
+from vigia.data.model import CompanyData
+from vigia.domain.findings import Signal
+from vigia.llm.base import LlmCall, OfflineModel, Tier
+from vigia.specialists.competition import (
     AdReading,
     AdReadings,
     CompetitionSpecialist,

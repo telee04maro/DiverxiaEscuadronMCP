@@ -2,16 +2,16 @@
 
 from email.message import EmailMessage
 
-from centra.actions.collections import Tone
-from centra.audit import AuditLog, EventKind
-from centra.config import Settings
-from centra.coordinator.causes import LlmCause, LlmCrossing, Origin
-from centra.coordinator.plan import Autonomy, Kind
-from centra.data.model import CompanyData
-from centra.domain.findings import Area, Confidence
-from centra.domain.priority import Horizon
-from centra.llm.base import LlmCall, OfflineModel, Tier
-from centra.pipeline import (
+from vigia.actions.collections import Tone
+from vigia.audit import AuditLog, EventKind
+from vigia.config import Settings
+from vigia.coordinator.causes import LlmCause, LlmCrossing, Origin
+from vigia.coordinator.plan import Autonomy, Kind
+from vigia.data.model import CompanyData
+from vigia.domain.findings import Area, Confidence
+from vigia.domain.priority import Horizon
+from vigia.llm.base import LlmCall, OfflineModel, Tier
+from vigia.pipeline import (
     analyze,
     approve,
     execute_plan,
@@ -20,7 +20,7 @@ from centra.pipeline import (
     mark_done,
     measure_after,
 )
-from centra.remeasure import Effect
+from vigia.remeasure import Effect
 
 
 class FakeMailer:

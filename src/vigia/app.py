@@ -1,6 +1,6 @@
-"""Centra demo panel. Run with: uv run streamlit run src/centra/app.py
+"""Vigía demo panel. Run with: uv run streamlit run src/vigia/app.py
 
-The panel only presents; every decision lives in the agents (see centra.pipeline).
+The panel only presents; every decision lives in the agents (see vigia.pipeline).
 """
 
 from decimal import Decimal
@@ -8,19 +8,19 @@ from pathlib import Path
 
 import streamlit as st
 
-from centra.actions.mailer import build_mailer
-from centra.audit import AuditLog
-from centra.config import Settings
-from centra.coordinator.plan import Autonomy, Kind, PlanItem
-from centra.data.loader import load_company_data
-from centra.data.model import CompanyData
-from centra.data.synthetic import AFTER, BEFORE, DEMO_ROOT
-from centra.domain.findings import AREA_LABELS, Area, Finding, Kpi, SpecialistReport
-from centra.domain.money import fmt_eur, fmt_num
-from centra.domain.priority import HORIZON_LABELS, Horizon
-from centra.llm.base import LanguageModel, total_cost
-from centra.llm.factory import build_model
-from centra.pipeline import (
+from vigia.actions.mailer import build_mailer
+from vigia.audit import AuditLog
+from vigia.config import Settings
+from vigia.coordinator.plan import Autonomy, Kind, PlanItem
+from vigia.data.loader import load_company_data
+from vigia.data.model import CompanyData
+from vigia.data.synthetic import AFTER, BEFORE, DEMO_ROOT
+from vigia.domain.findings import AREA_LABELS, Area, Finding, Kpi, SpecialistReport
+from vigia.domain.money import fmt_eur, fmt_num
+from vigia.domain.priority import HORIZON_LABELS, Horizon
+from vigia.llm.base import LanguageModel, total_cost
+from vigia.llm.factory import build_model
+from vigia.pipeline import (
     Analysis,
     Execution,
     analyze,
@@ -31,7 +31,7 @@ from centra.pipeline import (
     mark_done,
     measure_after,
 )
-from centra.remeasure import Effect, Remeasurement
+from vigia.remeasure import Effect, Remeasurement
 
 ROOT = Path(__file__).resolve().parents[2]
 ROADMAP = (
@@ -90,9 +90,9 @@ def _fmt_value(value: Decimal | None, unit_hint: str) -> str:
 def _sidebar() -> None:
     model: LanguageModel = st.session_state.model
     with st.sidebar:
-        st.markdown("## Centra")
+        st.markdown("## Vigía")
         st.caption("Un equipo de expertos de IA para toda tu pyme, en un solo sitio.")
-        st.markdown("> **Cada proveedor ve su parte. Centra ve la causa.**")
+        st.markdown("> **Cada proveedor ve su parte. Vigía ve la causa.**")
         st.divider()
         st.markdown("**Modo de IA**")
         st.caption(model.mode)
@@ -107,7 +107,7 @@ def _sidebar() -> None:
         st.toggle(
             "Fallo inyectado: un pago llega con 1 céntimo de menos",
             key="inject_fault",
-            help="Para demostrar que Centra no da por cobrada una factura que no cuadra.",
+            help="Para demostrar que Vigía no da por cobrada una factura que no cuadra.",
         )
         if st.button("Reiniciar la demo", use_container_width=True):
             for key in list(st.session_state.keys()):
@@ -376,10 +376,10 @@ def _log_tab() -> None:
 
 
 def main() -> None:
-    st.set_page_config(page_title="Centra", page_icon="🧭", layout="wide")
+    st.set_page_config(page_title="Vigía", page_icon="🧭", layout="wide")
     _state()
     _sidebar()
-    st.title("Centra")
+    st.title("Vigía")
     st.caption(
         "Especialistas de IA que detectan, un coordinador que cruza la información, actúa y mide."
     )

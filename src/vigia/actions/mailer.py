@@ -8,9 +8,9 @@ from email.message import EmailMessage
 from pathlib import Path
 from typing import Protocol
 
-from centra.config import Settings, SmtpSettings
+from vigia.config import Settings, SmtpSettings
 
-ORIGINAL_TO = "X-Centra-Destinatario-Original"
+ORIGINAL_TO = "X-Vigía-Destinatario-Original"
 
 
 class Mailer(Protocol):

@@ -9,14 +9,14 @@ from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict
 
-from centra.coordinator.causes import CrossAnalysis
-from centra.data.model import CompanyData
-from centra.domain.findings import Finding, Signal
-from centra.domain.money import fmt_eur
-from centra.domain.priority import Horizon, horizon_for, score
-from centra.finance.offers import OfferCheck, check_first_visit_offer
-from centra.specialists.competition import NAME as COMPETITION
-from centra.specialists.finance import NAME as FINANCE
+from vigia.coordinator.causes import CrossAnalysis
+from vigia.data.model import CompanyData
+from vigia.domain.findings import Finding, Signal
+from vigia.domain.money import fmt_eur
+from vigia.domain.priority import Horizon, horizon_for, score
+from vigia.finance.offers import OfferCheck, check_first_visit_offer
+from vigia.specialists.competition import NAME as COMPETITION
+from vigia.specialists.finance import NAME as FINANCE
 
 OFFER_STEPS = (Decimal(0), Decimal(5), Decimal(10))
 MANAGER = "Gerencia"
