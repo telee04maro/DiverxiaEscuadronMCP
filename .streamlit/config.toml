@@ -3,6 +3,7 @@ gatherUsageStats = false
 
 [client]
 toolbarMode = "minimal"
+showErrorDetails = "none"
 
 [server]
 headless = true

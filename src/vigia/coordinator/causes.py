@@ -5,7 +5,7 @@ and labels it "cross" only when the evidence really comes from more than one are
 Without the model, explicit crossing rules produce the same kind of answer.
 """
 
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 from decimal import Decimal
 from enum import StrEnum
 
@@ -13,7 +13,9 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from vigia.audit import AuditLog, EventKind
 from vigia.domain.findings import AREA_LABELS, Area, Confidence, Finding, Signal
+from vigia.domain.grounding import unsupported_numbers
 from vigia.domain.money import fmt_eur, money_mentions
+from vigia.domain.privacy import pseudonyms, swap
 from vigia.domain.vocabulary import GENERAL, Vocabulary
 from vigia.llm.base import LanguageModel, Tier
 
@@ -92,17 +94,22 @@ def cross_findings(
     model: LanguageModel,
     log: AuditLog,
     words: Vocabulary = GENERAL,
+    kinds: Mapping[str, str] | None = None,
 ) -> CrossAnalysis:
     by_id = {f.id: f for f in findings}
+    # Who owes money is nobody else's business: Claude reads "Cliente 1" (R3-08).
+    aliases = pseudonyms(
+        (f.subject for f in findings if f.area is Area.FINANCE and f.subject), kinds
+    )
     answer = model.structured(
         task="Cruzar hallazgos y buscar la causa",
         tier=Tier.MAIN,
         system=_SYSTEM,
-        prompt=_prompt(findings),
+        prompt=swap(_prompt(findings), aliases),
         schema=LlmCrossing,
     )
     if answer is not None:
-        analysis = _validated(answer, by_id, log)
+        analysis = _validated(_named_answer(answer, aliases), by_id, log)
         if analysis.causes:
             return analysis
         log.record(NAME, EventKind.REJECTED, "Ninguna causa de la IA tenía evidencia válida")
@@ -119,6 +126,27 @@ def _prompt(findings: tuple[Finding, ...]) -> str:
     return "Hallazgos de los especialistas:\n" + "\n".join(blocks)
 
 
+def _named_answer(answer: LlmCrossing, aliases: dict[str, str]) -> LlmCrossing:
+    """Put the real names back in what the model wrote, before checking it against the data."""
+    back = {alias: name for name, alias in aliases.items()}
+    return answer.model_copy(
+        update={
+            "causes": [
+                c.model_copy(
+                    update={"title": swap(c.title, back), "explanation": swap(c.explanation, back)}
+                )
+                for c in answer.causes
+            ],
+            "discarded": [
+                d.model_copy(
+                    update={"hypothesis": swap(d.hypothesis, back), "reason": swap(d.reason, back)}
+                )
+                for d in answer.discarded
+            ],
+        }
+    )
+
+
 def _validated(answer: LlmCrossing, by_id: dict[str, Finding], log: AuditLog) -> CrossAnalysis:
     causes: list[RootCause] = []
     rejected: list[str] = []
@@ -131,9 +159,11 @@ def _validated(answer: LlmCrossing, by_id: dict[str, Finding], log: AuditLog) ->
             log.record(NAME, EventKind.REJECTED, note)
         if not known:
             continue
-        invented = _invented_amounts(f"{raw.title} {raw.explanation}", [by_id[i] for i in known])
+        # Any figure must exist in the data (any finding), not only in the cited ones: the
+        # model may mention the competitor's 350 m while citing the price finding.
+        invented = _invented_figures(f"{raw.title} {raw.explanation}", list(by_id.values()))
         if invented:
-            note = f"«{raw.title}» mencionaba importes que no están en sus hallazgos: {invented}"
+            note = f"«{raw.title}» mencionaba cifras que no están en sus hallazgos: {invented}"
             rejected.append(note)
             log.record(NAME, EventKind.REJECTED, note)
             continue
@@ -164,17 +194,23 @@ def _validated(answer: LlmCrossing, by_id: dict[str, Finding], log: AuditLog) ->
     )
 
 
-def _invented_amounts(text: str, support: list[Finding]) -> str:
-    """Amounts the model wrote that none of the cited findings contains (empty if none)."""
+def _invented_figures(text: str, support: list[Finding]) -> str:
+    """Amounts, percentages, days… the model wrote that its cited findings do not contain (R3-02).
+
+    Empty if every figure is backed; the cause is rejected otherwise.
+    """
     written = money_mentions(text)
     if written is None:
         return "importe ilegible"
+    sources = [" ".join([f.title, f.detail, *(e.fact for e in f.evidence)]) for f in support]
+    metrics = [value for f in support for value in f.metrics.values()]
     known: set[Decimal] = set()
-    for finding in support:
-        facts = " ".join([finding.title, finding.detail, *(e.fact for e in finding.evidence)])
-        known |= money_mentions(facts) or set()
-        known |= {value.quantize(Decimal("0.01")) for value in finding.metrics.values()}
-    return ", ".join(fmt_eur(a) for a in sorted(written - known))
+    for source in sources:
+        known |= money_mentions(source) or set()
+    known |= {value.quantize(Decimal("0.01")) for value in metrics}
+    invented = [fmt_eur(a) for a in sorted(written - known)]
+    invented += unsupported_numbers(text, sources, extra=metrics)
+    return ", ".join(dict.fromkeys(invented))
 
 
 def _areas(findings: Iterable[Finding]) -> tuple[Area, ...]:
@@ -200,6 +236,18 @@ def _slow_response_clause(slow: list[Finding]) -> str:
         f"; además, las consultas que llegan fuera de horario tardan {shown} h en contestarse "
         f"y se pierde el {lost} % de ellas"
     )
+
+
+MATERIAL_DEBT_SHARE = Decimal("0.2")  # the late payer must owe at least 20 % of the cash
+
+
+def _debt_matters(findings: tuple[Finding, ...]) -> bool:
+    """Only blame the cash on a late payer whose debt is a real part of it (R3-03)."""
+    owed = max(f.metrics.get("owed", Decimal(0)) for f in _with(findings, Signal.SLOW_PAYER))
+    balance = _with(findings, Signal.TIGHT_CASH)[0].metrics.get("balance")
+    if balance is None or balance <= 0:
+        return owed > 0
+    return owed >= balance * MATERIAL_DEBT_SHARE
 
 
 def _cash_cause_text(findings: tuple[Finding, ...]) -> tuple[str, str]:
@@ -288,7 +336,7 @@ def _rule_crossing(
             _with(findings, Signal.PRIVATE_PATIENTS_DROP, Signal.WAIT_COMPLAINTS),
             Confidence.MEDIUM,
         )
-    if {Signal.TIGHT_CASH, Signal.SLOW_PAYER} <= present:
+    if {Signal.TIGHT_CASH, Signal.SLOW_PAYER} <= present and _debt_matters(findings):
         title, explanation = _cash_cause_text(findings)
         add(
             title,

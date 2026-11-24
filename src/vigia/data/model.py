@@ -6,6 +6,8 @@ from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from vigia.domain.privacy import redact
+
 
 def to_local_naive(value: datetime | None) -> datetime | None:
     """All times are local wall-clock times without zone, so they can be compared safely."""
@@ -95,13 +97,18 @@ class MonthlySessions(BaseModel):
 
 
 class Review(BaseModel):
-    """Public review, stored without the author's identity."""
+    """Public review, stored without the author's identity nor anyone else's (R3-08)."""
 
     model_config = ConfigDict(frozen=True)
 
     on: date
     rating: int = Field(ge=1, le=5)
     text: str
+
+    @field_validator("text")
+    @classmethod
+    def _without_personal_data(cls, value: str) -> str:
+        return redact(value)
 
 
 class CompetitorAd(BaseModel):
@@ -125,7 +132,7 @@ class Competitor(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     name: str
-    distance_m: int
+    distance_m: int | None = None  # unknown is not 0 m
     prices: dict[str, Decimal]
     first_visit_price: Decimal | None = None
     rating: Decimal | None = None

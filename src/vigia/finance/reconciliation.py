@@ -65,7 +65,10 @@ def reconcile(
             )
             for i in invoices
         )
-    patterns = {i.id: re.compile(rf"(?<![\w-]){re.escape(i.id)}(?![\w-])") for i in invoices}
+    # An empty reference would match almost any concept (R3-04).
+    patterns = {
+        i.id: re.compile(rf"(?<![\w-]){re.escape(i.id)}(?![\w-])") for i in invoices if i.id.strip()
+    }
     by_id = {i.id: i for i in invoices}
     allocated: dict[str, Decimal] = {i.id: Decimal(0) for i in invoices}
     used: dict[str, list[BankMovement]] = {i.id: [] for i in invoices}
@@ -87,8 +90,22 @@ def reconcile(
             continue
         for invoice_id in cited:
             used[invoice_id].append(movement)
+    start = min(m.on for m in bank)
     return tuple(
-        _status(i, allocated[i.id], tuple(used[i.id]), i.id in ambiguous) for i in invoices
+        _unknown(i)
+        if not i.id.strip() or (not used[i.id] and i.id not in ambiguous and i.issued < start)
+        else _status(i, allocated[i.id], tuple(used[i.id]), i.id in ambiguous)
+        for i in invoices
+    )
+
+
+def _unknown(invoice: Invoice) -> InvoiceStatus:
+    """No reference to match, or a payment that may predate the statement (R3-05).
+
+    Unknown is not unpaid: nobody is chased for a payment the statement cannot see.
+    """
+    return InvoiceStatus(
+        invoice=invoice, status=PaymentStatus.UNKNOWN, paid=Decimal(0), paid_on=None, movements=()
     )
 
 

@@ -9,6 +9,7 @@ import csv
 import io
 import re
 import unicodedata
+import zipfile
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import date, datetime
@@ -18,6 +19,7 @@ from typing import Any
 import pandas as pd
 from pydantic import BaseModel, Field, ValidationError, model_validator
 
+from vigia.connectors.base import normalize_email
 from vigia.data.model import (
     BankMovement,
     ClientType,
@@ -63,7 +65,11 @@ TEMPLATES: dict[str, Template] = {
              "fecha_vencimiento", "importe"),
             ("F-2026-001", "Mutua Ejemplo", "aseguradora", "pagos@mutua.example", "31/10/2026",
              "30/11/2026", "1.234,56"),
-            "Una fila por factura. tipo_cliente: aseguradora, empresa o particular.",
+            (
+                "Una fila por factura. tipo_cliente: aseguradora, empresa o particular. "
+                "Para un particular basta un identificador (p. ej. «Particular 12»); "
+                "su correo, solo si quieres que Vigía le reclame."
+            ),
         ),
         Template(
             "banco", "Extracto bancario", True,
@@ -144,6 +150,7 @@ def _key(text: str) -> str:
 def read_table(filename: str, content: bytes) -> list[dict[str, str]]:
     """Rows of a CSV (comma or semicolon) or Excel file, with normalized header names."""
     if filename.lower().endswith((".xlsx", ".xlsm")):
+        _check_workbook(content)
         frame = pd.read_excel(io.BytesIO(content), dtype=str, nrows=MAX_ROWS + 1)
         frame = frame.fillna("")
         rows = [{str(k): str(v) for k, v in r.items()} for r in frame.to_dict("records")]
@@ -155,6 +162,43 @@ def read_table(filename: str, content: bytes) -> list[dict[str, str]]:
     if len(rows) > MAX_ROWS:
         raise RowError(f"Demasiadas filas (máximo {MAX_ROWS})")
     return [{_key(k): (v or "").strip() for k, v in row.items() if k} for row in rows]
+
+
+MAX_COLUMNS = 30  # the widest template has 9
+MAX_UNPACKED = 20 * 1024 * 1024  # an .xlsx is a zip: what matters is the size once unpacked
+_CHUNK = 1024 * 1024
+
+
+def _check_workbook(content: bytes) -> None:
+    """Refuse a workbook that would take minutes or gigabytes to read (R3-09).
+
+    The cells are counted in the sheet's XML, in chunks, before pandas or openpyxl load it:
+    a 100 KB file with 200,000 cells in one row would otherwise freeze the panel.
+    """
+    limit = (MAX_ROWS + 1) * MAX_COLUMNS
+    with zipfile.ZipFile(io.BytesIO(content)) as archive:
+        if sum(info.file_size for info in archive.infolist()) > MAX_UNPACKED:
+            raise RowError("El Excel es demasiado grande una vez descomprimido (máximo 20 MB)")
+        for info in archive.infolist():
+            if not info.filename.startswith("xl/worksheets/"):
+                continue
+            cells, rows, tail = 0, 0, b""
+            with archive.open(info) as sheet:
+                while chunk := sheet.read(_CHUNK):
+                    data = tail + chunk
+                    cells += _count(data, b"<c ", b"<c>") - _count(tail, b"<c ", b"<c>")
+                    rows += _count(data, b"<row ", b"<row>") - _count(tail, b"<row ", b"<row>")
+                    tail = data[-5:]
+                    # Too many cells overall, or too many in a row (one row of 20,000 columns).
+                    if cells > limit or cells > (rows + 1) * MAX_COLUMNS:
+                        raise RowError(
+                            f"El Excel tiene demasiadas celdas (máximo {MAX_ROWS} filas y "
+                            f"{MAX_COLUMNS} columnas)"
+                        )
+
+
+def _count(data: bytes, *needles: bytes) -> int:
+    return sum(data.count(needle) for needle in needles)
 
 
 def _decode(content: bytes) -> str:
@@ -211,12 +255,21 @@ def _invoice(row: dict[str, str]) -> Invoice:
         raise RowError("el importe de una factura debe ser positivo")
     if due < issued:
         raise RowError("el vencimiento es anterior a la emisión")
+    number = row["numero"].strip()
+    if not number:
+        raise RowError("falta el número de factura")
+    email = row.get("email_cliente", "").strip()
+    if email:
+        try:
+            email = normalize_email(email) or ""
+        except ValueError as error:
+            raise RowError(f"correo de cobro no válido «{email[:60]}»") from error
     return Invoice(
-        id=row["numero"],
+        id=number,
         client_id=_slug(row["cliente"]),
         client_name=row["cliente"],
         client_type=_client_type(row["tipo_cliente"]),
-        contact_email=row.get("email_cliente", ""),
+        contact_email=email,
         issued=issued,
         due=due,
         amount=amount,
@@ -275,7 +328,7 @@ def _competitor(row: dict[str, str]) -> Competitor:
     count = row.get("num_resenas", "")
     return Competitor(
         name=row["nombre"],
-        distance_m=int(row.get("distancia_m") or 0),
+        distance_m=int(row["distancia_m"]) if row.get("distancia_m") else None,
         prices={row["servicio"]: _money(row["precio"])},
         first_visit_price=_money(first) if first else None,
         rating=_rating(rating) if rating else None,

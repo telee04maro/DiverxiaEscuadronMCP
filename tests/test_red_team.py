@@ -286,7 +286,10 @@ def test_rt14_number_formats() -> None:
 def test_rt18_future_payments_are_ignored() -> None:
     statuses = reconcile(
         (_invoice("F-5", "100.00"),),
-        (_move("PAGO F-5", "100.00", on=date(2026, 12, 31)),),
+        (
+            _move("SALDO INICIAL", "0.00", on=date(2026, 8, 1)),  # the statement covers F-5
+            _move("PAGO F-5", "100.00", on=date(2026, 12, 31)),
+        ),
         as_of=date(2026, 11, 2),
     )
     assert statuses[0].status is PaymentStatus.PENDING

@@ -15,6 +15,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from vigia.actions.mailer import Mailer
 from vigia.audit import AuditLog, EventKind
 from vigia.data.model import Company
+from vigia.domain.grounding import IBAN, LINK, PHONE, unsupported_dates, unsupported_numbers
 from vigia.domain.money import MoneyError, eur, fmt_eur, money_mentions
 from vigia.finance.reconciliation import InvoiceStatus
 from vigia.llm.base import LanguageModel, Tier
@@ -31,6 +32,7 @@ _NOT_FRIENDLY = re.compile(
     re.IGNORECASE,
 )
 MAX_SUBJECT = 120
+CLIENT_PLACEHOLDER = "[CLIENTE]"
 DISCLOSURE = (
     "Este mensaje lo ha redactado Vigía, el asistente de IA de {company}, en su nombre. "
     "Si ya ha realizado el pago, por favor ignórelo y disculpe las molestias."
@@ -119,7 +121,11 @@ def prepare_claim(
             "si hay que dejar constancia. Cita cada factura con su número e importe exacto y el "
             "total pendiente. No añadas importes, fechas ni amenazas que no estén en los datos."
         ),
-        prompt=f"Cliente: {first.client_name}\nDatos:\n{facts}\nTotal pendiente: {fmt_eur(total)}",
+        # The debtor's name stays here (R3-08): the model writes [CLIENTE], we fill it in.
+        prompt=(
+            f"Cliente: {CLIENT_PLACEHOLDER} (escribe {CLIENT_PLACEHOLDER} donde vaya su nombre)\n"
+            f"Datos:\n{facts}\nTotal pendiente: {fmt_eur(total)}"
+        ),
         schema=EmailDraft,
     )
     origin = Origin.TEMPLATE
@@ -127,9 +133,11 @@ def prepare_claim(
         company, items=items, tone=tone, total=total, today=today, interests=interests
     )
     if draft is not None:
-        problem = _check(draft, items=items, total=total, allowed=allowed, tone=tone)
+        problem = _check(draft, items=items, total=total, allowed=allowed, tone=tone, facts=facts)
         if problem is None:
-            origin, subject, body = Origin.AI, _clean_subject(draft.subject), draft.body
+            origin = Origin.AI
+            subject = _clean_subject(draft.subject.replace(CLIENT_PLACEHOLDER, first.client_name))
+            body = draft.body.replace(CLIENT_PLACEHOLDER, first.client_name)
         else:
             log.record(FINANCE, EventKind.REJECTED, f"Borrador de la IA descartado: {problem}")
     body = f"{body.rstrip()}\n\n—\n{DISCLOSURE.format(company=company.name)}"
@@ -202,6 +210,7 @@ def _check(
     total: Decimal,
     allowed: set[Decimal],
     tone: Tone,
+    facts: str = "",
 ) -> str | None:
     """Why the model's e-mail cannot be sent as written, or None if it passes every check."""
     return (
@@ -209,7 +218,31 @@ def _check(
         or _invented_amounts(draft.subject, allowed)
         or _invented_amounts(draft.body, allowed)
         or _wrong_tone(f"{draft.subject} {draft.body}", tone)
+        or _ungrounded(f"{draft.subject} {draft.body}", items, facts)
     )
+
+
+def _ungrounded(text: str, items: list[InvoiceStatus], facts: str) -> str | None:
+    """An account number, link, phone, date or figure the data does not contain (R3-01)."""
+    for pattern, what in (
+        (IBAN, "una cuenta bancaria"),
+        (LINK, "un enlace"),
+        (PHONE, "un teléfono"),
+    ):
+        if pattern.search(text):
+            return f"incluye {what} que no está en los datos"
+    dates = {f"{d:%d/%m/%Y}" for i in items for d in (i.invoice.issued, i.invoice.due)}
+    dates |= {f"{d:%d/%m}" for i in items for d in (i.invoice.issued, i.invoice.due)}
+    invented_dates = unsupported_dates(text, dates)
+    if invented_dates:
+        return f"incluye fechas o plazos que no están en los datos ({', '.join(invented_dates)})"
+    total = sum((i.outstanding for i in items), Decimal(0))
+    invented = unsupported_numbers(
+        text, [facts, fmt_eur(total), *(i.invoice.id for i in items)], extra=[total]
+    )
+    if invented:
+        return f"incluye cifras que no están en los datos ({', '.join(invented)})"
+    return None
 
 
 def _missing_facts(body: str, items: list[InvoiceStatus], total: Decimal) -> str | None:

@@ -80,7 +80,9 @@ class FinanceSpecialist:
         findings: list[Finding] = []
         findings.extend(_collection_findings(statuses, today, cash))
         findings.extend(_cash_findings(cash, statuses, today))
-        findings.extend(_private_revenue_findings(data.sessions, vocabulary_for(data.company)))
+        findings.extend(
+            _private_revenue_findings(data.sessions, vocabulary_for(data.company), today)
+        )
         for finding in findings:
             log.record(NAME, EventKind.DECIDED, finding.title, finding.id)
         return SpecialistReport(
@@ -253,9 +255,19 @@ class SessionTrend:
     last_year_change_pct: Decimal | None
 
 
-def private_trend(sessions: tuple[MonthlySessions, ...]) -> SessionTrend | None:
-    """Last two months against the two months four and five months earlier, and a year before."""
-    by_month = {s.month: s.sessions for s in sessions if s.client_type is ClientType.PRIVATE}
+def private_trend(
+    sessions: tuple[MonthlySessions, ...], today: date | None = None
+) -> SessionTrend | None:
+    """Last two months against the two months four and five months earlier, and a year before.
+
+    A month that has not ended on ``today`` is left out: half a month is not a drop (R3-11).
+    """
+    current = f"{today:%Y-%m}" if today is not None else None
+    by_month = {
+        s.month: s.sessions
+        for s in sessions
+        if s.client_type is ClientType.PRIVATE and (current is None or s.month < current)
+    }
     months = sorted(by_month)
     if len(months) < 6:  # noqa: PLR2004 - two recent months plus two base months and a gap
         return None
@@ -289,9 +301,9 @@ def _sources(data: CompanyData) -> tuple[str, ...]:
 
 
 def _private_revenue_findings(
-    sessions: tuple[MonthlySessions, ...], words: Vocabulary
+    sessions: tuple[MonthlySessions, ...], words: Vocabulary, today: date
 ) -> list[Finding]:
-    trend = private_trend(sessions)
+    trend = private_trend(sessions, today)
     if trend is None or trend.change_pct is None or trend.change_pct > DROP_THRESHOLD_PCT:
         return []
     last_year = trend.last_year_change_pct
@@ -340,7 +352,7 @@ def _kpis(
     data: CompanyData, statuses: tuple[InvoiceStatus, ...], cash: _Cash, today: date
 ) -> tuple[Kpi, ...]:
     overdue = [s for s in statuses if s.days_overdue(today) > 0]
-    trend = private_trend(data.sessions)
+    trend = private_trend(data.sessions, today)
     main = data.company.service(data.company.main_service)
     kpis = [
         Kpi(key="caja", label="Caja disponible", value=cash.balance, unit="€"),
@@ -419,6 +431,16 @@ def _gaps(data: CompanyData, balance_breaks: int = 0) -> tuple[DataGap, ...]:
     ):
         if name in data.missing_sources:
             gaps.append(DataGap(area=Area.FINANCE, missing=what, why_it_matters=why))
+    no_email = sorted({i.client_name for i in data.invoices if not i.contact_email})
+    if no_email:
+        gaps.append(
+            DataGap(
+                area=Area.FINANCE,
+                missing=f"Correo de cobro de {', '.join(no_email[:3])}"
+                + (f" y {len(no_email) - 3} más" if len(no_email) > 3 else ""),  # noqa: PLR2004
+                why_it_matters="Sin él no reclamo: no hay reclamación sin destinatario",
+            )
+        )
     if balance_breaks:
         gaps.append(
             DataGap(

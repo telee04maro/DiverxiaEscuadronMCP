@@ -62,7 +62,7 @@ class Theme(StrEnum):
 
 
 _THEME_WORDS: dict[Theme, tuple[str, ...]] = {
-    Theme.WAIT: ("espera", "esperé", "cita", "semanas", "tard", "hueco", "cambiaron la cita"),
+    Theme.WAIT: (),  # by pattern, below: "cita" alone is not a complaint (R3-12)
     Theme.TREATMENT: ("trato", "atención", "cercano", "profesional", "explican"),
     Theme.PRICE: ("precio", "caro", "barato", "€"),
     Theme.RESULT: ("recuper", "mejor", "tratamiento", "rodilla", "lumbalgia"),
@@ -263,9 +263,23 @@ def _classify_reviews(
     return themes
 
 
+# A complaint about waiting, not any mention of an appointment: "sin esperas" or "me dieron
+# cita en dos días" are praise (R3-12).
+_PRAISE_WAIT = re.compile(r"sin esperas?|sin esperar", re.IGNORECASE)
+_WAIT_COMPLAINT = re.compile(
+    r"esper[aéo]|tard[aoóé]|retras|cambiaron la cita|"
+    r"(?:cuesta|costando|cost[oó]|imposible|dif[ií]cil)\s+(?:\w+\s+)?"
+    r"(?:conseguir|encontrar|tener|dar(?:me)?)\s+(?:una\s+)?(?:cita|hueco)|"
+    r"(?:no hay|sin) hueco",
+    re.IGNORECASE,
+)
+
+
 def _rule_themes(text: str) -> frozenset[Theme]:
     lowered = text.lower()
     found = {theme for theme, words in _THEME_WORDS.items() if any(w in lowered for w in words)}
+    if _WAIT_COMPLAINT.search(_PRAISE_WAIT.sub(" ", lowered)):
+        found.add(Theme.WAIT)
     return frozenset(found or {Theme.OTHER})
 
 
@@ -337,7 +351,11 @@ def _price_findings(data: CompanyData) -> list[Finding]:
             id="COMP-PRECIO",
             area=Area.COMPETITION,
             title=f"Somos un {fmt_num(gap)} % más caros que {rival.name} en {own.name.lower()}",
-            detail=f"{rival.name} está a {rival.distance_m} m.",
+            detail=(
+                f"{rival.name} está a {rival.distance_m} m."
+                if rival.distance_m is not None
+                else f"No sabemos a qué distancia está {rival.name}."
+            ),
             evidence=tuple(evidence),
             confidence=Confidence.HIGH,
             impact=3,
@@ -413,7 +431,7 @@ def _review_findings(data: CompanyData, themes: list[frozenset[Theme]]) -> list[
             id="COMP-RESENAS",
             area=Area.COMPETITION,
             title=_review_title(recent_avg, percent, signals),
-            detail="Las quejas hablan de tardar en dar cita y de esperas en recepción.",
+            detail="De lo que más se quejan es de la espera: las reseñas citadas lo cuentan.",
             evidence=tuple(evidence),
             confidence=Confidence.HIGH if len(recent) >= 5 else Confidence.MEDIUM,  # noqa: PLR2004
             impact=4,

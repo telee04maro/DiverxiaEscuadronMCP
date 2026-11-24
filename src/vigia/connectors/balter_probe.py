@@ -15,7 +15,7 @@ from dataclasses import dataclass
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlparse
-from urllib.request import Request, urlopen
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 from dotenv import load_dotenv
 
@@ -28,6 +28,16 @@ MEANING = {
     500: "Error interno de BALTER",
 }
 Opener = Callable[..., Any]
+
+
+class _NoRedirect(HTTPRedirectHandler):
+    """A redirect would resend the Authorization header to another place (R3-14)."""
+
+    def redirect_request(self, *_: Any) -> None:  # noqa: ANN401
+        return None
+
+
+_OPEN = build_opener(_NoRedirect).open
 
 
 class ProbeError(ValueError):
@@ -55,7 +65,7 @@ def check_base_url(raw: str) -> str:
     return url if url.endswith("/") else url + "/"
 
 
-def probe(base_url: str, key: str, opener: Opener = urlopen) -> ProbeResult:
+def probe(base_url: str, key: str, opener: Opener = _OPEN) -> ProbeResult:
     if not key.strip():
         raise ProbeError("Falta BALTER_TOKEN en .env")
     request = Request(  # noqa: S310 - https checked in check_base_url

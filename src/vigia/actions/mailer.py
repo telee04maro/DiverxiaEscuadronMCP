@@ -10,7 +10,7 @@ from typing import Protocol
 
 from vigia.config import Settings, SmtpSettings
 
-ORIGINAL_TO = "X-Vigía-Destinatario-Original"
+ORIGINAL_TO = "X-Vigia-Destinatario-Original"
 
 
 class Mailer(Protocol):

@@ -60,6 +60,7 @@ class DemoErp:
         with closing(sqlite3.connect(self._path, timeout=10)) as db:
             db.row_factory = sqlite3.Row
             db.execute("PRAGMA foreign_keys = ON")
+            db.execute("PRAGMA secure_delete = ON")  # deleted personal data is overwritten
             with db:
                 yield db
 
@@ -169,11 +170,17 @@ class DemoErp:
         return _contact(row) if row else None
 
     def reset(self) -> None:
-        """Delete every record (after a live demo with real people)."""
+        """Delete every record (after a live demo with real people), from the file too (R3-07).
+
+        ``secure_delete`` overwrites what is deleted and ``VACUUM`` rebuilds the file, so names,
+        phones and messages do not stay in free pages of the database.
+        """
         with self._db() as db:
             db.execute("DELETE FROM notes")
             db.execute("DELETE FROM opportunities")
             db.execute("DELETE FROM contacts")
+        with closing(sqlite3.connect(self._path, timeout=10, isolation_level=None)) as db:
+            db.execute("VACUUM")
 
     def _opportunity(self, opportunity_id: str) -> Opportunity:
         with self._db() as db:

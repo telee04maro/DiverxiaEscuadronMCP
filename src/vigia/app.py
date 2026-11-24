@@ -166,6 +166,7 @@ def _company_tab() -> None:
     st.toggle(
         "Incluir también las consultas registradas en el ERP de demo (pestaña 7)",
         key="with_erp",
+        value=True,
     )
     if choice == DEMO and st.session_state.get("with_erp"):
         st.caption(
@@ -612,7 +613,8 @@ def _log_tab() -> None:
 def _crm_tab(analysis: Analysis) -> None:
     erp: DemoErp = st.session_state.erp
     execution: Execution = st.session_state.execution
-    live = erp.list_opportunities()
+    # Only with the switch on (tab 1): otherwise the cards would not match the agents (R3-13).
+    live = erp.list_opportunities() if st.session_state.get("with_erp") else ()
     contacts = {o.contact_id: found for o in live if (found := erp.contact(o.contact_id))}
     cards = build_cards(
         analysis.data,

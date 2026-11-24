@@ -22,6 +22,7 @@ from vigia.remeasure import Remeasurement, remeasure
 from vigia.specialists.base import Specialist
 from vigia.specialists.competition import CompetitionSpecialist
 from vigia.specialists.customers import CustomersSpecialist
+from vigia.specialists.finance import NAME as FINANCE_NAME
 from vigia.specialists.finance import FinanceSpecialist, overdue_by_client
 
 ONE_CENT = Decimal("0.01")
@@ -56,7 +57,8 @@ def analyze(
     team = specialists if specialists is not None else default_specialists()
     reports = tuple(s.analyze(data, model, log) for s in team)
     findings = tuple(f for r in reports for f in r.findings)
-    crossing = cross_findings(findings, model, log, vocabulary_for(data.company))
+    kinds = {i.client_name: i.client_type.value for i in data.invoices}
+    crossing = cross_findings(findings, model, log, vocabulary_for(data.company), kinds)
     plan = build_plan(data, findings, crossing)
     log.record(
         COORDINATOR,
@@ -92,6 +94,14 @@ def _claim_for(
     statuses = reconcile(analysis.data.invoices, analysis.data.bank, as_of=today)
     items = overdue_by_client(statuses, today).get(item.client_id or "")
     if not items:
+        return None
+    if not items[0].invoice.contact_email:
+        log.record(
+            FINANCE_NAME,
+            EventKind.REJECTED,
+            f"Sin correo de cobro de {items[0].invoice.client_name}: no se reclama",
+            *(i.invoice.id for i in items),
+        )
         return None
     return prepare_claim(
         analysis.data.company,

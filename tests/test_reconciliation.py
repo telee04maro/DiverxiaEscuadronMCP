@@ -35,13 +35,19 @@ def test_one_cent_short_is_not_paid() -> None:
     assert status.days_overdue(date(2026, 12, 2)) > 0
 
 
+# A statement that starts before the invoice: what it does not show did not happen (R3-05).
+OPENING = BankMovement(
+    on=date(2026, 1, 1), concept="SALDO INICIAL", amount=Decimal(0), balance=Decimal(0)
+)
+
+
 def test_payment_without_reference_is_not_assumed() -> None:
-    [status] = reconcile((INVOICE,), (_movement("TRANSFERENCIA MUTUA BETA", "3007.80"),))
+    [status] = reconcile((INVOICE,), (OPENING, _movement("TRANSFERENCIA MUTUA BETA", "3007.80")))
     assert status.status is PaymentStatus.PENDING
 
 
 def test_reference_must_match_whole_id() -> None:
-    [status] = reconcile((INVOICE,), (_movement("REF F-2026-07-ASG-BETA-2", "3007.80"),))
+    [status] = reconcile((INVOICE,), (OPENING, _movement("REF F-2026-07-ASG-BETA-2", "3007.80")))
     assert status.status is PaymentStatus.PENDING
 
 
