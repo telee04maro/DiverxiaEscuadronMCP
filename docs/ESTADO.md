@@ -99,6 +99,7 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 5. **Revisar y fusionar en `main` la rama `claude/paleta-y-logo`** (marca e interfaz; sin cambios de lógica):
    - paleta C (azul petróleo `#1D5C7A`, terracota `#D9824E`, tinta `#1B2B34`, arena `#FAF7F2`) y logo «Atalaya» con sus versiones (`docs/negocio/logo*.svg`, `icono*.svg`, `docs/entrega/3-logo.png`);
    - panel rediseñado para el dueño: cabecera con los pasos (Analizar → Entender → Actuar → Medir), resumen «Lo más importante» en la pestaña 1, pestañas en lenguaje sencillo, etiquetas de autonomía en palabras y la causa cruzada destacada. Los botones se llaman igual que en el guion. Estilo en `src/vigia/ui.py`, con todo texto de datos escapado;
+   - auditoría: el texto de terceros (anuncios, reseñas, ficheros subidos) ya no puede convertirse en enlaces, imágenes ni fórmulas en el panel (`ui.md_safe`, `tests/test_ui.py`); «comprobado» solo para cobros al céntimo («Mejoró (coincide en el tiempo)» para el resto) y «Pago incompleto» cuando falta un céntimo;
    - `3-marketing.pdf` reexportado con el logo nuevo. **Falta:** rehacer las capturas de `docs/entrega/capturas/` y `2-prototipo.pdf`, que enseñan el panel antiguo.
 
 ## Última verificación
@@ -116,6 +117,8 @@ Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.
 - 24/11, 13:20 · `babfc75` · **Red team R01:** 8 hallazgos P1 y 10 P2. Corregidos los 8 P1 y 9 de los P2, cada uno con su test de aceptación en `tests/test_red_team.py`. `uv run pytest`: 65 tests en verde. Recorrido completo repetido en el panel y en la consola con el código corregido.
 
 ## Problemas conocidos
+- **Re-medición sin umbral (auditoría del 24/11):** cualquier movimiento en la dirección esperada cuenta como mejora y saca la acción del plan, aunque el problema siga (p. ej., quejas por espera del 86 % al 75 %; particulares del −15,4 % al −10,9 %). Propuesta: un objetivo por indicador y «seguir» en el plan mientras no se alcance. No se cambia en la congelación.
+- **Con el fallo inyectado cambian las cifras de cobro:** sin fallo, 3 de las 4 facturas reclamadas (lo que dice el canvas); con fallo, que es lo que enseña el guion, 2 de 4. Quien presente tiene que saberlo.
 - **La causa redactada por Claude varía entre ejecuciones** (mismo fondo, distinto título y orden). Las cifras siempre salen de los hallazgos; para un pitch reproducible, el modo reglas da siempre el mismo texto.
 - **Fuentes de competencia:** Meta y Google Ads exigen identidad verificada o no tienen API de autoservicio, y Google prohíbe el scraping de resultados. Se usan instantáneas sintéticas con el formato oficial (ver `docs/fuentes.md`).
 - **Red team R01, pendiente (P2):** el coordinador con IA acepta una hipótesis descartada si cita hallazgos existentes aunque no sean los relevantes (p. ej. descartar «la temporada» citando la caja). En modo reglas no ocurre.

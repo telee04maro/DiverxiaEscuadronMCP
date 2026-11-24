@@ -128,16 +128,19 @@ def autonomy_pill(autonomy: Autonomy) -> str:
     return pill(words, color, background)
 
 
-def effect_label(effect: Effect, *, collection: bool) -> str:
+def effect_label(effect: Effect, *, collection: bool, short_payment: bool = False) -> str:
     """A KPI that moved only coincides in time; only a collection is proven (to the cent)."""
+    if effect is Effect.NONE and short_payment:
+        return "Pago incompleto: no se da por cobrada"
     if effect is Effect.CONFIRMED:
         return "Cobro comprobado al céntimo" if collection else "Mejoró (coincide en el tiempo)"
     return effect.value.capitalize()
 
 
-def effect_pill(effect: Effect, *, collection: bool) -> str:
+def effect_pill(effect: Effect, *, collection: bool, short_payment: bool = False) -> str:
     color, background = EFFECT_STYLE[effect]
-    return pill(effect_label(effect, collection=collection), color, background)
+    label = effect_label(effect, collection=collection, short_payment=short_payment)
+    return pill(label, color, background)
 
 
 def area_chip(area: Area, label: str) -> str:

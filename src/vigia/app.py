@@ -26,6 +26,7 @@ from vigia.data.synthetic import AFTER, BEFORE, DEMO_ROOT
 from vigia.domain.findings import AREA_LABELS, Area, Finding, Kpi, SpecialistReport
 from vigia.domain.money import MoneyError, eur, fmt_eur, fmt_num
 from vigia.domain.priority import HORIZON_LABELS, Horizon
+from vigia.finance.reconciliation import PaymentStatus
 from vigia.llm.base import LanguageModel, total_cost
 from vigia.llm.factory import build_model
 from vigia.pipeline import (
@@ -39,7 +40,7 @@ from vigia.pipeline import (
     mark_done,
     measure_after,
 )
-from vigia.remeasure import Remeasurement
+from vigia.remeasure import ItemResult, Remeasurement
 
 ROOT = Path(__file__).resolve().parents[2]
 ROADMAP = (
@@ -99,6 +100,8 @@ def _fmt_kpi(kpi: Kpi) -> str:
         return fmt_eur(kpi.value.quantize(Decimal(1))).replace(",00 €", " €")
     if kpi.unit == "★":  # a rating keeps its decimal: 3,0 ★, never 3 ★
         return f"{fmt_num(kpi.value.quantize(Decimal('0.1')))} ★"
+    if kpi.unit == "h":
+        return _fmt_value(kpi.value, "h")
     return f"{_fmt_value(kpi.value, '')} {kpi.unit}".strip()
 
 
@@ -525,17 +528,20 @@ def _remeasure_tab(analysis: Analysis) -> None:
     if result is None:
         return
     counts = Counter(
-        ui.effect_label(r.effect, collection=r.item.kind is Kind.COLLECT) for r in result.results
+        ui.effect_label(
+            r.effect, collection=r.item.kind is Kind.COLLECT, short_payment=_short_payment(r)
+        )
+        for r in result.results
     )
     ui.tiles([(str(n), label) for label, n in counts.items()])
     units = {k.key: k.unit for report in analysis.reports for k in report.kpis}
     for r in result.results:
         unit = "€" if r.item.kind is Kind.COLLECT else units.get(r.item.target_kpi, "")
+        badge = ui.effect_pill(
+            r.effect, collection=r.item.kind is Kind.COLLECT, short_payment=_short_payment(r)
+        )
         with st.container(border=True):
-            ui.html(
-                f"{ui.effect_pill(r.effect, collection=r.item.kind is Kind.COLLECT)} "
-                f"<b>{escape(r.item.title)}</b>"
-            )
+            ui.html(f"{badge} <b>{escape(r.item.title)}</b>")
             st.markdown(
                 f"{ui.md_safe(r.kpi_label)}: "
                 f"**{_fmt_value(r.before, unit)} → {_fmt_value(r.after, unit)}**"
@@ -549,6 +555,10 @@ def _remeasure_tab(analysis: Analysis) -> None:
     st.markdown("### Plan reordenado")
     for item in result.next_plan:
         st.markdown(f"- **{HORIZON_LABELS[item.horizon]}** · {ui.md_safe(item.title)}")
+
+
+def _short_payment(result: ItemResult) -> bool:
+    return any(c.status is PaymentStatus.PARTIAL for c in result.invoices)
 
 
 def _erp_tab() -> None:

@@ -39,3 +39,8 @@ def test_only_collections_are_called_proven() -> None:
 def test_negative_effects_keep_their_meaning() -> None:
     assert ui.effect_label(Effect.NONE, collection=True) == "Sin efecto"
     assert ui.effect_label(Effect.NOT_DONE, collection=False) == "No se ejecutó"
+
+
+def test_a_short_payment_is_named_as_such() -> None:
+    label = ui.effect_label(Effect.NONE, collection=True, short_payment=True)
+    assert "incompleto" in label and "no se da por cobrada" in label
