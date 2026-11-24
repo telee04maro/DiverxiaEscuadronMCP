@@ -42,6 +42,7 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 - [x] **N2. Marketing:** `docs/negocio/marketing.md` y `logo.svg`. **Falta subirlo al Drive** (B).
 - [x] **N3. Uso de la IA:** `docs/uso-ia.md`. **Falta subirlo al Drive, con capturas del panel.**
 - [x] **N4. Guion del pitch:** `docs/negocio/pitch.md` y `docs/DEMO.md`. **Falta ensayarlo con el tiempo real.**
+- [x] **E10. Atención y captación** (ADR 005): agente de consultas del ERP/CRM, contrato `CrmConnector`, ERP de demo con API para Hermes y entrada «Tu empresa» (Excel/CSV con plantillas).
 - [ ] **E8. Congelación de funciones** (unas 3 h antes de entregar): solo endurecer, reunir evidencias y preparar el pitch.
 - [ ] **E9. Entrega:** los 4 entregables en el Drive, repositorio limpio y README final.
 
@@ -77,6 +78,9 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
   - no se envía nada dos veces;
   - bandeja local o SMTP solo al buzón de prueba.
 - **Un mes después:** cobros comprobados al céntimo (el fallo de un céntimo no se da por cobrado); el resto de indicadores, «coincide» (no prueba la causa); el plan se reordena.
+- **Atención y captación:** consultas fuera de horario (60 % del total, 12,2 h de respuesta, 43 % perdidas en la demo) cruzadas en la causa principal de tres áreas; plan con «activar el asistente de WhatsApp» (con aprobación) y re-medición (de 12,2 h a minutos).
+- **ERP de demo con la forma de BALTER** y su API (token, 127.0.0.1 por defecto): Hermes registra consultas sin duplicar contactos; en el panel, pestaña 7, con mensaje de WhatsApp simulado y borrado de datos.
+- **«Tu empresa»:** entrevista inicial y subida de Excel/CSV con plantillas en español; validación fila a fila; lo que falta es un hueco.
 - **Entregables de negocio** en `docs/negocio/` (canvas, marketing con logo, guion del pitch) y uso de la IA en `docs/uso-ia.md`.
 
 ## En curso
@@ -108,6 +112,7 @@ Registro de pivotes, errores de enfoque y cambios de dirección, el más recient
 
 | Fecha | Cambio | Motivo | Decisión |
 |---|---|---|---|
+| 2026-11-24 | Nuevo agente de atención y captación, contrato de conector ERP/CRM, ERP de demo con la forma de BALTER y entrada «Tu empresa». **BALTER de producción descartado** | Integrar el asistente de WhatsApp del compañero y mostrar cómo entra una empresa; BALTER real tiene datos de clientes y las bases lo impiden | [005](decisiones/005-conectores-y-captacion.md) |
 | 2026-11-24 | El producto pasa a llamarse **Vigía** (antes, Centra); paquete `vigia` y variables `VIGIA_*` | Hay otras empresas que se llaman Centra | [004](decisiones/004-nombre-vigia.md) |
 | 2026-11-24 | De consultor único a **Vigía**: especialistas + coordinador que cruza la información. En la demo, competencia y finanzas en profundidad. El documento legal pasa a la hoja de ruta | Centralizar no aporta por sí solo; el valor es la causa cruzada. «Dos agentes muy buenos mejor que seis a medias» | [002](decisiones/002-vigia-equipo-de-agentes.md) |
 | 2026-11-24 | Idea elegida: consultor de IA permanente para pymes (caso de la clínica de fisioterapia) | Idea del equipo. Las propuestas v1 se descartaron por básicas y las v2 se dejaron como alternativas | [001](decisiones/001-idea-y-enfoque.md) |

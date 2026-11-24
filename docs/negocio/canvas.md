@@ -21,10 +21,10 @@ Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la soluc
 3. No tienen dinero ni tiempo para una consultora ni para tener departamentos propios.
 
 ## Soluciones (con la IA como herramienta)
-- Agentes especialistas con sus propias fuentes. **Ya funcionan:** finanzas (banco y facturas) y competencia (anuncios, precios, reseñas, Google).
+- Agentes especialistas con sus propias fuentes. **Ya funcionan:** finanzas (banco y facturas), competencia (anuncios, precios, reseñas, Google) y atención y captación (consultas del ERP/CRM y WhatsApp).
 - Un coordinador con IA que cruza los hallazgos, encuentra la causa y prioriza por impacto, esfuerzo y urgencia.
 - Plan a 7, 30 y 90 días: ejecuta lo seguro, lo delicado lo aprueba una persona, y mide si funcionó.
-- **Hoja de ruta:** clientes y captación por WhatsApp, marketing, legal, RR. HH. y organización.
+- Entra con sus Excel o con su ERP/CRM. **Hoja de ruta:** marketing, legal, RR. HH. y organización.
 
 ## Propuesta de valor
 **«Cada proveedor ve su parte. Vigía ve la causa.»** Todos los departamentos de tu pyme decidiendo juntos, con todo el contexto… y ejecutando.

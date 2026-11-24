@@ -55,7 +55,8 @@ La gestoría ve los impuestos, la agencia ve las redes y el Excel ve las cuentas
 | Marketing y clientes | Reseñas, redes y campañas. Responde reseñas y propone o lanza acciones | Reseñas propias, redes |
 | Legal y cumplimiento | Calendario de obligaciones, revisión de contratos, documentos y plazos. Lo complejo va a un abogado | Reglas de obligaciones según tamaño y sector, con la norma citada |
 | Organización y personas | Procesos lentos, cuellos de botella y clima del equipo | Agenda y tareas; **encuesta anónima** |
-| Atención al cliente | Canal único por el que el dueño pregunta o pide y el sistema responde o actúa | Todos los anteriores |
+| **Atención y captación** | Consultas de los clientes: tiempo de respuesta dentro y fuera de horario, perdidas, sin responsable. El asistente de WhatsApp las registra en el ERP/CRM sin duplicar | Oportunidades del ERP/CRM mediante `CrmConnector` (en la demo, ERP de demo con la forma de BALTER) |
+| Chat del dueño | Canal único por el que el dueño pregunta o aprueba (WhatsApp) y el sistema responde o actúa | Todos los anteriores |
 
 **Personalización:** una entrevista inicial (sector, tamaño, objetivos, recursos) adapta el plan a cada empresa.
 
@@ -66,8 +67,9 @@ La gestoría ve los impuestos, la agencia ve las redes y el Excel ve las cuentas
 1. **Agente de competencia y mercado.**
 2. **Agente de finanzas.**
 3. **Coordinador cruzando los dos**, con el plan a 7, 30 y 90 días, ejecución y re-medición.
+4. **Atención y captación** (ADR 005): ERP de demo con API para el asistente de WhatsApp del compañero (Hermes) y entrada «Tu empresa» con Excel/CSV.
 
-El resto (marketing y clientes, legal, organización y personas, atención al cliente) aparece en el pitch como **hoja de ruta**. Si sobra tiempo, solo se añade después del MVP completo y siempre con la misma calidad.
+El resto (marketing y clientes, legal, organización y personas, chat del dueño) aparece en el pitch como **hoja de ruta**. **BALTER real:** nunca en producción; solo con documentación de su API, visto bueno de la empresa y una primera prueba de solo lectura sin datos personales. Si sobra tiempo, solo se añade después del MVP completo y siempre con la misma calidad.
 
 **Caso único de la demo:** una pyme ficticia de Málaga, en principio la **clínica de fisioterapia** de la ADR 001 (pendiente de confirmar en la ADR 002). Contad el pitch con **un ejemplo concreto de causa cruzada**:
 > Las sesiones de particulares bajan un 18 %. **Competencia:** la clínica de al lado lanzó hace dos semanas en Meta una oferta de «primera sesión a 20 €». **Reseñas propias:** se quejan de la espera. **Finanzas:** una aseguradora paga a 95 días y la caja está justa. **Coordinador:** no es estacionalidad. Se pierden particulares por precio y espera, y la caja no aguanta una guerra de precios. **Plan:** reclamar a la aseguradora (7 días), contraoferta validada por finanzas para que deje margen (30 días), reorganizar la agenda (90 días). Después, medir.
@@ -268,7 +270,7 @@ El código no se entrega para revisión, así que la calidad es **proporcional a
 CLAUDE.md              Normas para Claude Code (este archivo)
 .claude/               Permisos compartidos (settings.json) y arranque del panel (launch.json)
 README.md              Descripción, instalación y uso (único README de contenido)
-src/vigia/            Código: domain, data, specialists, finance, coordinator, actions, llm,
+src/vigia/            Código: domain, data (incl. intake), specialists, finance, coordinator, actions, connectors, llm,
                        remeasure.py, pipeline.py, app.py (panel) y __main__.py (consola)
 tests/                 Tests unitarios y de extremo a extremo (sobre la clínica sintética)
 data/demo/             Clínica sintética: mes-0 (antes) y mes-1 (un mes después)
@@ -293,6 +295,7 @@ uv run pytest                                 # tests (incluye el recorrido de e
 uv run streamlit run src/vigia/app.py        # panel de la demo (http://localhost:8501)
 uv run python -m vigia --fallo               # recorrido completo en la consola
 uv run python -m vigia.data.synthetic        # regenerar la clínica sintética
+uv run python -m vigia.connectors.http_api   # API del ERP de demo (VIGIA_ERP_TOKEN obligatorio)
 ```
 
 Antes de cada commit tienen que pasar el formato, el lint, los tipos y los tests. La CI (`.github/workflows/ci.yml`) los ejecuta en cada push, en Linux y en Windows.

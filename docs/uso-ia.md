@@ -17,6 +17,9 @@ Cada uso de IA tiene detrás **una regla que lo verifica o lo sustituye**. Así 
 | Competencia | Clasifica las reseñas por tema (espera, trato, precio, resultado, instalaciones) | `claude-haiku-5-5` | El lenguaje de las reseñas es ambiguo | Solo se aceptan índices de reseñas que existen y temas de una lista cerrada | Palabras clave |
 | Coordinador | **Cruza los hallazgos de los especialistas** y propone la causa real, citando los hallazgos que la sostienen, y las hipótesis que se descartan | `claude-opus-5-5` (esfuerzo medio) | Es el razonamiento que ningún proveedor hace: unir finanzas y competencia | **Se rechaza toda causa que cite hallazgos inexistentes.** Que una causa sea «cruzada» lo calcula el código a partir de las áreas de los hallazgos citados, no lo decide la IA | Reglas de cruce explícitas (p. ej. caída de particulares + oferta de la competencia + quejas por espera) |
 | Finanzas | Redacta la reclamación de cobro con el tono adecuado | `claude-opus-5-5` | El tono importa: no romper la relación con el cliente | **Deben aparecer cada factura, cada importe y el total, y ningún importe que no esté en los datos**; si no, se usa la plantilla. Todo correo se identifica como redactado por IA (Reglamento de IA, art. 50) | Plantillas por tono |
+| Atención y captación | Nada: mide tiempos de respuesta, consultas perdidas y sin responsable con reglas | — | Son cálculos sobre datos del ERP/CRM | Reglas deterministas | — |
+
+El **asistente de WhatsApp** (Hermes, componente previo del compañero, pendiente de que la organización lo acepte como tal) usa su propia IA para conversar. Vigía solo recibe lo que registra en el ERP a través del contrato `CrmConnector`, y lo valida (teléfono o correo obligatorio, longitudes, sin duplicar contactos).
 
 **Lo que la IA nunca hace:**
 - calcular dinero, plazos o márgenes;
