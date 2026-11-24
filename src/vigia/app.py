@@ -74,6 +74,8 @@ EFFECT_ICON = {
     Effect.NOT_MEASURABLE: "❔",
 }
 
+BRAND = Path(__file__).resolve().parents[2] / "docs" / "negocio"
+
 
 def _state() -> None:
     if "settings" in st.session_state:
@@ -604,7 +606,10 @@ def _log_tab() -> None:
 
 
 def main() -> None:
-    st.set_page_config(page_title="Vigía", page_icon="🧭", layout="wide")
+    icon = str(BRAND / "icono.png") if (BRAND / "icono.png").exists() else "🧭"
+    st.set_page_config(page_title="Vigía", page_icon=icon, layout="wide")
+    if (BRAND / "logo.png").exists():
+        st.logo(str(BRAND / "logo.png"), size="large", icon_image=icon)
     _state()
     _sidebar()
     st.title("Vigía")
