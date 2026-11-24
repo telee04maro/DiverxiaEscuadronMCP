@@ -17,6 +17,7 @@ class Area(StrEnum):
     MARKETING = "marketing"
     LEGAL = "legal"
     PEOPLE = "personas"
+    CUSTOMERS = "clientes"
 
 
 AREA_LABELS: dict[Area, str] = {
@@ -25,6 +26,7 @@ AREA_LABELS: dict[Area, str] = {
     Area.MARKETING: "Marketing y clientes",
     Area.LEGAL: "Legal y cumplimiento",
     Area.PEOPLE: "Organización y personas",
+    Area.CUSTOMERS: "Atención y captación",
 }
 
 
@@ -48,6 +50,8 @@ class Signal(StrEnum):
     WAIT_COMPLAINTS = "quejas_espera"
     RATING_DROP = "nota_baja"
     LOW_SEARCH_VISIBILITY = "visibilidad_baja"
+    SLOW_RESPONSE = "respuesta_lenta"
+    UNASSIGNED_LEADS = "oportunidades_sin_asignar"
 
 
 class Evidence(BaseModel):

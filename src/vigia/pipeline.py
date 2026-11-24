@@ -20,13 +20,14 @@ from vigia.llm.base import LanguageModel
 from vigia.remeasure import Remeasurement, remeasure
 from vigia.specialists.base import Specialist
 from vigia.specialists.competition import CompetitionSpecialist
+from vigia.specialists.customers import CustomersSpecialist
 from vigia.specialists.finance import FinanceSpecialist, overdue_by_client
 
 ONE_CENT = Decimal("0.01")
 
 
 def default_specialists() -> tuple[Specialist, ...]:
-    return (FinanceSpecialist(), CompetitionSpecialist())
+    return (FinanceSpecialist(), CompetitionSpecialist(), CustomersSpecialist())
 
 
 class Analysis(BaseModel):

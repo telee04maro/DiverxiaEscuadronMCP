@@ -18,6 +18,7 @@ from vigia.data.model import (
     CompetitorAd,
     Invoice,
     MonthlySessions,
+    Opportunity,
     Review,
     SearchResult,
 )
@@ -31,6 +32,7 @@ REVIEWS_FILE = "resenas.json"
 ADS_FILE = "competencia/anuncios.json"
 COMPETITORS_FILE = "competencia/competidores.json"
 SEARCH_FILE = "competencia/busqueda.json"
+OPPORTUNITIES_FILE = "crm/oportunidades.json"
 
 
 class DataError(ValueError):
@@ -51,6 +53,7 @@ def load_company_data(folder: Path) -> CompanyData:
         competitor_ads=_load(folder, ADS_FILE, missing, _ads),
         competitors=_load(folder, COMPETITORS_FILE, missing, _competitors),
         search_results=_load(folder, SEARCH_FILE, missing, _search),
+        opportunities=_load(folder, OPPORTUNITIES_FILE, missing, _opportunities),
         missing_sources=tuple(missing),
     )
 
@@ -114,3 +117,7 @@ def _competitors(path: Path) -> tuple[Competitor, ...]:
 
 def _search(path: Path) -> tuple[SearchResult, ...]:
     return tuple(SearchResult.model_validate(item) for item in _read_json(path))
+
+
+def _opportunities(path: Path) -> tuple[Opportunity, ...]:
+    return tuple(Opportunity.model_validate(item) for item in _read_json(path))

@@ -10,7 +10,7 @@ Run ``uv run python -m vigia.data.synthetic`` to regenerate ``data/demo/clinica-
 import csv
 import json
 from dataclasses import dataclass
-from datetime import date, timedelta
+from datetime import date, datetime, time, timedelta
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
@@ -289,6 +289,77 @@ SEARCH = [
 ]  # fmt: skip
 
 
+OPENING_HOUR = 9
+CLOSING_HOUR = 20
+ENQUIRY_START = date(2026, 9, 1)
+# The WhatsApp assistant is approved on 4 November: from then on, after-hours enquiries
+# get an answer in minutes instead of the next morning.
+ASSISTANT_FROM = datetime(2026, 11, 4)
+ENQUIRY_HOURS = (10, 21, 12, 23, 17, 8, 19, 22, 11, 20)
+TOPICS = (
+    "Primera visita",
+    "Lumbalgia",
+    "Fisioterapia deportiva",
+    "Suelo pélvico",
+    "Precio de la sesión",
+    "Cita para esta semana",
+)
+
+
+def _after_hours(moment: datetime) -> bool:
+    return moment.weekday() >= 5 or not OPENING_HOUR <= moment.hour < CLOSING_HOUR  # noqa: PLR2004
+
+
+def _next_opening(moment: datetime) -> datetime:
+    day = moment.date() if moment.hour < OPENING_HOUR else moment.date() + timedelta(days=1)
+    while day.weekday() >= 5:  # noqa: PLR2004 - Saturday and Sunday
+        day += timedelta(days=1)
+    return datetime.combine(day, time(OPENING_HOUR, 40))
+
+
+def _opportunities(until: datetime) -> list[dict[str, Any]]:
+    """WhatsApp enquiries without personal data: contacts are only identifiers."""
+    rows: list[dict[str, Any]] = []
+    day, index = ENQUIRY_START, 0
+    while datetime.combine(day, time(0)) < until:
+        per_day = 1 if day.weekday() >= 5 else 2  # noqa: PLR2004
+        for _ in range(per_day):
+            hour = ENQUIRY_HOURS[index % len(ENQUIRY_HOURS)]
+            created = datetime.combine(day, time(hour, (index * 7) % 60))
+            index += 1
+            if created >= until:
+                continue
+            rows.append(_opportunity(index, created, until))
+        day += timedelta(days=1)
+    return rows
+
+
+def _opportunity(index: int, created: datetime, until: datetime) -> dict[str, Any]:
+    late = _after_hours(created)
+    assistant = created >= ASSISTANT_FROM
+    if not late:
+        response = created + timedelta(minutes=25)
+    elif assistant:
+        response = created + timedelta(minutes=2)
+    else:
+        response = _next_opening(created)
+    lost = late and (index % 8 == 0 if assistant else index % 3 == 0)
+    unassigned = late and not assistant and index % 4 == 2  # noqa: PLR2004 - fixed pattern
+    status = "perdida" if lost else ("ganada" if index % 4 == 0 else "abierta")
+    return {
+        "id": f"OP-{index:04d}",
+        "contact_id": f"CT-{index:04d}",
+        "channel": "whatsapp",
+        "topic": TOPICS[index % len(TOPICS)],
+        "urgent": index % 9 == 0,
+        "created_at": created.isoformat(),
+        "first_response_at": response.isoformat() if response <= until else None,
+        "assigned_to": None if unassigned else "Recepción",
+        "status": status,
+        "summary": "Consulta recibida por WhatsApp" + (" fuera de horario" if late else ""),
+    }
+
+
 def _company(analysis_date: date) -> dict[str, Any]:
     return {
         "name": OWN_NAME,
@@ -313,6 +384,8 @@ def _company(analysis_date: date) -> dict[str, Any]:
             "gerente, que es la dueña. Sin CRM: agenda en un programa y cuentas en Excel."
         ),
         "queries_of_interest": ["fisioterapeuta málaga centro", "fisio cita hoy málaga"],
+        "opening_hour": OPENING_HOUR,
+        "closing_hour": CLOSING_HOUR,
     }
 
 
@@ -344,6 +417,10 @@ def write_snapshot(folder: Path, *, analysis_date: date, last_month: str) -> Non
     _write_json(folder / "competencia/anuncios.json", ADS)
     _write_json(folder / "competencia/competidores.json", COMPETITORS)
     _write_json(folder / "competencia/busqueda.json", SEARCH)
+    _write_json(
+        folder / "crm/oportunidades.json",
+        _opportunities(datetime.combine(analysis_date, time(0))),
+    )
 
 
 def main() -> None:

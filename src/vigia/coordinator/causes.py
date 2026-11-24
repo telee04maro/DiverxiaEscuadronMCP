@@ -177,6 +177,21 @@ def _areas(findings: Iterable[Finding]) -> tuple[Area, ...]:
     return tuple(dict.fromkeys(f.area for f in findings))
 
 
+def _slow_response_clause(slow: list[Finding]) -> str:
+    """Figures from the customer-service finding, never from the template."""
+    if not slow:
+        return ""
+    metrics = slow[0].metrics
+    hours, lost = metrics.get("late_hours"), metrics.get("late_lost")
+    if hours is None:
+        return ""
+    shown = str(hours).replace(".", ",")
+    clause = f"; además, las consultas que llegan fuera de horario tardan {shown} h en contestarse"
+    if lost is not None:
+        clause += f" y se pierde el {lost} % de ellas"
+    return clause
+
+
 def _cash_cause_text(findings: tuple[Finding, ...]) -> tuple[str, str]:
     """Every figure in the sentence comes from the findings' metrics, never from a template."""
     slow = max(_with(findings, Signal.SLOW_PAYER), key=lambda f: f.metrics.get("owed", Decimal(0)))
@@ -226,11 +241,14 @@ def _rule_crossing(findings: tuple[Finding, ...], log: AuditLog) -> CrossAnalysi
         and Signal.WAIT_COMPLAINTS in present
     ):
         attacks_weakness = Signal.COMPETITOR_PROMISES_NO_WAIT in present
+        slow = _with(findings, Signal.SLOW_RESPONSE)
         add(
-            "Se pierden pacientes particulares por precio y por la espera",
+            "Se pierden pacientes particulares por precio y por la espera"
+            + (", también al escribir fuera de horario" if slow else ""),
             "Las sesiones de particulares caen mientras la competencia lanza una oferta más "
             "barata y nuestras reseñas se quejan de la espera"
             + (", justo lo que la competencia promete resolver" if attacks_weakness else "")
+            + _slow_response_clause(slow)
             + ". No es un problema de un área: precio y servicio se suman.",
             _with(
                 findings,
@@ -238,6 +256,7 @@ def _rule_crossing(findings: tuple[Finding, ...], log: AuditLog) -> CrossAnalysi
                 Signal.COMPETITOR_OFFER,
                 Signal.HIGHER_PRICE,
                 Signal.WAIT_COMPLAINTS,
+                Signal.SLOW_RESPONSE,
             ),
             Confidence.HIGH,
         )

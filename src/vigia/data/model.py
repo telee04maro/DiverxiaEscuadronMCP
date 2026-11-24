@@ -1,6 +1,6 @@
 """What Vigía knows about a company. Every collection may be empty: missing data is a gap."""
 
-from datetime import date
+from datetime import date, datetime
 from decimal import Decimal
 from enum import StrEnum
 
@@ -37,6 +37,8 @@ class Company(BaseModel):
     goals: tuple[str, ...] = ()
     resources: str = ""
     queries_of_interest: tuple[str, ...] = ()
+    opening_hour: int = Field(default=9, ge=0, le=23)
+    closing_hour: int = Field(default=20, ge=1, le=24)
 
     def service(self, name: str) -> Service | None:
         return next((s for s in self.services if s.name == name), None)
@@ -120,6 +122,29 @@ class SearchResult(BaseModel):
     sponsored: bool = False
 
 
+class OpportunityStatus(StrEnum):
+    OPEN = "abierta"
+    WON = "ganada"
+    LOST = "perdida"
+
+
+class Opportunity(BaseModel):
+    """An enquiry registered in the ERP/CRM (e.g. by the WhatsApp assistant)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    id: str
+    contact_id: str
+    channel: str
+    topic: str
+    urgent: bool = False
+    created_at: datetime
+    first_response_at: datetime | None = None
+    assigned_to: str | None = None
+    status: OpportunityStatus = OpportunityStatus.OPEN
+    summary: str = ""
+
+
 class CompanyData(BaseModel):
     model_config = ConfigDict(frozen=True)
 
@@ -131,4 +156,5 @@ class CompanyData(BaseModel):
     competitor_ads: tuple[CompetitorAd, ...] = ()
     competitors: tuple[Competitor, ...] = ()
     search_results: tuple[SearchResult, ...] = ()
+    opportunities: tuple[Opportunity, ...] = ()
     missing_sources: tuple[str, ...] = ()

@@ -16,6 +16,7 @@ from vigia.domain.money import fmt_eur
 from vigia.domain.priority import Horizon, horizon_for, score
 from vigia.finance.offers import OfferCheck, check_first_visit_offer
 from vigia.specialists.competition import NAME as COMPETITION
+from vigia.specialists.customers import NAME as CUSTOMERS
 from vigia.specialists.finance import NAME as FINANCE
 
 OFFER_STEPS = (Decimal(0), Decimal(5), Decimal(10))
@@ -36,6 +37,8 @@ class Kind(StrEnum):
     AGENDA = "reorganizar_agenda"
     CASH_FORECAST = "prevision_caja"
     LOCAL_SEARCH = "visibilidad_busqueda"
+    WHATSAPP_ASSISTANT = "asistente_whatsapp"
+    ASSIGN_LEADS = "asignar_oportunidades"
 
 
 class Direction(StrEnum):
@@ -80,6 +83,7 @@ def build_plan(data: CompanyData, findings: tuple[Finding, ...], crossing: Cross
         items.append(offer_item)
     items.extend(_service_items(findings, crossing))
     items.extend(_cash_and_search_items(findings, crossing))
+    items.extend(_customer_items(findings, crossing))
     ordered = sorted(items, key=lambda i: (i.horizon, -i.score))
     return Plan(items=tuple(ordered), offer_checks=checks)
 
@@ -244,6 +248,50 @@ def _cash_and_search_items(
                 target_kpi="posicion_busqueda_1",
                 expected=Direction.DOWN,
                 score=_top_score(search),
+            )
+        )
+    return items
+
+
+def _customer_items(findings: tuple[Finding, ...], crossing: CrossAnalysis) -> list[PlanItem]:
+    items = []
+    slow = [f for f in findings if Signal.SLOW_RESPONSE in f.signals]
+    if slow:
+        items.append(
+            PlanItem(
+                id="PLAN-WHATSAPP",
+                kind=Kind.WHATSAPP_ASSISTANT,
+                title="Activar el asistente de WhatsApp fuera de horario (responde, cualifica y "
+                "registra en el ERP)",
+                why=slow[0].title,
+                horizon=horizon_for(urgency=slow[0].urgency, effort=slow[0].effort),
+                owner=CUSTOMERS,
+                autonomy=Autonomy.APPROVAL,
+                finding_ids=(slow[0].id,),
+                cause_id=_cause_for((slow[0].id,), crossing),
+                target_kpi="respuesta_fuera_horario_h",
+                expected=Direction.DOWN,
+                score=score(slow[0]),
+                detail="Responde al momento y registra la oportunidad sin duplicados; no da "
+                "asesoramiento cerrado y avisa a una persona si es urgente.",
+            )
+        )
+    unassigned = [f for f in findings if Signal.UNASSIGNED_LEADS in f.signals]
+    if unassigned:
+        items.append(
+            PlanItem(
+                id="PLAN-ASIGNAR",
+                kind=Kind.ASSIGN_LEADS,
+                title="Asignar cada mañana las oportunidades pendientes",
+                why=unassigned[0].title,
+                horizon=Horizon.WEEK,
+                owner=f"{MANAGER} (recepción)",
+                autonomy=Autonomy.PERSON,
+                finding_ids=(unassigned[0].id,),
+                cause_id=_cause_for((unassigned[0].id,), crossing),
+                target_kpi="sin_asignar_48h",
+                expected=Direction.DOWN,
+                score=score(unassigned[0]),
             )
         )
     return items
