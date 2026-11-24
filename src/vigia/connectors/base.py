@@ -12,7 +12,7 @@ from typing import Protocol
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from vigia.audit import AuditLog, EventKind
-from vigia.data.model import Opportunity, OpportunityStatus, to_local_naive
+from vigia.data.model import Opportunity, to_local_naive
 
 AGENT = "Agente de atención y captación"
 DEFAULT_COUNTRY_CODE = "+34"
@@ -152,6 +152,8 @@ class CrmConnector(Protocol):
 
     def list_opportunities(self) -> tuple[Opportunity, ...]: ...
 
+    def open_opportunity(self, contact_id: str) -> Opportunity | None: ...
+
 
 def _resolve_contact(
     crm: CrmConnector, enquiry: Enquiry, log: AuditLog
@@ -171,14 +173,8 @@ def _resolve_contact(
 
 
 def _open_opportunity(crm: CrmConnector, contact_id: str) -> Opportunity | None:
-    return next(
-        (
-            o
-            for o in crm.list_opportunities()
-            if o.contact_id == contact_id and o.status is OpportunityStatus.OPEN
-        ),
-        None,
-    )
+    # A direct lookup: scanning every opportunity made each WhatsApp message O(n).
+    return crm.open_opportunity(contact_id)
 
 
 def register_enquiry(crm: CrmConnector, enquiry: Enquiry, log: AuditLog) -> EnquiryOutcome:

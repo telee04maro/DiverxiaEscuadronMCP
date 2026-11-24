@@ -35,6 +35,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS ux_contacts_phone ON contacts(phone) WHERE pho
 CREATE UNIQUE INDEX IF NOT EXISTS ux_contacts_email ON contacts(email) WHERE email IS NOT NULL;
 CREATE UNIQUE INDEX IF NOT EXISTS ux_one_open_opportunity
     ON opportunities(contact_id) WHERE status = 'abierta';
+CREATE INDEX IF NOT EXISTS ix_opportunities_created ON opportunities(created_at);
 CREATE TABLE IF NOT EXISTS notes (
     id INTEGER PRIMARY KEY AUTOINCREMENT, opportunity_id TEXT NOT NULL REFERENCES opportunities(id),
     text TEXT NOT NULL, created_at TEXT NOT NULL
@@ -140,6 +141,14 @@ class DemoErp:
         with self._db() as db:
             rows = db.execute("SELECT * FROM opportunities ORDER BY created_at").fetchall()
         return tuple(_opportunity(row) for row in rows)
+
+    def open_opportunity(self, contact_id: str) -> Opportunity | None:
+        with self._db() as db:
+            row = db.execute(
+                "SELECT * FROM opportunities WHERE contact_id = ? AND status = ?",
+                (contact_id, OpportunityStatus.OPEN.value),
+            ).fetchone()
+        return _opportunity(row) if row else None
 
     def notes(self, opportunity_id: str) -> tuple[str, ...]:
         with self._db() as db:

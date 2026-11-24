@@ -12,6 +12,7 @@ import hmac
 import json
 import os
 import re
+import threading
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -26,6 +27,8 @@ from vigia.connectors.demo_erp import DemoErp, UnknownRecordError
 
 MAX_BODY = 64 * 1024
 REQUEST_TIMEOUT_S = 10
+MAX_CONCURRENT = 32  # requests served at once; the rest wait, then get 503
+LISTEN_BACKLOG = 512  # Python's default is 5: bursts were refused at the TCP level
 PREFIX = "/api/v1"
 _NOTES = re.compile(rf"^{PREFIX}/opportunities/(?P<id>[\w-]{{1,40}})/notes$")
 _ORIGIN = re.compile(rf"^{PREFIX}/opportunities/(?P<id>[\w-]{{1,40}})/origin$")
@@ -46,10 +49,16 @@ class ApiError(Exception):
         self.message = message
 
 
+class _Server(ThreadingHTTPServer):
+    request_queue_size = LISTEN_BACKLOG
+    daemon_threads = True
+
+
 def build_server(host: str, port: int, erp: DemoErp, token: str) -> ThreadingHTTPServer:
     if len(token) < 16:  # noqa: PLR2004 - a short token is guessable
         raise ValueError("VIGIA_ERP_TOKEN debe tener al menos 16 caracteres")
     log = AuditLog()
+    slots = threading.BoundedSemaphore(MAX_CONCURRENT)
 
     class Handler(BaseHTTPRequestHandler):
         server_version = "VigiaDemoERP/1.0"
@@ -66,6 +75,15 @@ def build_server(host: str, port: int, erp: DemoErp, token: str) -> ThreadingHTT
             """Log method and path only: bodies may contain personal data."""
 
         def _handle(self, route: Any) -> None:  # noqa: ANN401 - bound method
+            if not slots.acquire(timeout=REQUEST_TIMEOUT_S):
+                self._send(HTTPStatus.SERVICE_UNAVAILABLE, {"error": "Servidor ocupado"})
+                return
+            try:
+                self._serve(route)
+            finally:
+                slots.release()
+
+        def _serve(self, route: Any) -> None:  # noqa: ANN401 - bound method
             try:
                 self._authorize()
                 status, payload = route()
@@ -151,7 +169,7 @@ def build_server(host: str, port: int, erp: DemoErp, token: str) -> ThreadingHTT
             self.end_headers()
             self.wfile.write(body)
 
-    return ThreadingHTTPServer((host, port), Handler)
+    return _Server((host, port), Handler)
 
 
 def main() -> None:

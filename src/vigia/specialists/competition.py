@@ -6,6 +6,7 @@ and if the model is unavailable the keyword rules take over.
 """
 
 import re
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date, timedelta
 from decimal import ROUND_HALF_UP, Decimal
 from enum import StrEnum
@@ -124,8 +125,13 @@ class CompetitionSpecialist:
             for ad in data.competitor_ads
             if ad.active_on(today) and ad.ad_delivery_start_time >= today - timedelta(NEW_AD_DAYS)
         ]
-        ad_facts = _read_ads(new_ads, model, log)
-        themes = _classify_reviews(data.reviews, model, log, data.company.sector)
+        # Two independent reads by the model: in parallel, the agent waits for the slower one.
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            ads_job = pool.submit(_read_ads, new_ads, model, log)
+            themes_job = pool.submit(
+                _classify_reviews, data.reviews, model, log, data.company.sector
+            )
+            ad_facts, themes = ads_job.result(), themes_job.result()
         findings = [
             *_offer_findings(ad_facts, today),
             *_price_findings(data),

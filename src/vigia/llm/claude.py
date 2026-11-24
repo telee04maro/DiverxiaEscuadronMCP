@@ -1,6 +1,7 @@
 """Claude through the official SDK, with structured outputs, a spending cap and cost tracking."""
 
 import logging
+import time
 from decimal import Decimal
 
 import anthropic
@@ -48,6 +49,7 @@ class ClaudeModel:
         if total_cost(self.calls) >= self._settings.ai_budget_usd:
             self._record(task, model, note="Tope de gasto alcanzado: se usan reglas")
             return None
+        started = time.perf_counter()
         try:
             response = self._client.messages.parse(
                 model=model,
@@ -59,13 +61,24 @@ class ClaudeModel:
             )
         except anthropic.APIError as error:
             logger.warning("Claude no respondió en %s: %s", task, type(error).__name__)
-            self._record(task, model, note=f"Error de la API ({type(error).__name__})")
+            self._record(
+                task,
+                model,
+                note=f"Error de la API ({type(error).__name__})",
+                seconds=time.perf_counter() - started,
+            )
             return None
         except (ValidationError, ValueError) as error:
             # The output broke the schema's limits (e.g. impact 1-5): untrusted, so rules decide.
             logger.warning("Salida de Claude no válida en %s: %s", task, type(error).__name__)
-            self._record(task, model, note="Salida no válida según el esquema: se usan reglas")
+            self._record(
+                task,
+                model,
+                note="Salida no válida según el esquema: se usan reglas",
+                seconds=time.perf_counter() - started,
+            )
             return None
+        seconds = time.perf_counter() - started
         usage = response.usage
         cost = _cost(model, usage.input_tokens, usage.output_tokens)
         if response.stop_reason == "refusal" or response.parsed_output is None:
@@ -76,6 +89,7 @@ class ClaudeModel:
                 output_tokens=usage.output_tokens,
                 cost=cost,
                 note="Sin salida",
+                seconds=seconds,
             )
             return None
         self._calls.append(
@@ -86,6 +100,7 @@ class ClaudeModel:
                 output_tokens=usage.output_tokens,
                 cost_usd=cost,
                 ok=True,
+                seconds=seconds,
             )
         )
         return response.parsed_output
@@ -99,6 +114,7 @@ class ClaudeModel:
         output_tokens: int = 0,
         cost: Decimal = Decimal(0),
         note: str = "",
+        seconds: float = 0.0,
     ) -> None:
         self._calls.append(
             LlmCall(
@@ -109,6 +125,7 @@ class ClaudeModel:
                 cost_usd=cost,
                 ok=False,
                 note=note,
+                seconds=seconds,
             )
         )
 

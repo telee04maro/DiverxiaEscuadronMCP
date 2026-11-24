@@ -31,3 +31,4 @@ Thumbs.db
 .idea/
 outbox/
 *.sqlite
+*.sqlite-journal

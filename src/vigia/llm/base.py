@@ -28,6 +28,7 @@ class LlmCall(BaseModel):
     cost_usd: Decimal
     ok: bool
     note: str = ""
+    seconds: float = 0.0  # wall time of the call, for the log and to find what is slow
 
 
 class LanguageModel(Protocol):

@@ -135,7 +135,10 @@ def _collection_result(
     if paid == len(checks):
         effect, note = Effect.CONFIRMED, "Todas las facturas reclamadas cuadran con el banco"
     elif paid:
-        effect, note = Effect.PARTIAL, f"Cobradas al céntimo {paid} de {len(checks)} facturas"
+        effect, note = (
+            Effect.PARTIAL,
+            f"Cobradas {paid} de {len(checks)} facturas, comprobado con el banco",
+        )
     else:
         effect, note = Effect.NONE, "Ninguna factura reclamada aparece cobrada en el banco"
     short = [c for c in checks if c.status is PaymentStatus.PARTIAL]

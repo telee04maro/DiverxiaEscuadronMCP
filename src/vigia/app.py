@@ -32,8 +32,6 @@ from vigia.pipeline import (
     analyze,
     approve,
     execute_plan,
-    first_paid_reference,
-    inject_short_payment,
     mark_done,
     measure_after,
 )
@@ -132,11 +130,6 @@ def _sidebar() -> None:
             else f"Bandeja local ({settings.outbox_dir.as_posix()}/)"
         )
         st.divider()
-        st.toggle(
-            "Fallo inyectado: un pago llega con 1 céntimo de menos",
-            key="inject_fault",
-            help="Para demostrar que Vigía no da por cobrada una factura que no cuadra.",
-        )
         if st.button("Reiniciar la demo", use_container_width=True):
             for key in list(st.session_state.keys()):
                 del st.session_state[key]
@@ -426,7 +419,7 @@ def _actions_tab(analysis: Analysis) -> None:
                 st.text(sent.claim.body)
         st.info(
             "Enviar no es cobrar: estas facturas siguen pendientes hasta que el banco lo "
-            "confirme al céntimo (pestaña 5)."
+            "confirme (pestaña 5)."
         )
     others = [i for i in analysis.plan.items if i.kind is not Kind.COLLECT]
     if others:
@@ -441,13 +434,7 @@ def _actions_tab(analysis: Analysis) -> None:
 
 def _after_data() -> CompanyData:
     after: CompanyData = st.session_state.after
-    if not st.session_state.get("inject_fault"):
-        return after
-    since = st.session_state.before.company.analysis_date
-    reference = first_paid_reference(after, "ASG-GAMMA", since) or first_paid_reference(
-        after, "ASG-BETA", since
-    )
-    return inject_short_payment(after, reference) if reference else after
+    return after
 
 
 def _remeasure_tab(analysis: Analysis) -> None:
@@ -460,8 +447,6 @@ def _remeasure_tab(analysis: Analysis) -> None:
     st.caption(
         "«Un mes después» son datos simulados del 2/12/2026 con lo que habría pasado tras el plan."
     )
-    if st.session_state.get("inject_fault"):
-        st.warning("Fallo inyectado activo: un pago llega con 1 céntimo de menos.")
     if st.button("Medir un mes después", type="primary"):
         reports, measured = measure_after(
             analysis,
@@ -476,7 +461,14 @@ def _remeasure_tab(analysis: Analysis) -> None:
     if result is None:
         return
     units = {k.key: k.unit for report in analysis.reports for k in report.kpis}
-    for r in result.results:
+    done = [r for r in result.results if r.effect is not Effect.NOT_DONE]
+    skipped = [r for r in result.results if r.effect is Effect.NOT_DONE]
+    if not done:
+        st.info(
+            "Aún no se ha hecho nada del plan: marca en la pestaña 4 lo que ya está hecho "
+            "y vuelve a medir. Solo se mide lo que se ha hecho."
+        )
+    for r in done:
         unit = "€" if r.item.kind is Kind.COLLECT else units.get(r.item.target_kpi, "")
         with st.container(border=True):
             st.markdown(
@@ -491,6 +483,11 @@ def _remeasure_tab(analysis: Analysis) -> None:
                     f"- {check.invoice_id}: {fmt_eur(check.amount)} · cobrado "
                     f"{fmt_eur(check.paid)} → **{check.status.value}**"
                 )
+    if skipped:
+        st.caption(
+            "Sin hacer todavía (no se les atribuye ningún cambio): "
+            + "; ".join(r.item.title for r in skipped)
+        )
     st.markdown("### Plan reordenado")
     for item in result.next_plan:
         st.markdown(f"- **{HORIZON_LABELS[item.horizon]}** · {item.title}")
@@ -590,6 +587,7 @@ def _log_tab() -> None:
                     "Tokens entrada": c.input_tokens,
                     "Tokens salida": c.output_tokens,
                     "Coste ($)": f"{c.cost_usd:.4f}",
+                    "Tiempo (s)": f"{c.seconds:.1f}",
                     "OK": "sí" if c.ok else f"no ({c.note})",
                 }
                 for c in calls
