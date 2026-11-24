@@ -4,6 +4,7 @@ Presentation only. Every text that comes from data (findings, causes, plan items
 is escaped before it goes into HTML: it may contain third-party text (ads, reviews).
 """
 
+import re
 from html import escape
 
 import streamlit as st
@@ -99,6 +100,15 @@ button[data-baseweb="tab"] p {{ font-size: 0.98rem; font-weight: 600; }}
 """
 
 
+_MARKDOWN_ACTIVE = re.compile(r"([\\`*_{}\[\]()#+\-.!|<>$~:])")
+
+
+def md_safe(text: str) -> str:
+    """Third-party text shown through st.markdown as plain text: no links, images, maths or
+    colour directives can come from an ad, a review or an uploaded file."""
+    return _MARKDOWN_ACTIVE.sub(r"\\\1", text)
+
+
 def apply_theme() -> None:
     st.markdown(CSS, unsafe_allow_html=True)
 
@@ -118,9 +128,16 @@ def autonomy_pill(autonomy: Autonomy) -> str:
     return pill(words, color, background)
 
 
-def effect_pill(effect: Effect) -> str:
+def effect_label(effect: Effect, *, collection: bool) -> str:
+    """A KPI that moved only coincides in time; only a collection is proven (to the cent)."""
+    if effect is Effect.CONFIRMED:
+        return "Cobro comprobado al céntimo" if collection else "Mejoró (coincide en el tiempo)"
+    return effect.value.capitalize()
+
+
+def effect_pill(effect: Effect, *, collection: bool) -> str:
     color, background = EFFECT_STYLE[effect]
-    return pill(effect.value.capitalize(), color, background)
+    return pill(effect_label(effect, collection=collection), color, background)
 
 
 def area_chip(area: Area, label: str) -> str:
@@ -163,8 +180,14 @@ def cause_card(
     kicker: str, title: str, explanation: str, support: list[str], *, cross: bool
 ) -> None:
     """support items are already-safe HTML (built with area_chip + escaped text)."""
+    html(cause_card_html(kicker, title, explanation, support, cross=cross))
+
+
+def cause_card_html(
+    kicker: str, title: str, explanation: str, support: list[str], *, cross: bool
+) -> str:
     rows = "".join(f"<li>{item}</li>" for item in support)
-    html(
+    return (
         f'<div class="vg-cause{"" if cross else " single"}">'
         f'<div class="vg-kicker">{escape(kicker)}</div>'
         f"<h3>{escape(title)}</h3><p>{escape(explanation)}</p>"

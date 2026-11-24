@@ -39,7 +39,7 @@ from vigia.pipeline import (
     mark_done,
     measure_after,
 )
-from vigia.remeasure import Effect, Remeasurement
+from vigia.remeasure import Remeasurement
 
 ROOT = Path(__file__).resolve().parents[2]
 ROADMAP = (
@@ -241,7 +241,7 @@ def _company_summary(data: CompanyData) -> None:
         if company.goals:
             st.markdown("Objetivos:\n" + "\n".join(f"- {g}" for g in company.goals))
         if company.resources:
-            st.markdown(f"Recursos: {company.resources}")
+            st.markdown(f"Recursos: {ui.md_safe(company.resources)}")
         st.markdown(
             "Servicios: " + ", ".join(f"{s.name} ({fmt_eur(s.price)})" for s in company.services)
         )
@@ -340,11 +340,13 @@ def _intake_section() -> None:
 
 
 def _finding_card(finding: Finding) -> None:
-    with st.expander(f"**{finding.title}**  ·  confianza {finding.confidence.value}"):
-        st.caption(f"{finding.id} · {finding.detail}")
+    with st.expander(f"**{ui.md_safe(finding.title)}**  ·  confianza {finding.confidence.value}"):
+        st.caption(f"{finding.id} · {ui.md_safe(finding.detail)}")
         for evidence in finding.evidence:
             when = f" ({evidence.on:%d/%m/%Y})" if evidence.on else ""
-            st.markdown(f"- {evidence.fact}{when}  \n  :gray[{evidence.source}]")
+            st.markdown(
+                f"- {ui.md_safe(evidence.fact)}{when}  \n  :gray[{ui.md_safe(evidence.source)}]"
+            )
         st.caption(
             f"Impacto {finding.impact}/5 · urgencia {finding.urgency}/5 · "
             f"esfuerzo {finding.effort}/5"
@@ -367,7 +369,7 @@ def _report_column(report: SpecialistReport) -> None:
             _finding_card(finding)
         with st.expander("Lo que me falta para afinar"):
             for gap in report.gaps:
-                st.markdown(f"- **{gap.missing}**: {gap.why_it_matters}")
+                st.markdown(f"- **{ui.md_safe(gap.missing)}**: {ui.md_safe(gap.why_it_matters)}")
 
 
 def _specialists_tab(analysis: Analysis) -> None:
@@ -408,9 +410,11 @@ def _coordinator_tab(analysis: Analysis) -> None:
             cross=cause.is_cross,
         )
     for hypothesis in crossing.discarded:
-        st.info(f"**Descartado:** {hypothesis.hypothesis}. {hypothesis.reason}")
+        st.info(
+            f"**Descartado:** {ui.md_safe(hypothesis.hypothesis)}. {ui.md_safe(hypothesis.reason)}"
+        )
     for note in crossing.rejected:
-        st.warning(f"Rechazado por falta de evidencia: {note}")
+        st.warning(f"Rechazado por falta de evidencia: {ui.md_safe(note)}")
     st.divider()
     st.markdown("### Qué hacer y cuándo")
     ui.legend()
@@ -424,18 +428,18 @@ def _coordinator_tab(analysis: Analysis) -> None:
         with st.expander("Cómo validó finanzas la contraoferta"):
             for check in analysis.plan.offer_checks:
                 mark = "✅" if check.viable else "❌"
-                st.markdown(f"{mark} {check.reason}")
+                st.markdown(f"{mark} {ui.md_safe(check.reason)}")
 
 
 def _plan_card(item: PlanItem) -> None:
     with st.container(border=True):
-        st.markdown(f"**{item.title}**")
+        st.markdown(f"**{ui.md_safe(item.title)}**")
         ui.html(
             f"{ui.autonomy_pill(item.autonomy)} <span class='vg-note'>{escape(item.owner)}</span>"
         )
-        st.caption(f"Por qué: {item.why}")
+        st.caption(f"Por qué: {ui.md_safe(item.why)}")
         if item.detail:
-            st.caption(item.detail)
+            st.caption(ui.md_safe(item.detail))
 
 
 def _actions_tab(analysis: Analysis) -> None:
@@ -453,7 +457,8 @@ def _actions_tab(analysis: Analysis) -> None:
         for item_id, claim in list(execution.pending.items()):
             with st.container(border=True):
                 st.markdown(
-                    f"**{claim.subject}** → {claim.to}  \n:orange[Tono {claim.tone.value}] · "
+                    f"**{ui.md_safe(claim.subject)}** → {ui.md_safe(claim.to)}  \n"
+                    f":orange[Tono {claim.tone.value}] · "
                     f"{claim.origin.value} · total {fmt_eur(claim.total)}"
                 )
                 st.text(claim.body)
@@ -463,7 +468,9 @@ def _actions_tab(analysis: Analysis) -> None:
     if execution.sent:
         st.markdown("### Enviado")
         for sent in execution.sent:
-            with st.expander(f"✉️ {sent.claim.subject} → {sent.claim.client_name}"):
+            with st.expander(
+                f"✉️ {ui.md_safe(sent.claim.subject)} → {ui.md_safe(sent.claim.client_name)}"
+            ):
                 st.caption(f"{sent.delivery} · {sent.claim.origin.value}")
                 st.text(sent.claim.body)
         st.info(
@@ -517,17 +524,21 @@ def _remeasure_tab(analysis: Analysis) -> None:
     result: Remeasurement | None = st.session_state.remeasure
     if result is None:
         return
-    counts = Counter(r.effect for r in result.results)
-    ui.tiles(
-        [(str(counts[effect]), effect.value.capitalize()) for effect in Effect if counts[effect]]
+    counts = Counter(
+        ui.effect_label(r.effect, collection=r.item.kind is Kind.COLLECT) for r in result.results
     )
+    ui.tiles([(str(n), label) for label, n in counts.items()])
     units = {k.key: k.unit for report in analysis.reports for k in report.kpis}
     for r in result.results:
         unit = "€" if r.item.kind is Kind.COLLECT else units.get(r.item.target_kpi, "")
         with st.container(border=True):
-            ui.html(f"{ui.effect_pill(r.effect)} <b>{escape(r.item.title)}</b>")
+            ui.html(
+                f"{ui.effect_pill(r.effect, collection=r.item.kind is Kind.COLLECT)} "
+                f"<b>{escape(r.item.title)}</b>"
+            )
             st.markdown(
-                f"{r.kpi_label}: **{_fmt_value(r.before, unit)} → {_fmt_value(r.after, unit)}**"
+                f"{ui.md_safe(r.kpi_label)}: "
+                f"**{_fmt_value(r.before, unit)} → {_fmt_value(r.after, unit)}**"
             )
             st.caption(r.note)
             for check in r.invoices:
@@ -537,7 +548,7 @@ def _remeasure_tab(analysis: Analysis) -> None:
                 )
     st.markdown("### Plan reordenado")
     for item in result.next_plan:
-        st.markdown(f"- **{HORIZON_LABELS[item.horizon]}** · {item.title}")
+        st.markdown(f"- **{HORIZON_LABELS[item.horizon]}** · {ui.md_safe(item.title)}")
 
 
 def _erp_tab() -> None:
