@@ -326,7 +326,8 @@ def _write_csv(path: Path, rows: list[dict[str, str]] | list[dict[str, Any]]) ->
 
 def _write_json(path: Path, payload: Any) -> None:  # noqa: ANN401 - plain JSON payload
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    text = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
+    path.write_text(text, encoding="utf-8", newline="\n")
 
 
 def write_snapshot(folder: Path, *, analysis_date: date, last_month: str) -> None:
