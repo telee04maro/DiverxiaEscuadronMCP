@@ -6,7 +6,7 @@ Pensada para que cualquier miembro del equipo pueda presentarla sin conocer el c
 
 - [ ] `uv sync` hecho y `uv run pytest` en verde.
 - [ ] Panel abierto: `uv run streamlit run src/centra/app.py` → <http://localhost:8501>, con la ventana ancha (diseño amplio).
-- [ ] Pulsa **«Reiniciar la demo»** en la barra lateral para empezar limpio.
+- [ ] Pulsa **«Reiniciar la demo»** en la barra lateral para empezar limpio. Si has cambiado código, **reinicia el proceso de Streamlit**: no recarga los módulos.
 - [ ] Decide el modo de IA. Con `ANTHROPIC_API_KEY` en `.env`, Claude lee, cruza y redacta. Sin clave, se usan reglas y la demo es idéntica y reproducible. **Si la red falla, la demo sin IA es el plan B.**
 - [ ] Respaldo: `uv run python -m centra --fallo` imprime todo el recorrido en la consola.
 
