@@ -30,7 +30,7 @@ Todo eso lo hacen reglas deterministas o una persona.
 **Coste:**
 - **Medido:** cada llamada registra sus tokens y su coste (pestaña 6 del panel).
 - **Tope por ejecución:** `AI_BUDGET_USD`, 0,50 $ por defecto. Al alcanzarlo, se pasa a reglas.
-- **Estimado:** unos 0,09 $ por ciclo de análisis semanal, según los precios de los modelos de noviembre de 2026. Se medirá en cuanto haya clave.
+- **Estimado:** unos 0,10–0,15 $ por análisis completo (5 llamadas), según los precios de los modelos de noviembre de 2026. En Opus 5.5 el razonamiento interno no se puede desactivar y se cobra como salida. Se medirá en cuanto haya clave.
 
 ## Para construirlo
 
