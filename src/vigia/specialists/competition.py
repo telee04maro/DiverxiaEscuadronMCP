@@ -229,8 +229,10 @@ def _classify_reviews(
         task="Clasificar reseñas por tema",
         tier=Tier.FAST,
         system=(
-            f"Clasifica cada reseña de una empresa del sector «{sector}» en sus temas: espera "
-            "(citas, retrasos), trato, precio, resultado, instalaciones u otro."
+            f"Clasifica cada reseña de una empresa del sector «{sector}» en sus temas: espera, "
+            "trato, precio, resultado, instalaciones u otro. Marca «espera» solo si la reseña "
+            "se QUEJA de esperar, de retrasos o de que cuesta conseguir cita; si elogia la "
+            "rapidez («sin esperas», «me dieron cita en dos días»), no es «espera»."
         ),
         prompt=f"Reseñas:\n{listing}",
         schema=ReviewTags,
