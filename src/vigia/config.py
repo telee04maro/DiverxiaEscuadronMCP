@@ -33,6 +33,7 @@ class Settings(BaseModel):
     ai_budget_usd: Decimal = Decimal("0.50")
     use_ai: bool = True
     outbox_dir: Path = Path("outbox")
+    erp_db: Path = Path("data/erp-demo.sqlite")
     demo_recipient: str | None = None
     smtp: SmtpSettings | None = None
     late_interest_rate_pct: Decimal | None = None
@@ -57,6 +58,7 @@ class Settings(BaseModel):
             ai_budget_usd=Decimal(env.get("AI_BUDGET_USD", "0.50")),
             use_ai=env.get("VIGIA_USE_AI", "1") != "0",
             outbox_dir=Path(env.get("VIGIA_OUTBOX", "outbox")),
+            erp_db=Path(env.get("VIGIA_ERP_DB", "data/erp-demo.sqlite")),
             demo_recipient=env.get("DEMO_RECIPIENT") or None,
             smtp=smtp,
             late_interest_rate_pct=Decimal(rate) if rate else None,

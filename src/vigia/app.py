@@ -3,15 +3,20 @@
 The panel only presents; every decision lives in the agents (see vigia.pipeline).
 """
 
-from decimal import Decimal
+from datetime import date, datetime
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 
 import streamlit as st
+from pydantic import ValidationError
 
 from vigia.actions.mailer import build_mailer
 from vigia.audit import AuditLog
 from vigia.config import Settings
+from vigia.connectors.base import Enquiry, register_enquiry
+from vigia.connectors.demo_erp import DemoErp
 from vigia.coordinator.plan import Autonomy, Kind, PlanItem
+from vigia.data.intake import TEMPLATES, Interview, build_company_data
 from vigia.data.loader import load_company_data
 from vigia.data.model import CompanyData
 from vigia.data.synthetic import AFTER, BEFORE, DEMO_ROOT
@@ -38,8 +43,23 @@ ROADMAP = (
     ("Marketing y clientes", "Responde reseñas y lanza campañas"),
     ("Legal y cumplimiento", "Calendario de obligaciones y documentos; lo complejo, a un abogado"),
     ("Organización y personas", "Cuellos de botella y clima con encuesta anónima"),
-    ("Atención al cliente", "El canal único por el que el dueño pide y el sistema actúa"),
+    ("Chat del dueño", "Pregunta y aprueba por WhatsApp; los agentes son sus herramientas"),
 )
+DEMO = "Clínica de ejemplo (datos ficticios)"
+OWN = "Tu empresa (sube tus datos)"
+MAX_WARNINGS = 8
+FIELD_LABELS = {
+    "name": "nombre",
+    "sector": "sector",
+    "city": "ciudad",
+    "employees": "empleados",
+    "main_service": "servicio principal",
+    "main_price": "precio",
+    "main_cost": "coste directo",
+    "sessions_per_new_client": "compras por cliente nuevo",
+    "opening_hour": "hora de apertura",
+    "closing_hour": "hora de cierre",
+}
 AUTONOMY_COLOR = {
     Autonomy.AUTO: "green",
     Autonomy.APPROVAL: "orange",
@@ -66,6 +86,9 @@ def _state() -> None:
     st.session_state.before = load_company_data(ROOT / DEMO_ROOT / BEFORE)
     st.session_state.after = load_company_data(ROOT / DEMO_ROOT / AFTER)
     st.session_state.analysis = None
+    st.session_state.own_data = None
+    st.session_state.erp = DemoErp(ROOT / settings.erp_db)
+    st.session_state.executions = {}
     st.session_state.execution = Execution()
     st.session_state.remeasure = None
     st.session_state.after_reports = None
@@ -113,10 +136,51 @@ def _sidebar() -> None:
             for key in list(st.session_state.keys()):
                 del st.session_state[key]
             st.rerun()
-        st.caption("Datos 100 % sintéticos: empresa, clientes y competidores ficticios.")
+        st.caption(
+            "La clínica de ejemplo es 100 % sintética. Con «Tu empresa», sube solo datos de tu "
+            "negocio: no hacen falta datos personales de clientes."
+        )
 
 
-def _company_tab(data: CompanyData) -> None:
+def _current_data() -> CompanyData | None:
+    if st.session_state.get("dataset", DEMO) == DEMO:
+        data: CompanyData = st.session_state.before
+    else:
+        own: CompanyData | None = st.session_state.own_data
+        if own is None:
+            return None
+        data = own
+    if st.session_state.get("with_erp"):
+        live = st.session_state.erp.list_opportunities()
+        data = data.model_copy(update={"opportunities": (*data.opportunities, *live)})
+    return data
+
+
+def _company_tab() -> None:
+    choice = st.radio("¿Qué empresa analizamos?", (DEMO, OWN), key="dataset", horizontal=True)
+    if choice == OWN:
+        _intake_section()
+    data = _current_data()
+    if data is None:
+        return
+    st.divider()
+    _company_summary(data)
+    st.toggle(
+        "Incluir también las consultas registradas en el ERP de demo (pestaña 7)",
+        key="with_erp",
+    )
+    if st.button("Analizar con el equipo de agentes", type="primary", use_container_width=True):
+        with st.spinner("Los especialistas están analizando y el coordinador cruza lo que ven…"):
+            st.session_state.analysis = analyze(data, st.session_state.model, st.session_state.log)
+            # One execution per company: what was already sent is never sent again.
+            executions: dict[str, Execution] = st.session_state.executions
+            st.session_state.execution = executions.setdefault(data.company.name, Execution())
+            st.session_state.analysed_demo = choice == DEMO
+            st.session_state.remeasure = None
+        st.success("Análisis listo: revisa las pestañas 2 y 3.")
+
+
+def _company_summary(data: CompanyData) -> None:
     company = data.company
     st.subheader(company.name)
     st.caption(
@@ -126,8 +190,10 @@ def _company_tab(data: CompanyData) -> None:
     left, right = st.columns(2)
     with left:
         st.markdown("**Entrevista inicial**")
-        st.markdown("Objetivos:\n" + "\n".join(f"- {g}" for g in company.goals))
-        st.markdown(f"Recursos: {company.resources}")
+        if company.goals:
+            st.markdown("Objetivos:\n" + "\n".join(f"- {g}" for g in company.goals))
+        if company.resources:
+            st.markdown(f"Recursos: {company.resources}")
         st.markdown(
             "Servicios: " + ", ".join(f"{s.name} ({fmt_eur(s.price)})" for s in company.services)
         )
@@ -135,19 +201,90 @@ def _company_tab(data: CompanyData) -> None:
         st.markdown("**Fuentes conectadas**")
         st.markdown(
             f"- Facturas: {len(data.invoices)}\n- Movimientos del banco: {len(data.bank)}\n"
-            f"- Meses de sesiones: {len({s.month for s in data.sessions})}\n"
+            f"- Meses de ventas: {len({s.month for s in data.sessions})}\n"
+            f"- Consultas del CRM: {len(data.opportunities)}\n"
             f"- Reseñas: {len(data.reviews)}\n- Anuncios de la competencia: "
             f"{len(data.competitor_ads)}\n- Competidores: {len(data.competitors)}"
         )
         if data.missing_sources:
-            st.warning("Faltan: " + ", ".join(data.missing_sources))
-    st.divider()
-    if st.button("Analizar con el equipo de agentes", type="primary", use_container_width=True):
-        with st.spinner("Los especialistas están analizando y el coordinador cruza lo que ven…"):
-            st.session_state.analysis = analyze(data, st.session_state.model, st.session_state.log)
-            # Keep the execution: what was already sent must never be sent again.
-            st.session_state.remeasure = None
-        st.success("Análisis listo: revisa las pestañas 2 y 3.")
+            st.warning(
+                "Faltan (se verá como «lo que me falta»): " + ", ".join(data.missing_sources)
+            )
+
+
+def _decimal(raw: str) -> Decimal | None:
+    try:
+        return Decimal(raw.replace(",", ".")) if raw.strip() else None
+    except InvalidOperation:
+        return None
+
+
+def _intake_section() -> None:
+    st.markdown("### Así entra una empresa")
+    st.caption(
+        "1) Entrevista inicial · 2) Sube tus Excel o CSV (descarga las plantillas) · 3) Analiza. "
+        "No subas datos personales de clientes: no hacen falta."
+    )
+    with st.expander("Plantillas (cabeceras en español, formato 1.234,56 y 31/10/2026)"):
+        for template in TEMPLATES.values():
+            st.download_button(
+                f"{template.label}{' (obligatoria)' if template.required else ''}",
+                template.csv_text(),
+                file_name=f"plantilla_{template.key}.csv",
+                mime="text/csv",
+                key=f"tpl-{template.key}",
+                help=template.help,
+            )
+    with st.form("intake"):
+        a, b, c = st.columns(3)
+        name = a.text_input("Nombre de la empresa")
+        sector = b.text_input("Sector", placeholder="Clínica, taller, comercio…")
+        city = c.text_input("Ciudad", value="Málaga")
+        d, e, f = st.columns(3)
+        employees = d.number_input("Empleados", min_value=1, max_value=10_000, value=10)
+        opening = e.number_input("Abre a las", min_value=0, max_value=23, value=9)
+        closing = f.number_input("Cierra a las", min_value=1, max_value=24, value=20)
+        g, h, i, j = st.columns(4)
+        service = g.text_input("Servicio principal")
+        price = h.text_input("Precio (€)")
+        cost = i.text_input("Coste directo (€)")
+        repeat = j.text_input("Compras por cliente nuevo (media)")
+        goals = st.text_area("Objetivos (uno por línea)")
+        files = {
+            key: st.file_uploader(template.label, type=["csv", "xlsx"], key=f"up-{key}")
+            for key, template in TEMPLATES.items()
+        }
+        submitted = st.form_submit_button("Cargar mis datos")
+    if not submitted:
+        return
+    try:
+        interview = Interview(
+            name=name,
+            sector=sector,
+            city=city,
+            employees=int(employees),
+            main_service=service,
+            main_price=_decimal(price) or Decimal(0),
+            main_cost=_decimal(cost) or Decimal(0),
+            sessions_per_new_client=_decimal(repeat),
+            goals=tuple(line.strip() for line in goals.splitlines() if line.strip()),
+            opening_hour=int(opening),
+            closing_hour=int(closing),
+        )
+    except ValidationError as error:
+        fields = ", ".join(FIELD_LABELS.get(str(err["loc"][0]), "?") for err in error.errors())
+        st.error(f"Revisa la entrevista: faltan o no son válidos estos campos: {fields}")
+        return
+    uploads = {k: (u.name, u.getvalue()) for k, u in files.items() if u is not None}
+    result = build_company_data(interview, uploads, today=date.today())
+    st.session_state.own_data = result.data
+    if result.loaded:
+        loaded = ", ".join(f"{label} ({rows} filas)" for label, rows in result.loaded.items())
+        st.success(f"Cargado: {loaded}")
+    for error_text in result.errors[:MAX_WARNINGS]:
+        st.warning(error_text)
+    if len(result.errors) > MAX_WARNINGS:
+        st.warning(f"… y {len(result.errors) - MAX_WARNINGS} avisos más")
 
 
 def _finding_card(finding: Finding) -> None:
@@ -300,6 +437,12 @@ def _after_data() -> CompanyData:
 
 
 def _remeasure_tab(analysis: Analysis) -> None:
+    if not st.session_state.get("analysed_demo", True):
+        st.info(
+            "Para tu empresa, la re-medición se hace al subir los datos del mes siguiente. "
+            "En la demo usamos un «mes después» simulado de la clínica de ejemplo."
+        )
+        return
     st.caption(
         "«Un mes después» son datos simulados del 2/12/2026 con lo que habría pasado tras el plan."
     )
@@ -336,6 +479,76 @@ def _remeasure_tab(analysis: Analysis) -> None:
     st.markdown("### Plan reordenado")
     for item in result.next_plan:
         st.markdown(f"- **{HORIZON_LABELS[item.horizon]}** · {item.title}")
+
+
+def _erp_tab() -> None:
+    erp: DemoErp = st.session_state.erp
+    st.markdown("### ERP de demo (con la forma de BALTER)")
+    st.caption(
+        "Aquí escribe el asistente de WhatsApp (Hermes) a través de la API del ERP de demo, "
+        "con las 5 operaciones de su conector. También puedes simular un mensaje aquí."
+    )
+    with st.form("whatsapp"):
+        a, b = st.columns(2)
+        name = a.text_input("Nombre (usa uno ficticio)", value="Paciente de prueba")
+        phone = b.text_input("Teléfono (ficticio)", value="600000001")
+        topic = a.text_input("Motivo", value="Primera visita")
+        urgent = b.checkbox("Urgente")
+        summary = st.text_area("Lo que ha contado", value="Dolor de espalda desde hace dos semanas")
+        sent = st.form_submit_button("Simular mensaje de WhatsApp")
+    if sent:
+        try:
+            enquiry = Enquiry(
+                name=name,
+                phone=phone,
+                topic=topic,
+                summary=summary,
+                urgent=urgent,
+                answered_at=datetime.now(),
+            )
+            outcome = register_enquiry(erp, enquiry, st.session_state.log)
+        except ValueError as error:
+            st.error(f"No se ha registrado: {str(error).splitlines()[0]}")
+        else:
+            if outcome.new_opportunity:
+                st.success(f"Oportunidad nueva {outcome.opportunity_id}, sin responsable asignado")
+            else:
+                st.info(
+                    f"Ya tenía una oportunidad abierta ({outcome.opportunity_id}): va como nota"
+                )
+            if outcome.escalated:
+                st.warning("Urgente: se avisa al responsable en el momento")
+    opportunities = erp.list_opportunities()
+    st.markdown(f"**Oportunidades en el ERP de demo: {len(opportunities)}**")
+    if opportunities:
+        st.dataframe(
+            [
+                {
+                    "Id": o.id,
+                    "Contacto": o.contact_id,
+                    "Canal": o.channel,
+                    "Motivo": o.topic,
+                    "Urgente": "sí" if o.urgent else "",
+                    "Recibida": o.created_at.strftime("%d/%m %H:%M"),
+                    "Responsable": o.assigned_to or "— sin asignar",
+                    "Estado": o.status.value,
+                    "Notas": len(erp.notes(o.id)),
+                }
+                for o in reversed(opportunities)
+            ],
+            hide_index=True,
+            use_container_width=True,
+        )
+    if st.button("Borrar todos los datos del ERP de demo"):
+        erp.reset()
+        st.rerun()
+    with st.expander("Cómo se conecta el asistente de WhatsApp (Hermes)"):
+        st.markdown(
+            "Arranca la API con `uv run python -m vigia.connectors.http_api --port 8765` "
+            "(variable `VIGIA_ERP_TOKEN` obligatoria) y apunta el conector de Hermes a "
+            "`http://<este-equipo>:8765/api/v1`. Contrato completo en "
+            "`docs/integracion-whatsapp-erp.md`."
+        )
 
 
 def _log_tab() -> None:
@@ -385,10 +598,12 @@ def main() -> None:
     )
     tabs = st.tabs(
         ["1 · Empresa", "2 · Especialistas", "3 · Coordinador", "4 · Acciones",
-         "5 · Un mes después", "6 · Registro y uso de IA"]
+         "5 · Un mes después", "6 · Registro y uso de IA", "7 · ERP y WhatsApp"]
     )  # fmt: skip
+    with tabs[6]:
+        _erp_tab()
     with tabs[0]:
-        _company_tab(st.session_state.before)
+        _company_tab()
     # Read after the company tab: its button may have just produced the analysis.
     analysis: Analysis | None = st.session_state.analysis
     for tab, render in zip(
