@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Segoe UI', Inter, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" role="img" aria-labelledby="t">
+<title id="t">Vigía: recorrido del paciente que escribe fuera de horario, antes y después</title>
+<rect width="1600" height="900" fill="#FFFFFF"/>
+<text x="50" y="72" font-size="40" font-weight="700" fill="#0F2E2B" text-anchor="start">Un paciente nuevo escribe fuera de horario</text>
+<text x="50" y="110" font-size="20" font-weight="400" fill="#4B5D5B" text-anchor="start">El mismo recorrido, hoy y un mes después con Vigía · clínica de fisioterapia ficticia de Málaga</text>
+<text x="1550" y="72" font-size="36" font-weight="700" fill="#0F766E" text-anchor="end">Vigía</text>
+<rect x="1080" y="97" width="16" height="16" rx="3" fill="#B42318"/>
+<text x="1104" y="110" font-size="16" font-weight="400" fill="#4B5D5B" text-anchor="start">Se pierde</text>
+<rect x="1219" y="97" width="16" height="16" rx="3" fill="#0F766E"/>
+<text x="1243" y="110" font-size="16" font-weight="400" fill="#4B5D5B" text-anchor="start">Mejora</text>
+<rect x="1331" y="97" width="16" height="16" rx="3" fill="#7B8794"/>
+<text x="1355" y="110" font-size="16" font-weight="400" fill="#4B5D5B" text-anchor="start">Contexto</text>
+<rect x="320" y="158" width="605" height="44" rx="8" fill="#FDECEA"/>
+<text x="622.5" y="187" font-size="20" font-weight="700" fill="#B42318" text-anchor="middle">HOY</text>
+<rect x="945" y="158" width="605" height="44" rx="8" fill="#E6F5F3"/>
+<text x="1247.5" y="187" font-size="20" font-weight="700" fill="#0F766E" text-anchor="middle">CON VIGÍA · un mes después (simulado)</text>
+<circle cx="66" cy="257.0" r="16" fill="#0F2E2B"/>
+<text x="66" y="263.0" font-size="17" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+<text x="94" y="264.0" font-size="19" font-weight="600" fill="#0F2E2B" text-anchor="start">Ve la oferta de al lado</text>
+<rect x="320" y="216" width="605" height="82" rx="10" fill="#FDECEA"/>
+<rect x="320" y="216" width="7" height="82" rx="3" fill="#B42318"/>
+<text x="346" y="251" font-size="22" font-weight="600" fill="#0F2E2B" text-anchor="start">«…por solo 20 €. Sin esperas: cita en 24 h.»</text>
+<text x="346" y="280" font-size="17" font-weight="400" fill="#4B5D5B" text-anchor="start">Anuncio en Meta de la clínica de al lado, hace 18 días</text>
+<rect x="945" y="216" width="605" height="82" rx="10" fill="#E6F5F3"/>
+<rect x="945" y="216" width="7" height="82" rx="3" fill="#0F766E"/>
+<text x="971" y="251" font-size="22" font-weight="600" fill="#0F2E2B" text-anchor="start">Contraoferta: primera visita a 30 € y cita en 48 h</text>
+<text x="971" y="280" font-size="17" font-weight="400" fill="#4B5D5B" text-anchor="start">Validada por finanzas: a 20 € o a 25 € no compensa</text>
+<path d="M 929 257.0 l 12 0 m -5 -5 l 5 5 l -5 5" stroke="#9AA5B1" stroke-width="2" fill="none"/>
+<circle cx="66" cy="349.0" r="16" fill="#0F2E2B"/>
+<text x="66" y="355.0" font-size="17" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+<text x="94" y="356.0" font-size="19" font-weight="600" fill="#0F2E2B" text-anchor="start">Escribe por WhatsApp</text>
+<rect x="320" y="308" width="605" height="82" rx="10" fill="#F1F3F4"/>
+<rect x="320" y="308" width="7" height="82" rx="3" fill="#7B8794"/>
+<text x="346" y="343" font-size="22" font-weight="600" fill="#0F2E2B" text-anchor="start">El 59 % de las consultas llega fuera de horario</text>
+<text x="346" y="372" font-size="17" font-weight="400" fill="#4B5D5B" text-anchor="start">29 de 49 en 30 días (fuera de 9 a 20 h o en fin de semana)</text>
+<rect x="945" y="308" width="605" height="82" rx="10" fill="#F1F3F4"/>
+<rect x="945" y="308" width="7" height="82" rx="3" fill="#7B8794"/>
+<text x="971" y="343" font-size="22" font-weight="600" fill="#0F2E2B" text-anchor="start">El 58 % sigue llegando fuera de horario</text>
+<text x="971" y="372" font-size="17" font-weight="400" fill="#4B5D5B" text-anchor="start">El canal no cambia: cambia quién contesta</text>
+<path d="M 929 349.0 l 12 0 m -5 -5 l 5 5 l -5 5" stroke="#9AA5B1" stroke-width="2" fill="none"/>
+<circle cx="66" cy="441.0" r="16" fill="#0F2E2B"/>
+<text x="66" y="447.0" font-size="17" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+<text x="94" y="448.0" font-size="19" font-weight="600" fill="#0F2E2B" text-anchor="start">Primera respuesta</text>
+<rect x="320" y="400" width="605" height="82" rx="10" fill="#FDECEA"/>
+<rect x="320" y="400" width="7" height="82" rx="3" fill="#B42318"/>
+<text x="346" y="435" font-size="22" font-weight="600" fill="#0F2E2B" text-anchor="start">Tarda 12,0 h en recibir respuesta (mediana)</text>
+<text x="346" y="464" font-size="17" font-weight="400" fill="#4B5D5B" text-anchor="start">Dentro del horario: 0,4 h</text>
+<rect x="945" y="400" width="605" height="82" rx="10" fill="#E6F5F3"/>
+<rect x="945" y="400" width="7" height="82" rx="3" fill="#0F766E"/>
+<text x="971" y="435" font-size="22" font-weight="600" fill="#0F2E2B" text-anchor="start">0,0 h de mediana: respuesta en minutos</text>
+<text x="971" y="464" font-size="17" font-weight="400" fill="#4B5D5B" text-anchor="start">Asistente de WhatsApp: responde y lo registra en el ERP</text>
+<path d="M 929 441.0 l 12 0 m -5 -5 l 5 5 l -5 5" stroke="#9AA5B1" stroke-width="2" fill="none"/>
+<circle cx="66" cy="533.0" r="16" fill="#0F2E2B"/>
+<text x="66" y="539.0" font-size="17" font-weight="700" fill="#FFFFFF" text-anchor="middle">4</text>
+<text x="94" y="540.0" font-size="19" font-weight="600" fill="#0F2E2B" text-anchor="start">Seguimiento</text>
+<rect x="320" y="492" width="605" height="82" rx="10" fill="#FDECEA"/>
+<rect x="320" y="492" width="7" height="82" rx="3" fill="#B42318"/>
+<text x="346" y="527" font-size="22" font-weight="600" fill="#0F2E2B" text-anchor="start">8 consultas sin responsable más de 48 h</text>
+<text x="346" y="556" font-size="17" font-weight="400" fill="#4B5D5B" text-anchor="start">La más antigua, de hace 29 días</text>
+<rect x="945" y="492" width="605" height="82" rx="10" fill="#E6F5F3"/>
+<rect x="945" y="492" width="7" height="82" rx="3" fill="#0F766E"/>
+<text x="971" y="527" font-size="22" font-weight="600" fill="#0F2E2B" text-anchor="start">Queda 1 sin responsable</text>
+<text x="971" y="556" font-size="17" font-weight="400" fill="#4B5D5B" text-anchor="start">Una persona las asigna cada mañana</text>
+<path d="M 929 533.0 l 12 0 m -5 -5 l 5 5 l -5 5" stroke="#9AA5B1" stroke-width="2" fill="none"/>
+<circle cx="66" cy="625.0" r="16" fill="#0F2E2B"/>
+<text x="66" y="631.0" font-size="17" font-weight="700" fill="#FFFFFF" text-anchor="middle">5</text>
+<text x="94" y="632.0" font-size="19" font-weight="600" fill="#0F2E2B" text-anchor="start">Resultado</text>
+<rect x="320" y="584" width="605" height="82" rx="10" fill="#FDECEA"/>
+<rect x="320" y="584" width="7" height="82" rx="3" fill="#B42318"/>
+<text x="346" y="619" font-size="22" font-weight="600" fill="#0F2E2B" text-anchor="start">Se pierde el 41 % de las de fuera de horario</text>
+<text x="346" y="648" font-size="17" font-weight="400" fill="#4B5D5B" text-anchor="start">Dentro del horario no se pierde ninguna</text>
+<rect x="945" y="584" width="605" height="82" rx="10" fill="#E6F5F3"/>
+<rect x="945" y="584" width="7" height="82" rx="3" fill="#0F766E"/>
+<text x="971" y="619" font-size="22" font-weight="600" fill="#0F2E2B" text-anchor="start">Se pierde el 21 %</text>
+<text x="971" y="648" font-size="17" font-weight="400" fill="#4B5D5B" text-anchor="start">Mejora, pero aún se pierde 1 de cada 5</text>
+<path d="M 929 625.0 l 12 0 m -5 -5 l 5 5 l -5 5" stroke="#9AA5B1" stroke-width="2" fill="none"/>
+<circle cx="66" cy="717.0" r="16" fill="#0F2E2B"/>
+<text x="66" y="723.0" font-size="17" font-weight="700" fill="#FFFFFF" text-anchor="middle">6</text>
+<text x="94" y="724.0" font-size="19" font-weight="600" fill="#0F2E2B" text-anchor="start">Lo cuenta en reseñas</text>
+<rect x="320" y="676" width="605" height="82" rx="10" fill="#FDECEA"/>
+<rect x="320" y="676" width="7" height="82" rx="3" fill="#B42318"/>
+<text x="346" y="711" font-size="22" font-weight="600" fill="#0F2E2B" text-anchor="start">Nota 3,0 ★ (antes 4,7 ★)</text>
+<text x="346" y="740" font-size="17" font-weight="400" fill="#4B5D5B" text-anchor="start">El 86 % de las reseñas recientes se queja de la espera</text>
+<rect x="945" y="676" width="605" height="82" rx="10" fill="#E6F5F3"/>
+<rect x="945" y="676" width="7" height="82" rx="3" fill="#0F766E"/>
+<text x="971" y="711" font-size="22" font-weight="600" fill="#0F2E2B" text-anchor="start">Nota 3,6 ★</text>
+<text x="971" y="740" font-size="17" font-weight="400" fill="#4B5D5B" text-anchor="start">El 75 % aún se queja de la espera</text>
+<path d="M 929 717.0 l 12 0 m -5 -5 l 5 5 l -5 5" stroke="#9AA5B1" stroke-width="2" fill="none"/>
+<rect x="50" y="774" width="1500" height="72" rx="10" fill="#0F2E2B"/>
+<text x="76" y="803" font-size="19" font-weight="700" fill="#14B8A6" text-anchor="start">La causa cruzada · finanzas + competencia + atención</text>
+<text x="76" y="831" font-size="18" font-weight="400" fill="#FFFFFF" text-anchor="start">Se pierden particulares por precio y por espera, también fuera de horario. Y bajar a 20 € no es opción: la caja cubre 9 días y Mutua Beta paga a 95 días.</text>
+<text x="50" y="872" font-size="14" font-weight="400" fill="#4B5D5B" text-anchor="start">Clínica, competidor y aseguradora ficticios; datos sintéticos. «Un mes después» es simulado: los cambios coinciden en el tiempo, no prueban la causa.</text>
+<text x="50" y="892" font-size="14" font-weight="400" fill="#4B5D5B" text-anchor="start">Cifras de la demo de Vigía (modo reglas), comprobadas el 24/11/2026.</text>
+</svg>

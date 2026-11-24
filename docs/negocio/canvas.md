@@ -60,7 +60,7 @@ Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la soluc
 
 ## Canales
 - Venta a través de gestorías.
-- Diagnóstico gratuito online como gancho.
+- Diagnóstico gratuito online como gancho: lo público y un cuestionario de 10 minutos, sin datos de sus clientes ni acceso a sus sistemas. El banco y el ERP se conectan después.
 - Ferias y asociaciones (piloto en Málaga).
 - LinkedIn y contenido («la causa cruzada de la semana»).
 

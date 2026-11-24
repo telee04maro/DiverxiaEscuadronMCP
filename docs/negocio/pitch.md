@@ -17,6 +17,7 @@
 ### Bloque opcional (+2 minutos)
 - **Uso responsable de la IA** (pestaña 6). «Las reglas calculan y la IA interpreta. Lo que propone la IA se verifica: si cita un dato que no existe o pone un precio que no está en el anuncio, se rechaza. Cada decisión queda registrada y el coste de la IA se mide.»
 - **Escala.** Añadir un especialista (marketing, legal, personas) es enchufar un módulo: el coordinador cruza sus hallazgos sin cambios y solo se añaden sus acciones al plan. Hay unas 1,36 millones de pymes con asalariados en España.
+- **Antes y después** (diapositiva de respaldo: [`recorrido-antes-despues.png`](recorrido-antes-despues.png)). El mismo recorrido del paciente que escribe fuera de horario, hoy y un mes después (simulado): respuesta de 12,0 h a minutos y consultas perdidas del 41 % al 21 %. Coincide en el tiempo, no prueba la causa, y la imagen lo dice.
 
 ## Preguntas probables del jurado
 
@@ -24,7 +25,11 @@
 |---|---|
 | ¿En qué se diferencia de ChatGPT? | Está conectado a los datos de la empresa, cada agente tiene sus fuentes, actúa (envía, reclama, propone) y **mide si funcionó**. ChatGPT te responde; Vigía te dice la causa y cierra el ciclo |
 | ¿Y si se equivoca en algo legal o de dinero? | Autonomía por niveles: solo actúa sin preguntar en lo reversible. Lo serio lo aprueba una persona o lo revisa un experto. Las cifras de dinero las calculan reglas, no la IA |
+| ¿En qué se diferencia de una auditoría o una consultoría? | Una auditoría te deja un informe con lo que falla. Vigía **lo ejecuta y lo comprueba**: reclama el cobro, propone la contraoferta solo si finanzas confirma el margen y, un mes después, mide si el indicador se movió. Si no se movió, lo dice y reordena el plan |
 | ¿Cómo conseguiréis clientes? | A través de **gestorías y asesorías**: ya tienen la confianza de miles de pymes y Vigía les permite ofrecer más que impuestos |
+| ¿Por qué os daría una pyme acceso a su banco? | No se lo pedimos el primer día. **El diagnóstico gratis** (modelo de negocio; no está en el prototipo) sale de lo público (anuncios, reseñas, buscadores, con sus APIs oficiales) y de un cuestionario de 10 minutos sobre cómo trabaja, sin datos de sus clientes. El banco y el ERP se conectan cuando ya ha visto una causa con evidencia |
+| ¿Qué otras causas cruzadas detectaría? | Hoy cruza finanzas, competencia y atención. **Hoja de ruta:** captar clientes nuevos mientras se van los que ya pagaban; un horario publicado que no coincide con el real; programas que se pagan y no se usan; anuncios pagados sin medir qué traen. Cada cruce necesita el especialista que aporte esos hallazgos: el coordinador con IA cruza los que haya y, en modo reglas, se le añade la regla |
+| ¿Y si el dueño no quiere que la IA hable con sus clientes? | Lo decide él. La autonomía por niveles ya separa lo que Vigía hace solo de lo que aprueba una persona. **Hoja de ruta:** la entrevista inicial le pregunta qué le preocupa de la IA, y el plan dice qué no se automatiza y por qué |
 | ¿Los datos de la demo son reales? | La clínica es **ficticia**: las bases prohíben datos personales. Los datos de la competencia son instantáneas con el formato exacto de las APIs oficiales (Meta Ad Library, Search Console, Places). Lo hemos verificado en `docs/fuentes.md` |
 | ¿Cuánto cuesta la IA? | **Medido:** 0,04 $ por análisis y 0,07 $ con los correos de reclamación; unos 0,30 $ por empresa y mes con un análisis semanal, frente a 99 € de suscripción. El panel mide cada llamada y hay un tope por ejecución. Sin clave de IA, el producto funciona igual con reglas |
 | ¿Por qué solo dos especialistas? | Porque dos agentes muy buenos valen más que seis a medias. El resto está en la hoja de ruta: la arquitectura permite enchufarlos y el coordinador cruza sus hallazgos sin cambios |

@@ -49,6 +49,7 @@ Todo eso lo hacen reglas deterministas o una persona.
 | Programar el prototipo, los tests y la CI | Claude Code (Claude Opus 5.5) | Revisión del diff en cada commit; puertas de calidad (ruff, mypy estricto, pytest en Linux y Windows) |
 | Auditoría independiente («red team») del código | Agente de Claude separado, solo lectura | El equipo decide qué se corrige |
 | Canvas, marketing, logo y guion del pitch | Claude Code, a partir de la idea y las notas del equipo | Revisados y ajustados por el equipo |
+| Revisar un kit de auditoría de negocio de terceros y elegir qué ideas sirven (lista de causas cruzadas, diagnóstico sin acceso a sistemas, preguntas para la entrevista). Imagen de antes y después con las cifras de la demo | Claude Code | El equipo eligió qué incorporar. Del kit no se ha copiado texto ni código, y se descartó lo que choca con nuestras fuentes (leer la Biblioteca de Anuncios de Meta desde la web, guardar reseñas de Google) |
 
 ## Herramientas, modelos y datos (declaración)
 
@@ -56,3 +57,4 @@ Todo eso lo hacen reglas deterministas o una persona.
 - **Software:** Python 3.13, Streamlit 1.67, pandas 3.1, Pydantic 2.14 y python-dotenv. En desarrollo: ruff, mypy y pytest. Versiones fijadas en `uv.lock`.
 - **Datos:** **todos sintéticos**, generados por `vigia.data.synthetic`. La clínica, las aseguradoras y los competidores son ficticios, y los correos usan el dominio reservado `.example`. Los datos de la competencia imitan el formato oficial de la Biblioteca de Anuncios de Meta y de los resultados de búsqueda (`docs/fuentes.md`).
 - **Componentes previos:** la plantilla de normas del equipo (`CLAUDE.md`), adaptada de nuestro proyecto del Malackathon 2026. El código de Vigía se ha escrito durante el hackathon.
+- **Ideas de terceros:** un kit de auditoría de negocio para Claude Code inspiró algunas respuestas del pitch y el diagnóstico gratuito del canvas. No se ha usado ni copiado nada de su texto ni de su código.
