@@ -4,7 +4,20 @@
 
 ![Logo de Vigía](logo.svg)
 
-**Vigía** es quien observa todo el horizonte desde lo alto y avisa a tiempo. En el logo, cinco puntos (los agentes especialistas) unidos a un punto central, el vigía: el coordinador que **cruza lo que ve cada área**. El verde azulado transmite confianza y salud financiera.
+**Vigía** es quien mira desde la atalaya y avisa antes que nadie. El símbolo es una **V firme** (solidez y confianza), con una V interior más clara (lo que ve cada área por separado) y un **punto terracota en lo alto**: el vigía que ve la causa. En el nombre, la tilde de la «í» es ese mismo punto terracota. La figura recuerda también a una persona con los brazos abiertos: cercanía.
+
+### Paleta
+
+| Color | Uso | Hex |
+|---|---|---|
+| Azul petróleo | Principal: confianza y profesionalidad (botones, símbolo) | `#1D5C7A` |
+| Terracota | Acento: cercanía y un guiño mediterráneo. **Solo en formas, nunca como texto sobre blanco** (contraste 2,9) | `#D9824E` |
+| Tinta | Texto | `#1B2B34` |
+| Arena | Fondos suaves | `#FAF7F2` |
+
+Contraste comprobado (WCAG): blanco sobre azul petróleo, 7,3; tinta sobre arena, 13,6.
+
+**Versiones:** [`logo.svg`](logo.svg) (horizontal, con eslogan), [`logo-simple.svg`](logo-simple.svg) (sin eslogan, para espacios pequeños), [`logo-vertical.svg`](logo-vertical.svg), [`logo-oscuro.svg`](logo-oscuro.svg) (fondo oscuro) e iconos [`icono.svg`](icono.svg) y [`icono-oscuro.svg`](icono-oscuro.svg). El texto está convertido a trazos con la fuente Inter (licencia SIL OFL 1.1): se ve igual en cualquier equipo.
 
 Archivo vectorial: [`logo.svg`](logo.svg). El nombre **Vigía** es provisional: antes de usarlo comercialmente hay que comprobar la marca en la OEPM y la EUIPO.
 

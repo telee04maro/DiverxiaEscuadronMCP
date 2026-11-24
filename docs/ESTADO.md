@@ -96,9 +96,14 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 2. Subir los 4 entregables al Drive (los .md se pueden pegar en un documento o en diapositivas; el logo es `docs/negocio/logo.svg`).
 3. Ensayar el pitch con el tiempo real y las preguntas a los mentores (tabla de arriba). Confirmar el tamaño del equipo: las bases hablan de 6 y somos 3.
 4. Hecho: `docs/ideas.md` (interno) ya no está en el repositorio; sigue en el historial de git.
+5. **Revisar y fusionar en `main` la rama `claude/paleta-y-logo`** (marca e interfaz; sin cambios de lógica):
+   - paleta C (azul petróleo `#1D5C7A`, terracota `#D9824E`, tinta `#1B2B34`, arena `#FAF7F2`) y logo «Atalaya» con sus versiones (`docs/negocio/logo*.svg`, `icono*.svg`, `docs/entrega/3-logo.png`);
+   - panel rediseñado para el dueño: cabecera con los pasos (Analizar → Entender → Actuar → Medir), resumen «Lo más importante» en la pestaña 1, pestañas en lenguaje sencillo, etiquetas de autonomía en palabras y la causa cruzada destacada. Los botones se llaman igual que en el guion. Estilo en `src/vigia/ui.py`, con todo texto de datos escapado;
+   - `3-marketing.pdf` reexportado con el logo nuevo. **Falta:** rehacer las capturas de `docs/entrega/capturas/` y `2-prototipo.pdf`, que enseñan el panel antiguo.
 
 ## Última verificación
 Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.
+- 24/11 · rama `claude/paleta-y-logo` · **Panel rediseñado, recorrido completo en el navegador** (Playwright, modo reglas): análisis → causa y plan → ejecutar, aprobar y marcar 6 tareas (no la campaña) → «un mes después» con el fallo inyectado: Seguros Gamma «sin efecto», 0,01 € pendiente, no se da por cobrada; pestañas 6 y 7 y «Tu empresa» sin errores (0 excepciones en pantalla). `uv run pytest` 137 en verde; ruff y mypy limpios.
 - 24/11, 13:00 · `20c9af6` · CI de GitHub Actions (Linux y Windows) en verde en todos los commits · `uv run pytest`: 44 tests en verde.
 - 24/11, 13:05 · `20c9af6` · Recorrido completo en el panel (navegador) y en la consola, en **modo reglas** (sin clave de IA en este equipo). **No verificado aún con Claude real.**
 - 24/11, 15:05 · `720f4ef` · Panel en el navegador tras reiniciarlo: análisis de la clínica (59 %, 12,0 h, 41 %), pestaña 7 (mensaje de WhatsApp simulado → nota, sin duplicar) y «un mes después» con unidades (12,0 h → 0,0 h); sin ejecutar acciones, no atribuye ningún cambio. Búsqueda de secretos en el repositorio: nada.

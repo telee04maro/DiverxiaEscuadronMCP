@@ -14,14 +14,14 @@ Pensada para que cualquier miembro del equipo pueda presentarla sin conocer el c
 
 | Paso | Pestaña | Qué hacer | Qué señalar |
 |---|---|---|---|
-| 1 | 1 · Empresa | «Analizar con el equipo de agentes» | La clínica es ficticia; estas son las fuentes conectadas |
-| 2 | 2 · Especialistas | Abrir un hallazgo de cada agente | Cada hallazgo lleva **evidencia y fuente**. Y «Lo que me falta para afinar»: no inventa datos |
-| 3 | 3 · Coordinador | Leer la causa cruzada en voz alta | **Finanzas + Competencia**. «Es la temporada» queda descartado con datos. Plan en 7, 30 y 90 días con niveles de autonomía |
-| 4 | 4 · Acciones | «Ejecutar…» → «Aprobar y enviar» → marcar las tareas hechas (no la campaña) | El recordatorio sale solo; la reclamación formal espera aprobación. **Enviar no es cobrar** |
-| 5 | 5 · Un mes después | Activar en la barra lateral «Fallo inyectado» → «Medir un mes después» | El pago con **1 céntimo de menos no se da por cobrado**. El plan se reordena |
-| 6 | 6 · Registro | Enseñar el registro y el coste de IA | Qué vio, qué decidió, qué hizo y qué comprobó cada agente |
-| 7 | 7 · ERP y WhatsApp | «Simular mensaje de WhatsApp» dos veces con el mismo teléfono (o que escriba Hermes de verdad) | La 1.ª vez crea la oportunidad **sin responsable**; la 2.ª la añade como **nota**, sin duplicar. Al acabar: «Borrar todos los datos» |
-| 8 | 1 · Empresa → «Tu empresa» | Descargar una plantilla y subir un Excel | **Así entra cualquier pyme:** con sus Excel; lo que no sube sale como «lo que me falta» |
+| 1 | 1 · Tu empresa | «Analizar con el equipo de agentes» | La clínica es ficticia. Arriba sale **«Lo más importante»**: la causa, los números clave y qué hacer esta semana |
+| 2 | 2 · Qué ve cada experto | Abrir un hallazgo de cada agente | Cada hallazgo lleva **evidencia y fuente**. Y «Lo que me falta para afinar»: no inventa datos |
+| 3 | 3 · La causa y el plan | Leer la causa cruzada en voz alta | **Finanzas + Competencia**. «Es la temporada» queda descartado con datos. Plan en 7, 30 y 90 días con niveles de autonomía |
+| 4 | 4 · Actuar | «Ejecutar…» → «Aprobar y enviar» → marcar las tareas hechas (no la campaña) | El recordatorio sale solo; la reclamación formal espera aprobación. **Enviar no es cobrar** |
+| 5 | 5 · ¿Ha funcionado? | Activar en la barra lateral «Fallo inyectado» → «Medir un mes después» | El pago con **1 céntimo de menos no se da por cobrado**. El plan se reordena |
+| 6 | 6 · Transparencia (IA) | Enseñar el registro y el coste de IA | Qué vio, qué decidió, qué hizo y qué comprobó cada agente |
+| 7 | 7 · WhatsApp y ERP | «Simular mensaje de WhatsApp» dos veces con el mismo teléfono (o que escriba Hermes de verdad) | La 1.ª vez crea la oportunidad **sin responsable**; la 2.ª la añade como **nota**, sin duplicar. Al acabar: «Borrar todos los datos» |
+| 8 | 1 · Tu empresa → «Tu empresa (sube tus datos)» | Descargar una plantilla y subir un Excel | **Así entra cualquier pyme:** con sus Excel; lo que no sube sale como «lo que me falta» |
 
 ## Asistente de WhatsApp real (opcional)
 Solo si la organización acepta Hermes y Zernio como componentes previos declarados:
