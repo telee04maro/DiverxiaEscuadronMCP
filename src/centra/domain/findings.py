@@ -39,7 +39,7 @@ class Signal(StrEnum):
 
     PRIVATE_PATIENTS_DROP = "particulares_bajan"
     NOT_SEASONAL = "no_estacional"
-    SLOW_INSURER_PAYMENT = "aseguradora_paga_tarde"
+    SLOW_PAYER = "cliente_paga_tarde"
     RECENT_OVERDUE = "factura_vencida_reciente"
     TIGHT_CASH = "caja_tensa"
     COMPETITOR_OFFER = "oferta_competidor"
@@ -71,6 +71,8 @@ class Finding(BaseModel):
     effort: int = Field(ge=1, le=5)
     urgency: int = Field(ge=1, le=5)
     signals: frozenset[Signal] = frozenset()
+    subject: str | None = None
+    metrics: dict[str, Decimal] = Field(default_factory=dict)
 
 
 class DataGap(BaseModel):

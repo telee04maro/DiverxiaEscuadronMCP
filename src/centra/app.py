@@ -145,7 +145,7 @@ def _company_tab(data: CompanyData) -> None:
     if st.button("Analizar con el equipo de agentes", type="primary", use_container_width=True):
         with st.spinner("Los especialistas están analizando y el coordinador cruza lo que ven…"):
             st.session_state.analysis = analyze(data, st.session_state.model, st.session_state.log)
-            st.session_state.execution = Execution()
+            # Keep the execution: what was already sent must never be sent again.
             st.session_state.remeasure = None
         st.success("Análisis listo: revisa las pestañas 2 y 3.")
 

@@ -26,6 +26,8 @@ from centra.pipeline import (
 )
 from centra.remeasure import Remeasurement
 
+SIMULATED = "Gerencia (aprobación simulada en la demo de consola)"
+
 
 def _print_analysis(analysis: Analysis) -> None:
     for report in analysis.reports:
@@ -65,13 +67,14 @@ def main() -> int:
     print(f"IA: {model.mode}\n")
     analysis = analyze(before, model, log)
     _print_analysis(analysis)
-    # In the console demo the manager approves everything except the quarterly campaign.
+    # The console demo simulates the manager's approvals, and says so in the log.
     execution = execute_plan(analysis, model, mailer, log, settings)
     for item_id in list(execution.pending):
-        approve(analysis, item_id, execution, mailer, log)
+        approve(analysis, item_id, execution, mailer, log, approver=SIMULATED)
     for item in analysis.plan.items:
         if item.id not in execution.claimed and item.horizon is not Horizon.QUARTER:
-            mark_done(item.id, execution, log)
+            mark_done(item.id, execution, log, who=SIMULATED)
+    print("\n(Demo de consola: las aprobaciones de la gerencia están simuladas)")
     if args.fallo:
         reference = first_paid_reference(after, "ASG-GAMMA", before.company.analysis_date)
         if reference:

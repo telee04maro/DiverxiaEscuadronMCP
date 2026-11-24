@@ -15,7 +15,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from centra.actions.mailer import Mailer
 from centra.audit import AuditLog, EventKind
 from centra.data.model import Company
-from centra.domain.money import MoneyError, eur, fmt_eur
+from centra.domain.money import MoneyError, eur, fmt_eur, money_mentions
 from centra.finance.reconciliation import InvoiceStatus
 from centra.llm.base import LanguageModel, Tier
 from centra.specialists.finance import NAME as FINANCE
@@ -23,7 +23,14 @@ from centra.specialists.finance import NAME as FINANCE
 DEMO_SENDER = "administracion@centra-demo.example"
 FRIENDLY_MAX_DAYS = 15
 FIRM_MAX_DAYS = 60
-_AMOUNT = re.compile(r"\d{1,3}(?:\.\d{3})*,\d{2}\s?€|\d+,\d{2}\s?€")
+_BARE_DECIMAL = re.compile(r"\d+(?:[.,]\d{3})*[.,]\d{2}(?!\d)")
+# A friendly reminder goes out without approval, so it may not threaten or sound formal.
+_NOT_FRIENDLY = re.compile(
+    r"requer|formal|judicial|abogad|demanda|asnef|moros|embarg|recargo|intereses|"
+    r"procedimiento|reclamaci[oó]n legal|últim[oa] aviso",
+    re.IGNORECASE,
+)
+MAX_SUBJECT = 120
 DISCLOSURE = (
     "Este mensaje lo ha redactado Centra, el asistente de IA de {company}, en su nombre. "
     "Si ya ha realizado el pago, por favor ignórelo y disculpe las molestias."
@@ -120,9 +127,9 @@ def prepare_claim(
         company, items=items, tone=tone, total=total, today=today, interests=interests
     )
     if draft is not None:
-        problem = _check(draft.body, items, total, allowed)
+        problem = _check(draft, items=items, total=total, allowed=allowed, tone=tone)
         if problem is None:
-            origin, subject, body = Origin.AI, draft.subject, draft.body
+            origin, subject, body = Origin.AI, _clean_subject(draft.subject), draft.body
         else:
             log.record(FINANCE, EventKind.REJECTED, f"Borrador de la IA descartado: {problem}")
     body = f"{body.rstrip()}\n\n—\n{DISCLOSURE.format(company=company.name)}"
@@ -183,9 +190,29 @@ def _facts(items: list[InvoiceStatus], today: date, interests: dict[str, Decimal
     return "\n".join(lines)
 
 
+def _clean_subject(subject: str) -> str:
+    """One line, bounded length: a header with a line break would break the e-mail."""
+    return " ".join(subject.split())[:MAX_SUBJECT]
+
+
 def _check(
-    body: str, items: list[InvoiceStatus], total: Decimal, allowed: set[Decimal]
+    draft: EmailDraft,
+    *,
+    items: list[InvoiceStatus],
+    total: Decimal,
+    allowed: set[Decimal],
+    tone: Tone,
 ) -> str | None:
+    """Why the model's e-mail cannot be sent as written, or None if it passes every check."""
+    return (
+        _missing_facts(draft.body, items, total)
+        or _invented_amounts(draft.subject, allowed)
+        or _invented_amounts(draft.body, allowed)
+        or _wrong_tone(f"{draft.subject} {draft.body}", tone)
+    )
+
+
+def _missing_facts(body: str, items: list[InvoiceStatus], total: Decimal) -> str | None:
     for item in items:
         if item.invoice.id not in body:
             return f"falta la factura {item.invoice.id}"
@@ -193,13 +220,27 @@ def _check(
             return f"falta el importe {fmt_eur(item.outstanding)}"
     if len(items) > 1 and fmt_eur(total) not in body:
         return f"falta el total {fmt_eur(total)}"
-    for raw in _AMOUNT.findall(body):
+    return None
+
+
+def _invented_amounts(text: str, allowed: set[Decimal]) -> str | None:
+    mentioned = money_mentions(text)
+    if mentioned is None:
+        return "incluye un importe ilegible"
+    for raw in _BARE_DECIMAL.findall(text):
         try:
-            amount = eur(raw)
+            mentioned.add(eur(raw))
         except MoneyError:
             return f"importe ilegible «{raw}»"
-        if amount not in allowed:
-            return f"incluye un importe que no está en los datos ({raw})"
+    invented = mentioned - allowed
+    if invented:
+        return f"incluye importes que no están en los datos ({', '.join(map(fmt_eur, invented))})"
+    return None
+
+
+def _wrong_tone(text: str, tone: Tone) -> str | None:
+    if tone is Tone.FRIENDLY and _NOT_FRIENDLY.search(text):
+        return "un recordatorio amable no puede sonar formal ni amenazar"
     return None
 
 

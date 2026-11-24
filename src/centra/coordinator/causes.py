@@ -6,12 +6,14 @@ Without the model, explicit crossing rules produce the same kind of answer.
 """
 
 from collections.abc import Iterable
+from decimal import Decimal
 from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field
 
 from centra.audit import AuditLog, EventKind
 from centra.domain.findings import AREA_LABELS, Area, Confidence, Finding, Signal
+from centra.domain.money import fmt_eur, money_mentions
 from centra.llm.base import LanguageModel, Tier
 
 NAME = "Agente coordinador"
@@ -125,6 +127,12 @@ def _validated(answer: LlmCrossing, by_id: dict[str, Finding], log: AuditLog) ->
             log.record(NAME, EventKind.REJECTED, note)
         if not known:
             continue
+        invented = _invented_amounts(f"{raw.title} {raw.explanation}", [by_id[i] for i in known])
+        if invented:
+            note = f"«{raw.title}» mencionaba importes que no están en sus hallazgos: {invented}"
+            rejected.append(note)
+            log.record(NAME, EventKind.REJECTED, note)
+            continue
         causes.append(
             RootCause(
                 id=f"CAUSA-{len(causes) + 1}",
@@ -152,8 +160,41 @@ def _validated(answer: LlmCrossing, by_id: dict[str, Finding], log: AuditLog) ->
     )
 
 
+def _invented_amounts(text: str, support: list[Finding]) -> str:
+    """Amounts the model wrote that none of the cited findings contains (empty if none)."""
+    written = money_mentions(text)
+    if written is None:
+        return "importe ilegible"
+    known: set[Decimal] = set()
+    for finding in support:
+        facts = " ".join([finding.title, finding.detail, *(e.fact for e in finding.evidence)])
+        known |= money_mentions(facts) or set()
+        known |= {value.quantize(Decimal("0.01")) for value in finding.metrics.values()}
+    return ", ".join(fmt_eur(a) for a in sorted(written - known))
+
+
 def _areas(findings: Iterable[Finding]) -> tuple[Area, ...]:
     return tuple(dict.fromkeys(f.area for f in findings))
+
+
+def _cash_cause_text(findings: tuple[Finding, ...]) -> tuple[str, str]:
+    """Every figure in the sentence comes from the findings' metrics, never from a template."""
+    slow = max(_with(findings, Signal.SLOW_PAYER), key=lambda f: f.metrics.get("owed", Decimal(0)))
+    cash = _with(findings, Signal.TIGHT_CASH)[0]
+    who = slow.subject or "un cliente"
+    owed, balance = slow.metrics.get("owed"), cash.metrics.get("balance")
+    comparison = ""
+    if owed is not None and balance is not None and balance > 0:
+        share = (owed / balance * 100).quantize(Decimal("1"))
+        comparison = (
+            f"Lo que debe {who} ({fmt_eur(owed)}) equivale al {share} % de la caja disponible "
+            f"({fmt_eur(balance)}). "
+        )
+    return (
+        f"La caja está al límite porque {who} paga tarde",
+        comparison + "Con la caja así, una guerra de precios no es sostenible: primero hay que "
+        "cobrar.",
+    )
 
 
 def _with(findings: tuple[Finding, ...], *signals: Signal) -> list[Finding]:
@@ -216,12 +257,12 @@ def _rule_crossing(findings: tuple[Finding, ...], log: AuditLog) -> CrossAnalysi
             _with(findings, Signal.PRIVATE_PATIENTS_DROP, Signal.WAIT_COMPLAINTS),
             Confidence.MEDIUM,
         )
-    if {Signal.TIGHT_CASH, Signal.SLOW_INSURER_PAYMENT} <= present:
+    if {Signal.TIGHT_CASH, Signal.SLOW_PAYER} <= present:
+        title, explanation = _cash_cause_text(findings)
         add(
-            "La caja está al límite porque una aseguradora paga tarde",
-            "Lo vencido de la aseguradora lenta casi duplica la caja disponible. Con la caja así, "
-            "una guerra de precios con la competencia no es sostenible: primero hay que cobrar.",
-            _with(findings, Signal.TIGHT_CASH, Signal.SLOW_INSURER_PAYMENT),
+            title,
+            explanation,
+            _with(findings, Signal.TIGHT_CASH, Signal.SLOW_PAYER),
             Confidence.HIGH,
         )
     discarded = []

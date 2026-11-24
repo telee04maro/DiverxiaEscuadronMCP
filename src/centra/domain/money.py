@@ -1,8 +1,12 @@
 """Money helpers. Money is always Decimal with two decimals; floats never touch it."""
 
+import re
 from decimal import ROUND_HALF_UP, Decimal, InvalidOperation
 
 CENT = Decimal("0.01")
+_SPANISH_THOUSANDS = re.compile(r"\d{1,3}(?:\.\d{3})+")
+# Anything that reads like money in free text: "1.234,56 €", "300 euros", "1234.56 EUR".
+_MONEY_IN_TEXT = re.compile(r"(\d[\d.,]*\d|\d)\s*(?:€|euros?\b|eur\b)", re.IGNORECASE)
 
 
 class MoneyError(ValueError):
@@ -10,7 +14,7 @@ class MoneyError(ValueError):
 
 
 def eur(value: str | int | Decimal) -> Decimal:
-    """Parse an amount ("1234.56", "1.234,56", 12, Decimal) into a two-decimal Decimal."""
+    """Parse an amount ("1234.56", "1.234,56", "1,234.56", 12, Decimal) to two decimals."""
     if isinstance(value, Decimal):
         amount = value
     elif isinstance(value, int):
@@ -24,12 +28,30 @@ def eur(value: str | int | Decimal) -> Decimal:
 
 def _parse_text(text: str) -> Decimal:
     cleaned = text.strip().replace("€", "").replace(" ", "")
-    if "," in cleaned:
-        cleaned = cleaned.replace(".", "").replace(",", ".")
+    if "," in cleaned and "." in cleaned:
+        if cleaned.rfind(".") > cleaned.rfind(","):  # English: 1,234.56
+            cleaned = cleaned.replace(",", "")
+        else:  # Spanish: 1.234,56
+            cleaned = cleaned.replace(".", "").replace(",", ".")
+    elif "," in cleaned:
+        cleaned = cleaned.replace(",", ".")
+    elif _SPANISH_THOUSANDS.fullmatch(cleaned):  # 1.234 = one thousand two hundred...
+        cleaned = cleaned.replace(".", "")
     try:
         return Decimal(cleaned)
     except InvalidOperation as error:
         raise MoneyError(f"No es un importe: {text!r}") from error
+
+
+def money_mentions(text: str) -> set[Decimal] | None:
+    """Every amount of money written in ``text``; None if one cannot be read."""
+    found: set[Decimal] = set()
+    for raw in _MONEY_IN_TEXT.findall(text):
+        try:
+            found.add(eur(raw))
+        except MoneyError:
+            return None
+    return found
 
 
 def fmt_eur(amount: Decimal) -> str:

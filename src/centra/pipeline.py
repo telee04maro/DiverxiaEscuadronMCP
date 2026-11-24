@@ -67,18 +67,27 @@ def analyze(
 
 @dataclass
 class Execution:
-    """What has been done so far; ``claimed`` feeds the re-measurement."""
+    """What has been done so far; ``claimed`` feeds the re-measurement.
+
+    ``ledger`` remembers every claim sent (client, invoices, tone) so a new analysis of the
+    same situation never sends it twice.
+    """
 
     sent: list[SentClaim] = field(default_factory=list)
     pending: dict[str, Claim] = field(default_factory=dict)
     claimed: dict[str, tuple[str, ...]] = field(default_factory=dict)
+    ledger: set[tuple[str, tuple[str, ...], str]] = field(default_factory=set)
+
+
+def _ledger_key(claim: Claim) -> tuple[str, tuple[str, ...], str]:
+    return (claim.client_id, tuple(sorted(claim.invoice_ids)), claim.tone.value)
 
 
 def _claim_for(
     analysis: Analysis, item: PlanItem, model: LanguageModel, log: AuditLog, settings: Settings
 ) -> Claim | None:
     today = analysis.data.company.analysis_date
-    statuses = reconcile(analysis.data.invoices, analysis.data.bank)
+    statuses = reconcile(analysis.data.invoices, analysis.data.bank, as_of=today)
     items = overdue_by_client(statuses, today).get(item.client_id or "")
     if not items:
         return None
@@ -109,8 +118,17 @@ def execute_plan(
         claim = _claim_for(analysis, item, model, log, settings)
         if claim is None:
             continue
-        if item.autonomy is Autonomy.AUTO and not claim.needs_approval:
+        if _ledger_key(claim) in state.ledger:
+            state.claimed[item.id] = claim.invoice_ids
+            log.record(
+                COORDINATOR,
+                EventKind.CHECKED,
+                f"La reclamación a {claim.client_name} ya se envió: no se repite",
+                item.id,
+            )
+        elif item.autonomy is Autonomy.AUTO and not claim.needs_approval:
             state.sent.append(send_claim(claim, analysis.data.company, mailer, log))
+            state.ledger.add(_ledger_key(claim))
             state.claimed[item.id] = claim.invoice_ids
         else:
             state.pending[item.id] = claim
@@ -124,25 +142,32 @@ def execute_plan(
 
 
 def approve(
-    analysis: Analysis, item_id: str, execution: Execution, mailer: Mailer, log: AuditLog
+    analysis: Analysis,
+    item_id: str,
+    execution: Execution,
+    mailer: Mailer,
+    log: AuditLog,
+    *,
+    approver: str = "Gerencia",
 ) -> SentClaim | None:
     claim = execution.pending.pop(item_id, None)
-    if claim is None or item_id in execution.claimed:
+    if claim is None or item_id in execution.claimed or _ledger_key(claim) in execution.ledger:
         return None
     log.record(
-        "Gerencia", EventKind.DECIDED, f"Aprueba la reclamación a {claim.client_name}", item_id
+        approver, EventKind.DECIDED, f"Aprueba la reclamación a {claim.client_name}", item_id
     )
     sent = send_claim(claim, analysis.data.company, mailer, log)
     execution.sent.append(sent)
+    execution.ledger.add(_ledger_key(claim))
     execution.claimed[item_id] = claim.invoice_ids
     return sent
 
 
-def mark_done(item_id: str, execution: Execution, log: AuditLog) -> None:
+def mark_done(item_id: str, execution: Execution, log: AuditLog, *, who: str = "Gerencia") -> None:
     """A person confirms a non-automatic action was carried out."""
     if item_id not in execution.claimed:
         execution.claimed[item_id] = ()
-        log.record("Gerencia", EventKind.DID, "Confirma que la acción se ha hecho", item_id)
+        log.record(who, EventKind.DID, "Confirma que la acción se ha hecho", item_id)
 
 
 def measure_after(

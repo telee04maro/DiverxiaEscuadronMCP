@@ -2,6 +2,7 @@
 
 import re
 import smtplib
+import ssl
 from datetime import UTC, datetime
 from email.message import EmailMessage
 from pathlib import Path
@@ -48,7 +49,7 @@ class SmtpMailer:
         if message["From"] is None:
             message["From"] = self._smtp.sender
         with smtplib.SMTP(self._smtp.host, self._smtp.port, timeout=30) as server:
-            server.starttls()
+            server.starttls(context=ssl.create_default_context())
             server.login(self._smtp.user, self._smtp.password.get_secret_value())
             server.send_message(message)
         return f"Enviado por SMTP al buzón de prueba (destinatario real: {original})"

@@ -95,7 +95,7 @@ def _top_score(findings: list[Finding]) -> Decimal:
 def _collection_items(findings: tuple[Finding, ...], crossing: CrossAnalysis) -> list[PlanItem]:
     items = []
     for finding in findings:
-        slow = Signal.SLOW_INSURER_PAYMENT in finding.signals
+        slow = Signal.SLOW_PAYER in finding.signals
         if not slow and Signal.RECENT_OVERDUE not in finding.signals:
             continue
         client_id = finding.id.removeprefix("FIN-COBRO-")
@@ -106,7 +106,7 @@ def _collection_items(findings: tuple[Finding, ...], crossing: CrossAnalysis) ->
                 title=(
                     "Reclamación formal de lo vencido" if slow else "Recordatorio amable de pago"
                 )
-                + f": {finding.title.split(' paga')[0].split(' debe')[0]}",
+                + f": {finding.subject or client_id}",
                 why=finding.title,
                 horizon=Horizon.WEEK,
                 owner=FINANCE,

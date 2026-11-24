@@ -4,6 +4,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from datetime import date
 from decimal import ROUND_HALF_UP, Decimal
+from itertools import pairwise
 
 from centra.audit import AuditLog, EventKind
 from centra.data.model import BankMovement, ClientType, CompanyData, MonthlySessions
@@ -62,8 +63,13 @@ class FinanceSpecialist:
 
     def analyze(self, data: CompanyData, model: LanguageModel, log: AuditLog) -> SpecialistReport:
         today = data.company.analysis_date
-        statuses = reconcile(data.invoices, data.bank)
+        statuses = reconcile(data.invoices, data.bank, as_of=today)
         cash = _cash(data.bank, today)
+        broken = _balance_breaks(data.bank)
+        if broken:
+            log.record(
+                NAME, EventKind.REJECTED, f"El saldo del extracto no cuadra en {broken} fila(s)"
+            )
         log.record(
             NAME,
             EventKind.SAW,
@@ -82,14 +88,24 @@ class FinanceSpecialist:
             sources=SOURCES,
             kpis=_kpis(data, statuses, cash, today),
             findings=tuple(findings),
-            gaps=_gaps(data),
+            gaps=_gaps(data, broken),
         )
+
+
+def _balance_breaks(bank: tuple[BankMovement, ...]) -> int:
+    """Rows whose balance is not previous balance + amount (the statement's own invariant)."""
+    return sum(
+        1
+        for previous, current in pairwise(bank)
+        if previous.balance + current.amount != current.balance
+    )
 
 
 def _cash(bank: tuple[BankMovement, ...], today: date) -> _Cash:
     if not bank:
         return _Cash(balance=None, monthly_expenses=None)
-    balance = max(bank, key=lambda m: m.on).balance
+    # Stable sort: for the last day, the last row in statement order holds the balance.
+    balance = sorted(bank, key=lambda m: m.on)[-1].balance
     current = today.strftime("%Y-%m")
     spent: dict[str, Decimal] = defaultdict(Decimal)
     for movement in bank:
@@ -108,7 +124,7 @@ def overdue_by_client(
 ) -> dict[str, list[InvoiceStatus]]:
     overdue: dict[str, list[InvoiceStatus]] = defaultdict(list)
     for status in statuses:
-        if status.status is not PaymentStatus.PAID and status.days_overdue(today) > 0:
+        if status.outstanding > 0 and status.days_overdue(today) > 0:
             overdue[status.invoice.client_id].append(status)
     return dict(overdue)
 
@@ -165,14 +181,20 @@ def _collection_findings(
                 ),
                 detail=(
                     f"{len(items)} factura(s) vencida(s); la más antigua, hace {worst} días. "
-                    "No hay ningún ingreso en el banco con su referencia."
+                    + (
+                        "No hay ningún ingreso en el banco con su referencia."
+                        if all(s.status is PaymentStatus.PENDING for s in items)
+                        else "Hay pagos incompletos o ambiguos: no se dan por cobrados."
+                    )
                 ),
                 evidence=tuple(evidence),
                 confidence=Confidence.HIGH,
                 impact=5 if share >= Decimal("0.3") else 3 if share >= Decimal("0.1") else 2,
                 urgency=5 if worst > SLOW_PAYER_DAYS else 4 if worst > RECENT_OVERDUE_DAYS else 3,
                 effort=1,
-                signals=frozenset({Signal.SLOW_INSURER_PAYMENT if slow else Signal.RECENT_OVERDUE}),
+                signals=frozenset({Signal.SLOW_PAYER if slow else Signal.RECENT_OVERDUE}),
+                subject=name,
+                metrics={"owed": owed},
             )
         )
     return findings
@@ -217,6 +239,7 @@ def _cash_findings(cash: _Cash, statuses: tuple[InvoiceStatus, ...], today: date
             urgency=5 if days < CRITICAL_CASH_DAYS else 4,
             effort=3,
             signals=frozenset({Signal.TIGHT_CASH}),
+            metrics={"balance": cash.balance, "days": days, "overdue": owed},
         )
     ]
 
@@ -321,7 +344,9 @@ def _kpis(
         Kpi(
             key="vencido",
             label="Cobros vencidos",
-            value=sum((s.outstanding for s in overdue), Decimal(0)) if data.invoices else None,
+            value=sum((s.outstanding for s in overdue), Decimal(0))
+            if data.invoices and data.bank
+            else None,
             unit="€",
             note=f"{len(overdue)} factura(s)",
         ),
@@ -355,7 +380,7 @@ def _client_name(statuses: tuple[InvoiceStatus, ...], client_id: str) -> str:
     return next(s.invoice.client_name for s in statuses if s.invoice.client_id == client_id)
 
 
-def _gaps(data: CompanyData) -> tuple[DataGap, ...]:
+def _gaps(data: CompanyData, balance_breaks: int = 0) -> tuple[DataGap, ...]:
     gaps = [
         DataGap(
             area=Area.FINANCE,
@@ -375,6 +400,14 @@ def _gaps(data: CompanyData) -> tuple[DataGap, ...]:
     ):
         if name in data.missing_sources:
             gaps.append(DataGap(area=Area.FINANCE, missing=name, why_it_matters=why))
+    if balance_breaks:
+        gaps.append(
+            DataGap(
+                area=Area.FINANCE,
+                missing="Extracto bancario coherente",
+                why_it_matters=f"El saldo no cuadra con los movimientos en {balance_breaks} filas",
+            )
+        )
     if data.company.avg_sessions_per_new_patient is None:
         gaps.append(
             DataGap(

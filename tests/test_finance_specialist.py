@@ -15,7 +15,7 @@ def _report(data: CompanyData):  # type: ignore[no-untyped-def]
 def test_detects_slow_insurer_tight_cash_and_private_drop(before: CompanyData) -> None:
     report = _report(before)
     signals = {s for f in report.findings for s in f.signals}
-    assert Signal.SLOW_INSURER_PAYMENT in signals
+    assert Signal.SLOW_PAYER in signals
     assert Signal.TIGHT_CASH in signals
     assert {Signal.PRIVATE_PATIENTS_DROP, Signal.NOT_SEASONAL} <= signals
     assert Signal.RECENT_OVERDUE in signals  # Gamma: only a few days late

@@ -74,7 +74,12 @@ def remeasure(
     log: AuditLog,
 ) -> Remeasurement:
     """``claimed`` maps each executed plan item to the invoices it claimed (empty if none)."""
-    statuses = {s.invoice.id: s for s in reconcile(after_data.invoices, after_data.bank)}
+    statuses = {
+        s.invoice.id: s
+        for s in reconcile(
+            after_data.invoices, after_data.bank, as_of=after_data.company.analysis_date
+        )
+    }
     results = []
     for item in plan.items:
         if item.id not in claimed:
@@ -114,7 +119,20 @@ def _collection_result(
         if invoice_id in statuses
     )
     paid = sum(1 for c in checks if c.status is PaymentStatus.PAID)
-    if checks and paid == len(checks):
+    unknown = len(checks) < len(invoice_ids) or any(
+        c.status is PaymentStatus.UNKNOWN for c in checks
+    )
+    if not checks or unknown:
+        return ItemResult(
+            item=item,
+            effect=Effect.NOT_MEASURABLE,
+            kpi_label="Pendiente de lo reclamado",
+            before=sum((c.amount for c in checks), Decimal(0)) if checks else None,
+            after=None,
+            note="Faltan facturas o el extracto en los datos de después: no se puede comprobar",
+            invoices=checks,
+        )
+    if paid == len(checks):
         effect, note = Effect.CONFIRMED, "Todas las facturas reclamadas cuadran con el banco"
     elif paid:
         effect, note = Effect.PARTIAL, f"Cobradas al céntimo {paid} de {len(checks)} facturas"

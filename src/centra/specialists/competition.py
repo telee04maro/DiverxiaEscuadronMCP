@@ -45,6 +45,9 @@ GOOD_POSITION = 3
 
 _PRICE = re.compile(r"(\d+(?:[.,]\d{1,2})?)\s?€")
 _NO_WAIT = re.compile(r"sin esperas?|cita en 24|cita hoy|cita en el día", re.IGNORECASE)
+# The model may only say an ad promises no waiting if the ad talks about time at all.
+_TIME_HINT = re.compile(r"esper|cita|24 ?h|hoy|inmediat|rápid|al momento", re.IGNORECASE)
+MAX_THEME_DISAGREEMENT = Decimal("0.3")
 
 
 class Theme(StrEnum):
@@ -173,7 +176,8 @@ def _read_ads(ads: list[CompetitorAd], model: LanguageModel, log: AuditLog) -> l
             ad=ad,
             offer_price=price,
             offer_service=reading.offer_service,
-            promises_no_wait=reading.promises_no_wait,
+            promises_no_wait=reading.promises_no_wait
+            and bool(_TIME_HINT.search(" ".join(ad.ad_creative_bodies))),
         )
     log.record(NAME, EventKind.DECIDED, "Anuncios leídos con IA y verificados contra el texto")
     return facts
@@ -233,6 +237,17 @@ def _classify_reviews(
         if 0 <= tag.index < len(reviews) and tag.themes:
             themes[tag.index] = frozenset(tag.themes)
             covered.add(tag.index)
+    ai_waits = sum(1 for t in themes if Theme.WAIT in t)
+    rule_waits = sum(1 for t in rules if Theme.WAIT in t)
+    tolerance = max(Decimal(2), MAX_THEME_DISAGREEMENT * len(reviews))
+    if abs(ai_waits - rule_waits) > tolerance:
+        log.record(
+            NAME,
+            EventKind.REJECTED,
+            f"La IA marcó {ai_waits} reseñas de espera y las palabras clave {rule_waits}: "
+            "discrepan demasiado, se usan las reglas",
+        )
+        return rules
     log.record(
         NAME,
         EventKind.DECIDED,
@@ -390,10 +405,7 @@ def _review_findings(data: CompanyData, themes: list[frozenset[Theme]]) -> list[
         Finding(
             id="COMP-RESENAS",
             area=Area.COMPETITION,
-            title=(
-                f"La nota cae a {fmt_num(recent_avg)}★ y el {percent} % de las reseñas recientes "
-                "se quejan de la espera"
-            ),
+            title=_review_title(recent_avg, percent, signals),
             detail="Las quejas hablan de tardar en dar cita y de esperas en recepción.",
             evidence=tuple(evidence),
             confidence=Confidence.HIGH if len(recent) >= 5 else Confidence.MEDIUM,  # noqa: PLR2004
@@ -403,6 +415,16 @@ def _review_findings(data: CompanyData, themes: list[frozenset[Theme]]) -> list[
             signals=frozenset(signals),
         )
     ]
+
+
+def _review_title(recent_avg: Decimal, percent: int, signals: set[Signal]) -> str:
+    parts = []
+    if Signal.RATING_DROP in signals:
+        parts.append(f"La nota cae a {fmt_num(recent_avg)}★")
+    if Signal.WAIT_COMPLAINTS in signals:
+        parts.append(f"el {percent} % de las reseñas recientes se quejan de la espera")
+    title = " y ".join(parts)
+    return title[0].upper() + title[1:]
 
 
 def _search_findings(data: CompanyData) -> list[Finding]:
@@ -520,6 +542,17 @@ def _gaps(data: CompanyData) -> tuple[DataGap, ...]:
             ),
         ),
     ]
+    for name, what, why in (
+        ("resenas.json", "Reseñas propias", "Sin ellas no veo de qué se quejan los clientes"),
+        (
+            "competencia/competidores.json",
+            "Precios de la competencia",
+            "Sin ellos no comparo precios",
+        ),
+        ("competencia/busqueda.json", "Resultados de búsqueda", "Sin ellos no mido la visibilidad"),
+    ):
+        if name in data.missing_sources:
+            gaps.append(DataGap(area=Area.COMPETITION, missing=what, why_it_matters=why))
     if not data.competitor_ads:
         gaps.append(
             DataGap(

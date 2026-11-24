@@ -1,4 +1,11 @@
-"""Match invoices with bank income by reference. Paid means paid to the cent."""
+"""Match invoices with bank movements by reference. Paid means paid to the cent.
+
+- Without a bank statement nothing is known: the status is UNKNOWN, never "unpaid".
+- Each euro is allocated once: a transfer that cites several invoices only pays them if it
+  adds up to their total; otherwise those invoices are AMBIGUOUS.
+- Refunds (negative movements with the reference) subtract.
+- Only movements up to the analysis date count.
+"""
 
 import re
 from datetime import date
@@ -14,7 +21,12 @@ class PaymentStatus(StrEnum):
     PAID = "cobrada"
     PARTIAL = "pago incompleto"
     OVERPAID = "pago de más"
+    AMBIGUOUS = "pago ambiguo"
     PENDING = "pendiente"
+    UNKNOWN = "sin datos del banco"
+
+
+OPEN_STATUSES = frozenset({PaymentStatus.PENDING, PaymentStatus.PARTIAL, PaymentStatus.AMBIGUOUS})
 
 
 class InvoiceStatus(BaseModel):
@@ -28,10 +40,12 @@ class InvoiceStatus(BaseModel):
 
     @property
     def outstanding(self) -> Decimal:
+        if self.status not in OPEN_STATUSES:
+            return Decimal(0)
         return max(self.invoice.amount - self.paid, Decimal(0))
 
     def days_overdue(self, on: date) -> int:
-        if self.status is PaymentStatus.PAID or on <= self.invoice.due:
+        if self.status not in OPEN_STATUSES or on <= self.invoice.due:
             return 0
         return (on - self.invoice.due).days
 
@@ -42,24 +56,61 @@ class InvoiceStatus(BaseModel):
 
 
 def reconcile(
-    invoices: tuple[Invoice, ...], bank: tuple[BankMovement, ...]
+    invoices: tuple[Invoice, ...], bank: tuple[BankMovement, ...], *, as_of: date | None = None
 ) -> tuple[InvoiceStatus, ...]:
-    return tuple(_status(invoice, bank) for invoice in invoices)
+    if not bank:
+        return tuple(
+            InvoiceStatus(
+                invoice=i, status=PaymentStatus.UNKNOWN, paid=Decimal(0), paid_on=None, movements=()
+            )
+            for i in invoices
+        )
+    patterns = {i.id: re.compile(rf"(?<![\w-]){re.escape(i.id)}(?![\w-])") for i in invoices}
+    by_id = {i.id: i for i in invoices}
+    allocated: dict[str, Decimal] = {i.id: Decimal(0) for i in invoices}
+    used: dict[str, list[BankMovement]] = {i.id: [] for i in invoices}
+    ambiguous: set[str] = set()
+    for movement in bank:
+        if as_of is not None and movement.on > as_of:
+            continue
+        cited = [i for i, pattern in patterns.items() if pattern.search(movement.concept)]
+        if not cited:
+            continue
+        sign = Decimal(1) if movement.amount > 0 else Decimal(-1)
+        if len(cited) == 1:
+            allocated[cited[0]] += movement.amount
+        elif abs(movement.amount) == sum(by_id[i].amount for i in cited):
+            for invoice_id in cited:
+                allocated[invoice_id] += sign * by_id[invoice_id].amount
+        else:
+            ambiguous.update(cited)
+            continue
+        for invoice_id in cited:
+            used[invoice_id].append(movement)
+    return tuple(
+        _status(i, allocated[i.id], tuple(used[i.id]), i.id in ambiguous) for i in invoices
+    )
 
 
-def _status(invoice: Invoice, bank: tuple[BankMovement, ...]) -> InvoiceStatus:
-    reference = re.compile(rf"(?<![\w-]){re.escape(invoice.id)}(?![\w-])")
-    movements = tuple(m for m in bank if m.amount > 0 and reference.search(m.concept))
-    paid = sum((m.amount for m in movements), Decimal(0))
-    if paid == 0:
-        status = PaymentStatus.PENDING
-    elif paid == invoice.amount:
+def _status(
+    invoice: Invoice, paid: Decimal, movements: tuple[BankMovement, ...], ambiguous: bool
+) -> InvoiceStatus:
+    if paid == invoice.amount:
         status = PaymentStatus.PAID
+    elif ambiguous:
+        status = PaymentStatus.AMBIGUOUS
+    elif paid <= 0:
+        status = PaymentStatus.PENDING
     elif paid < invoice.amount:
         status = PaymentStatus.PARTIAL
     else:
         status = PaymentStatus.OVERPAID
-    paid_on = max((m.on for m in movements), default=None)
+    incoming = [m.on for m in movements if m.amount > 0]
+    paid_on = max(incoming) if incoming and status is PaymentStatus.PAID else None
     return InvoiceStatus(
-        invoice=invoice, status=status, paid=paid, paid_on=paid_on, movements=movements
+        invoice=invoice,
+        status=status,
+        paid=max(paid, Decimal(0)),
+        paid_on=paid_on,
+        movements=movements,
     )
