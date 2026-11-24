@@ -71,7 +71,7 @@ Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la soluc
 - Nuevos módulos a medida que crece.
 
 ## Costes
-- Uso de los modelos de IA: céntimos por análisis (≈ 0,10–0,15 $, estimado y con tope de gasto).
+- Uso de los modelos de IA: **0,04 $ por análisis, medido** (0,07 $ con los correos de reclamación); unos 0,30 $ por empresa y mes con un análisis semanal. Tope de gasto por ejecución.
 - Infraestructura y seguridad (UE).
 - Desarrollo.
 - Expertos humanos.

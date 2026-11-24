@@ -33,7 +33,11 @@ Todo eso lo hacen reglas deterministas o una persona.
 **Coste:**
 - **Medido:** cada llamada registra sus tokens y su coste (pestaña 6 del panel).
 - **Tope por ejecución:** `AI_BUDGET_USD`, 0,50 $ por defecto. Al alcanzarlo, se pasa a reglas.
-- **Estimado:** unos 0,10–0,15 $ por análisis completo (5 llamadas), según los precios de los modelos de noviembre de 2026. En Opus 5.5 el razonamiento interno no se puede desactivar y se cobra como salida. Se medirá en cuanto haya clave.
+- **Medido con la API real (24/11/2026, clínica de la demo):**
+  - **Análisis** (3 llamadas: Haiku lee los anuncios y clasifica las reseñas; Opus cruza los hallazgos): **0,038–0,042 $** y 14–20 s. Casi todo es la llamada de Opus (unos 3.300 tokens de entrada y 1.200–1.400 de salida).
+  - **Recorrido completo** (análisis + 2 correos de reclamación redactados por Claude + re-medición): **0,067 $** en 6 llamadas.
+  - **Por empresa y mes**, con un análisis semanal y sus reclamaciones: unos **0,30 $**.
+- **Comprobado en esa ejecución:** las 12 cifras que cita la causa de Claude (4,7 → 3,0, 86 %, 41 %, 8 oportunidades, 15,4 %, 18 días, 350 m, posición 6, 8.633,50 €, 64 días, 22 días, 29 días) salen de hallazgos calculados con reglas; los correos suman el total exacto (8.633,50 €), cambian de tono según el cliente y se identifican como IA.
 
 ## Para construirlo
 

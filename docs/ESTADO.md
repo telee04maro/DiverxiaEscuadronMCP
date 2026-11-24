@@ -90,7 +90,7 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 | — | — | — |
 
 ## Siguiente paso
-1. Probar con clave de Anthropic (`ANTHROPIC_API_KEY` en `.env`) y apuntar el coste real por análisis en `docs/uso-ia.md` y en el canvas.
+1. Hecho: probado con Claude real; coste medido en `docs/uso-ia.md`, el canvas y el pitch.
 2. Subir los 4 entregables al Drive (los .md se pueden pegar en un documento o en diapositivas; el logo es `docs/negocio/logo.svg`).
 3. Ensayar el pitch con el tiempo real y las preguntas a los mentores (tabla de arriba). Confirmar el tamaño del equipo: las bases hablan de 6 y somos 3.
 4. Hecho: `docs/ideas.md` (interno) ya no está en el repositorio; sigue en el historial de git.
@@ -100,12 +100,13 @@ Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.
 - 24/11, 13:00 · `20c9af6` · CI de GitHub Actions (Linux y Windows) en verde en todos los commits · `uv run pytest`: 44 tests en verde.
 - 24/11, 13:05 · `20c9af6` · Recorrido completo en el panel (navegador) y en la consola, en **modo reglas** (sin clave de IA en este equipo). **No verificado aún con Claude real.**
 - 24/11, 15:05 · `720f4ef` · Panel en el navegador tras reiniciarlo: análisis de la clínica (59 %, 12,0 h, 41 %), pestaña 7 (mensaje de WhatsApp simulado → nota, sin duplicar) y «un mes después» con unidades (12,0 h → 0,0 h); sin ejecutar acciones, no atribuye ningún cambio. Búsqueda de secretos en el repositorio: nada.
+- 24/11, 16:10 · `b44e161` · **Claude real** (clave en `.env`, Opus 5.5 + Haiku 5.5): análisis 0,038–0,042 $ en 3 llamadas y 14–20 s; `uv run python -m vigia --fallo` 0,067 $ en 6 llamadas, sin errores; panel en el navegador 0,0383 $. Las 12 cifras de la causa de Claude existen en los hallazgos; los 2 correos suman al céntimo, cambian de tono y se identifican como IA; el fallo de un céntimo no se da por cobrado.
 - 24/11, 15:10 · Ruta de Claude sin red (cliente falso, `tests/test_claude_model.py`): salida fuera del esquema → reglas, coste medido, tope de gasto y modelo desconocido nunca gratis. `uv run pytest`: 115 tests en verde.
 - 24/11, 14:55 · `a29b738` · **Red team R02** (conector ERP, agente de atención y «Tu empresa»): 18 hallazgos, todos corregidos con su test de aceptación en `tests/test_red_team_r2.py`. `uv run pytest`: 112 tests en verde; ruff y mypy estricto limpios.
 - 24/11, 13:20 · `babfc75` · **Red team R01:** 8 hallazgos P1 y 10 P2. Corregidos los 8 P1 y 9 de los P2, cada uno con su test de aceptación en `tests/test_red_team.py`. `uv run pytest`: 65 tests en verde. Recorrido completo repetido en el panel y en la consola con el código corregido.
 
 ## Problemas conocidos
-- **Sin clave de IA en el portátil de desarrollo:** el modo Claude está cubierto por tests con respuestas guionizadas, pero no se ha ejecutado contra la API real.
+- **La causa redactada por Claude varía entre ejecuciones** (mismo fondo, distinto título y orden). Las cifras siempre salen de los hallazgos; para un pitch reproducible, el modo reglas da siempre el mismo texto.
 - **Fuentes de competencia:** Meta y Google Ads exigen identidad verificada o no tienen API de autoservicio, y Google prohíbe el scraping de resultados. Se usan instantáneas sintéticas con el formato oficial (ver `docs/fuentes.md`).
 - **Red team R01, pendiente (P2):** el coordinador con IA acepta una hipótesis descartada si cita hallazgos existentes aunque no sean los relevantes (p. ej. descartar «la temporada» citando la caja). En modo reglas no ocurre.
 - **BALTER real sin probar:** falta la documentación de su API y el visto bueno de la empresa dueña. No se conecta a producción; la primera prueba será de solo lectura y sin datos personales (ADR 005).
