@@ -5,7 +5,7 @@ from decimal import Decimal
 
 import anthropic
 from anthropic.types import OutputConfigParam
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 from vigia.config import PRICES_PER_MTOK, Settings
 from vigia.llm.base import LlmCall, Tier, total_cost
@@ -61,6 +61,11 @@ class ClaudeModel:
             logger.warning("Claude no respondió en %s: %s", task, type(error).__name__)
             self._record(task, model, note=f"Error de la API ({type(error).__name__})")
             return None
+        except (ValidationError, ValueError) as error:
+            # The output broke the schema's limits (e.g. impact 1-5): untrusted, so rules decide.
+            logger.warning("Salida de Claude no válida en %s: %s", task, type(error).__name__)
+            self._record(task, model, note="Salida no válida según el esquema: se usan reglas")
+            return None
         usage = response.usage
         cost = _cost(model, usage.input_tokens, usage.output_tokens)
         if response.stop_reason == "refusal" or response.parsed_output is None:
@@ -109,9 +114,7 @@ class ClaudeModel:
 
 
 def _cost(model: str, input_tokens: int, output_tokens: int) -> Decimal:
-    prices = PRICES_PER_MTOK.get(model)
-    if prices is None:
-        return Decimal(0)
-    per_input, per_output = prices
+    # An unknown model is priced like the dearest one: unknown is never free, or the cap fails.
+    per_input, per_output = PRICES_PER_MTOK.get(model, max(PRICES_PER_MTOK.values()))
     million = Decimal(1_000_000)
     return per_input * input_tokens / million + per_output * output_tokens / million

@@ -44,8 +44,8 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 - [x] **N3. Uso de la IA:** `docs/uso-ia.md`. **Falta subirlo al Drive, con capturas del panel.**
 - [x] **N4. Guion del pitch:** `docs/negocio/pitch.md` y `docs/DEMO.md`. **Falta ensayarlo con el tiempo real.**
 - [x] **E10. Atención y captación** (ADR 005): agente de consultas del ERP/CRM, contrato `CrmConnector`, ERP de demo con API para Hermes y entrada «Tu empresa» (Excel/CSV con plantillas).
-- [ ] **E8. Congelación de funciones** (unas 3 h antes de entregar): solo endurecer, reunir evidencias y preparar el pitch.
-- [ ] **E9. Entrega:** los 4 entregables en el Drive, repositorio limpio y README final.
+- [x] **E8. Congelación de funciones:** desde `a29b738` solo se endurece (red team R02, unidades en la re-medición, ruta de Claude ante salidas inválidas). Sin funciones nuevas.
+- [ ] **E9. Entrega:** hecho lo del repositorio (README final, ideas internas fuera, sin secretos, CI en verde) y los ficheros de `docs/entrega/` listos. **Falta (equipo):** subirlos al Drive, vídeo o capturas de respaldo de la demo y ensayo del pitch.
 
 ## Preguntas a los mentores
 
@@ -99,6 +99,8 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.
 - 24/11, 13:00 · `20c9af6` · CI de GitHub Actions (Linux y Windows) en verde en todos los commits · `uv run pytest`: 44 tests en verde.
 - 24/11, 13:05 · `20c9af6` · Recorrido completo en el panel (navegador) y en la consola, en **modo reglas** (sin clave de IA en este equipo). **No verificado aún con Claude real.**
+- 24/11, 15:05 · `720f4ef` · Panel en el navegador tras reiniciarlo: análisis de la clínica (59 %, 12,0 h, 41 %), pestaña 7 (mensaje de WhatsApp simulado → nota, sin duplicar) y «un mes después» con unidades (12,0 h → 0,0 h); sin ejecutar acciones, no atribuye ningún cambio. Búsqueda de secretos en el repositorio: nada.
+- 24/11, 15:10 · Ruta de Claude sin red (cliente falso, `tests/test_claude_model.py`): salida fuera del esquema → reglas, coste medido, tope de gasto y modelo desconocido nunca gratis. `uv run pytest`: 115 tests en verde.
 - 24/11, 14:55 · `a29b738` · **Red team R02** (conector ERP, agente de atención y «Tu empresa»): 18 hallazgos, todos corregidos con su test de aceptación en `tests/test_red_team_r2.py`. `uv run pytest`: 112 tests en verde; ruff y mypy estricto limpios.
 - 24/11, 13:20 · `babfc75` · **Red team R01:** 8 hallazgos P1 y 10 P2. Corregidos los 8 P1 y 9 de los P2, cada uno con su test de aceptación en `tests/test_red_team.py`. `uv run pytest`: 65 tests en verde. Recorrido completo repetido en el panel y en la consola con el código corregido.
 
