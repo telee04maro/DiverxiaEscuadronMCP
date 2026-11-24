@@ -596,7 +596,7 @@ def _log_tab() -> None:
     st.markdown("### Registro de los agentes")
     st.dataframe(
         [
-            {"Hora": e.at.strftime("%H:%M:%S"), "Agente": e.agent, "Qué": e.kind.value,
+            {"Hora": e.at.astimezone().strftime("%H:%M:%S"), "Agente": e.agent, "Qué": e.kind.value,
              "Detalle": e.message, "Referencias": ", ".join(e.refs)}
             for e in log.events
         ],
