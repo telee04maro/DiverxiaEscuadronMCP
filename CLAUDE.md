@@ -7,16 +7,23 @@ Este método es el que nos hizo ganar el Malackathon 2026 (reto Betsson). Las se
 ## Contexto
 
 - **Evento:** hackathon *IA First* de Diverxia, 24/11/2026, con unas 200 personas. Equipo de 3.
-- **Reto:** _Pendiente_. El enunciado y las bases oficiales van en `docs/reto/`. **Son la fuente de verdad: léelos enteros antes de cualquier decisión.** Si contradicen este archivo, mandan ellos y hay que actualizar este archivo.
-- **Plazos:** _Pendiente_ (inicio, revisiones de mentores, congelación de funciones, entrega, finalistas, pitch).
+- **Reto:** **04 «La IA como servicio»: agentes inteligentes que actúan** (Talent Land España). El enunciado y los entregables, con su transcripción, están en `docs/reto/`. **Son la fuente de verdad: léelos enteros antes de cualquier decisión.** Si contradicen este archivo, mandan ellos y hay que actualizar este archivo.
+- **Plazos:** _Pendiente de confirmar_ (horario de cada hito, congelación de funciones, entrega en el Drive, pitch).
 
 ### Requisitos oficiales del reto (resumen; el enunciado manda)
-_Pendiente._ Al publicarse el reto, rellena estos apartados:
-- **Objetivo:** qué hay que construir y para quién.
-- **Entregables:** formato, dónde y cuándo se entregan.
-- **Restricciones:** herramientas, datos, IA permitida, infraestructura.
-- **Evaluación:** cada criterio con su peso, y quién evalúa y cuándo (¿los mentores durante el día?).
-- **Cambios comunicados por la organización:** fecha y qué cambió, con lo que se ha comprobado.
+- **Objetivo:** un agente inteligente de IA al servicio de empresas y ciudadanos que **identifique necesidades reales, tome decisiones y ejecute tareas de forma autónoma**. Debe resolver problemas, optimizar procesos y mejorar la experiencia de las personas. Tiene que ir **más allá de los asistentes tradicionales**: una IA que **actúa, conecta servicios y genera valor e impacto real** en nuestro entorno.
+- **Entregables por equipo,** cada uno en su carpeta del Drive del Hackathon:
+  1. **Canvas:** el modelo de negocio de la solución.
+  2. **Prototipo y uso de la IA:** enseñar el prototipo y explicar cómo se ha usado la IA.
+  3. **Marketing:** logo, eslogan y estrategia de comunicación.
+  4. **Guion del pitch.**
+- **Qué implica para nosotros:**
+  - Se evalúa un **proyecto de empresa**, no solo código. El prototipo debe funcionar de principio a fin en la demo y verse que **actúa** (no que solo conversa).
+  - «Cómo habéis usado la IA» se cuenta **en dos sentidos**: la IA dentro del producto y la IA con la que lo construimos (Claude Code, investigación, canvas, logo, pitch). Se registra sobre la marcha en `docs/uso-ia.md`.
+  - El código no se entrega para revisión: la calidad de la sección 6 es **proporcional a un prototipo**, pero las secciones 3 (verificación honesta) y 5 (seguridad) se cumplen enteras.
+- **Restricciones:** _pendiente de confirmar_ (herramientas, APIs, datos permitidos).
+- **Evaluación:** _pendiente de confirmar_ (criterios, pesos, quién evalúa y cuándo; duración del pitch; ¿demo en directo?).
+- **Cambios comunicados por la organización:** en `docs/reto/README.md`, con su fecha.
 
 ### Tesis
 _Pendiente._ Escribe **una frase** que reformule el reto y diga qué hay que **demostrar**, no solo hacer. En el Malackathon fue «el juego es una imagen; un clic en Spin no prueba nada». Contrasta toda decisión con esta frase.
