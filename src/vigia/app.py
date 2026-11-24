@@ -16,6 +16,7 @@ from vigia.config import Settings
 from vigia.connectors.base import Enquiry, register_enquiry
 from vigia.connectors.demo_erp import DemoErp
 from vigia.coordinator.plan import Autonomy, Kind, PlanItem
+from vigia.crm import CustomerCard, build_cards
 from vigia.data.intake import TEMPLATES, Interview, build_company_data
 from vigia.data.loader import load_company_data
 from vigia.data.model import CompanyData
@@ -48,6 +49,7 @@ ROADMAP = (
 DEMO = "Clínica de ejemplo (datos ficticios)"
 OWN = "Tu empresa (sube tus datos)"
 MAX_WARNINGS = 8
+MAX_CARDS = 25
 FIELD_LABELS = {
     "name": "nombre",
     "sector": "sector",
@@ -505,6 +507,11 @@ def _erp_tab() -> None:
         a, b = st.columns(2)
         name = a.text_input("Nombre (usa uno ficticio)", value="Paciente de prueba")
         phone = b.text_input("Teléfono (ficticio)", value="600000001")
+        email = a.text_input(
+            "Correo (opcional, ficticio)",
+            help="Prueba con pagos@mutuabeta.example: la consulta se une a la ficha de Mutua Beta "
+            "en la pestaña 8, junto a lo que le debe a la clínica.",
+        )
         topic = a.text_input("Motivo", value="Primera visita")
         urgent = b.checkbox("Urgente")
         summary = st.text_area("Lo que ha contado", value="Dolor de espalda desde hace dos semanas")
@@ -515,6 +522,7 @@ def _erp_tab() -> None:
             enquiry = Enquiry(
                 name=name,
                 phone=phone,
+                email=email or None,
                 topic=topic,
                 summary=summary,
                 urgent=urgent,
@@ -603,6 +611,52 @@ def _log_tab() -> None:
     )  # fmt: skip
 
 
+def _crm_tab(analysis: Analysis) -> None:
+    erp: DemoErp = st.session_state.erp
+    execution: Execution = st.session_state.execution
+    live = erp.list_opportunities()
+    contacts = {o.contact_id: found for o in live if (found := erp.contact(o.contact_id))}
+    cards = build_cards(
+        analysis.data,
+        contacts=contacts,
+        extra_opportunities=live,
+        sent=[s.claim for s in execution.sent],
+        pending=execution.pending.values(),
+    )
+    st.markdown("### Una ficha por cliente, con lo que sabe cada agente")
+    st.caption(
+        "No hay una lista de clientes por agente: finanzas aporta facturas y deudas, atención y "
+        "captación las consultas, y las acciones las reclamaciones. Se unen por correo o "
+        "teléfono, así que un mismo cliente es una sola ficha. Si el correo o el teléfono "
+        "coinciden pero el nombre no, se avisa para revisarlo."
+    )
+    a, b, c = st.columns(3)
+    a.metric("Clientes", len(cards))
+    b.metric("Necesitan algo", sum(1 for card in cards if card.alerts))
+    c.metric("Los ven varios agentes", sum(1 for card in cards if card.crossed))
+    only = st.toggle("Solo los que necesitan algo", value=True, key="crm-only-alerts")
+    shown = [card for card in cards if card.alerts or card.conflict] if only else list(cards)
+    for card in shown[:MAX_CARDS]:
+        _customer_card(card)
+    if len(shown) > MAX_CARDS:
+        st.caption(f"… y {len(shown) - MAX_CARDS} fichas más")
+
+
+def _customer_card(card: CustomerCard) -> None:
+    with st.container(border=True):
+        crossed = " · :blue[la ven varios agentes]" if card.crossed else ""
+        st.markdown(f"**{card.name}** · {card.kind}{crossed}")
+        reach = " · ".join(x for x in (card.email, card.phone) if x)
+        if reach:
+            st.caption(reach)
+        for alert in card.alerts:
+            st.markdown(f":orange[● {alert}]")
+        if card.conflict:
+            st.warning(card.conflict)
+        for agent, fact in card.facts:
+            st.markdown(f"- **{agent}:** {fact}")
+
+
 def main() -> None:
     st.set_page_config(page_title="Vigía", page_icon="🧭", layout="wide")
     _state()
@@ -613,7 +667,8 @@ def main() -> None:
     )
     tabs = st.tabs(
         ["1 · Empresa", "2 · Especialistas", "3 · Coordinador", "4 · Acciones",
-         "5 · Un mes después", "6 · Registro y uso de IA", "7 · ERP y WhatsApp"]
+         "5 · Un mes después", "6 · Registro y uso de IA", "7 · ERP y WhatsApp",
+         "8 · Clientes (CRM)"]
     )  # fmt: skip
     with tabs[6]:
         _erp_tab()
@@ -631,6 +686,11 @@ def main() -> None:
                 render(analysis)
     with tabs[5]:
         _log_tab()
+    with tabs[7]:
+        if analysis is None:
+            st.info("Primero pulsa «Analizar con el equipo de agentes» en la pestaña 1.")
+        else:
+            _crm_tab(analysis)
 
 
 main()
