@@ -32,4 +32,4 @@ Qué se elige, cómo funciona y por qué. Si es una combinación, qué papel tie
 
 | Nº | Decisión | Estado |
 |---|---|---|
-| — | — | — |
+| 001 | [Idea: qué problema resuelve nuestro agente](001-idea-y-enfoque.md) | propuesta |
