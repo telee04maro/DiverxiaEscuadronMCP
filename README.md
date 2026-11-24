@@ -6,11 +6,13 @@ Proyecto del equipo EscuadronMCP para el hackathon **IA First** de Diverxia (24/
 
 ## Enfoque
 
-**Un consultor de IA permanente para pymes.** Se conecta a los datos que ya tiene la empresa, diagnostica qué la frena en cinco áreas (finanzas, organización, equipo, legal, y clientes y competencia) y prioriza un plan de mejora. Después **ejecuta** las mejoras que puede hacer solo y **vuelve a medir** si funcionaron.
+**Centra** (nombre provisional): **un equipo de expertos de IA para toda tu pyme, en un solo sitio.**
 
-> Una consultora te deja un informe. Nosotros te dejamos resultados medidos.
+> Cada proveedor ve su parte. Centra ve la causa.
 
-El prototipo se demuestra con una clínica de fisioterapia ficticia de Málaga, con datos sintéticos. Decisión completa: [ADR 001](docs/decisiones/001-idea-y-enfoque.md).
+Las pymes tienen la gestión repartida entre la gestoría, la agencia y un Excel, y nadie cruza la información. Centra tiene **un agente especialista por área** (competencia y mercado, marketing y clientes, finanzas, legal, organización y personas, y atención al cliente) y **un agente coordinador** que los une. Los agentes detectan problemas, el coordinador encuentra la causa real cruzando lo que ve cada uno y prioriza un plan a 7, 30 y 90 días. Después se **ejecuta** y se **mide** el resultado.
+
+El prototipo demuestra en profundidad los agentes de **competencia** y **finanzas** y el **coordinador**, con una clínica de fisioterapia ficticia de Málaga y datos sintéticos. Decisión completa: [ADR 002](docs/decisiones/002-centra-equipo-de-agentes.md).
 
 ## Para el equipo
 

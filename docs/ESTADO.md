@@ -4,15 +4,19 @@ Memoria compartida del equipo: **por dónde vamos y hacia dónde**. Se actualiza
 
 ## Rumbo
 
-**Tesis (candidata):** «Una consultora te deja un informe. Nosotros te dejamos resultados medidos».
+**Producto:** **Centra** (nombre provisional), un equipo de agentes de IA para toda la pyme ([ADR 002](decisiones/002-centra-equipo-de-agentes.md)).
 
-**Enfoque aceptado:** consultor de IA permanente para pymes que diagnostica, actúa y mide ([ADR 001](decisiones/001-idea-y-enfoque.md)).
-- **Caso de la demo:** clínica de fisioterapia ficticia de Málaga, con datos sintéticos.
+**Tesis (candidata):** «Cada proveedor ve su parte. Centra ve la causa».
+
+**Prototipo:**
+- **Especialistas en profundidad:** competencia y mercado, y finanzas.
+- **Coordinador:** cruza los dos hallazgos, encuentra la causa y crea el plan a 7, 30 y 90 días.
 - **Acciones reales:**
-  1. auditoría y plan priorizado;
-  2. reclamar facturas vencidas, conciliando con el banco al céntimo;
-  3. documento legal que falta, pendiente de validación por un asesor.
-- **Cierre:** re-medición con un «mes después» simulado.
+  - reclamar facturas vencidas, conciliando con el banco al céntimo;
+  - contraoferta, solo si finanzas confirma el margen;
+  - re-medición con un «mes después» simulado.
+- **Caso de la demo:** clínica de fisioterapia ficticia de Málaga, con datos sintéticos (por confirmar).
+- **Hoja de ruta del pitch:** los otros especialistas (marketing y clientes, legal, organización y personas, atención al cliente).
 
 ## Hoja de ruta
 
@@ -20,20 +24,26 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 
 - [x] **P. Preparación:** repositorio, normas (`CLAUDE.md`), permisos compartidos y plantillas.
 - [x] **R. Reto recibido:** 04 «La IA como servicio»; enunciado y entregables en `docs/reto/`.
-- [x] **D. Idea elegida:** consultor de IA permanente para pymes; caso de la clínica de fisioterapia; tres acciones reales (ADR 001).
-- [ ] **E0. Esqueleto del prototipo:** stack (ADR 002), dependencias fijadas, formato, lint y tests mínimos.
-- [ ] **E1. Datos sintéticos de la clínica:** contabilidad, extracto bancario, agenda, reseñas propias y de la competencia, encuesta anónima y ficha legal. También el «mes después».
-- [ ] **E2. Auditoría:** indicadores calculados con reglas, hallazgos con evidencia y confianza, interpretación con Claude y plan priorizado (semana, mes, trimestre).
-- [ ] **E3. Acción: reclamar facturas vencidas:** decisión del tono, envío al buzón de demo y conciliación con el banco al céntimo.
-- [ ] **E4. Acción: documento legal:** reglas de obligaciones con la norma citada, borrador y estado «pendiente de validación por un asesor».
-- [ ] **E5. MVP de principio a fin** (hito: unas 3–4 h desde la idea): panel con el recorrido completo de la demo.
-- [ ] **E6. Re-medición:** el «mes después» simulado compara los indicadores y reordena el plan.
+- [x] **D. Idea elegida:** Centra, especialistas + coordinador (ADR 002, que sustituye a la 001).
+- [ ] **E0. Esqueleto del prototipo:** stack (ADR 003), dependencias fijadas, formato, lint y tests mínimos. Incluye el **contrato del hallazgo** (área, evidencia, confianza, impacto, esfuerzo, urgencia) y las interfaces de especialista, fuente y acción.
+- [ ] **E1. Datos sintéticos de la clínica:**
+  - contabilidad, facturas a aseguradoras y particulares, y extracto bancario;
+  - sesiones por mes;
+  - reseñas propias;
+  - competencia (anuncios, precios, reseñas);
+  - el «mes después».
+- [ ] **E2. Fuentes de competencia verificadas** (`docs/fuentes.md`): condiciones, acceso y límites de la Biblioteca de Anuncios de Meta, el Centro de Transparencia de Google Ads, los buscadores y las reseñas. Fuente real o instantánea sintética con el mismo formato.
+- [ ] **E3. Especialista de finanzas:** indicadores con reglas (caja, márgenes, días de cobro, morosos), hallazgos con evidencia y la acción de reclamar facturas vencidas, con conciliación al céntimo.
+- [ ] **E4. Especialista de competencia y mercado:** anuncios, precios, posicionamiento y reseñas → hallazgos con evidencia.
+- [ ] **E5. Coordinador:** cruza los hallazgos, identifica la causa citando a los especialistas, prioriza, crea el plan a 7, 30 y 90 días y valida la contraoferta con finanzas.
+- [ ] **E6. MVP de principio a fin** (hito: unas 3–4 h desde E0): panel con el recorrido completo de la demo y el ejemplo de causa cruzada.
+- [ ] **E7. Re-medición:** el «mes después» simulado comprueba qué indicadores se movieron y reordena el plan.
 - [ ] **N1. Canvas** (modelo de negocio) en el Drive. Responsable: B.
 - [ ] **N2. Marketing** (logo, eslogan y estrategia de comunicación) en el Drive. Responsable: B.
 - [ ] **N3. Uso de la IA** (`docs/uso-ia.md`) y presentación del prototipo en el Drive.
 - [ ] **N4. Guion del pitch** y `DEMO.md`, ensayados con el tiempo real.
-- [ ] **E7. Congelación de funciones** (unas 3 h antes de entregar): solo endurecer, reunir evidencias y preparar el pitch.
-- [ ] **E8. Entrega:** los 4 entregables en el Drive, repositorio limpio y README final.
+- [ ] **E8. Congelación de funciones** (unas 3 h antes de entregar): solo endurecer, reunir evidencias y preparar el pitch.
+- [ ] **E9. Entrega:** los 4 entregables en el Drive, repositorio limpio y README final.
 
 ## Preguntas a los mentores
 
@@ -55,10 +65,13 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 | — | — | — |
 
 ## Siguiente paso
-1. Aprobar el stack del prototipo (ADR 002) y arrancar E0.
-2. Hacer las preguntas a los mentores (tabla de arriba) y confirmar el tamaño del equipo: las bases hablan de 6 y somos 3.
-3. Repartir: A hace E0 y E2 (auditoría); B, el canvas y el marketing con el caso de la clínica; C, los datos sintéticos (E1) y el red team.
-4. Decidir el nombre del producto.
+1. Aprobar el stack del prototipo (ADR 003) y arrancar E0.
+2. Confirmar el caso de la demo (clínica de fisioterapia) y verificar las fuentes de competencia (E2).
+3. Hacer las preguntas a los mentores (tabla de arriba) y confirmar el tamaño del equipo: las bases hablan de 6 y somos 3.
+4. Repartir:
+   - A: E0, finanzas y coordinador.
+   - B: canvas, marketing, el ejemplo de causa cruzada para el pitch y el canal de gestorías.
+   - C: datos sintéticos (E1), fuentes (E2) y red team.
 
 ## Última verificación
 _Ninguna todavía._ Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.
@@ -71,4 +84,5 @@ Registro de pivotes, errores de enfoque y cambios de dirección, el más recient
 
 | Fecha | Cambio | Motivo | Decisión |
 |---|---|---|---|
+| 2026-11-24 | De consultor único a **Centra**: especialistas + coordinador que cruza la información. En la demo, competencia y finanzas en profundidad. El documento legal pasa a la hoja de ruta | Centralizar no aporta por sí solo; el valor es la causa cruzada. «Dos agentes muy buenos mejor que seis a medias» | [002](decisiones/002-centra-equipo-de-agentes.md) |
 | 2026-11-24 | Idea elegida: consultor de IA permanente para pymes (caso de la clínica de fisioterapia) | Idea del equipo. Las propuestas v1 se descartaron por básicas y las v2 se dejaron como alternativas | [001](decisiones/001-idea-y-enfoque.md) |

@@ -32,4 +32,5 @@ Qué se elige, cómo funciona y por qué. Si es una combinación, qué papel tie
 
 | Nº | Decisión | Estado |
 |---|---|---|
-| 001 | [Idea: consultor de IA permanente para pymes que diagnostica, actúa y mide](001-idea-y-enfoque.md) | aceptada |
+| 001 | [Idea: consultor de IA permanente para pymes que diagnostica, actúa y mide](001-idea-y-enfoque.md) | sustituida por 002 |
+| 002 | [Centra: equipo de agentes especialistas con un coordinador que cruza la información](002-centra-equipo-de-agentes.md) | aceptada |
