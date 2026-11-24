@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/negocio/logo.svg" alt="Vigía" width="420"></p>
+<p align="center"><img src="docs/negocio/logo.svg" alt="Vigía" width="520"></p>
 
 # Vigía: un equipo de expertos de IA para toda tu pyme
 
