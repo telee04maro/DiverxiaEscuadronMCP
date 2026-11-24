@@ -42,10 +42,20 @@ Este método es el que nos hizo ganar el Malackathon 2026 (reto Betsson). Las se
 - **Cambios comunicados por la organización:** en `docs/reto/README.md`, con su fecha.
 
 ### Tesis
-_Pendiente._ Escribe **una frase** que reformule el reto y diga qué hay que **demostrar**, no solo hacer. En el Malackathon fue «el juego es una imagen; un clic en Spin no prueba nada». Contrasta toda decisión con esta frase.
+**«Una consultora te deja un informe. Nosotros te dejamos resultados medidos.»** (candidata). Una mejora no está hecha porque el agente la haya ejecutado, sino cuando el indicador se mueve. Contrasta toda decisión con esta frase.
 
 ### Enfoque aceptado
-_Pendiente_ (ADR 001 en `docs/decisiones/`). Todo lo que implementes debe encajar con las decisiones aceptadas. La hoja de ruta por etapas está en `docs/ESTADO.md`.
+**Consultor de IA permanente para pymes que diagnostica, actúa y mide** ([ADR 001](docs/decisiones/001-idea-y-enfoque.md)):
+- Recoge los datos de la empresa (integraciones o Excel/CSV), diagnostica cinco áreas (finanzas, organización, equipo, legal, y clientes y competencia), prioriza un plan (semana, mes, trimestre), ejecuta lo que puede y vuelve a medir.
+- **Prototipo:** el caso único es una **clínica de fisioterapia ficticia de Málaga** (unos 15 empleados, **datos sintéticos**). Tres acciones reales:
+  1. la auditoría con el plan priorizado;
+  2. reclamar facturas vencidas, que solo se dan por cobradas si cuadran con el banco al céntimo;
+  3. generar el documento legal que falta, pendiente de validación por un asesor.
+  
+  Después, re-medición con un «mes después» simulado.
+- **Las reglas calculan** (indicadores, obligaciones legales, prioridad) **y la IA interpreta y redacta.** Nunca se inventa un dato: lo que falta se dice. Equipo: solo encuesta anónima, sin mostrar grupos de menos de 5. Autonomía por niveles: en lo legal y financiero serio, decide una persona.
+
+Todo lo que implementes debe encajar con las decisiones aceptadas. La hoja de ruta por etapas está en `docs/ESTADO.md`.
 
 ### Rumbo y cambios de rumbo (obligatorio)
 Cualquier compañero que haga pull debe poder saber, con su IA, por dónde se va y hacia dónde. Por eso:

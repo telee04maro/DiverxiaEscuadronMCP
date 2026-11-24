@@ -1,76 +1,80 @@
-# 001. Idea: qué problema resuelve nuestro agente
+# 001. Idea: consultor de IA permanente para pymes que diagnostica, actúa y mide
 
 - **Fecha:** 2026-11-24
-- **Estado:** propuesta. **Decide el equipo.**
-- **Origen:** reto 04 «La IA como servicio» (`docs/reto/`)
+- **Estado:** aceptada (idea del equipo)
+- **Origen:** reto 04 «La IA como servicio» (`docs/reto/`). Sustituye a las propuestas anteriores de este mismo archivo, que siguen en el historial de git y en `docs/ideas.md`.
 
 ## Contexto
 
-El reto pide un agente que **identifique necesidades reales, decida y ejecute tareas de forma autónoma** para empresas y ciudadanos, **más allá de los asistentes tradicionales** («actúa, conecta servicios, genera valor»). Se entregan un canvas (modelo de negocio), el prototipo con el uso de la IA, el marketing y el guion del pitch.
+El reto pide un agente que **identifique necesidades reales, decida y ejecute tareas de forma autónoma** para empresas y ciudadanos, más allá de los asistentes tradicionales. Las bases oficiales puntúan, entre otros criterios:
+- innovación;
+- impacto;
+- adecuación al reto;
+- viabilidad técnica y económica;
+- **uso estratégico y responsable de la IA**;
+- implementación;
+- evolución durante el evento;
+- pitch.
 
-Habrá unas 200 personas. Muchos equipos harán «un chatbot que responde y reserva citas». Para diferenciarnos necesitamos:
-- un agente que **haga algo verificable en el mundo**;
-- un **problema con cifras**;
-- **alguien que pague** (canvas).
+Además, prohíben usar datos personales sin autorización.
 
-Nuestra ventaja del Malackathon es demostrar el efecto real («un clic no es prueba») y cuadrar el dinero al céntimo.
-
-**Criterios de comparación** (inferidos; hay que confirmar la rúbrica con los mentores):
-1. Problema real y medible.
-2. El agente **actúa** de verdad.
-3. Demostrable de principio a fin en unas 3–4 h.
-4. Modelo de negocio claro (quién paga).
-5. Impacto en empresas **y** ciudadanos.
-6. Diferenciación entre 200.
-7. Encaje con nuestras fortalezas.
+La entidad gestora, Diverxia, es una consultora de emprendimiento y agente digitalizador del Kit Digital: conoce de primera mano el problema de las pymes.
 
 ## Opciones evaluadas
 
-> **Actualización 2 (24/11):** el equipo descartó por básicas todas las opciones de abajo, incluidas las de la primera ampliación (COBRA, RECLAMA, LICITA, TE TOCA, VATIO). Se rehízo la búsqueda partiendo de **problemas documentados** y de la evidencia sobre qué agentes funcionan; los detalles están en [`docs/ideas.md`](../ideas.md). Hay una propuesta principal y dos alternativas:
-> - **Propuesta principal:** TERRAL, un agente de cuidado proactivo ante el calor extremo para mayores que viven solos.
-> - **Alternativa A:** expedientes de dependencia.
-> - **Alternativa B:** recuperar las citas perdidas.
->
-> La tabla siguiente queda como historial.
+| Opción | Por qué no |
+|---|---|
+| v1: cobros, reclamaciones, licitaciones, ayudas, luz | El equipo las descartó por básicas: partían de la tecnología, no del problema |
+| v2: TERRAL (calor y mayores), dependencia, citas perdidas | Con base sólida, pero el equipo prefirió su propia idea |
+| **Consultor de IA permanente para pymes (idea del equipo)** | **Elegida** |
 
-| | A. Agente de cobros para pymes y autónomos | B. Agente de ayudas para ciudadanos | C. Agente de incidencias urbanas | D. Agente de atención y reservas para comercio local |
-|---|---|---|---|---|
-| **Qué hace** | Lee facturas emitidas y movimientos del banco. Detecta las vencidas, decide la acción según el cliente y su historial (recordatorio → aviso formal → reclamación con intereses de demora), la ejecuta y **solo cierra la factura cuando el cobro aparece en el banco y cuadra al céntimo** | Detecta a qué ayudas tiene derecho una familia (IMV, complemento por infancia, bono social, alquiler…), prepara el expediente y los documentos, rellena la solicitud y vigila plazos y requerimientos | El ciudadano envía una foto o un audio. El agente clasifica, geolocaliza, agrupa duplicados, abre el aviso en el servicio correcto, hace seguimiento y **verifica la resolución** con una foto posterior | Atiende por WhatsApp, reserva, cobra la señal y recuerda la cita |
-| **Problema con cifras (por verificar)** | Plazo medio de pago de 67 días frente al límite legal de 60; el 85 % de las grandes empresas incumple (PMcM 2025) | El 52 % de quienes tienen derecho al IMV no lo pide; en el complemento por infancia, el 71 % (AIReF, 2026) | Tiempos de resolución y duplicados en los avisos municipales (sin cifra todavía) | Llamadas perdidas y ausencias (sin cifra todavía) |
-| **¿Actúa?** | ✅ Envía, reclama, concilia y cierra | 🟡 Prepara y rellena; presentar exige certificado o Cl@ve del ciudadano | ✅ Abre y sigue avisos (sistema municipal simulado) | ✅ Reserva y cobra |
-| **Demo en 3–4 h** | ✅ Bandeja de correo + extracto bancario (CSV o banco de prueba) + envío real a un correo de demo | ✅ Reglas de elegibilidad + PDF rellenado | 🟡 Necesita imágenes, mapa y sistema de avisos simulado | ✅ |
-| **Quién paga** | ✅ La pyme o el autónomo (suscripción o % de lo recuperado); asesorías como canal | 🟡 Ayuntamientos, servicios sociales, ONG o bancos (B2G/B2B2C): ciclo de venta lento | 🟡 Ayuntamiento (B2G) | ✅ El comercio |
-| **Empresas y ciudadanos** | Empresas; autónomos como ciudadanos | Ciudadanos; administración como cliente | Ambos | Empresas |
-| **Diferenciación** | Alta: poca competencia en un hackathon de estudiantes; el «cuadra al céntimo» es nuestro | Alta en impacto; riesgo de que el jurado lo vea como un buscador de ayudas | Media: idea frecuente | **Baja: será la idea más repetida** |
-| **Riesgos** | Tono de las reclamaciones (relación con el cliente); acceso real al banco (en la demo, CSV o sandbox) | Consejo legal erróneo (mitigación: motor de reglas citando la norma y la IA solo extrae datos); datos muy sensibles | Visión poco fiable con fotos reales | Copiable |
+## Decisión
 
-**Descartada D:** es lo que hará la mayoría.
+Un **consultor de IA permanente para pymes** que sigue cinco pasos:
+1. Se conecta a los datos que ya tiene la empresa, o los recibe en Excel o CSV.
+2. **Diagnostica cinco áreas:** finanzas, organización, equipo, legal, y clientes y competencia.
+3. **Prioriza** un plan en tres bloques: esta semana, este mes y este trimestre.
+4. **Ejecuta** las mejoras que puede hacer solo.
+5. **Vuelve a medir** si funcionaron y reordena el plan.
 
-## Recomendación (pendiente de decisión del equipo)
+**Tesis (candidata):** «Una consultora te deja un informe. Nosotros te dejamos resultados medidos».
 
-**A, el agente de cobros**, con B como alternativa fuerte.
+### Alcance del prototipo del hackathon
+- **Caso único de demo:** una **clínica de fisioterapia ficticia de Málaga** con unos 15 empleados. Activa las cinco áreas:
+  - aseguradoras que pagan tarde;
+  - citas perdidas y agenda;
+  - rotación de fisioterapeutas;
+  - datos de salud (RGPD);
+  - reseñas frente a la competencia cercana.
+- **Tres acciones reales en la demo** (elegidas por el equipo):
+  1. **La auditoría:** diagnóstico de las cinco áreas y plan priorizado. Cada hallazgo lleva su evidencia, su grado de confianza y lo que falta para afinarlo.
+  2. **Reclamar facturas vencidas:** decide el tono según el cliente y su historial, envía el correo a un buzón de demo y **solo da la factura por cobrada cuando el pago cuadra con el extracto del banco, al céntimo**.
+  3. **Generar el documento legal que falta:** las reglas detectan la obligación incumplida, el agente redacta el documento citando la norma y lo deja **pendiente de validación por un asesor**.
+- **Volver a medir:** con un «mes después» simulado, avisado como tal, el agente compara los indicadores y reordena el plan.
+- **Profundidad por áreas:**
+  - **A fondo:** Finanzas (cobros) y Legal, que son las áreas de las acciones.
+  - **En el diagnóstico:** Clientes y competencia (reseñas), Organización (agenda y tareas) y Equipo (encuesta anónima).
 
-**Por qué A:**
-- Es el que más claramente **actúa**: envía, reclama, concilia y cierra.
-- Tiene un ROI fácil de contar en el pitch: euros recuperados y días de cobro reducidos.
-- El canvas es sencillo, porque paga quien sufre el problema.
-- Encaja con la regla que nos hizo ganar: **una factura solo se cierra cuando el dinero está en el banco y cuadra al céntimo**.
-- La IA tiene un papel claro y explicable:
-  - extraer datos de facturas y correos;
-  - decidir la acción y el tono según el historial del cliente;
-  - redactar el mensaje.
-- Reglas deterministas para lo que no puede fallar: plazos legales, intereses e importes.
-- Aprobación humana configurable para las acciones de más riesgo.
-
-**Tesis candidata (A):** «Un agente que dice que ha cobrado no prueba nada: el nuestro solo cierra una factura cuando el dinero está en el banco».
-
-**Tesis candidata (B):** «La ayuda existe, pero la mitad no la pide: un agente que no informa, tramita».
+### Principios de diseño
+- **Las reglas calculan; la IA interpreta y redacta.** Indicadores (días de cobro, márgenes, inasistencia, nota media), obligaciones legales según tamaño y sector, y prioridad (impacto × urgencia ÷ esfuerzo): todo con código determinista. Claude interpreta texto (reseñas, comentarios de la encuesta, correos), explica los hallazgos, decide el tono y redacta.
+- **Nunca inventa un dato.** Lo que falta se dice («no tengo los costes por servicio: con ellos calcularía el margen»).
+- **Equipo:** sale **solo de la encuesta anónima**. No se muestran resultados de grupos de menos de 5 respuestas.
+- **Autonomía por niveles:**
+  - actúa solo en lo reversible (recordatorios y reclamaciones amables);
+  - en lo serio, prepara y una persona decide (reclamación formal, documentos legales, decisiones financieras).
+- **Comprobar el efecto:** una mejora no está hecha porque se haya ejecutado, sino cuando el indicador se mueve.
+- **Datos sintéticos:** toda la clínica de la demo la generamos nosotros. Las bases prohíben usar datos personales sin autorización.
 
 ## Consecuencias
 
-Se completan cuando el equipo decida: stack, MVP de la demo y reparto. Al aceptar se actualizan la «Tesis» y el «Enfoque aceptado» de `CLAUDE.md` y el «Rumbo» de `docs/ESTADO.md`.
-
-## Fuentes
-
-- PMcM, *Informe sobre morosidad 2025*, a través de [Forbes](https://forbes.es/economia/907227/el-85-de-las-grandes-empresas-incumple-los-plazos-legales-de-pago-segun-pmcm/) y [Ara](https://es.ara.cat/economia/gran-empresa-administraciones-retardan-pago-pymes-autonomos_1_5709465.html). Cifras de prensa: hay que contrastarlas con el informe original antes del pitch.
-- AIReF, quinta opinión sobre el IMV (julio de 2026), a través de [Artículo14](https://www.articulo14.es/economia/el-toque-final-de-la-airef-al-imv-pide-su-completa-remodelacion-para-incentivar-el-empleo-20260724.html) y [El Salto](https://www.elsaltodiario.com/renta-basica/55percent-hogares-podrian-recibir-imv-no-lo-han-solicitado-segun-airef). Hay que contrastarlas con el informe original.
+- **A favor:**
+  - Encaja con el reto: detecta, decide, actúa y mide.
+  - Tiene un pagador claro: la pyme, por suscripción, con asesorías y consultoras como canal.
+  - Aprovecha nuestra seña de verificación (el cobro cuadra al céntimo; la mejora se da por hecha solo si el indicador se mueve).
+- **En contra:** riesgo de parecer «consultora genérica» o «ChatGPT con un cuestionario». Para mitigarlo, el pitch se cuenta con un único caso, al menos dos acciones reales en la demo y la re-medición.
+- **Encaje con Diverxia:** el producto se presenta como algo que **multiplica a consultores y asesorías**, no como su sustituto.
+- **Riesgo legal:** el agente detecta y recomienda, pero no decide en lo legal ni en lo financiero: lo serio va a un asesor.
+- **Pendiente:**
+  - nombre del producto;
+  - stack (ADR 002);
+  - comprobar las obligaciones legales concretas de una clínica (RGPD con datos de salud, registro de jornada, etc.) en la fuente oficial antes de codificarlas.
