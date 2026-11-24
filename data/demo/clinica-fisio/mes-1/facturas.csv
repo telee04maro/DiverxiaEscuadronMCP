@@ -1,0 +1,22 @@
+id,client_id,client_name,client_type,contact_email,issued,due,amount
+F-2026-05-ASG-ALFA,ASG-ALFA,Aseguradora Alfa (ficticia),aseguradora,facturas@alfa-seguros.example,2026-05-31,2026-06-30,3351.20
+F-2026-06-ASG-ALFA,ASG-ALFA,Aseguradora Alfa (ficticia),aseguradora,facturas@alfa-seguros.example,2026-06-30,2026-07-30,3436.40
+F-2026-07-ASG-ALFA,ASG-ALFA,Aseguradora Alfa (ficticia),aseguradora,facturas@alfa-seguros.example,2026-07-31,2026-08-30,3095.60
+F-2026-08-ASG-ALFA,ASG-ALFA,Aseguradora Alfa (ficticia),aseguradora,facturas@alfa-seguros.example,2026-08-31,2026-09-30,2612.80
+F-2026-09-ASG-ALFA,ASG-ALFA,Aseguradora Alfa (ficticia),aseguradora,facturas@alfa-seguros.example,2026-09-30,2026-10-30,3322.80
+F-2026-10-ASG-ALFA,ASG-ALFA,Aseguradora Alfa (ficticia),aseguradora,facturas@alfa-seguros.example,2026-10-31,2026-11-30,3379.60
+F-2026-11-ASG-ALFA,ASG-ALFA,Aseguradora Alfa (ficticia),aseguradora,facturas@alfa-seguros.example,2026-11-30,2026-12-30,3408.00
+F-2026-05-ASG-BETA,ASG-BETA,Mutua Beta (ficticia),aseguradora,pagos@mutuabeta.example,2026-05-31,2026-06-30,3119.20
+F-2026-06-ASG-BETA,ASG-BETA,Mutua Beta (ficticia),aseguradora,pagos@mutuabeta.example,2026-06-30,2026-07-30,3202.75
+F-2026-07-ASG-BETA,ASG-BETA,Mutua Beta (ficticia),aseguradora,pagos@mutuabeta.example,2026-07-31,2026-08-30,3007.80
+F-2026-08-ASG-BETA,ASG-BETA,Mutua Beta (ficticia),aseguradora,pagos@mutuabeta.example,2026-08-31,2026-09-30,2450.80
+F-2026-09-ASG-BETA,ASG-BETA,Mutua Beta (ficticia),aseguradora,pagos@mutuabeta.example,2026-09-30,2026-10-30,3174.90
+F-2026-10-ASG-BETA,ASG-BETA,Mutua Beta (ficticia),aseguradora,pagos@mutuabeta.example,2026-10-31,2026-11-30,3230.60
+F-2026-11-ASG-BETA,ASG-BETA,Mutua Beta (ficticia),aseguradora,pagos@mutuabeta.example,2026-11-30,2026-12-30,3147.05
+F-2026-05-ASG-GAMMA,ASG-GAMMA,Seguros Gamma (ficticia),aseguradora,administracion@gamma-seguros.example,2026-05-31,2026-06-30,1920.60
+F-2026-06-ASG-GAMMA,ASG-GAMMA,Seguros Gamma (ficticia),aseguradora,administracion@gamma-seguros.example,2026-06-30,2026-07-30,1862.40
+F-2026-07-ASG-GAMMA,ASG-GAMMA,Seguros Gamma (ficticia),aseguradora,administracion@gamma-seguros.example,2026-07-31,2026-08-30,1775.10
+F-2026-08-ASG-GAMMA,ASG-GAMMA,Seguros Gamma (ficticia),aseguradora,administracion@gamma-seguros.example,2026-08-31,2026-09-30,1455.00
+F-2026-09-ASG-GAMMA,ASG-GAMMA,Seguros Gamma (ficticia),aseguradora,administracion@gamma-seguros.example,2026-09-30,2026-10-30,1920.60
+F-2026-10-ASG-GAMMA,ASG-GAMMA,Seguros Gamma (ficticia),aseguradora,administracion@gamma-seguros.example,2026-10-31,2026-11-30,1978.80
+F-2026-11-ASG-GAMMA,ASG-GAMMA,Seguros Gamma (ficticia),aseguradora,administracion@gamma-seguros.example,2026-11-30,2026-12-30,1891.50

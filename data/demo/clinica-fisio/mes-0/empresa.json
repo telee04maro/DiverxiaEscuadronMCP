@@ -1,0 +1,40 @@
+{
+  "name": "Clínica Fisio Atarazanas (ficticia)",
+  "sector": "Clínica de fisioterapia",
+  "city": "Málaga",
+  "employees": 15,
+  "analysis_date": "2026-11-02",
+  "services": [
+    {
+      "name": "Fisioterapia general",
+      "price": "40.00",
+      "direct_cost": "24.00"
+    },
+    {
+      "name": "Punción seca",
+      "price": "45.00",
+      "direct_cost": "26.00"
+    },
+    {
+      "name": "Suelo pélvico",
+      "price": "50.00",
+      "direct_cost": "28.00"
+    },
+    {
+      "name": "Primera valoración",
+      "price": "40.00",
+      "direct_cost": "24.00"
+    }
+  ],
+  "main_service": "Fisioterapia general",
+  "avg_sessions_per_new_patient": "6",
+  "goals": [
+    "Recuperar a los pacientes particulares",
+    "No tener que pedir una póliza de crédito"
+  ],
+  "resources": "15 personas: 11 fisioterapeutas, 2 en recepción, 1 en administración y la gerente, que es la dueña. Sin CRM: agenda en un programa y cuentas en Excel.",
+  "queries_of_interest": [
+    "fisioterapeuta málaga centro",
+    "fisio cita hoy málaga"
+  ]
+}

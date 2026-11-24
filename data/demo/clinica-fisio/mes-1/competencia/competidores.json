@@ -1,0 +1,24 @@
+[
+  {
+    "name": "FisioSalud Centro (ficticia)",
+    "distance_m": 350,
+    "prices": {
+      "Fisioterapia general": "38.00",
+      "Punción seca": "42.00"
+    },
+    "first_visit_price": "20.00",
+    "rating": "4.7",
+    "review_count": 214
+  },
+  {
+    "name": "Fisio Muelle (ficticia)",
+    "distance_m": 900,
+    "prices": {
+      "Fisioterapia general": "45.00",
+      "Punción seca": "48.00"
+    },
+    "first_visit_price": null,
+    "rating": "4.4",
+    "review_count": 96
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "query": "fisioterapeuta málaga centro",
+    "position": 1,
+    "business": "FisioSalud Centro (ficticia)",
+    "sponsored": true
+  },
+  {
+    "query": "fisioterapeuta málaga centro",
+    "position": 2,
+    "business": "FisioSalud Centro (ficticia)",
+    "sponsored": false
+  },
+  {
+    "query": "fisioterapeuta málaga centro",
+    "position": 3,
+    "business": "Fisio Muelle (ficticia)",
+    "sponsored": false
+  },
+  {
+    "query": "fisioterapeuta málaga centro",
+    "position": 6,
+    "business": "Clínica Fisio Atarazanas (ficticia)",
+    "sponsored": false
+  },
+  {
+    "query": "fisio cita hoy málaga",
+    "position": 1,
+    "business": "FisioSalud Centro (ficticia)",
+    "sponsored": true
+  },
+  {
+    "query": "fisio cita hoy málaga",
+    "position": 4,
+    "business": "Fisio Muelle (ficticia)",
+    "sponsored": false
+  }
+]

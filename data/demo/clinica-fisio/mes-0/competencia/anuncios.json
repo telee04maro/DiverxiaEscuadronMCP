@@ -1,0 +1,39 @@
+[
+  {
+    "page_name": "FisioSalud Centro (ficticia)",
+    "ad_creative_bodies": [
+      "Primera sesión de fisioterapia por solo 20 €. Sin esperas: cita en 24 h. Reserva online en el centro de Málaga."
+    ],
+    "ad_delivery_start_time": "2026-10-15",
+    "ad_delivery_stop_time": null,
+    "publisher_platforms": [
+      "facebook",
+      "instagram"
+    ],
+    "ad_snapshot_url": "https://anuncios.example/fisiosalud/1"
+  },
+  {
+    "page_name": "FisioSalud Centro (ficticia)",
+    "ad_creative_bodies": [
+      "Bono de 5 sesiones por 175 €. Válido hasta junio."
+    ],
+    "ad_delivery_start_time": "2026-03-01",
+    "ad_delivery_stop_time": "2026-06-30",
+    "publisher_platforms": [
+      "facebook"
+    ],
+    "ad_snapshot_url": "https://anuncios.example/fisiosalud/2"
+  },
+  {
+    "page_name": "Fisio Muelle (ficticia)",
+    "ad_creative_bodies": [
+      "Fisioterapia deportiva junto al puerto. Pide tu cita."
+    ],
+    "ad_delivery_start_time": "2026-06-10",
+    "ad_delivery_stop_time": null,
+    "publisher_platforms": [
+      "instagram"
+    ],
+    "ad_snapshot_url": "https://anuncios.example/fisiomuelle/1"
+  }
+]
