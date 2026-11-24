@@ -26,7 +26,12 @@ Nuestra ventaja del Malackathon es demostrar el efecto real («un clic no es pru
 
 ## Opciones evaluadas
 
-> **Actualización (24/11):** la comparación se amplió en [`docs/ideas.md`](../ideas.md). Hay cinco finalistas: COBRA (A), RECLAMA (nueva), LICITA (nueva), TE TOCA (B) y VATIO (nueva). De cada una se describe el problema, el negocio, el flujo del agente, el prototipo, la demo, el canvas, el marketing y los riesgos. La tabla siguiente es la primera versión.
+> **Actualización 2 (24/11):** el equipo descartó por básicas todas las opciones de abajo, incluidas las de la primera ampliación (COBRA, RECLAMA, LICITA, TE TOCA, VATIO). Se rehízo la búsqueda partiendo de **problemas documentados** y de la evidencia sobre qué agentes funcionan; los detalles están en [`docs/ideas.md`](../ideas.md). Hay una propuesta principal y dos alternativas:
+> - **Propuesta principal:** TERRAL, un agente de cuidado proactivo ante el calor extremo para mayores que viven solos.
+> - **Alternativa A:** expedientes de dependencia.
+> - **Alternativa B:** recuperar las citas perdidas.
+>
+> La tabla siguiente queda como historial.
 
 | | A. Agente de cobros para pymes y autónomos | B. Agente de ayudas para ciudadanos | C. Agente de incidencias urbanas | D. Agente de atención y reservas para comercio local |
 |---|---|---|---|---|
