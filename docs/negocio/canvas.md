@@ -1,50 +1,104 @@
 # Entregable 1 · Lienzo del reto: Centra (versión 1)
 
-Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la solución validada con IA»).
+Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la solución validada con IA»). Une la propuesta del equipo con lo construido en el prototipo. Frases cortas para que quepan a mano.
 
-- **Equipo:** EscuadronMCP
-- **Reto:** 04 · La IA como servicio
+- **Equipo:** EscuadronMCP · **Proyecto:** Centra (nombre provisional)
+- **Reto:** 04 – La IA como servicio
 - **Fecha:** 24/11/2026
 
-> **Cada proveedor ve su parte. Centra ve la causa.**
+## Clientes (quién paga)
+- Pymes tradicionales de 5 a 50 empleados (clínicas, hostelería, comercio, talleres, despachos).
+- Gestorías y asesorías, que lo ofrecen a sus clientes.
 
-| Bloque | Contenido |
-|---|---|
-| **Clientes** (quién paga) | Pymes de servicios de 5 a 50 empleados (clínicas, despachos, academias, talleres, comercio) sin director financiero ni de marketing: unas **1,36 millones de pymes con asalariados** en España¹. Gestorías y asesorías (**62.234**²), que lo revenden a sus clientes |
-| **Usuarios** (quién lo usa) | **El dueño o gerente**: pregunta y aprueba desde WhatsApp o desde el panel. **Su equipo**: recibe tareas con fecha. **Los clientes de la pyme**: el agente los atiende por WhatsApp. **La gestoría**: supervisa |
-| **Problemas** | 1) **La gestión está repartida** (gestoría, agencia, Excel, WhatsApp): nadie cruza la información y los problemas se ven tarde. 2) **Se pierde dinero sin verlo**: cobros vencidos (el plazo medio de pago son 67 días, frente a los 60 legales³), consultas de WhatsApp sin responder, clientes que se van a la competencia. 3) **El dueño no tiene tiempo ni presupuesto** para analizar, decidir y comprobar si lo que hace funciona; una consultora es cara y puntual |
-| **Soluciones** (con la IA como herramienta) | **Agentes especialistas con sus propias fuentes:** **Finanzas** (banco y facturas: caja, cobros, reclamaciones conciliadas al céntimo), **Competencia** (anuncios, precios, reseñas, Google) y **Atención y captación** (WhatsApp → ERP/CRM sin duplicados). **Coordinador con IA** (Claude): cruza los hallazgos, encuentra la causa y crea un plan a 7, 30 y 90 días. **Actúa con autonomía por niveles** (solo hace lo seguro; lo serio lo aprueba el dueño o un experto) y **vuelve a medir** al mes. Las reglas calculan y la IA interpreta y redacta; todo se verifica |
-| **Propuesta de valor** | **Un equipo de expertos de IA para toda tu pyme, en un solo sitio.** Te dice por qué pierdes dinero o clientes, qué hacer esta semana, lo hace por ti y comprueba si ha funcionado. Por menos de lo que cuesta un día de consultoría al mes |
-| **Ventaja competitiva** (difícil de copiar) | **La causa cruzada:** ve lo que gestoría, agencia y CRM no ven por separado. **Cierra el ciclo:** actúa y mide el efecto (un cobro solo cuenta si cuadra con el banco al céntimo), no se queda en un informe. **Confianza verificable:** IA verificada, registro auditable y supervisión humana. **Canal de gestorías** y aprendizaje acumulado de cada empresa. **IA fuera del bucle caliente:** céntimos por análisis |
-| **Actividades clave** | Desarrollar agentes y conectores (banco, ERP/CRM, WhatsApp, Meta Ad Library, Google). Mantener las reglas financieras y legales y verificar el efecto de cada acción. Cumplir el RGPD y el Reglamento de IA. Pilotos y alianzas con gestorías |
-| **Aliados** (objetivo) | Gestorías y asesorías. Asociaciones empresariales y cámaras de comercio (piloto en Málaga). ERP, CRM y programas de facturación (integraciones). Bancos y agregadores de open banking. Anthropic (modelos Claude). Meta (WhatsApp Business) y su pasarela. Asesores financieros y abogados para la supervisión |
-| **Recursos** | **Modelos de IA:** Claude Opus 5.5 (cruzar y redactar) y Haiku 5.5 (clasificar). **Datos:** banco, facturas, ERP/CRM y WhatsApp de la pyme, más fuentes públicas (Meta Ad Library, Search Console, Google Places). **Tecnología:** Python, motor de reglas, conectores, panel e infraestructura en la UE. **Equipo:** producto e IA, integraciones, negocio, y una red de expertos humanos |
-| **Canales** | Gestorías, como marca blanca o servicio añadido. Pilotos en Málaga con asociaciones y cámaras. Contenido «la causa cruzada de la semana» (LinkedIn) y eventos. Prueba directa: la pyme conecta su WhatsApp y ve resultados en la primera semana |
-| **Fidelización** | **Valor medido cada mes:** «lo que has recuperado» (euros cobrados, clientes, nota en reseñas). **Plan vivo** que se reordena con cada medición. **Crecimiento por módulos** (marketing, legal, personas). Referidos entre gestorías (un mes gratis) |
-| **Costes** (incluidas la IA y la infraestructura) | **IA:** ≈ 0,10–0,15 $ por análisis completo (estimación; se mide en cada ejecución y hay un tope de gasto), unos 0,50–0,60 $ al mes por empresa con un análisis semanal, más la atención por WhatsApp por conversación. **Mensajería de WhatsApp Business** (las plantillas proactivas se pagan; *tarifas por verificar*). **APIs de datos** (Google Places, a partir de su cuota gratuita). **Infraestructura en la UE.** Equipo de producto e integraciones. Supervisión experta. Comisión a gestorías |
-| **Ingresos** | **Suscripción por módulos y tamaño:** base de 79 €/mes hasta 10 empleados y 149 €/mes de 10 a 50. **Módulos** a 39 €/mes cada uno: captación por WhatsApp, marketing, legal, personas. **Supervisión experta** en un plan superior o por horas. **Gestorías:** precio mayorista o reparto de ingresos |
+## Usuarios (quién lo usa)
+- El dueño o gerente: pregunta y aprueba desde el panel o por WhatsApp.
+- Los responsables de cada área.
+- El asesor de la gestoría, que supervisa.
 
-## Versión 1 (lo que enseña la demo)
+## Problemas
+1. La gestión está repartida entre proveedores que no se comunican: se decide sin el contexto completo.
+2. No detectan a tiempo dónde pierden dinero (cobros, caja) ni clientes, ni en qué les supera la competencia.
+3. No tienen dinero ni tiempo para una consultora ni para tener departamentos propios.
 
-**Construido y verificado en modo reglas:** Finanzas, Competencia y Coordinador, con acciones reales (reclamaciones con aprobación) y re-medición. Datos sintéticos de una clínica ficticia de Málaga.
+## Soluciones (con la IA como herramienta)
+- Agentes especialistas con sus propias fuentes. **Ya funcionan:** finanzas (banco y facturas) y competencia (anuncios, precios, reseñas, Google).
+- Un coordinador con IA que cruza los hallazgos, encuentra la causa y prioriza por impacto, esfuerzo y urgencia.
+- Plan a 7, 30 y 90 días: ejecuta lo seguro, lo delicado lo aprueba una persona, y mide si funcionó.
+- **Hoja de ruta:** clientes y captación por WhatsApp, marketing, legal, RR. HH. y organización.
 
-**Módulo de captación por WhatsApp:** en integración. Se apoya en la infraestructura de un compañero, que se declarará como componente previo tras confirmarlo con la organización.
+## Propuesta de valor
+**«Cada proveedor ve su parte. Centra ve la causa.»** Todos los departamentos de tu pyme decidiendo juntos, con todo el contexto… y ejecutando.
+- Te dice por qué pierdes dinero o clientes.
+- Plan priorizado y adaptado a cada pyme.
+- Actúa y comprueba el resultado: no es un informe que se queda en un cajón.
 
-**Caso de la demo:**
+## Ventaja competitiva
+- Decide cruzando todas las áreas, algo que los proveedores por separado no pueden hacer.
+- **Los datos que acumula de cada empresa:** cuanto más tiempo lleva, mejores son sus decisiones.
+- **La red de gestorías** como canal de confianza.
+- **Ciclo cerrado y verificable:** un cobro solo cuenta si cuadra con el banco al céntimo; expertos humanos supervisan lo legal y lo financiero.
+
+## Actividades clave
+- Desarrollar y mejorar los agentes.
+- Conectarlos con las herramientas de la empresa (contabilidad, banco, CRM, reseñas, anuncios).
+- Entrevista inicial y diagnóstico de cada empresa.
+- Mantener al día la normativa (RGPD, Reglamento de IA, obligaciones de las pymes).
+- Revisión humana de las recomendaciones delicadas.
+
+## Recursos
+- **IA:** Claude (Opus 5.5 para cruzar y redactar; Haiku 5.5 para clasificar), con orquestación propia en Python.
+- **Datos:** los de la propia pyme y fuentes públicas (Biblioteca de Anuncios de Meta, reseñas, BOE).
+- **Equipo:** técnico, de negocio y expertos en legal y finanzas.
+- Servidores en Europa (RGPD).
+
+## Aliados
+- Gestorías y asesorías.
+- Asociaciones empresariales y Cámara de Comercio.
+- Promálaga e incubadoras.
+- Abogados y economistas colaboradores.
+- Integraciones: banca, ERP y CRM.
+
+## Canales
+- Venta a través de gestorías.
+- Diagnóstico gratuito online como gancho.
+- Ferias y asociaciones (piloto en Málaga).
+- LinkedIn y contenido («la causa cruzada de la semana»).
+
+## Fidelización
+- Plan que se actualiza cada mes.
+- Informe mensual de resultados: dinero recuperado, clientes recuperados.
+- Cuanto más tiempo lleva la empresa, más afinado es el servicio; dejarlo supone perder ese conocimiento.
+- Nuevos módulos a medida que crece.
+
+## Costes
+- Uso de los modelos de IA: céntimos por análisis (≈ 0,10–0,15 $, estimado y con tope de gasto).
+- Infraestructura y seguridad (UE).
+- Desarrollo.
+- Expertos humanos.
+- Captación de clientes y comisiones a las gestorías.
+
+## Ingresos
+- Suscripción mensual por módulos y tamaño: **de 99 € a 399 € al mes** (hay que validarlo con pilotos).
+- Diagnóstico inicial gratis como gancho; el plan con ejecución es de pago.
+- Licencia en marca blanca para gestorías.
+
+---
+
+**Aviso para el pitch:** el jurado se fijará sobre todo en la ventaja competitiva. Copiar los agentes es fácil; lo que no se puede copiar son **los datos acumulados de cada empresa** y **la red de gestorías**. Hay que defender esas dos cosas, con el ciclo verificable como prueba de que funciona.
+
+## Caso de la demo (versión 1, datos sintéticos)
 - Caja para 9 días.
 - 10.554,10 € vencidos; Mutua Beta paga a 95 días.
 - Las sesiones de particulares caen un 15,4 %, y el año pasado no bajaron.
-- La clínica de al lado ofrece la primera sesión a 20 € y promete «sin esperas».
-- El 86 % de las reseñas recientes se quejan de la espera.
+- La clínica de al lado ofrece la primera sesión a 20 € y promete «sin esperas»; el 86 % de las reseñas recientes se quejan de la espera.
 - **Causa cruzada:** se pierden particulares por precio y espera, y la caja no aguanta una guerra de precios.
 - **Plan:**
   - reclamar lo vencido (un recordatorio enviado solo y una reclamación formal aprobada);
-  - contraoferta validada por finanzas: 30 € y no 20 €, porque a 20 € cada paciente nuevo dejaría un 21 % menos;
+  - contraoferta validada por finanzas: 30 € y no 20 €;
   - cita en 48 horas.
 - **Un mes después:** cobradas al céntimo 3 de las 4 facturas reclamadas, y lo que no funcionó vuelve al plan.
 
 ## Fuentes
-
-1. Ministerio de Industria, *Cifras PYME*, mayo de 2026: <https://ipyme.org/Publicaciones/Cifras%20PYME/CifrasPyme_mayo_2026.pdf>
-2. INE, DIRCE a 1/1/2025, citado por Legalitas: <https://www.legalitas.com/actualidad/futuro-gestorias>
-3. Plataforma Multisectorial contra la Morosidad, 2025, vía Forbes: <https://forbes.es/economia/907227/el-85-de-las-grandes-empresas-incumple-los-plazos-legales-de-pago-segun-pmcm/>
+1. Ministerio de Industria, *Cifras PYME*, mayo de 2026 (1,36 millones de pymes con asalariados): <https://ipyme.org/Publicaciones/Cifras%20PYME/CifrasPyme_mayo_2026.pdf>
+2. INE, DIRCE a 1/1/2025 (62.234 empresas de contabilidad, asesoría y gestoría), citado por Legalitas: <https://www.legalitas.com/actualidad/futuro-gestorias>
+3. Plazo medio de pago de 67 días, frente a los 60 legales (Plataforma Multisectorial contra la Morosidad, 2025), vía Forbes: <https://forbes.es/economia/907227/el-85-de-las-grandes-empresas-incumple-los-plazos-legales-de-pago-segun-pmcm/>
