@@ -16,8 +16,8 @@ Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la soluc
 - El asesor de la gestoría, que supervisa.
 
 ## Problemas
-1. La gestión está repartida entre proveedores que no se comunican: se decide sin el contexto completo.
-2. No detectan a tiempo dónde pierden dinero (cobros, caja) ni clientes, ni en qué les supera la competencia.
+1. La gestión está repartida entre proveedores que no se comunican: se decide sin el contexto completo. Solo **una de cada tres** empresas de 10 o más empleados analiza sus propios datos (INE, 2026; fuente 4).
+2. No detectan a tiempo dónde pierden dinero (cobros, caja) ni clientes, ni en qué les supera la competencia. El **85 %** de las grandes empresas incumple el plazo legal de pago (PMcM, 2025; fuente 3).
 3. No tienen dinero ni tiempo para una consultora ni para tener departamentos propios.
 
 ## Soluciones (con la IA como herramienta)
@@ -91,12 +91,14 @@ Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la soluc
 - 10.554,10 € vencidos; Mutua Beta paga a 95 días.
 - Las sesiones de particulares caen un 15,4 %, y el año pasado no bajaron.
 - La clínica de al lado ofrece la primera sesión a 20 € y promete «sin esperas»; el 86 % de las reseñas recientes se quejan de la espera.
-- **Causa cruzada:** se pierden particulares por precio y espera, y la caja no aguanta una guerra de precios.
+- El 59 % de las consultas por WhatsApp llegan fuera de horario: tardan 12 h en contestarse (0,4 h en horario) y se pierde el 41 %.
+- **Causa cruzada** (finanzas + competencia + atención): se pierden particulares por precio y por espera, también cuando escriben fuera de horario, y la caja no aguanta una guerra de precios.
 - **Plan:**
   - reclamar lo vencido (un recordatorio enviado solo y una reclamación formal aprobada);
   - contraoferta validada por finanzas: 30 € y no 20 €;
-  - cita en 48 horas.
-- **Un mes después:** cobradas 3 de las 4 facturas reclamadas, comprobado con el banco, y lo que no funcionó vuelve al plan.
+  - cita en 48 horas;
+  - activar el asistente de WhatsApp fuera de horario, con aprobación.
+- **Un mes después** (simulado): de la aseguradora que paga tarde, **2 de 3 facturas** cobradas, y la otra aseguradora, al completo (3 de las 4 facturas reclamadas), comprobado con el banco; la respuesta fuera de horario pasa de 12 h a minutos y las quejas por la espera, del 86 % al 50 % (coincide en el tiempo, no lo demuestra); lo que no funcionó vuelve al plan.
 
 ## Fuentes
 1. Ministerio de Industria, *Cifras PYME*, mayo de 2026 (1,36 millones de pymes con asalariados; exactamente 1.355.023). **Verificado** en el PDF: <https://ipyme.org/Publicaciones/Cifras%20PYME/CifrasPyme_mayo_2026.pdf>
