@@ -15,13 +15,13 @@ Pensada para que cualquier miembro del equipo pueda presentarla sin conocer el c
 | Paso | Pestaña | Qué hacer | Qué señalar |
 |---|---|---|---|
 | 1 | 1 · Tu empresa | «Analizar con el equipo de agentes» | La clínica es ficticia. Arriba sale **«Lo más importante»**: la causa, los números clave y qué hacer esta semana |
-| 2 | 2 · Qué ve cada experto | Abrir un hallazgo de cada agente | Cada hallazgo lleva **evidencia y fuente**. Y «Lo que me falta para afinar»: no inventa datos |
-| 3 | 3 · La causa y el plan | Leer la causa cruzada en voz alta | **Finanzas + Competencia + Atención**. «Es la temporada» queda descartado con datos. Plan en 7, 30 y 90 días con niveles de autonomía |
+| 2 | 2 · Expertos | Abrir un hallazgo de cada agente | Cada hallazgo lleva **evidencia y fuente**. Y «Lo que me falta para afinar»: no inventa datos |
+| 3 | 3 · Causa y plan | Leer la causa cruzada en voz alta | **Finanzas + Competencia + Atención**. «Es la temporada» queda descartado con datos. Plan en 7, 30 y 90 días con niveles de autonomía |
 | 4 | 4 · Actuar | «Ejecutar…» → «Aprobar y enviar» → marcar las tareas hechas (no la campaña) | El recordatorio sale solo; la reclamación formal espera aprobación. **Enviar no es cobrar** |
-| 5 | 5 · ¿Ha funcionado? | «Medir un mes después» | Cobros **comprobados con el banco** (2 de 3 facturas de la aseguradora); las quejas por la espera bajan del 86 % al 50 %. Dice «coincide», no «lo causó». Lo que no se hizo no se mide. El plan se reordena |
-| 6 | 6 · Transparencia (IA) | Enseñar el registro y el coste de IA | Qué vio, qué decidió, qué hizo y qué comprobó cada agente |
-| 7 | 7 · WhatsApp y ERP | «Simular mensaje de WhatsApp» dos veces con el mismo teléfono (o que escriba Hermes de verdad) | La 1.ª vez crea la oportunidad **sin responsable**; la 2.ª la añade como **nota**, sin duplicar. Al acabar: «Borrar todos los datos» |
-| 8 | 7 → 8 · Clientes (CRM) | En la pestaña 7, nombre «Mutua Beta (ficticia)», **teléfono vacío** y correo `pagos@mutuabeta.example`; «Simular mensaje». Después, pestaña 8 (el interruptor «Incluir también las consultas del ERP» de la pestaña 1 viene activado) | **La ficha única:** finanzas (debe 8.633,50 €, paga a 95 días) y atención (consulta sin responsable) en el mismo cliente, con la alerta «contéstale antes de reclamarle». Ningún agente lo ve solo |
+| 5 | 5 · ¿Funcionó? | «Medir un mes después» | Cobros **comprobados con el banco** (2 de 3 facturas de la aseguradora); las quejas por la espera bajan del 86 % al 50 %. Dice «coincide», no «lo causó». Lo que no se hizo no se mide. El plan se reordena |
+| 6 | 6 · Transparencia | Enseñar el registro y el coste de IA | Qué vio, qué decidió, qué hizo y qué comprobó cada agente |
+| 7 | 7 · WhatsApp | «Simular mensaje de WhatsApp» dos veces con el mismo teléfono (o que escriba Hermes de verdad) | La 1.ª vez crea la oportunidad **sin responsable**; la 2.ª la añade como **nota**, sin duplicar. Al acabar: «Borrar todos los datos» |
+| 8 | 7 → 8 · Clientes | En la pestaña 7, nombre «Mutua Beta (ficticia)», **teléfono vacío** y correo `pagos@mutuabeta.example`; «Simular mensaje». Después, pestaña 8 (el interruptor «Incluir también las consultas del ERP» de la pestaña 1 viene activado) | **La ficha única:** finanzas (debe 8.633,50 €, paga a 95 días) y atención (consulta sin responsable) en el mismo cliente, con la alerta «contéstale antes de reclamarle». Ningún agente lo ve solo |
 | 9 | 1 · Tu empresa → «Tu empresa (sube tus datos)» | Descargar una plantilla y subir un Excel | **Así entra cualquier pyme:** con sus Excel; lo que no sube sale como «lo que me falta» |
 
 ## Asistente de WhatsApp real (opcional)

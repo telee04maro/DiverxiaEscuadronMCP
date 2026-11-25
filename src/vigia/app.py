@@ -66,8 +66,8 @@ FIELD_LABELS = {
 }
 BRAND = Path(__file__).resolve().parents[2] / "docs" / "negocio"
 TABS = (
-    "1 · Tu empresa", "2 · Qué ve cada experto", "3 · La causa y el plan", "4 · Actuar",
-    "5 · ¿Ha funcionado?", "6 · Transparencia (IA)", "7 · WhatsApp y ERP", "8 · Clientes (CRM)",
+    "1 · Tu empresa", "2 · Expertos", "3 · Causa y plan", "4 · Actuar",
+    "5 · ¿Funcionó?", "6 · Transparencia", "7 · WhatsApp", "8 · Clientes",
 )  # fmt: skip
 # Owner's key numbers, in this order, when the specialist measured them (never shown as zero).
 KEY_KPIS = ("dias_de_caja", "vencido", "perdidas_fuera_horario", "nota_reciente")

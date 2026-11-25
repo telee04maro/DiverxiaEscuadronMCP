@@ -111,6 +111,14 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
    - auditoría: el texto de terceros (anuncios, reseñas, ficheros subidos) ya no puede convertirse en enlaces, imágenes ni fórmulas en el panel (`ui.md_safe`, `tests/test_ui.py`); «comprobado» solo para cobros al céntimo («Mejoró (coincide en el tiempo)» para el resto) y «Pago incompleto» cuando falta un céntimo;
    - `3-marketing.pdf` reexportado con el logo nuevo. **Falta:** rehacer las capturas de `docs/entrega/capturas/` y `2-prototipo.pdf`, que enseñan el panel antiguo.
 
+10. **Rama de entrega `claude/entrega`** (pitch + plan de negocio + marca y panel nuevos, con la pestaña 8 de `main` y sin el fallo del céntimo). Requisitos de la organización para antes de las 12:30:
+   - **Eslogan** «Vuelve a lo que importa.» (5 palabras) en el logo, el pitch, el marketing, el canvas, el lienzo, el README, el panel y el prototipo;
+   - **un logo** («Atalaya»), **dos colores** (azul petróleo `#1D5C7A` y terracota `#D9824E`) y **una tipografía** (Inter: en el logo, en el panel —servida desde `src/vigia/static/`, con su licencia OFL— y en todos los PDF);
+   - **pieza que enseña el producto:** `2-prototipo.pdf` con capturas nuevas de las 8 pestañas (modo reglas);
+   - **diapositiva final de herramientas de IA:** `docs/entrega/6-herramientas-de-ia.png` y `.pdf`;
+   - pestañas con nombres cortos para que quepan las 8.
+   **Pendiente:** el canvas y el lienzo siguen con el modelo de negocio anterior (gestorías y 99–399 €) hasta que se aprueben los precios del plan nuevo; comprobar el nombre «Vigía» con las cuatro pruebas del taller y en la OEPM.
+
 ## Última verificación
 Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.
 - 24/11 · rama `claude/paleta-y-logo` · **Panel rediseñado, recorrido completo en el navegador** (Playwright, modo reglas): análisis → causa y plan → ejecutar, aprobar y marcar 6 tareas (no la campaña) → «un mes después» con el fallo inyectado: Seguros Gamma «sin efecto», 0,01 € pendiente, no se da por cobrada; pestañas 6 y 7 y «Tu empresa» sin errores (0 excepciones en pantalla). `uv run pytest` 137 en verde; ruff y mypy limpios.

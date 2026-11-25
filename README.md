@@ -4,7 +4,9 @@
 
 **Encuentra por qué una pyme pierde dinero o clientes, cruzando lo que ve cada área, y actúa**: reclama cobros, valida precios, propone el plan a 7, 30 y 90 días y, un mes después, **mide si funcionó**.
 
-> **Cada proveedor ve su parte. Vigía ve la causa.**
+> **Vuelve a lo que importa.**
+>
+> Cada proveedor ve su parte; Vigía ve la causa.
 
 Proyecto del equipo EscuadronMCP para el hackathon **IA First** de Talent Land España (Málaga, 24–25/11/2026), reto **04 «La IA como servicio: agentes inteligentes que actúan»**.
 
@@ -40,13 +42,13 @@ Pulsa **«Analizar con el equipo de agentes»** y recorre las pestañas:
 | Pestaña | Qué verás |
 |---|---|
 | 1 · Tu empresa | La clínica de ejemplo (ficticia) o **«Tu empresa»**: entrevista + tus Excel/CSV con plantillas |
-| 2 · Qué ve cada experto | Lo que ve cada agente, con su evidencia: caja para 9 días, oferta de la competencia a 20 €, 59 % de consultas fuera de horario… |
-| 3 · La causa y el plan | **La causa cruzada**, de qué especialistas sale y las hipótesis descartadas («no es la temporada») |
+| 2 · Expertos | Lo que ve cada agente, con su evidencia: caja para 9 días, oferta de la competencia a 20 €, 59 % de consultas fuera de horario… |
+| 3 · Causa y plan | **La causa cruzada**, de qué especialistas sale y las hipótesis descartadas («no es la temporada») |
 | 4 · Actuar | El plan a 7/30/90 días: lo que hace solo, lo que espera tu aprobación y lo que va a una persona |
-| 5 · ¿Ha funcionado? | Qué indicadores se movieron. Un cobro solo cuenta si **aparece en el banco**; lo demás dice «coincide», no «lo causó», y lo que no se hizo no se mide |
-| 6 · Transparencia (IA) | Qué vio, decidió e hizo cada agente, y el coste de cada llamada a Claude |
-| 7 · WhatsApp y ERP | El asistente de WhatsApp registra consultas en el ERP de demo **sin duplicar** |
-| 8 · Clientes (CRM) | **Una ficha por cliente** con lo que sabe cada agente (deuda, consultas, reclamaciones), unida por correo o teléfono. Si un cliente debe dinero y tiene una consulta sin atender: «contéstale antes de reclamarle» |
+| 5 · ¿Funcionó? | Qué indicadores se movieron. Un cobro solo cuenta si **aparece en el banco**; lo demás dice «coincide», no «lo causó», y lo que no se hizo no se mide |
+| 6 · Transparencia | Qué vio, decidió e hizo cada agente, y el coste de cada llamada a Claude |
+| 7 · WhatsApp | El asistente de WhatsApp registra consultas en el ERP de demo **sin duplicar** |
+| 8 · Clientes | **Una ficha por cliente** con lo que sabe cada agente (deuda, consultas, reclamaciones), unida por correo o teléfono. Si un cliente debe dinero y tiene una consulta sin atender: «contéstale antes de reclamarle» |
 
 | Quiero… | Comando |
 |---|---|

@@ -31,7 +31,7 @@ def test_html_pieces_escape_data() -> None:
 
 
 def test_only_collections_are_called_proven() -> None:
-    assert "céntimo" in ui.effect_label(Effect.CONFIRMED, collection=True)
+    assert "banco" in ui.effect_label(Effect.CONFIRMED, collection=True)
     kpi = ui.effect_label(Effect.CONFIRMED, collection=False)
     assert "coincide" in kpi and "comprobad" not in kpi.lower()
 

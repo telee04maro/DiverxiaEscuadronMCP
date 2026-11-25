@@ -52,7 +52,8 @@ CSS = f"""
 h1, h2, h3, h4 {{ color: {INK}; letter-spacing: -0.01em; }}
 [data-testid="stSidebar"] {{ border-right: 1px solid {LINE}; }}
 [data-testid="stHeader"] {{ background: transparent; }}
-button[data-baseweb="tab"] p {{ font-size: 0.98rem; font-weight: 600; }}
+button[data-baseweb="tab"] p {{ font-size: 0.86rem; font-weight: 600; }}
+[data-baseweb="tab-list"] {{ gap: 0.6rem; }}
 [data-testid="stMetric"] {{ background: #fff; border: 1px solid {LINE};
   border-top: 4px solid {PETROL};
   border-radius: 12px; padding: 10px 14px; }}
@@ -133,7 +134,7 @@ def effect_label(effect: Effect, *, collection: bool, short_payment: bool = Fals
     if effect is Effect.NONE and short_payment:
         return "Pago incompleto: no se da por cobrada"
     if effect is Effect.CONFIRMED:
-        return "Cobro comprobado al céntimo" if collection else "Mejoró (coincide en el tiempo)"
+        return "Cobro comprobado con el banco" if collection else "Mejoró (coincide en el tiempo)"
     return effect.value.capitalize()
 
 

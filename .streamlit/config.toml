@@ -7,12 +7,27 @@ showErrorDetails = "none"
 
 [server]
 headless = true
+enableStaticServing = true
 
 [theme]
 primaryColor = "#1D5C7A"
 backgroundColor = "#FFFFFF"
 secondaryBackgroundColor = "#FAF7F2"
 textColor = "#1B2B34"
+font = "Inter, sans-serif"
 
-[client]
-toolbarMode = "viewer"
+
+[[theme.fontFaces]]
+family = "Inter"
+url = "app/static/Inter-Regular.woff2"
+weight = 400
+
+[[theme.fontFaces]]
+family = "Inter"
+url = "app/static/Inter-SemiBold.woff2"
+weight = 600
+
+[[theme.fontFaces]]
+family = "Inter"
+url = "app/static/Inter-Bold.woff2"
+weight = 700
