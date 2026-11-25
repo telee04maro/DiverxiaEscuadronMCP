@@ -1,7 +1,7 @@
 ﻿<#
   Asistente de WhatsApp del hackathon (instancia de demostracion, separada de cualquier instalacion de produccion)
   Zernio -> Hermes (perfil hackaton-demo) -> BALTER (entidad ficticia de la demo)
-  Nuevo: -ActivarFondo [-Segundos N]  el asistente funciona SOLO, oculto, cada N segundos (5 a 60), sin depender de
+  Nuevo: -ActivarFondo [-Segundos N]  el asistente funciona SOLO, oculto, cada N segundos (2 a 60), sin depender de
          ninguna ventana. Si se cae, el Programador de tareas lo relanza en 1 minuto. -Parar lo detiene.
          -Monitor   muestra en directo lo que hace (cerrar esta ventana NO lo para).
          -Bucle [-Segundos N]  lo mismo pero en esta ventana (solo para pruebas).
@@ -152,7 +152,7 @@ if ($ActivarFondo) {
     if ($cfg.modo -ne 'produccion') { Write-Host 'Primero activa la produccion (-ActivarProduccion).' -ForegroundColor Red; return }
     $seg = $Segundos
     if ($seg -eq 0) { $seg = [int](Get-WAProp $cfg 'intervalo_segundos' 10) }
-    if ($seg -lt 5) { $seg = 5 }
+    if ($seg -lt 2) { $seg = 2 }
     $vbs = Join-Path $raiz 'HACK-Bucle-Oculto.vbs'
     if (-not (Test-Path -LiteralPath $vbs)) { Write-Host 'Falta HACK-Bucle-Oculto.vbs: vuelve a ejecutar HACK-Instalar.ps1.' -ForegroundColor Red; return }
     Write-Host "El asistente funcionara SOLO y OCULTO: revisa el WhatsApp cada $seg segundos, responde y crea oportunidades."
@@ -186,7 +186,7 @@ if ($Bucle) {
     if ($cfg.modo -ne 'produccion') { Write-Host 'Primero activa la produccion (-ActivarProduccion).' -ForegroundColor Red; return }
     $seg = $Segundos
     if ($seg -eq 0) { $seg = [int](Get-WAProp $cfg 'intervalo_segundos' 10) }
-    if ($seg -lt 5) { $seg = 5 }
+    if ($seg -lt 2) { $seg = 2 }
     if ($Oculto) {
         if ($cfg.automatico_habilitado -ne $true) { return }
     } else {
