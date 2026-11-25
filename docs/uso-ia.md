@@ -58,6 +58,7 @@ Todo eso lo hacen reglas deterministas o una persona.
 | Programar el prototipo, los tests y la CI | Claude Code (Claude Opus 5.5) | Revisión del diff en cada commit; puertas de calidad (ruff, mypy estricto, pytest en Linux y Windows) |
 | Auditoría independiente («red team») del código | Agente de Claude separado, solo lectura | El equipo decide qué se corrige |
 | Canvas, marketing, logo y guion del pitch | Claude Code, a partir de la idea y las notas del equipo | Revisados y ajustados por el equipo |
+| Audio del gancho del pitch: tres voces de proveedores que se pisan (`docs/negocio/pitch-audio-gancho.mp3`) | ElevenLabs (modelo `eleven_v4`, voces de su biblioteca) para las voces y ffmpeg para la mezcla | Textos escritos por el equipo; el equipo aprueba el audio antes del pitch |
 
 ## Herramientas, modelos y datos (declaración)
 

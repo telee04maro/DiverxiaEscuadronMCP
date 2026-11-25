@@ -1,12 +1,12 @@
 # Entregable 4 · Guion del pitch: Vigía
 
-**Duración:** 3 minutos: 408 palabras y unos 20 s de pausas. A ritmo vivo (160 palabras por minuto) dura 2:53; a ritmo lento (150), 3:03, y entonces se recorta «Actúa». Hay que ajustarla al tiempo real que dé la organización.
+**Duración:** 3 minutos: 5,5 s de audio, 382 palabras y unos 21 s de pausas. A ritmo vivo (160 palabras por minuto) dura 2:50; a ritmo lento (150), 3:00, y entonces se recorta «Actúa».
 **Un único presentador**, de pie y sin papel, y otra persona manejando la demo o las diapositivas.
 **Regla de oro:** amplitud en el pitch, profundidad en la demo. Contamos una historia, no una lista de funciones.
 
 ## El arco en una línea
 
-**Ana se hunde y nadie sabe por qué → tres expertos ven tres pistas sueltas → el coordinador las une (¡ajá!) → Vigía actúa → comprueba si ha funcionado → «Vigía ve la causa».**
+**El ruido de proveedores que dicen «lo mío va bien» → tres expertos ven tres pistas sueltas → el coordinador las une (¡ajá!) → Vigía actúa → comprueba si ha funcionado → «Vigía ve la causa».**
 
 La energía sube hasta el minuto 2 (la causa) y se remata en el cierre. Las pausas (‖) son tan importantes como las palabras.
 
@@ -16,31 +16,28 @@ Las **negritas** se remarcan con la voz. ‖ = pausa de un segundo; ‖‖ = pau
 
 | Tiempo | Qué se dice | Cómo se dice | Qué se ve |
 |---|---|---|---|
-| **0:00–0:25 · El gancho** | «Esta es Ana. ‖ Ana no existe, pero seguro que conocéis a alguien como ella. Tiene una clínica de fisioterapia en Málaga. Una gestoría le lleva los impuestos. Una agencia, las redes. Y las cuentas… ‖ en un Excel. Desde septiembre entran menos pacientes. La gestoría le dice: "lo mío va bien". La agencia: "lo mío va bien". ‖ Y es verdad. **Todos tienen razón. ‖‖ Y Ana se está hundiendo.**» | Empezar en silencio, mirar al público dos segundos antes de hablar. Tono cercano, de contar una historia. Bajar la voz en «se está hundiendo» | Foto o ilustración de Ana y su clínica (ficticia) |
-| **0:25–0:35 · El problema** | «Ese es el problema de muchas pymes: **cada proveedor ve su parte. ‖ Y nadie ve la causa.**» | Más lento. Pausa antes de «Y nadie ve la causa» | Una pyme rodeada de proveedores que no se hablan |
-| **0:35–1:15 · Los expertos** | «Por eso hemos creado **Vigía: un equipo de expertos de IA para toda tu pyme.** Un agente por área, cada uno con sus propias fuentes. Mirad. ‖ **Finanzas** lee el banco: la caja aguanta **nueve días**. ‖ Nueve. Y una aseguradora le paga a noventa y cinco. **Competencia** lee los anuncios de Meta: la clínica de al lado lanzó hace dieciocho días **"primera sesión a 20 €, sin esperas"**. Y **atención al cliente** lee los WhatsApp: el 59 % llega fuera de horario, tarda **doce horas** en contestarse… ‖ **y se pierde el 41 %.**» | Ritmo rápido, tres golpes iguales (finanzas, competencia, atención). Contar con los dedos: uno, dos, tres. Repetir «nueve» más despacio | Pestaña 2: un hallazgo de cada experto, con su evidencia |
-| **1:15–1:50 · La causa** *(el momento clave)* | «Por separado son tres problemas. ‖‖ **Juntos son uno.** ‖ Ahí entra nuestro coordinador. **No es la temporada**: el año pasado no bajó. Ana pierde pacientes **por precio y por espera, también cuando escriben fuera de horario**, ‖ justo lo que promete la competencia. Y con la caja así, una guerra de precios la hunde. ‖‖ Eso no lo ve la gestoría. No lo ve la agencia. ‖ **Lo ve Vigía.**» | Aquí está la máxima energía. Pausa larga antes de «Juntos son uno» y juntar las manos. Señalar la pantalla en «Lo ve Vigía» | Pestaña 3: la causa cruzada y «es la temporada» descartado |
-| **1:50–2:12 · Actúa** | «Y no se queda en un informe: **actúa.** El recordatorio amable lo envía solo. La reclamación formal **espera a que Ana dé el visto bueno**. ¿Bajar a 20 € como la competencia? Finanzas dice que no: cada paciente nuevo dejaría un 21 % menos. Propone **30 €, con cita en 48 horas**. No se dan la razón: **se contrastan.**» | Seguro y concreto. Gesto de «alto» en «Finanzas dice que no» | Pestaña 4: aprobar y enviar |
-| **2:12–2:35 · Comprueba** | «Y lo más importante: **comprueba si ha funcionado.** En la simulación de un mes después: **dos de tres facturas** de la aseguradora, cobradas y comprobadas con el banco. Las consultas de fuera de horario se contestan **en minutos**, y las quejas por la espera bajan **del 86 al 50 %**. Y es honesto: **dice que coincide, no que lo demuestre.**» | Bajar un punto la velocidad: credibilidad. «Honesto» mirando al jurado | Pestaña 5 |
-| **2:35–3:00 · Cierre** | «Desde **99 € al mes**, menos de cinco céntimos de IA por análisis, y entramos por quien ya tiene su confianza: **su gestoría.** ‖‖ Ana tenía proveedores que veían su parte. Ahora tiene a alguien que ve la causa. ‖‖ **Cada proveedor ve su parte. Vigía ve la causa.**» | Subir la energía en las gestorías. Pausa larga. La frase final, despacio, palabra a palabra, y quedarse quieto dos segundos antes de «gracias» | Logo y eslogan |
+| **0:00–0:25 · El gancho** | **[Audio, 5,5 s: tres voces que se pisan, cada vez más fuerte. Corte en seco.]** ‖‖ «Esto es lo que oye cada día el dueño de una pyme. ‖ **Todos le dicen que lo suyo va bien. ‖‖ Y nadie le dice por qué está perdiendo clientes.** ‖ **Cada proveedor ve su parte. ‖ Nadie ve la causa.**» | El presentador ya está en el centro, quieto y en silencio mientras suena el audio, mirando al público. Tras el corte, dos segundos de silencio. Empezar bajo y cercano; «Nadie ve la causa», despacio | Pantalla en negro mientras suena el audio; después, logo y eslogan |
+| **0:25–1:10 · Los expertos** | «Por eso hemos creado **Vigía: un equipo de expertos de IA para toda tu pyme.** Un agente por área, cada uno con sus propias fuentes. Os lo enseño con una clínica de fisioterapia inventada, en Málaga, que desde septiembre pierde pacientes. ‖ **Finanzas** lee el banco: la caja aguanta **nueve días**. ‖ Nueve. Y una aseguradora le paga a noventa y cinco. **Competencia** lee los anuncios de Meta: la clínica de al lado lanzó hace dieciocho días **"primera sesión a 20 €, sin esperas"**. Y **atención al cliente** lee los WhatsApp: el 59 % llega fuera de horario, tarda **doce horas** en contestarse… ‖ **y se pierde el 41 %.**» | Ritmo rápido, tres golpes iguales (finanzas, competencia, atención). Contar con los dedos: uno, dos, tres. Repetir «nueve» más despacio | Pestaña 2: un hallazgo de cada experto, con su evidencia |
+| **1:10–1:47 · La causa** *(el momento clave)* | «Por separado son tres problemas. ‖‖ **Juntos son uno.** ‖ Ahí entra nuestro coordinador. **No es la temporada**: el año pasado no bajó. La clínica pierde pacientes **por precio y por espera, también cuando escriben fuera de horario**, ‖ justo lo que promete la competencia. Y con la caja así, una guerra de precios la hunde. ‖‖ Eso no lo ve la gestoría. No lo ve la agencia. ‖ **Lo ve Vigía.**» | Aquí está la máxima energía. Pausa larga antes de «Juntos son uno» y juntar las manos. Señalar la pantalla en «Lo ve Vigía» | Pestaña 3: la causa cruzada y «es la temporada» descartado |
+| **1:47–2:10 · Actúa** | «Y no se queda en un informe: **actúa.** El recordatorio amable lo envía solo. La reclamación formal **espera a que la dueña dé el visto bueno**. ¿Bajar a 20 € como la competencia? Finanzas dice que no: cada paciente nuevo dejaría un 21 % menos. Propone **30 €, con cita en 48 horas**. No se dan la razón: **se contrastan.**» | Seguro y concreto. Gesto de «alto» en «Finanzas dice que no» | Pestaña 4: aprobar y enviar |
+| **2:10–2:35 · Comprueba** | «Y lo más importante: **comprueba si ha funcionado.** En la simulación de un mes después: **dos de tres facturas** de la aseguradora, cobradas y comprobadas con el banco. Las consultas de fuera de horario se contestan **en minutos**, y las quejas por la espera bajan **del 86 al 50 %**. Y es honesto: **dice que coincide, no que lo demuestre.**» | Bajar un punto la velocidad: credibilidad. «Honesto» mirando al jurado | Pestaña 5 |
+| **2:35–3:00 · Cierre** | «Desde **99 € al mes**, menos de cinco céntimos de IA por análisis, y entramos por quien ya tiene su confianza: **su gestoría.** ‖‖ Hasta hoy, cada pyme tenía proveedores que veían su parte. Ahora tiene a alguien que ve la causa. ‖‖ **Cada proveedor ve su parte. Vigía ve la causa.**» | Subir la energía en las gestorías. Pausa larga. La frase final, despacio, palabra a palabra, y quedarse quieto dos segundos antes de «gracias» | Logo y eslogan |
 
 ### Texto corrido para ensayar
 
 El mismo guion, sin tablas, para leerlo en voz alta o en el móvil.
 
-**El gancho.** «Esta es Ana. ‖ Ana no existe, pero seguro que conocéis a alguien como ella. Tiene una clínica de fisioterapia en Málaga. Una gestoría le lleva los impuestos. Una agencia, las redes. Y las cuentas… ‖ en un Excel. Desde septiembre entran menos pacientes. La gestoría le dice: "lo mío va bien". La agencia: "lo mío va bien". ‖ Y es verdad. **Todos tienen razón. ‖‖ Y Ana se está hundiendo.**»
+**El gancho.** **[Audio, 5,5 s: tres voces que se pisan, cada vez más fuerte. Corte en seco.]** ‖‖ «Esto es lo que oye cada día el dueño de una pyme. ‖ **Todos le dicen que lo suyo va bien. ‖‖ Y nadie le dice por qué está perdiendo clientes.** ‖ **Cada proveedor ve su parte. ‖ Nadie ve la causa.**»
 
-**El problema.** «Ese es el problema de muchas pymes: **cada proveedor ve su parte. ‖ Y nadie ve la causa.**»
+**Los expertos.** «Por eso hemos creado **Vigía: un equipo de expertos de IA para toda tu pyme.** Un agente por área, cada uno con sus propias fuentes. Os lo enseño con una clínica de fisioterapia inventada, en Málaga, que desde septiembre pierde pacientes. ‖ **Finanzas** lee el banco: la caja aguanta **nueve días**. ‖ Nueve. Y una aseguradora le paga a noventa y cinco. **Competencia** lee los anuncios de Meta: la clínica de al lado lanzó hace dieciocho días **"primera sesión a 20 €, sin esperas"**. Y **atención al cliente** lee los WhatsApp: el 59 % llega fuera de horario, tarda **doce horas** en contestarse… ‖ **y se pierde el 41 %.**»
 
-**Los expertos.** «Por eso hemos creado **Vigía: un equipo de expertos de IA para toda tu pyme.** Un agente por área, cada uno con sus propias fuentes. Mirad. ‖ **Finanzas** lee el banco: la caja aguanta **nueve días**. ‖ Nueve. Y una aseguradora le paga a noventa y cinco. **Competencia** lee los anuncios de Meta: la clínica de al lado lanzó hace dieciocho días **"primera sesión a 20 €, sin esperas"**. Y **atención al cliente** lee los WhatsApp: el 59 % llega fuera de horario, tarda **doce horas** en contestarse… ‖ **y se pierde el 41 %.**»
+**La causa (el momento clave).** «Por separado son tres problemas. ‖‖ **Juntos son uno.** ‖ Ahí entra nuestro coordinador. **No es la temporada**: el año pasado no bajó. La clínica pierde pacientes **por precio y por espera, también cuando escriben fuera de horario**, ‖ justo lo que promete la competencia. Y con la caja así, una guerra de precios la hunde. ‖‖ Eso no lo ve la gestoría. No lo ve la agencia. ‖ **Lo ve Vigía.**»
 
-**La causa (el momento clave).** «Por separado son tres problemas. ‖‖ **Juntos son uno.** ‖ Ahí entra nuestro coordinador. **No es la temporada**: el año pasado no bajó. Ana pierde pacientes **por precio y por espera, también cuando escriben fuera de horario**, ‖ justo lo que promete la competencia. Y con la caja así, una guerra de precios la hunde. ‖‖ Eso no lo ve la gestoría. No lo ve la agencia. ‖ **Lo ve Vigía.**»
-
-**Actúa.** «Y no se queda en un informe: **actúa.** El recordatorio amable lo envía solo. La reclamación formal **espera a que Ana dé el visto bueno**. ¿Bajar a 20 € como la competencia? Finanzas dice que no: cada paciente nuevo dejaría un 21 % menos. Propone **30 €, con cita en 48 horas**. No se dan la razón: **se contrastan.**»
+**Actúa.** «Y no se queda en un informe: **actúa.** El recordatorio amable lo envía solo. La reclamación formal **espera a que la dueña dé el visto bueno**. ¿Bajar a 20 € como la competencia? Finanzas dice que no: cada paciente nuevo dejaría un 21 % menos. Propone **30 €, con cita en 48 horas**. No se dan la razón: **se contrastan.**»
 
 **Comprueba.** «Y lo más importante: **comprueba si ha funcionado.** En la simulación de un mes después: **dos de tres facturas** de la aseguradora, cobradas y comprobadas con el banco. Las consultas de fuera de horario se contestan **en minutos**, y las quejas por la espera bajan **del 86 al 50 %**. Y es honesto: **dice que coincide, no que lo demuestre.**»
 
-**Cierre.** «Desde **99 € al mes**, menos de cinco céntimos de IA por análisis, y entramos por quien ya tiene su confianza: **su gestoría.** ‖‖ Ana tenía proveedores que veían su parte. Ahora tiene a alguien que ve la causa. ‖‖ **Cada proveedor ve su parte. Vigía ve la causa.**»
+**Cierre.** «Desde **99 € al mes**, menos de cinco céntimos de IA por análisis, y entramos por quien ya tiene su confianza: **su gestoría.** ‖‖ Hasta hoy, cada pyme tenía proveedores que veían su parte. Ahora tiene a alguien que ve la causa. ‖‖ **Cada proveedor ve su parte. Vigía ve la causa.**»
 
 ### Las cifras y de dónde salen
 
@@ -58,25 +55,40 @@ Todas salen de la demo con el código de `main` en modo reglas (`uv run python -
 | Menos de 5 céntimos de IA por análisis | Medido con Claude real: 0,038–0,042 $ (`docs/uso-ia.md`) |
 | Desde 99 € al mes | Precio previsto en el canvas; **por validar con pilotos** |
 
-**Lo que no se dice:** que Vigía haya «demostrado» una mejora (solo coincide en el tiempo, salvo los cobros); que Ana o la clínica sean reales; cifras de mercado sin fuente.
+**Lo que no se dice:** que Vigía haya «demostrado» una mejora (solo coincide en el tiempo, salvo los cobros); que la clínica sea real (se dice en voz alta que es inventada); cifras de mercado sin fuente.
 
 ## Cómo defenderlo en el escenario
 
-- **Los primeros 5 segundos deciden la atención:** nada de «Hola, somos el equipo…». Se empieza directamente con «Esta es Ana».
+- **Los primeros segundos deciden la atención:** nada de «Hola, somos el equipo…». Se empieza con el audio, sin presentarse. Si falla el sonido, los tres lo hacéis en directo con la voz (plan B, más abajo).
 - **Mira a personas, no a la pantalla.** La pantalla la maneja tu compañero; tú solo la señalas en «Lo ve Vigía».
 - **Tres golpes en los expertos:** misma estructura y mismo ritmo para finanzas, competencia y atención. El público espera el tercero y lo recuerda.
 - **La pausa antes de «Juntos son uno»** es el momento del pitch. No tengas prisa: dos segundos de silencio.
 - **Energía en curva:** cercano al principio, rápido en los expertos, máximo en la causa, seguro en «actúa», sereno en «comprueba» (credibilidad) y arriba en el cierre.
 - **Nada de jerga en voz alta:** ni «agentes especialistas con hallazgos estructurados» ni «coordinador LLM». Se dice «expertos», «pistas» y «la causa».
-- **Si se va de tiempo:** se recorta el bloque «Actúa» a una frase («Y no se queda en un informe: actúa, con el visto bueno de Ana en lo importante»). **Nunca** se recortan la causa ni el cierre.
+- **Si se va de tiempo:** se recorta el bloque «Actúa» a una frase («Y no se queda en un informe: actúa, con el visto bueno de la dueña en lo importante»). **Nunca** se recortan la causa ni el cierre.
 - **Si falla la demo:** el guion funciona igual con las capturas de `docs/entrega/capturas/`. No se pide perdón: «os lo enseño en las capturas» y se sigue.
+
+### El audio del gancho
+
+Archivo: `docs/negocio/pitch-audio-gancho.mp3` (5,5 s; el volumen sube de −29 dB a −17 dB y se corta en el punto más fuerte). Tres voces de proveedores que hablan a la vez, cada vez más rápido y más fuerte, y se cortan en seco:
+
+| Voz | Texto |
+|---|---|
+| La gestoría | «Tus impuestos están al día. El trimestre, presentado. Por mi parte, todo correcto. Lo mío va bien.» |
+| La agencia | «¡Las redes van genial! ¡Mira cuántos me gusta! ¡Lo mío va bien, lo mío va genial!» |
+| El banco | «Le informamos de que se ha cargado la cuota. Su saldo está disponible. Lo mío va bien.» |
+
+- **Por qué voces y no notificaciones:** con un sonido de WhatsApp, el público mira su propio móvil y se pierden los primeros segundos. Unas voces no se confunden con nada, y además **son el problema**: cada proveedor hablando de lo suyo.
+- Voces sintéticas generadas con ElevenLabs y mezcladas con ffmpeg (se declara en `docs/uso-ia.md`). Sin música comercial: no hay derechos de autor en juego.
+- **Plan B si falla el sonido:** los tres lo decís en directo, a la vez y subiendo el volumen, y el presentador corta con la mano levantada.
+- **Antes de empezar:** probar el volumen en la sala. Tiene que agobiar un poco, no molestar.
 
 ### Ensayo (30 minutos)
 
 1. **Dos lecturas en voz alta con cronómetro.** Si pasa de 3:05, recortar «Actúa».
 2. **Una con la demo de verdad**, con la persona que maneja la pantalla, para cuadrar cada cambio de pestaña con su frase.
 3. **Una grabándose con el móvil:** revisar muletillas («vale», «o sea», «eh») y si se respetan las pausas.
-4. **Una final de pie, sin mirar el guion.** Lo que hay que saberse literal: la primera frase, «Juntos son uno» y la última frase.
+4. **Una final de pie, sin mirar el guion.** Lo que hay que saberse literal: la primera frase tras el audio, «Juntos son uno» y la última frase.
 
 ## Bloque opcional (+2 minutos)
 
