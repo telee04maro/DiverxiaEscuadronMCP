@@ -118,7 +118,7 @@ def _sidebar() -> None:
     with st.sidebar:
         st.markdown("## Vigía")
         st.caption("Un equipo de expertos de IA para toda tu pyme, en un solo sitio.")
-        st.markdown("> **Cada proveedor ve su parte. Vigía ve la causa.**")
+        st.markdown("> **Vigía ve la causa.**")
         st.divider()
         st.markdown("**Modo de IA**")
         st.caption(model.mode)

@@ -10,3 +10,5 @@ headless = true
 
 [theme]
 primaryColor = "#0F766E"
+textColor = "#0F2E2B"
+font = "sans serif"  # Source Sans 3, the same typeface as the logo and the PDFs

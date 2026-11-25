@@ -42,7 +42,7 @@ El método es el que nos hizo ganar el Malackathon 2026: decidir con datos, cons
 **Un equipo de expertos de IA para toda tu pyme, en un solo sitio.**
 
 ### Tesis
-> **«Cada proveedor ve su parte. Vigía ve la causa.»** (candidata)
+> **«Cada proveedor ve su parte. Vigía ve la causa.»** Eslogan corto (menos de siete palabras, criterio del taller): **«Vigía ve la causa.»**
 
 La gestoría ve los impuestos, la agencia ve las redes y el Excel ve las cuentas. Nadie cruza la información, así que los problemas se detectan tarde. **Centralizar no aporta valor por sí solo; lo que aporta valor es cruzar la información.** El argumento estrella es el **agente coordinador**: encuentra causas que ningún proveedor ve por separado. Toda decisión de diseño, demo o pitch se contrasta con esta frase.
 

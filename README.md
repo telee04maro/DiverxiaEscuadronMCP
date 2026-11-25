@@ -4,7 +4,7 @@
 
 **Encuentra por qué una pyme pierde dinero o clientes, cruzando lo que ve cada área, y actúa**: reclama cobros, valida precios, propone el plan a 7, 30 y 90 días y, un mes después, **mide si funcionó**.
 
-> **Cada proveedor ve su parte. Vigía ve la causa.**
+> **Vigía ve la causa.** Cada proveedor ve su parte; Vigía cruza lo que ve cada uno.
 
 Proyecto del equipo EscuadronMCP para el hackathon **IA First** de Talent Land España (Málaga, 24–25/11/2026), reto **04 «La IA como servicio: agentes inteligentes que actúan»**.
 
