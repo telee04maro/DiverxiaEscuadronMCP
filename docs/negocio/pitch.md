@@ -111,6 +111,7 @@ Archivo: `docs/negocio/pitch-audio-gancho.mp3` (5,5 s; el volumen sube de −29 
 
 - **Uso responsable de la IA** (pestaña 6). «Las reglas calculan y la IA interpreta. Todo lo que escribe la IA se comprueba contra los datos: una cifra, una fecha, una cuenta bancaria o un enlace que no estén en ellos y el texto se descarta. Claude no ve los nombres de quien debe dinero. Cada decisión queda registrada y el coste se mide.»
 - **Una ficha única por cliente** (pestaña 8, ADR 007). «Si la pyme no tiene CRM, Vigía le da uno: cada experto aporta lo que sabe de cada cliente y se junta en una sola ficha. Y avisa: "te debe dinero y tiene una consulta sin contestar; contéstale antes de reclamarle".»
+- **Antes y después** (imagen de respaldo: [`recorrido-antes-despues.png`](recorrido-antes-despues.png)). El mismo recorrido del paciente que escribe fuera de horario, hoy y un mes después (simulado): respuesta de 12,0 h a minutos, consultas perdidas del 41 % al 21 % y quejas por espera del 86 % al 50 %. Coincide en el tiempo, no prueba la causa, y la imagen lo dice.
 - **Escala.** Añadir un especialista (marketing, legal, personas) es enchufar un módulo: el coordinador cruza sus hallazgos sin cambios y solo se añaden sus acciones al plan. Hay unos 1,36 millones de pymes con asalariados en España (Ministerio de Industria, *Cifras PYME*, mayo de 2026).
 
 ## Preguntas probables del jurado
