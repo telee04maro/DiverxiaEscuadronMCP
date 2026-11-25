@@ -103,6 +103,8 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 
 7. **Pitch emotivo** (rama `claude/plan-de-negocio`): el dueño en segunda persona («Abriste tu negocio para cuidar de la gente…»), los datos con cara humana («cuatro de cada diez pacientes… se van sin que nadie les conteste») y un bloque «Imagínate…» como segundo clímax antes de «Somos Vigía». 352 palabras (2:54 de media). El guion ya no dice el precio ni el canal de gestorías: en las preguntas del jurado van la venta directa y la propuesta de 690 € de alta y desde 199 € al mes, **pendientes de aprobar**.
 
+8. **Eslogan nuevo: «Vuelve a lo que importa.»** (5 palabras; la organización pide menos de siete). Ya está en el cierre del pitch, en el marketing y en el canvas. La idea «Cada proveedor ve su parte. Vigía ve la causa» queda como tesis interna. **Falta** cambiarlo en el logo, el lienzo, el README, el panel y el PDF del prototipo, al unificar la marca (un logo, dos colores y una tipografía en todo, como pide la organización antes de las 12:30).
+
 ## Última verificación
 Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.
 - 25/11 · `732066e` · **Cifras del pitch** con `uv run python -m vigia` y `analyze()` en modo reglas sobre `mes-0` y `mes-1`: caja 9 días, aseguradora a 95 días, oferta a 20 € hace 18 días, 86 % de quejas por espera, 59 % fuera de horario, 12,0 h, 41 % perdidas, contraoferta 20 € −21 % / 25 € −16 % / 30 € −10 %; un mes después (simulado): 2 de 3 facturas de Mutua Beta cobradas, 0,0 h de mediana, quejas por espera 50 %. Todas coinciden con el guion.

@@ -27,7 +27,7 @@ Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la soluc
 - Entra con sus Excel o con su ERP/CRM. **Hoja de ruta:** marketing, legal, RR. HH. y organización.
 
 ## Propuesta de valor
-**«Cada proveedor ve su parte. Vigía ve la causa.»** Todos los departamentos de tu pyme decidiendo juntos, con todo el contexto… y ejecutando.
+**«Vuelve a lo que importa.»** Cada proveedor ve su parte; Vigía ve la causa. Todos los departamentos de tu pyme decidiendo juntos, con todo el contexto… y ejecutando.
 - Te dice por qué pierdes dinero o clientes.
 - Plan priorizado y adaptado a cada pyme.
 - Actúa y comprueba el resultado: no es un informe que se queda en un cajón.

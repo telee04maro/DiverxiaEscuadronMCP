@@ -10,7 +10,8 @@ Archivo vectorial: [`logo.svg`](logo.svg). El nombre **Vigía** es provisional: 
 
 ## Eslogan
 
-- **Principal:** «Cada proveedor ve su parte. Vigía ve la causa.»
+- **Principal:** «Vuelve a lo que importa.» (5 palabras: lo que el dueño recupera cuando deja de perseguir facturas y de adivinar por qué pierde clientes).
+- **La idea que lo sostiene** (para explicar el producto, no como eslogan): «Cada proveedor ve su parte. Vigía ve la causa.»
 - **Descriptivo:** «Un equipo de expertos de IA para toda tu pyme, en un solo sitio.»
 - **Para gestorías:** «Ofrece a tus clientes un departamento completo sin contratar a nadie más.»
 
