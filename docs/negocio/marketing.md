@@ -44,6 +44,9 @@ Todo el mensaje se apoya en **casos medidos**, sin adjetivos:
 - **Transparencia sobre la IA:** qué decide una persona, qué hace solo el agente y cuánto cuesta. Es lo contrario de una «caja negra».
 
 ### Canales y calendario (piloto en Málaga, primeros 90 días)
+
+Es un **plan**: todavía no hay ningún acuerdo con gestorías ni con el Ayuntamiento.
+
 | Semana | Acción | Indicador |
 |---|---|---|
 | 1–4 | Piloto con **3 gestorías de Málaga** y 10 de sus clientes; caso de estudio de cada uno | Pymes activas, causas detectadas, € recuperados |

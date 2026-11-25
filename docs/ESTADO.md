@@ -119,7 +119,8 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
    - **pieza que enseña el producto:** `2-prototipo.pdf` con capturas nuevas de las 8 pestañas (modo reglas);
    - **diapositiva final de herramientas de IA:** `docs/entrega/6-herramientas-de-ia.png` y `.pdf`;
    - pestañas con nombres cortos para que quepan las 8.
-   **Pendiente:** el canvas y el lienzo siguen con el modelo de negocio anterior (gestorías y 99–399 €) hasta que se aprueben los precios del plan nuevo; comprobar el nombre «Vigía» con las cuatro pruebas del taller y en la OEPM.
+   **Hecho (25/11, integración en `main`):** el canvas, el lienzo y las respuestas del pitch usan ya los precios y el canal del plan de negocio (79, 149 y 249 € al mes, a través de gestorías con un 30 % recurrente), marcados como hipótesis que valida el piloto. La propuesta de «venta directa, 690 € + desde 199 €» no estaba documentada en ningún sitio y se ha quitado de las respuestas del pitch.
+   **Pendiente:** comprobar el nombre «Vigía» con las cuatro pruebas del taller y en la OEPM.
 
 ## Última verificación
 Formato: fecha y hora · SHA · comando o ID de ejecución · resultado.

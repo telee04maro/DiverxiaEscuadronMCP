@@ -78,9 +78,9 @@ Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la soluc
 - Captación de clientes y comisiones a las gestorías.
 
 ## Ingresos
-- Suscripción mensual por módulos y tamaño: **de 99 € a 399 € al mes** (hay que validarlo con pilotos).
+- Suscripción mensual en tres planes: **79 €, 149 € y 249 € al mes** (sin IVA), sin permanencia (hipótesis del plan de negocio: hay que validarla con el piloto).
 - Diagnóstico inicial gratis como gancho; el plan con ejecución es de pago.
-- Licencia en marca blanca para gestorías.
+- Licencia en marca blanca para gestorías; la gestoría que recomienda Vigía se lleva un 30 % recurrente.
 
 ---
 
