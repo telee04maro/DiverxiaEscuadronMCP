@@ -19,7 +19,7 @@ Cada uso de IA tiene detrás **una regla que lo verifica o lo sustituye**. Así 
 | Finanzas | Redacta la reclamación de cobro con el tono adecuado | `claude-opus-5-5` | El tono importa: no romper la relación con el cliente | **Deben aparecer cada factura, cada importe y el total, y ningún importe que no esté en los datos**; si no, se usa la plantilla. Todo correo se identifica como redactado por IA (Reglamento de IA, art. 50) | Plantillas por tono |
 | Atención y captación | Nada: mide tiempos de respuesta, consultas perdidas y sin responsable con reglas | — | Son cálculos sobre datos del ERP/CRM | Reglas deterministas | — |
 
-El **asistente de WhatsApp** (`whatsapp-hack/`, ADR 008; Hermes, componente previo del compañero, pendiente de que la organización lo acepte como tal) usa su propia IA para conversar. **Modelo de Hermes: pendiente de declarar** (lo configura su autor). Como en Vigía, su salida es un dato no confiable: el nombre y el correo solo se aceptan si el contacto los escribió, y una respuesta con correos, teléfonos o enlaces no se envía. Vigía solo recibe lo que registra en el ERP a través de su API, y lo valida (teléfono o correo obligatorio, longitudes, sin duplicar contactos).
+El **asistente de WhatsApp** (`whatsapp-hack/`, ADR 008; Hermes, componente previo del compañero, pendiente de que la organización lo acepte como tal) usa su propia IA para conversar. **Modelo de Hermes: pendiente de declarar** (lo configura su autor). Como en Pymbrain, su salida es un dato no confiable: el nombre y el correo solo se aceptan si el contacto los escribió, y una respuesta con correos, teléfonos o enlaces no se envía. Pymbrain solo recibe lo que registra en el ERP a través de su API, y lo valida (teléfono o correo obligatorio, longitudes, sin duplicar contactos).
 
 **Lo que la IA nunca hace:**
 - calcular dinero, plazos o márgenes;
@@ -35,7 +35,7 @@ Todo eso lo hacen reglas deterministas o una persona.
 
 **Datos personales al mínimo** (`domain/privacy.py`, detalle en [`datos-personales.md`](datos-personales.md)):
 - Las reseñas se guardan sin nombres, teléfonos, correos ni DNI, así que no llegan ni al panel ni a Claude.
-- Claude no ve el nombre de quien debe dinero: lee «Aseguradora 1», «Empresa 2»…, y Vigía pone el nombre real después, en local. Los correos se redactan con `[CLIENTE]` y el nombre se rellena aquí.
+- Claude no ve el nombre de quien debe dinero: lee «Aseguradora 1», «Empresa 2»…, y Pymbrain pone el nombre real después, en local. Los correos se redactan con `[CLIENTE]` y el nombre se rellena aquí.
 
 **Protección frente a instrucciones escondidas:** los anuncios, las reseñas y los correos son datos de terceros. El mensaje de sistema prohíbe obedecer instrucciones que vengan dentro de ellos, y todas las salidas pasan por un esquema (Pydantic, con salidas estructuradas de la API) y por las comprobaciones de la tabla.
 
@@ -53,7 +53,7 @@ Todo eso lo hacen reglas deterministas o una persona.
 | Para qué | Herramienta | Revisión humana |
 |---|---|---|
 | Analizar cómo ganamos el Malackathon y preparar el método (`CLAUDE.md`, plantillas) | Claude Code | El equipo eligió y corrigió el método |
-| Leer el reto y las bases, e investigar problemas reales con datos (España, Málaga, agentes en producción, fuentes de datos y sus condiciones) | Claude Code con búsqueda web y agentes de investigación en paralelo | El equipo descartó ideas y eligió la suya (Vigía) |
+| Leer el reto y las bases, e investigar problemas reales con datos (España, Málaga, agentes en producción, fuentes de datos y sus condiciones) | Claude Code con búsqueda web y agentes de investigación en paralelo | El equipo descartó ideas y eligió la suya (Pymbrain) |
 | Decisiones de arquitectura y stack (ADR 001–003) | Claude Code | Aprobadas por el equipo |
 | Programar el prototipo, los tests y la CI | Claude Code (Claude Opus 5.5) | Revisión del diff en cada commit; puertas de calidad (ruff, mypy estricto, pytest en Linux y Windows) |
 | Auditoría independiente («red team») del código | Agente de Claude separado, solo lectura | El equipo decide qué se corrige |
@@ -66,4 +66,4 @@ Todo eso lo hacen reglas deterministas o una persona.
 - **Modelos:** Claude Opus 5.5 y Claude Haiku 5.5 (Anthropic), a través del SDK oficial `anthropic` 2.12.0.
 - **Software:** Python 3.13, Streamlit 1.67, pandas 3.1, Pydantic 2.14 y python-dotenv. Fuente Inter (SIL OFL 1.1) para el logo (convertida a trazos), el panel y los documentos. En desarrollo: ruff, mypy y pytest. Versiones fijadas en `uv.lock`.
 - **Datos:** **todos sintéticos**, generados por `vigia.data.synthetic`. La clínica, las aseguradoras y los competidores son ficticios, y los correos usan el dominio reservado `.example`. Los datos de la competencia imitan el formato oficial de la Biblioteca de Anuncios de Meta y de los resultados de búsqueda (`docs/fuentes.md`).
-- **Componentes previos:** la plantilla de normas del equipo (`CLAUDE.md`), adaptada de nuestro proyecto del Malackathon 2026. El código de Vigía se ha escrito durante el hackathon.
+- **Componentes previos:** la plantilla de normas del equipo (`CLAUDE.md`), adaptada de nuestro proyecto del Malackathon 2026. El código de Pymbrain se ha escrito durante el hackathon.

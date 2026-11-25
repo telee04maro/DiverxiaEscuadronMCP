@@ -1,10 +1,10 @@
 # Tratamiento de datos personales
 
-Las bases del hackathon prohíben introducir datos personales, secretos empresariales o información confidencial sin autorización. **La demo es una clínica ficticia con datos sintéticos.** Este documento explica qué datos personales podría tratar Vigía con una empresa real, dónde quedan, qué llega a Claude y cómo se borran. Lo auditó el red team en su tercera ronda (R3); cada punto tiene su test en `tests/test_red_team_r3.py`.
+Las bases del hackathon prohíben introducir datos personales, secretos empresariales o información confidencial sin autorización. **La demo es una clínica ficticia con datos sintéticos.** Este documento explica qué datos personales podría tratar Pymbrain con una empresa real, dónde quedan, qué llega a Claude y cómo se borran. Lo auditó el red team en su tercera ronda (R3); cada punto tiene su test en `tests/test_red_team_r3.py`.
 
 ## Qué datos entran
 
-| Dato | De dónde | ¿Hace falta? | Qué hace Vigía |
+| Dato | De dónde | ¿Hace falta? | Qué hace Pymbrain |
 |---|---|---|---|
 | Nombre y correo de cobro de los clientes que facturan | Plantilla de facturas | El correo, solo para reclamar | Para un **particular** basta un identificador («Particular 12»). Sin correo válido no se reclama: sale como dato que falta |
 | Texto de las reseñas | Plantilla de reseñas | El texto sí, el autor no | Se guarda **sin nombres, teléfonos, correos ni DNI**, de nadie (`domain/privacy.py`) |
@@ -42,5 +42,5 @@ Nada de esto incluye los mensajes del WhatsApp ni los datos de contacto del ERP.
 ## Límites conocidos
 
 - La detección de nombres en las reseñas es heurística: quita nombres completos («Juan Pérez») y nombres tras pistas como «me atendió Laura». Un nombre suelto sin pista puede pasar.
-- BALTER real: su API devuelve nombres al buscar contactos, así que Vigía no la usa para eso (ADR 006).
+- BALTER real: su API devuelve nombres al buscar contactos, así que Pymbrain no la usa para eso (ADR 006).
 - Para un uso en producción harían falta el registro de actividades de tratamiento, el contrato de encargado con cada cliente y una evaluación de impacto si hubiera datos de salud. Queda en la hoja de ruta.

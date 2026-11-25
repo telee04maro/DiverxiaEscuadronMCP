@@ -1,4 +1,4 @@
-# Entregable 4 · Guion del pitch: Vigía
+# Entregable 4 · Guion del pitch: Pymbrain
 
 **Duración:** **borrador pendiente de aprobar** (bloque central): 5,5 s de audio, 384 palabras y unos 29 s de pausas; 2:58 a ritmo vivo y 3:08 a ritmo tranquilo.
 **Un único presentador**, de pie y sin papel, y otra persona manejando la demo o las diapositivas.
@@ -6,11 +6,11 @@
 
 ## El arco en una línea
 
-**El ruido de proveedores que dicen «lo mío va bien» → la vida real del dueño (abrió su negocio para cuidar de la gente y acaba las noches entre facturas) → un dato real: no es un caso aislado → tres expertos, tres pistas → «Juntos son uno» (¡ajá!) → actúa y comprueba → «Imagínate…» → «Somos Vigía» → «Vuelve a lo que importa».**
+**El ruido de proveedores que dicen «lo mío va bien» → la vida real del dueño (abrió su negocio para cuidar de la gente y acaba las noches entre facturas) → un dato real: no es un caso aislado → tres expertos, tres pistas → «Juntos son uno» (¡ajá!) → actúa y comprueba → «Imagínate…» → «Somos pymbrain» → «IA que impulsa tu pyme».**
 
 **El pitch tiene dos momentos de emoción:** «Juntos son uno», que es la sorpresa, y «Imagínate…», que es el deseo. Entre los dos van los datos, y cada dato se cuenta con cara humana: no «41 % de consultas perdidas», sino «cuatro de cada diez pacientes que escriben buscando cita… se van sin respuesta».
 
-**El nombre se guarda para el final.** Durante el pitch se habla de «nuestro equipo de expertos» y de «nosotros»; «Vigía» se dice por primera vez en el cierre, a la vez que aparece el logo. (El panel de la demo lleva el logo en una esquina: no pasa nada, pero el presentador no lo nombra.)
+**El nombre se guarda para el final.** Durante el pitch se habla de «nuestro equipo de expertos» y de «nosotros»; «Pymbrain» se dice por primera vez en el cierre, a la vez que aparece el logo. (El panel de la demo lleva el logo en una esquina: no pasa nada, pero el presentador no lo nombra.)
 
 ## Guion
 
@@ -23,7 +23,7 @@ Las **negritas** se remarcan con la voz. ‖ = pausa de un segundo; ‖‖ = pau
 | **1:15–1:45 · La causa** *(primer clímax: la sorpresa)* | «Cada experto ve una parte. ‖ Nuestro coordinador **las junta**… ‖‖ y aparece la causa. **No es la temporada**: el año pasado no bajó. Los pacientes se van **porque al lado es más barato y atienden antes.** Y con nueve días de caja, bajar precios **hundiría la clínica.** ‖‖ Eso no lo ve nadie por separado. **Lo vemos nosotros.**» | Pausa larga en «las junta…» y juntar las manos. Señalar la pantalla en «Lo vemos nosotros» | Pestaña 3: la causa cruzada y «es la temporada» descartado |
 | **1:45–2:15 · Plan, actúa y comprueba** | «Y hace un **plan por orden de urgencia.** **Esta semana,** reclamar lo que le deben y contestar todos los mensajes. **Este mes,** una oferta a 30 €, porque **a 20 € cada primera sesión da pérdidas.** Lo importante, siempre con **el visto bueno de la dueña.** ‖ Y un mes después **comprueba si ha funcionado**: en la simulación, dos de tres facturas ya cobradas, comprobado con el banco.» | Seguro y concreto. Contar el orden con la mano: «esta semana… este mes…». Gesto de «alto» en «dice que no» | Pestaña 3 (plan a 7, 30 y 90 días) y pestañas 4 y 5 |
 | **2:15–2:40 · Imagínate** *(segundo clímax: el deseo)* | «Ahora, **imagínate.** ‖ Imagínate empezar el lunes **sabiendo por qué pierdes clientes.** ‖ Imagínate **dejar de perseguir facturas.** ‖ Imagínate tenerlo todo en un solo sitio… ‖ y volver a lo que te hizo abrir tu negocio: ‖‖ **dar a tus clientes la atención que se merecen.**» | **Cambio total de tono:** más lento, más cálido y más bajo. Una frase por respiración, dando un paso hacia el público en cada «imagínate». La última frase, casi en voz baja | Pantalla limpia: la misma mesa de antes, ordenada, y una persona atendiendo a un paciente |
-| **2:40–3:00 · Cierre** | «‖‖ **Somos Vigía.** ‖ Tu equipo de expertos de IA. ‖‖ **Vuelve a lo que importa.**» | Volver a subir la voz en «Somos Vigía». **Es la primera vez que se dice el nombre**, con el logo apareciendo en ese momento. «Vuelve a lo que importa», despacio, palabra a palabra, mirando al público, y quedarse quieto dos segundos antes de «gracias» | **El logo aparece justo en «Somos Vigía»**, con el eslogan |
+| **2:40–3:00 · Cierre** | «‖‖ **Somos pymbrain.** ‖ Tu equipo de expertos de IA. ‖‖ **IA que impulsa tu pyme.**» | Volver a subir la voz en «Somos pymbrain». **Es la primera vez que se dice el nombre**, con el logo apareciendo en ese momento. «IA que impulsa tu pyme», despacio, palabra a palabra, mirando al público, y quedarse quieto dos segundos antes de «gracias» | **El logo aparece justo en «Somos pymbrain»**, con el eslogan |
 
 ### Texto corrido para ensayar
 
@@ -39,7 +39,7 @@ El mismo guion, sin tablas, para leerlo en voz alta o en el móvil.
 
 **Imagínate (segundo clímax: el deseo).** «Ahora, **imagínate.** ‖ Imagínate empezar el lunes **sabiendo por qué pierdes clientes.** ‖ Imagínate **dejar de perseguir facturas.** ‖ Imagínate tenerlo todo en un solo sitio… ‖ y volver a lo que te hizo abrir tu negocio: ‖‖ **dar a tus clientes la atención que se merecen.**»
 
-**Cierre.** «‖‖ **Somos Vigía.** ‖ Tu equipo de expertos de IA. ‖‖ **Vuelve a lo que importa.**»
+**Cierre.** «‖‖ **Somos pymbrain.** ‖ Tu equipo de expertos de IA. ‖‖ **IA que impulsa tu pyme.**»
 
 ### Las cifras y de dónde salen (verificadas el 25/11/2026)
 
@@ -55,7 +55,7 @@ Hay **dos tipos de cifras** y no se pueden mezclar:
 
 Si el jurado pregunta, se puede citar también, del mismo informe del INE, que solo el **33,9 %** usa un programa de gestión de clientes (CRM) y el **33,6 %**, inteligencia artificial.
 
-**2. Resultados de la demo.** Los calcula Vigía sobre una clínica **inventada** con datos sintéticos escritos por el equipo. **No son estadísticas del mercado** y no se basan en ningún estudio: demuestran que el producto funciona, no cómo son las pymes. Por eso el pitch dice en voz alta que la clínica es inventada. Comprobados con el código de `main` en modo reglas (`uv run python -m vigia`):
+**2. Resultados de la demo.** Los calcula Pymbrain sobre una clínica **inventada** con datos sintéticos escritos por el equipo. **No son estadísticas del mercado** y no se basan en ningún estudio: demuestran que el producto funciona, no cómo son las pymes. Por eso el pitch dice en voz alta que la clínica es inventada. Comprobados con el código de `main` en modo reglas (`uv run python -m vigia`):
 
 | Cifra | Dato de la demo |
 |---|---|
@@ -69,7 +69,7 @@ Si el jurado pregunta, se puede citar también, del mismo informe del INE, que s
 
 **3. Del negocio:** el guion ya no dice el precio. Los precios y el canal del plan de negocio (`plan-de-negocio.md`) son **hipótesis** que se validan con el piloto; el coste de la IA (0,04 $ por análisis) está **medido** por el equipo con Claude real (`docs/uso-ia.md`).
 
-**Lo que no se dice:** que Vigía haya «demostrado» una mejora (solo coincide en el tiempo, salvo los cobros); que la clínica sea real; ninguna cifra de mercado que no esté en la primera tabla.
+**Lo que no se dice:** que Pymbrain haya «demostrado» una mejora (solo coincide en el tiempo, salvo los cobros); que la clínica sea real; ninguna cifra de mercado que no esté en la primera tabla.
 
 ## Cómo defenderlo en el escenario
 
@@ -77,7 +77,7 @@ Si el jurado pregunta, se puede citar también, del mismo informe del INE, que s
 - **Cuatro de cada diez es una cifra triste: dila como tal.** Frena y baja la voz; no la recites como un dato más.
 - **En «Imagínate», un paso adelante por frase.** El cuerpo acompaña el cambio de tono: de los datos a las personas.
 - **Los primeros segundos deciden la atención:** nada de «Hola, somos el equipo…». Se empieza con el audio, sin presentarse. Si falla el sonido, los tres lo hacéis en directo con la voz (plan B, más abajo).
-- **Mira a personas, no a la pantalla.** La pantalla la maneja tu compañero; tú solo la señalas en «Lo ve Vigía».
+- **Mira a personas, no a la pantalla.** La pantalla la maneja tu compañero; tú solo la señalas en «Lo ve Pymbrain».
 - **Tres golpes en los expertos:** misma estructura y mismo ritmo para finanzas, competencia y atención. El público espera el tercero y lo recuerda.
 - **La pausa antes de «Juntos son uno»** es el momento del pitch. No tengas prisa: dos segundos de silencio.
 - **Energía en curva:** cercano al principio, rápido en los expertos, máximo en la causa, seguro en «actúa», sereno en «comprueba» (credibilidad) y arriba en el cierre.
@@ -110,7 +110,7 @@ Archivo: `docs/negocio/pitch-audio-gancho.mp3` (5,5 s; el volumen sube de −29 
 ## Bloque opcional (+2 minutos)
 
 - **Uso responsable de la IA** (pestaña 6). «Las reglas calculan y la IA interpreta. Todo lo que escribe la IA se comprueba contra los datos: una cifra, una fecha, una cuenta bancaria o un enlace que no estén en ellos y el texto se descarta. Claude no ve los nombres de quien debe dinero. Cada decisión queda registrada y el coste se mide.»
-- **Una ficha única por cliente** (pestaña 8, ADR 007). «Si la pyme no tiene CRM, Vigía le da uno: cada experto aporta lo que sabe de cada cliente y se junta en una sola ficha. Y avisa: "te debe dinero y tiene una consulta sin contestar; contéstale antes de reclamarle".»
+- **Una ficha única por cliente** (pestaña 8, ADR 007). «Si la pyme no tiene CRM, Pymbrain le da uno: cada experto aporta lo que sabe de cada cliente y se junta en una sola ficha. Y avisa: "te debe dinero y tiene una consulta sin contestar; contéstale antes de reclamarle".»
 - **Antes y después** (imagen de respaldo: [`recorrido-antes-despues.png`](recorrido-antes-despues.png)). El mismo recorrido del paciente que escribe fuera de horario, hoy y un mes después (simulado): respuesta de 12,0 h a minutos, consultas perdidas del 41 % al 21 % y quejas por espera del 86 % al 50 %. Coincide en el tiempo, no prueba la causa, y la imagen lo dice.
 - **Escala.** Añadir un especialista (marketing, legal, personas) es enchufar un módulo: el coordinador cruza sus hallazgos sin cambios y solo se añaden sus acciones al plan. Hay unos 1,36 millones de pymes con asalariados en España (Ministerio de Industria, *Cifras PYME*, mayo de 2026).
 
@@ -118,12 +118,12 @@ Archivo: `docs/negocio/pitch-audio-gancho.mp3` (5,5 s; el volumen sube de −29 
 
 | Pregunta | Respuesta corta |
 |---|---|
-| ¿En qué se diferencia de ChatGPT? | Está conectado a los datos de la empresa, cada agente tiene sus fuentes, actúa (envía, reclama, propone) y **mide si funcionó**. ChatGPT te responde; Vigía te dice la causa y cierra el ciclo |
-| ¿En qué se diferencia de una auditoría o una consultoría? | Una auditoría te deja un informe con lo que falla. Vigía **lo ejecuta y lo comprueba**: reclama el cobro, propone la contraoferta solo si finanzas confirma el margen y, un mes después, mide si el indicador se movió. Si no se movió, lo dice y reordena el plan |
+| ¿En qué se diferencia de ChatGPT? | Está conectado a los datos de la empresa, cada agente tiene sus fuentes, actúa (envía, reclama, propone) y **mide si funcionó**. ChatGPT te responde; Pymbrain te dice la causa y cierra el ciclo |
+| ¿En qué se diferencia de una auditoría o una consultoría? | Una auditoría te deja un informe con lo que falla. Pymbrain **lo ejecuta y lo comprueba**: reclama el cobro, propone la contraoferta solo si finanzas confirma el margen y, un mes después, mide si el indicador se movió. Si no se movió, lo dice y reordena el plan |
 | ¿Y si se equivoca en algo legal o de dinero? | Autonomía por niveles: solo actúa sin preguntar en lo reversible. Lo serio lo aprueba una persona o lo revisa un experto. Las cifras de dinero las calculan reglas, no la IA |
 | ¿Cómo conseguiréis clientes? | **A través de las gestorías y asesorías**, que ya tienen la confianza de las pymes y se llevan un 30 % recurrente; además, venta directa con el diagnóstico gratuito como gancho y un piloto patrocinado por el Ayuntamiento o Promálaga. Es el plan de negocio (`plan-de-negocio.md`); aún no hay ningún acuerdo firmado |
 | ¿Por qué os daría una pyme acceso a su banco? | No se lo pedimos el primer día. El diagnóstico gratis (modelo de negocio; no está en el prototipo) sale de lo público y de un cuestionario corto sobre cómo trabaja, sin datos de sus clientes. El banco y el ERP se conectan cuando ya ha visto una causa con evidencia |
-| ¿Y si la pyme no tiene CRM? | Vigía construye **una ficha única por cliente** con lo que sabe cada experto, sin duplicados (pestaña 8, ADR 007). No sustituye a un CRM completo: lo que aporta es el cruce |
+| ¿Y si la pyme no tiene CRM? | Pymbrain construye **una ficha única por cliente** con lo que sabe cada experto, sin duplicados (pestaña 8, ADR 007). No sustituye a un CRM completo: lo que aporta es el cruce |
 | ¿Los datos de la demo son reales? | La clínica es **ficticia**: las bases prohíben datos personales. Los datos de la competencia son instantáneas con el formato exacto de las APIs oficiales (Meta Ad Library, Search Console, Places). Lo hemos verificado en `docs/fuentes.md` |
 | ¿Cuánto cuesta para la pyme? | Tres planes: **79 €, 149 € y 249 € al mes**, sin permanencia; el diagnóstico inicial es gratis. Es una **hipótesis** del plan de negocio que validaremos con el piloto |
 | ¿Cuánto cuesta la IA? | **Medido:** 0,04 $ por análisis y 0,07 $ con los correos de reclamación; unos 0,30 $ por empresa y mes con un análisis semanal, frente a una mensualidad de cientos de euros. El panel mide cada llamada y hay un tope por ejecución. Sin clave de IA, el producto funciona igual con reglas |
@@ -131,4 +131,4 @@ Archivo: `docs/negocio/pitch-audio-gancho.mp3` (5,5 s; el volumen sube de −29 
 | ¿La re-medición prueba que la acción causó la mejora? | No, y lo decimos: indica que **coincide en el tiempo**. Lo que sí se comprueba son los cobros, contra el extracto del banco |
 | ¿Cómo sabéis que la IA no se inventa cifras? | Cada cifra que escribe (importes, porcentajes, días) se busca en los datos con su unidad; una cuenta bancaria, un enlace, un teléfono o un plazo que no estén en los datos descartan el texto y se usa una plantilla. Con Claude real: 3 causas y 2 correos aceptados, 0 descartados. Hay tests con textos inventados que lo demuestran |
 | ¿Qué hacéis con los datos personales? | Lo mínimo: las reseñas se guardan sin nombres, teléfonos ni correos; Claude lee «Aseguradora 1» en vez del nombre de quien debe dinero; «Borrar todos los datos» los borra también del disco. Detalle en `docs/datos-personales.md` |
-| Vuestra ventaja son «los datos acumulados», pero el RGPD permite llevárselos | Los datos son del cliente y se los puede llevar. Lo que se queda en Vigía es **el aprendizaje de qué funciona** en cada tipo de pyme, y la red de gestorías |
+| Vuestra ventaja son «los datos acumulados», pero el RGPD permite llevárselos | Los datos son del cliente y se los puede llevar. Lo que se queda en Pymbrain es **el aprendizaje de qué funciona** en cada tipo de pyme, y la red de gestorías |

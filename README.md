@@ -1,12 +1,12 @@
-<p align="center"><img src="docs/negocio/logo.svg" alt="Vigía" width="520"></p>
+<p align="center"><img src="docs/negocio/logo.svg" alt="Pymbrain" width="520"></p>
 
-# Vigía — un equipo de agentes de IA para toda tu pyme
+# Pymbrain — un equipo de agentes de IA para toda tu pyme
 
 **Encuentra por qué una pyme pierde dinero o clientes, cruzando lo que ve cada área, y actúa**: reclama cobros, valida precios, propone el plan a 7, 30 y 90 días y, un mes después, **mide si funcionó**.
 
-> **Vuelve a lo que importa.**
+> **IA que impulsa tu pyme.**
 >
-> Cada proveedor ve su parte; Vigía ve la causa.
+> Cada proveedor ve su parte; Pymbrain ve la causa.
 
 Proyecto del equipo EscuadronMCP para el hackathon **IA First** de Talent Land España (Málaga, 24–25/11/2026), reto **04 «La IA como servicio: agentes inteligentes que actúan»**.
 
@@ -18,7 +18,7 @@ Proyecto del equipo EscuadronMCP para el hackathon **IA First** de Talent Land E
 
 ### Requisitos
 - [**uv**](https://docs.astral.sh/uv/getting-started/installation/), que instala por sí solo Python 3.13 y las dependencias exactas.
-- Opcional: una clave de Anthropic. **Sin clave, Vigía funciona igual en modo reglas** (misma demo, reproducible).
+- Opcional: una clave de Anthropic. **Sin clave, Pymbrain funciona igual en modo reglas** (misma demo, reproducible).
 
 ### Instalación (una vez)
 
@@ -112,7 +112,7 @@ Los correos se identifican como escritos por IA, nunca se envían dos veces y en
 ### 🧩 Se adapta a cada empresa
 - **«Tu empresa»:** entrevista inicial y Excel/CSV con plantillas en español (facturas, banco, ventas, consultas, reseñas, competidores). Cada fila se valida; los errores salen como avisos con su número de fila.
 - **ERP/CRM:** mediante el contrato `CrmConnector`. El ERP de demo tiene la forma de BALTER y una API con token para el asistente de WhatsApp ([contrato](docs/integracion-whatsapp-erp.md)).
-- **Asistente de WhatsApp** (`whatsapp-hack/`, [ADR 008](docs/decisiones/008-asistente-whatsapp-en-balter.md)): Zernio → Hermes → ERP de demo de Vigía. Una consulta por conversación, sin duplicados; el agente de atención y captación la mide. BALTER, solo con permiso por escrito.
+- **Asistente de WhatsApp** (`whatsapp-hack/`, [ADR 008](docs/decisiones/008-asistente-whatsapp-en-balter.md)): Zernio → Hermes → ERP de demo de Pymbrain. Una consulta por conversación, sin duplicados; el agente de atención y captación la mide. BALTER, solo con permiso por escrito.
 - **BALTER real:** su API v1 no permite leer oportunidades, así que hoy entran por exportación a «Tu empresa». La clave se probó en solo lectura (HTTP 200) sin tocar datos personales ([ADR 006](docs/decisiones/006-api-balter.md)).
 - **Un especialista nuevo** se añade implementando `Specialist` y registrándolo en `pipeline.default_specialists()`, sin tocar el coordinador.
 
@@ -191,12 +191,12 @@ La CI (`.github/workflows/ci.yml`) los ejecuta en cada push, en Linux y en Windo
 
 ### Decisiones de arquitectura
 - [001 · Idea inicial](docs/decisiones/001-idea-y-enfoque.md) (sustituida)
-- [002 · Vigía: especialistas y coordinador](docs/decisiones/002-vigia-equipo-de-agentes.md)
+- [002 · Pymbrain: especialistas y coordinador](docs/decisiones/002-vigia-equipo-de-agentes.md)
 - [003 · Stack del prototipo](docs/decisiones/003-stack-del-prototipo.md)
-- [004 · Cambio de nombre a Vigía](docs/decisiones/004-nombre-vigia.md)
+- [004 · Cambio de nombre a Pymbrain](docs/decisiones/004-nombre-vigia.md)
 - [005 · Conectores ERP/CRM, atención y captación, y entrada de datos](docs/decisiones/005-conectores-y-captacion.md)
 - [006 · Qué permite la API de BALTER](docs/decisiones/006-api-balter.md)
-- [007 · CRM de Vigía: ficha única de cliente](docs/decisiones/007-ficha-unica-de-cliente.md)
+- [007 · CRM de Pymbrain: ficha única de cliente](docs/decisiones/007-ficha-unica-de-cliente.md)
 
 ### Estructura
 

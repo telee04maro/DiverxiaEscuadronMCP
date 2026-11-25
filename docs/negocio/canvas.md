@@ -1,8 +1,8 @@
-# Entregable 1 · Lienzo del reto: Vigía (versión 1)
+# Entregable 1 · Lienzo del reto: Pymbrain (versión 1)
 
 Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la solución validada con IA»). Une la propuesta del equipo con lo construido en el prototipo. Frases cortas para que quepan a mano.
 
-- **Equipo:** EscuadronMCP · **Proyecto:** Vigía (nombre provisional)
+- **Equipo:** EscuadronMCP · **Proyecto:** Pymbrain (nombre provisional)
 - **Reto:** 04 – La IA como servicio
 - **Fecha:** 24/11/2026
 
@@ -27,7 +27,7 @@ Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la soluc
 - Entra con sus Excel o con su ERP/CRM. **Hoja de ruta:** marketing, legal, RR. HH. y organización.
 
 ## Propuesta de valor
-**«Vuelve a lo que importa.»** Cada proveedor ve su parte; Vigía ve la causa. Todos los departamentos de tu pyme decidiendo juntos, con todo el contexto… y ejecutando.
+**«IA que impulsa tu pyme.»** Cada proveedor ve su parte; Pymbrain ve la causa. Todos los departamentos de tu pyme decidiendo juntos, con todo el contexto… y ejecutando.
 - Te dice por qué pierdes dinero o clientes.
 - Plan priorizado y adaptado a cada pyme.
 - Actúa y comprueba el resultado: no es un informe que se queda en un cajón.
@@ -80,7 +80,7 @@ Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la soluc
 ## Ingresos
 - Suscripción mensual en tres planes: **79 €, 149 € y 249 € al mes** (sin IVA), sin permanencia (hipótesis del plan de negocio: hay que validarla con el piloto).
 - Diagnóstico inicial gratis como gancho; el plan con ejecución es de pago.
-- Licencia en marca blanca para gestorías; la gestoría que recomienda Vigía se lleva un 30 % recurrente.
+- Licencia en marca blanca para gestorías; la gestoría que recomienda Pymbrain se lleva un 30 % recurrente.
 
 ---
 

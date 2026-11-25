@@ -19,4 +19,4 @@ git archive --format=zip --prefix=Vigia/ -o ..\vigia-prototipo-codigo.zip origin
 
 `2-prototipo.pdf` se genera desde `docs/negocio/prototipo.html` con las capturas de `capturas/` (panel con la marca nueva, en modo reglas). El resto se genera desde `docs/negocio/*.md`, `docs/uso-ia.md` y `docs/negocio/lienzo.html`. Si se cambia el texto, hay que volver a exportarlos.
 
-**Marca:** un logo («Atalaya», `docs/negocio/logo*.svg`), dos colores (azul petróleo `#1D5C7A` y terracota `#D9824E`) y una tipografía (Inter) en todo, como pide la organización. Eslogan: «Vuelve a lo que importa.»
+**Marca:** pymbrain (ADR 009). Logo de la guía G6 del equipo (`docs/negocio/pymbrain/`), colores índigo `#4F46E5` y noche `#0F172A`, Space Grotesk en el logo e Inter en los textos. Eslogan: «IA que impulsa tu pyme.»

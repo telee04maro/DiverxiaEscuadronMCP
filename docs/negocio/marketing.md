@@ -2,29 +2,27 @@
 
 ## Logo
 
-![Logo de Vigía](logo.svg)
+![Logo de pymbrain](pymbrain/logo.png)
 
-**Vigía** es quien mira desde la atalaya y avisa antes que nadie. El símbolo es una **V firme** (solidez y confianza), con una V interior más clara (lo que ve cada área por separado) y un **punto terracota en lo alto**: el vigía que ve la causa. En el nombre, la tilde de la «í» es ese mismo punto terracota. La figura recuerda también a una persona con los brazos abiertos: cercanía.
+**pymbrain** une *pyme* y *brain*: el cerebro de la pyme, que junta lo que ve cada área. El símbolo es una **línea que sube entre tres nodos hasta una flecha**: los datos de cada área, conectados, empujando el negocio hacia arriba. En el nombre, «pym» va en noche y «brain» en índigo.
 
-### Paleta
+### Colores y tipografía (guía de marca G6 del equipo)
 
 | Color | Uso | Hex |
 |---|---|---|
-| Azul petróleo | Principal: confianza y profesionalidad (botones, símbolo) | `#1D5C7A` |
-| Terracota | Acento: cercanía y un guiño mediterráneo. **Solo en formas, nunca como texto sobre blanco** (contraste 2,9) | `#D9824E` |
-| Tinta | Texto | `#1B2B34` |
-| Arena | Fondos suaves | `#FAF7F2` |
+| Índigo | Principal: el icono, «brain» y los botones | `#4F46E5` |
+| Noche | Texto y fondos oscuros | `#0F172A` |
+| Lavanda | «brain» sobre fondo oscuro | `#8B9BFF` |
+| Niebla | Fondos suaves | `#F4F5FA` |
 
-Contraste comprobado (WCAG): blanco sobre azul petróleo, 7,3; tinta sobre arena, 13,6.
+**Tipografía:** Space Grotesk en el logo y los titulares; Inter en los textos y la interfaz (las dos con licencia SIL OFL 1.1).
 
-**Versiones:** [`logo.svg`](logo.svg) (horizontal, con eslogan), [`logo-simple.svg`](logo-simple.svg) (sin eslogan, para espacios pequeños), [`logo-vertical.svg`](logo-vertical.svg), [`logo-oscuro.svg`](logo-oscuro.svg) (fondo oscuro) e iconos [`icono.svg`](icono.svg) y [`icono-oscuro.svg`](icono-oscuro.svg). El texto está convertido a trazos con la fuente Inter (licencia SIL OFL 1.1): se ve igual en cualquier equipo.
-
-Archivo vectorial: [`logo.svg`](logo.svg). El nombre **Vigía** es provisional: antes de usarlo comercialmente hay que comprobar la marca en la OEPM y la EUIPO.
+**Versiones** (en [`pymbrain/`](pymbrain/)): `logo.png` (horizontal, con el lema), `logo-simple.png` (sin lema), `logo-grande.png` (alta resolución) e `icono.png` (app y redes). Según la guía, en tamaño favicon se quitan los nodos y se engrosa la flecha para que se siga leyendo. El nombre es provisional: antes de usarlo comercialmente hay que comprobar la marca en la OEPM y la EUIPO.
 
 ## Eslogan
 
-- **Principal:** «Vuelve a lo que importa.» (5 palabras: lo que el dueño recupera cuando deja de perseguir facturas y de adivinar por qué pierde clientes).
-- **La idea que lo sostiene** (para explicar el producto, no como eslogan): «Cada proveedor ve su parte. Vigía ve la causa.»
+- **Principal:** «IA que impulsa tu pyme.» (5 palabras: lo que hace el producto, dicho como lo diría el dueño de una pyme). Va con el logo.
+- **La idea que lo sostiene** (para explicar el producto, no como eslogan): «Cada proveedor ve su parte. Pymbrain ve la causa.»
 - **Descriptivo:** «Un equipo de expertos de IA para toda tu pyme, en un solo sitio.»
 - **Para gestorías:** «Ofrece a tus clientes un departamento completo sin contratar a nadie más.»
 
@@ -33,7 +31,7 @@ Archivo vectorial: [`logo.svg`](logo.svg). El nombre **Vigía** es provisional: 
 ### A quién le hablamos y qué le decimos
 | Público | Su problema | Mensaje |
 |---|---|---|
-| **Dueño de pyme** (5–50 empleados) | Es el único que tiene la visión global y siempre llega tarde | «Deja de ser tú quien une los puntos. Vigía te dice la causa y lo que hay que hacer esta semana.» |
+| **Dueño de pyme** (5–50 empleados) | Es el único que tiene la visión global y siempre llega tarde | «Deja de ser tú quien une los puntos. Pymbrain te dice la causa y lo que hay que hacer esta semana.» |
 | **Gestorías y asesorías** (canal) | Clientes que piden más que impuestos, márgenes bajos y falta de relevo | «Pasa de presentar impuestos a asesorar el negocio entero, con tu marca y con supervisión tuya.» |
 | **Asociaciones y cámaras** | Quieren servicios que ayuden de verdad a sus socios | «Un piloto que mide resultados en euros, no en informes.» |
 

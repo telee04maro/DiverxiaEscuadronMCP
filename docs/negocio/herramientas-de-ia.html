@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>pymbrain · Herramientas de IA</title>
+<style>
+  @font-face { font-family: Inter; src: url("../../src/vigia/static/Inter-Regular.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: Inter; src: url("../../src/vigia/static/Inter-SemiBold.woff2") format("woff2"); font-weight: 600; }
+  @font-face { font-family: Inter; src: url("../../src/vigia/static/Inter-Bold.woff2") format("woff2"); font-weight: 700; }
+  @page { size: 1600px 900px; margin: 0; }
+  :root { --indigo: #4F46E5; --night: #0F172A; --lavender: #8B9BFF; --mist: #F4F5FA; --muted: #55607A; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { width: 1600px; height: 900px; background: var(--mist); color: var(--night); font-family: Inter, Arial, sans-serif;
+         padding: 40px 72px 36px; display: flex; flex-direction: column; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 18px; border-bottom: 3px solid var(--indigo); }
+  header img { height: 52px; }
+  header span { font-size: 21px; color: var(--muted); }
+  h1 { font-size: 44px; font-weight: 700; margin: 24px 0 4px; letter-spacing: -0.5px; }
+  .sub { font-size: 21px; color: var(--muted); margin: 0 0 22px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; min-height: 0; }
+  .card { background: #FFFFFF; border-radius: 18px; padding: 20px 28px; border-left: 8px solid var(--indigo); }
+  .card.alt { border-left-color: var(--lavender); }
+  .card h2 { font-size: 25px; margin: 0 0 10px; color: var(--indigo); }
+  .card.alt h2 { color: var(--night); }
+  .card ul { margin: 0; padding-left: 24px; }
+  .card li { font-size: 19.5px; line-height: 1.4; margin-bottom: 6px; }
+  footer { font-size: 16px; color: var(--muted); margin-top: 16px; }
+</style>
+</head>
+<body>
+<header><img src="pymbrain/logo-simple.png" alt="pymbrain"><span>Hackathon IA First · Reto 04 · EscuadronMCP</span></header>
+<h1>Herramientas de IA que hemos usado</h1>
+<p class="sub">Lo declaramos como piden las bases (cláusulas 9 y 12). Todo lo que escribe la IA en el producto se comprueba contra los datos.</p>
+<div class="grid">
+  <div class="card"><h2>En el producto (pymbrain)</h2><ul>
+    <li><b>Claude Opus 5.5</b> (Anthropic): cruza lo que ven los expertos, explica la causa y redacta las reclamaciones</li>
+    <li><b>Claude Haiku 5.5</b> (Anthropic): lee los anuncios de la competencia y clasifica las reseñas</li>
+    <li>Sin clave de IA funciona igual, con reglas. Las cifras de dinero las calculan reglas, nunca la IA</li></ul></div>
+  <div class="card alt"><h2>Para construirlo</h2><ul>
+    <li><b>Claude Code</b> (Claude Opus 5.5): código, tests, auditorías de seguridad, documentos, plan de negocio y búsqueda de fuentes</li>
+    <li>Siempre con revisión humana: el equipo decide y aprueba cada cambio</li></ul></div>
+  <div class="card alt"><h2>Para el pitch</h2><ul>
+    <li><b>ElevenLabs</b> (modelo <i>eleven_v4</i>, voces de su biblioteca): las tres voces del audio inicial, con textos escritos por el equipo</li></ul></div>
+  <div class="card"><h2>Datos y componentes de terceros</h2><ul>
+    <li>Datos de la demo <b>sintéticos</b>: la clínica es inventada. Datos de mercado: INE, Ministerio de Industria y PMcM</li>
+    <li>Componentes previos declarados: la plantilla de normas del equipo y el asistente de WhatsApp de un compañero (Hermes y Zernio)</li></ul></div>
+</div>
+<footer>Detalle completo, con modelos, costes medidos y cómo se verifica cada uso: docs/uso-ia.md</footer>
+</body>
+</html>

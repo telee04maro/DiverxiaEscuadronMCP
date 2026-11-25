@@ -1,4 +1,4 @@
-# Plan de negocio de Vigía: a quién vendemos, cuánto cobramos y si las cuentas salen
+# Plan de negocio de Pymbrain: a quién vendemos, cuánto cobramos y si las cuentas salen
 
 **Versión 1 · 25/11/2026.** Documento de trabajo del equipo. Cada cifra va marcada:
 - **[verificado]:** comprobado en la fuente original;
@@ -9,9 +9,9 @@ El modelo financiero completo (36 meses, cuatro escenarios) está en `plan-de-ne
 
 ## 1. La decisión en cinco líneas
 
-1. **Vendemos a pequeñas empresas de 10 a 49 empleados, a través de sus gestorías y asesorías.** La gestoría recomienda Vigía y se lleva un **30 % recurrente** de lo que paga su cliente.
+1. **Vendemos a pequeñas empresas de 10 a 49 empleados, a través de sus gestorías y asesorías.** La gestoría recomienda Pymbrain y se lleva un **30 % recurrente** de lo que paga su cliente.
 2. **Suscripción mensual con tres planes: 79 €, 149 € y 249 € al mes** (sin IVA). Se cobra por domiciliación bancaria, sin permanencia y con dos meses gratis si se paga el año entero.
-3. **El Ayuntamiento de Málaga (o Promálaga) no es el cliente, sino el patrocinador del piloto:** un contrato menor de hasta 15.000 € para que 25 pymes de Málaga usen Vigía seis meses.
+3. **El Ayuntamiento de Málaga (o Promálaga) no es el cliente, sino el patrocinador del piloto:** un contrato menor de hasta 15.000 € para que 25 pymes de Málaga usen Pymbrain seis meses.
 4. **Inversión necesaria: unos 106.000 € en el escenario base** (91.000 € con el piloto municipal), para llegar al **equilibrio mensual en el mes 16**.
 5. **Si a los 6 meses no tenemos 5 gestorías activas y 25 clientes de pago**, estamos en el escenario prudente y hay que cambiar el plan (sección 10).
 
@@ -37,8 +37,8 @@ Hemos comparado cuatro opciones con los criterios que deciden si una startup de 
 - **Defensa frente a la competencia:** las gestorías online compiten por precio. Una gestoría para una SL cuesta entre 150 y 600 € al mes según volumen y trabajadores [fuente secundaria: tarifas publicadas por gestorías online, 2026].
 
 ### Ayudas públicas revisadas: ninguna sirve ahora
-- **Kit Consulting** (bonos de 12.000 a 24.000 € para pymes de 10 a 249 empleados): según las fuentes consultadas, **no hay convocatoria abierta** a octubre de 2026 [fuente secundaria]. Si se abre otra, Vigía podría ofrecerse a través de ella; no lo contamos en las cuentas.
-- **Programa RedIA del Gobierno (180 millones):** ayudas de 400.000 € a 5 millones para proyectos de desarrollo de IA, **ya resueltas** (31/08/2026) [verificado en la nota de La Moncloa]. No sirve ni a las pymes para pagar Vigía ni a una startup que empieza.
+- **Kit Consulting** (bonos de 12.000 a 24.000 € para pymes de 10 a 249 empleados): según las fuentes consultadas, **no hay convocatoria abierta** a octubre de 2026 [fuente secundaria]. Si se abre otra, Pymbrain podría ofrecerse a través de ella; no lo contamos en las cuentas.
+- **Programa RedIA del Gobierno (180 millones):** ayudas de 400.000 € a 5 millones para proyectos de desarrollo de IA, **ya resueltas** (31/08/2026) [verificado en la nota de La Moncloa]. No sirve ni a las pymes para pagar Pymbrain ni a una startup que empieza.
 - **Subvenciones de Promálaga a pymes (400.000 €, 2026):** plazo cerrado el 15 de octubre [fuente secundaria]. Hay que vigilar las próximas.
 
 ## 3. El cliente objetivo: pequeñas empresas de 10 a 49 empleados
@@ -75,9 +75,9 @@ Las microempresas quedan para el plan Esencial, más adelante.
 **Precio medio por cliente: 136 € al mes.**
 
 **Por qué estos precios:**
-1. **Por debajo de lo que ya paga.** Una pyme de 10–49 empleados paga 350–600 € al mes de gestoría [fuente secundaria]. Vigía es un añadido de entre el 15 % y el 40 % de eso, no una factura del mismo tamaño.
+1. **Por debajo de lo que ya paga.** Una pyme de 10–49 empleados paga 350–600 € al mes de gestoría [fuente secundaria]. Pymbrain es un añadido de entre el 15 % y el 40 % de eso, no una factura del mismo tamaño.
 2. **En la franja del software de gestión.** Un programa de gestión como Holded cuesta entre 15 y 199 € al mes [fuente secundaria: comparadores, 2026; la web oficial muestra menos planes]. El cliente ya entiende pagar esto por un software.
-3. **Se paga solo.** En la demo, Vigía detecta 10.554 € vencidos y propone reclamarlos; cobrar **una sola factura** de 1.920 € paga más de un año del plan Profesional. *Es un ejemplo de la demo, no un dato del mercado.*
+3. **Se paga solo.** En la demo, Pymbrain detecta 10.554 € vencidos y propone reclamarlos; cobrar **una sola factura** de 1.920 € paga más de un año del plan Profesional. *Es un ejemplo de la demo, no un dato del mercado.*
 4. **Las cuentas lo piden.** Con estos precios, los costes fijos se cubren con **unos 135 clientes**. Con un precio medio de 81 € (por ejemplo, si casi todos eligieran el plan más barato), el equilibrio se retrasa al mes 25 y hacen falta **unos 173.000 €** (sección 9).
 
 **Por qué por planes y no por uso:** la IA cuesta unos **0,30 $ por empresa y mes**, medido con Claude real [medido por el equipo]. No hace falta cobrar por consumo, y a la pyme le da tranquilidad saber cuánto va a pagar.
@@ -88,7 +88,7 @@ Las microempresas quedan para el plan Esencial, más adelante.
 
 - **Suscripción mensual con domiciliación bancaria SEPA:** es como pagan las pymes a su gestoría. También con tarjeta.
 - **Sin permanencia,** para quitar el miedo a probar. **Pago anual con dos meses gratis**, que adelanta caja y reduce las bajas.
-- **Vigía factura directamente a la pyme y paga a la gestoría su 30 % cada mes.** Así:
+- **Pymbrain factura directamente a la pyme y paga a la gestoría su 30 % cada mes.** Así:
   - la gestoría no tiene que facturar nada;
   - nosotros tenemos el contrato de tratamiento de datos con la pyme (RGPD);
   - sabemos de primera mano quién se da de baja.
@@ -198,7 +198,7 @@ Escenario base, cambiando el precio y las bajas. Cada celda indica el mes de equ
 
 | Cuándo | Hito | Si no se cumple |
 |---|---|---|
-| Mes 3 | 3 gestorías del piloto con al menos 10 clientes usando Vigía; encuesta de precio hecha | Revisar la propuesta para las gestorías (comisión, formación) antes de crecer |
+| Mes 3 | 3 gestorías del piloto con al menos 10 clientes usando Pymbrain; encuesta de precio hecha | Revisar la propuesta para las gestorías (comisión, formación) antes de crecer |
 | Mes 6 | **5 gestorías activas, 25 clientes de pago y bajas por debajo del 5 % al mes** | Estamos en el escenario prudente: reducir sueldos, buscar business angels o reforzar la venta directa |
 | Mes 12 | 100 clientes de pago | Replantear el precio o el segmento |
 | Mes 16 | Equilibrio mensual | — |
