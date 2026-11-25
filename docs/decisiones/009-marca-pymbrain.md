@@ -1,7 +1,7 @@
 # 009. Marca nueva: pymbrain («IA que impulsa tu pyme»)
 
 - **Fecha:** 2026-11-25
-- **Estado:** aceptada en la rama `marca-pymbrain` (en `main` cuando el equipo la apruebe). Sustituye al nombre de la [ADR 004](004-nombre-vigia.md) en lo visible.
+- **Estado:** aceptada (rama `marca-pymbrain`, integrada en `main` el 25/11). Sustituye al nombre de la [ADR 004](004-nombre-vigia.md) en lo visible.
 - **Origen:** el equipo ha cerrado el logo final «Pymbrain · Logo final (G6)» (PDF del equipo).
 
 ## Decisión
@@ -12,7 +12,8 @@
 4. **Primer paso, la web:** el panel es el mismo de `demo-1.1` con el logo, el icono, el nombre de la pestaña y el lema nuevos.
 5. **El código interno no cambia** (paquete `vigia`, variables `VIGIA_*`): renombrarlo a pocas horas de la entrega arriesga romper la demo y el asistente de WhatsApp sin aportar nada al jurado.
 
+6. **Entregables, capturas y presentación** con el nombre, el logo y el lema nuevos; un solo eslogan: «IA que impulsa tu pyme.» (también en el cierre del pitch).
+
 ## Pendiente
-- Colores del panel: siguen siendo los de `demo-1.1` (azul petróleo y terracota). Pasarlos a índigo y noche si el equipo lo quiere.
-- Documentos, entregables, capturas y presentación con el nombre y el logo nuevos.
+- Colores del panel: siguen siendo los de `demo-1.1` (azul petróleo y terracota), como pidió el equipo («la misma web con el logo nuevo»). Se pueden pasar a índigo y noche.
 - Comprobar «pymbrain» en la OEPM y la EUIPO.
