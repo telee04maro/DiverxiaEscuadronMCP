@@ -9,4 +9,10 @@ showErrorDetails = "none"
 headless = true
 
 [theme]
-primaryColor = "#0F766E"
+primaryColor = "#1D5C7A"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#FAF7F2"
+textColor = "#1B2B34"
+
+[client]
+toolbarMode = "viewer"
