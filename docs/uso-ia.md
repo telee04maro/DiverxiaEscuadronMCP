@@ -19,7 +19,7 @@ Cada uso de IA tiene detrás **una regla que lo verifica o lo sustituye**. Así 
 | Finanzas | Redacta la reclamación de cobro con el tono adecuado | `claude-opus-5-5` | El tono importa: no romper la relación con el cliente | **Deben aparecer cada factura, cada importe y el total, y ningún importe que no esté en los datos**; si no, se usa la plantilla. Todo correo se identifica como redactado por IA (Reglamento de IA, art. 50) | Plantillas por tono |
 | Atención y captación | Nada: mide tiempos de respuesta, consultas perdidas y sin responsable con reglas | — | Son cálculos sobre datos del ERP/CRM | Reglas deterministas | — |
 
-El **asistente de WhatsApp** (Hermes, componente previo del compañero, pendiente de que la organización lo acepte como tal) usa su propia IA para conversar. Vigía solo recibe lo que registra en el ERP a través del contrato `CrmConnector`, y lo valida (teléfono o correo obligatorio, longitudes, sin duplicar contactos).
+El **asistente de WhatsApp** (`whatsapp-hack/`, ADR 008; Hermes, componente previo del compañero, pendiente de que la organización lo acepte como tal) usa su propia IA para conversar. **Modelo de Hermes: pendiente de declarar** (lo configura su autor). Como en Vigía, su salida es un dato no confiable: el nombre y el correo solo se aceptan si el contacto los escribió, y una respuesta con correos, teléfonos o enlaces no se envía. Vigía solo recibe lo que registra en el ERP a través de su API, y lo valida (teléfono o correo obligatorio, longitudes, sin duplicar contactos).
 
 **Lo que la IA nunca hace:**
 - calcular dinero, plazos o márgenes;

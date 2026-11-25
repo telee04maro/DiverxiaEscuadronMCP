@@ -25,9 +25,12 @@ Pensada para que cualquier miembro del equipo pueda presentarla sin conocer el c
 | 9 | 1 · Empresa → «Tu empresa» | Descargar una plantilla y subir un Excel | **Así entra cualquier pyme:** con sus Excel; lo que no sube sale como «lo que me falta» |
 
 ## Asistente de WhatsApp real (opcional)
-Solo si la organización acepta Hermes y Zernio como componentes previos declarados:
-1. Arrancar `uv run python -m vigia.connectors.http_api --host 0.0.0.0 --port 8765` con `VIGIA_ERP_TOKEN` (ver `docs/integracion-whatsapp-erp.md`).
-2. Escribir desde **móviles del equipo**. Si escribe alguien del jurado, avisar de la privacidad y borrar los datos después.
+Solo si la organización acepta Hermes y Zernio como componentes previos declarados. Guía completa: `whatsapp-hack/README.md` (ADR 008).
+1. Arrancar la API del ERP de demo: `uv run python -m vigia.connectors.http_api --port 8765` con `VIGIA_ERP_TOKEN` (`--host 0.0.0.0` solo si el asistente corre en otro portátil de la misma red).
+2. En el portátil del asistente: `HACK-Instalar.ps1` (destino por defecto, el ERP de Vigía), `-ActivarProduccion` y `-ActivarFondo -Segundos 10`.
+3. Escribir desde un móvil del equipo empezando por `HTEST:`. Al dar nombre y correo, la consulta aparece en la pestaña 7 y el agente de atención y captación la cuenta.
+4. Si escribe alguien del jurado: el bot le pide datos inventados. **No proyectar `-Monitor`** (muestra nombres y correos). Al acabar, «Borrar todos los datos» y `-Parar`.
+5. Si falla WhatsApp, Zernio o Hermes: «Simular mensaje de WhatsApp» en la pestaña 7 hace lo mismo.
 
 ## Si algo falla en directo
 

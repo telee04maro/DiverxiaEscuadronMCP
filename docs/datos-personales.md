@@ -8,7 +8,7 @@ Las bases del hackathon prohíben introducir datos personales, secretos empresar
 |---|---|---|---|
 | Nombre y correo de cobro de los clientes que facturan | Plantilla de facturas | El correo, solo para reclamar | Para un **particular** basta un identificador («Particular 12»). Sin correo válido no se reclama: sale como dato que falta |
 | Texto de las reseñas | Plantilla de reseñas | El texto sí, el autor no | Se guarda **sin nombres, teléfonos, correos ni DNI**, de nadie (`domain/privacy.py`) |
-| Nombre, teléfono, correo y mensaje de quien escribe por WhatsApp | El asistente de WhatsApp, a través de la API del ERP de demo | Sí, para contestar y no duplicar | Solo en el ERP de demo (SQLite local); nunca se envía a Claude |
+| Nombre, teléfono, correo y mensaje de quien escribe por WhatsApp | El asistente de WhatsApp (`whatsapp-hack/`), a través de la API del ERP de demo | Sí, para contestar y no duplicar | Al ERP de demo (SQLite local) llegan el nombre, el correo, el teléfono (no en las pruebas `HTEST`), el asunto y un resumen; la conversación se queda en Zernio. El mensaje pasa por Zernio y por el modelo de Hermes (componentes del asistente), nunca por Claude. El primer mensaje pide **datos inventados** |
 | Correos de reclamación enviados | Las acciones de finanzas | Sí, como justificante | En la bandeja local `outbox/` o, con SMTP, solo al buzón de prueba |
 
 ## Qué llega a Claude

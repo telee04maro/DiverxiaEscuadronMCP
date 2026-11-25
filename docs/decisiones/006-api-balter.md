@@ -1,7 +1,7 @@
 # 006. Qué permite la API de BALTER y cómo la usa Vigía
 
 - **Fecha:** 2026-11-24
-- **Estado:** aceptada. Amplía la [ADR 005](005-conectores-y-captacion.md); ampliada por la [ADR 008](008-asistente-whatsapp-en-balter.md) (el asistente de WhatsApp de la demo escribe en una empresa ficticia de BALTER).
+- **Estado:** aceptada. Amplía la [ADR 005](005-conectores-y-captacion.md); ampliada por la [ADR 008](008-asistente-whatsapp-en-balter.md) (el asistente de WhatsApp de la demo escribe en el ERP de demo de Vigía; en BALTER, solo con permiso por escrito).
 - **Origen:** la documentación «Integración con la API de Balter» (v1, 27/10/2026) que nos ha pasado el equipo. **No se sube al repositorio:** es documentación de un tercero y el repositorio es público. La tiene el equipo.
 
 ## Lo que hemos verificado en la documentación

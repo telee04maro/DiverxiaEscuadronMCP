@@ -16,15 +16,24 @@
     HACK_PROTEGER_MUTEX    mutex del ciclo de produccion
     HACK_PROTEGER_PERFIL   perfil de Hermes de produccion
 
-  Uso (PowerShell, en la carpeta del repositorio, rama Miguel):
+  Destino de las fichas (ADR 008):
+    -Destino vigia  (por defecto) ERP de demo de Vigia: arranca antes su API (README, «ERP de demo»).
+    -Destino balter solo con permiso POR ESCRITO de quien gestiona BALTER: se anota quien lo dio.
+  El numero de WhatsApp de la demo va en el .env local (HACK_NUMERO_DEMO), no en el repositorio.
+
+  Uso (PowerShell, en la carpeta del repositorio):
     powershell -ExecutionPolicy Bypass -File .\whatsapp-hack\HACK-Instalar.ps1
+    powershell -ExecutionPolicy Bypass -File .\whatsapp-hack\HACK-Instalar.ps1 -UrlErp http://192.168.1.20:8765/api/v1
 #>
+param(
+    [ValidateSet('vigia', 'balter')][string]$Destino = 'vigia',
+    [string]$UrlErp = 'http://127.0.0.1:8765/api/v1'
+)
 $ErrorActionPreference = 'Stop'
 $origen = $PSScriptRoot
 $base = Join-Path $env:LOCALAPPDATA 'HACK-WhatsApp'
 $ciclo = Join-Path $base 'ciclo'
 $claves = Join-Path $base 'claves'
-$numeroDemo = '607145471'
 $perfil = 'hackaton-demo'
 
 function Write-Ok($t) { Write-Host "[OK] $t" -ForegroundColor Green }
@@ -90,6 +99,16 @@ function Get-Clave([string]$Nombre, [string]$VariableEnv, [string]$Fichero, [str
 
 cls
 Write-Host '=== ASISTENTE WHATSAPP (HACKATHON) - INSTALACION ===' -ForegroundColor Cyan
+Write-Host ('Destino de las fichas: ' + $(if ($Destino -eq 'vigia') { "ERP de demo de Vigia ($UrlErp)" } else { 'BALTER (con permiso por escrito)' }))
+$numeroDemo = (Get-EnvRepo 'HACK_NUMERO_DEMO') -replace '\D', ''
+if ($numeroDemo.Length -gt 9) { $numeroDemo = $numeroDemo.Substring($numeroDemo.Length - 9) }
+if ($numeroDemo.Length -ne 9) { Stop-Instalacion 'Falta el numero de WhatsApp de la demo: anade HACK_NUMERO_DEMO=<9 cifras> al .env local.' }
+if ($Destino -eq 'vigia') {
+    $u = $null
+    if (-not [Uri]::TryCreate($UrlErp, [UriKind]::Absolute, [ref]$u) -or -not ($u.Scheme -eq 'https' -or ($u.Scheme -eq 'http' -and $u.Host -match '^(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)'))) {
+        Stop-Instalacion 'La URL del ERP de Vigia tiene que ser https o de la red local (http://127.0.0.1, 192.168.x.x...).'
+    }
+}
 Write-Host 'Instancia de DEMOSTRACION: usa su propia carpeta, claves, perfil de Hermes, mutex y tarea programada.'
 $prodCiclo = @(Get-ListaEnv 'HACK_PROTEGER_CICLO') | Select-Object -First 1
 if (-not (Get-EnvRepo 'HACK_PROTEGER_CLAVES')) { Write-Aviso 'El .env no indica claves de produccion a proteger (HACK_PROTEGER_CLAVES). Si en este equipo hay una instalacion de produccion, anadelas antes.' }
@@ -106,7 +125,8 @@ Write-Ok "Ciclo copiado en $ciclo"
 Write-Host ''
 Write-Host '--- Claves de la DEMO ---' -ForegroundColor Cyan
 $zernio = Get-Clave 'Zernio' 'ZERNIO_API_KEY' 'zernio.dpapi' @()
-$balter = Get-Clave 'BALTER' 'BALTER_TOKEN' 'balter.dpapi' @()
+if ($Destino -eq 'vigia') { $tokenVigia = Get-Clave 'ERP de Vigia' 'VIGIA_ERP_TOKEN' 'vigia.dpapi' @() }
+else { $balter = Get-Clave 'BALTER' 'BALTER_TOKEN' 'balter.dpapi' @() }
 
 # 3. Zernio: una sola cuenta de WhatsApp y que sea la de la demo.
 Write-Host ''
@@ -116,13 +136,30 @@ catch { Stop-Instalacion ('Zernio no acepta la clave o no responde: ' + $_.Excep
 $cuentas = @(@($r.accounts) | Where-Object { $null -ne $_ })
 if ($cuentas.Count -ne 1) { Stop-Instalacion "La clave de Zernio ve $($cuentas.Count) cuentas de WhatsApp. La demo necesita una cuenta de Zernio con UN solo numero (el de la demo)." }
 $json = $cuentas[0] | ConvertTo-Json -Depth 10
-if (-not [regex]::IsMatch($json, '607\D{0,2}14\D{0,2}5\D{0,2}4\D{0,2}71')) { Stop-Instalacion "La cuenta de Zernio no es el numero de la demo (+34 $numeroDemo)." }
+if (-not [regex]::IsMatch($json, ($numeroDemo.ToCharArray() -join '\D{0,2}'))) { Stop-Instalacion 'La cuenta de Zernio no es el numero de la demo (HACK_NUMERO_DEMO).' }
 $cuenta = [string]$cuentas[0]._id; if (-not $cuenta) { $cuenta = [string]$cuentas[0].id }
 if (-not $cuenta) { Stop-Instalacion 'No se encuentra el identificador de la cuenta de Zernio.' }
 $prodCfg = $null
 if ($prodCiclo -and (Test-Path -LiteralPath (Join-Path (Join-Path $env:LOCALAPPDATA $prodCiclo) 'config.json'))) { $prodCfg = Get-Content -LiteralPath (Join-Path (Join-Path $env:LOCALAPPDATA $prodCiclo) 'config.json') -Raw -Encoding UTF8 | ConvertFrom-Json }
 if ($prodCfg -and [string]$prodCfg.account_id -ceq $cuenta) { Stop-Instalacion 'Es la cuenta de Zernio de la instalacion de PRODUCCION protegida.' }
 Write-Ok "Zernio: una sola cuenta, numero de la demo (****$($numeroDemo.Substring(5))), cuenta $cuenta"
+$artControl = ''; $autorizado = ''
+if ($Destino -eq 'vigia') {
+    Write-Host ''
+    Write-Host '--- Comprobando el ERP de demo de Vigia ---' -ForegroundColor Cyan
+    try {
+        $c = Invoke-WebRequest -UseBasicParsing -Uri ($UrlErp.TrimEnd('/') + '/contacts?email=comprobacion-del-instalador@example.com') -Headers @{ Authorization = 'Bearer ' + $tokenVigia } -TimeoutSec 15
+        Write-Ok "ERP de Vigia: responde y acepta el token (HTTP $([int]$c.StatusCode))"
+    } catch {
+        $codigo = 0; try { $codigo = [int]$_.Exception.Response.StatusCode } catch { }
+        $detalle = ''; try { $detalle = [string]$_.ErrorDetails.Message } catch { }
+        if ($codigo -eq 404 -and $detalle.Contains('Contacto no encontrado')) { Write-Ok 'ERP de Vigia: responde y acepta el token' }
+        elseif ($codigo -eq 401) { Stop-Instalacion 'El ERP de Vigia no acepta el token: usa el mismo VIGIA_ERP_TOKEN con el que arrancaste su API.' }
+        else { Stop-Instalacion ("El ERP de Vigia no responde en $UrlErp. Arranca su API: uv run python -m vigia.connectors.http_api") }
+    }
+    $tokenVigia = $null
+}
+if ($Destino -eq 'balter') {
 
 # 4. BALTER: lectura de un articulo del catalogo.
 Write-Host ''
@@ -145,6 +182,9 @@ $artControl = $artControl.Trim()
 if (-not (Test-ArticuloControl $balter $artControl)) { Stop-Instalacion "El catalogo de la empresa de esa clave NO tiene el articulo '$artControl': no es la empresa de la demo. Ejecuta HACK-ClaveBalter.ps1 con la clave correcta." }
 Write-Ok "La empresa de la clave tiene el articulo de control '$artControl'"
 if (-not (Read-Frase 'DEMO' 'Escribe DEMO si la clave es de la empresa FICTICIA de la demo y no de una empresa real')) { Stop-Instalacion 'Sin confirmacion de la empresa de la demo.' }
+$autorizado = (Read-Host 'Quien de BALTER autorizo POR ESCRITO escribir en esta empresa (nombre y fecha; Intro = nadie)').Trim()
+if (-not $autorizado) { Stop-Instalacion 'Sin permiso por escrito no se escribe en BALTER (ADR 008). Usa el destino por defecto: el ERP de Vigia.' }
+}
 $zernio = $null; $balter = $null
 
 # 5. Perfil de Hermes propio (vacio: sin memoria de otros perfiles).
@@ -184,8 +224,9 @@ if (Test-Path -LiteralPath $cfgPath) {
 $proteger = [pscustomobject]@{ carpeta_ciclo = @(Get-ListaEnv 'HACK_PROTEGER_CICLO'); mutex = @(Get-ListaEnv 'HACK_PROTEGER_MUTEX'); perfil_hermes = @(Get-ListaEnv 'HACK_PROTEGER_PERFIL') }
 if ($null -eq $cfg.PSObject.Properties['proteger']) { $cfg | Add-Member -NotePropertyName 'proteger' -NotePropertyValue $proteger } else { $cfg.proteger = $proteger }
 if (@($proteger.mutex) -contains [string]$cfg.mutex -or @($proteger.perfil_hermes) -contains [string]$cfg.perfil_hermes) { Stop-Instalacion 'config.json usa el mutex o el perfil de Hermes de produccion.' }
-if ($null -eq $cfg.PSObject.Properties['balter_control_articulo']) { $cfg | Add-Member -NotePropertyName 'balter_control_articulo' -NotePropertyValue $artControl }
-else { $cfg.balter_control_articulo = $artControl }
+foreach ($par in @(@('erp', [pscustomobject]@{ tipo = $Destino; url = $UrlErp.TrimEnd('/') }), @('balter_control_articulo', $artControl), @('balter_autorizado_por', $autorizado))) {
+    if ($null -eq $cfg.PSObject.Properties[$par[0]]) { $cfg | Add-Member -NotePropertyName $par[0] -NotePropertyValue $par[1] } else { $cfg.($par[0]) = $par[1] }
+}
 [IO.File]::WriteAllText($cfgPath, ($cfg | ConvertTo-Json -Depth 20), (New-Object Text.UTF8Encoding($false)))
 
 Write-Host ''

@@ -8,6 +8,8 @@ SECRETS = (
     "SMTP_USER",
     "SMTP_PASSWORD",
     "VIGIA_ERP_TOKEN",
+    "ZERNIO_API_KEY",
+    "HACK_NUMERO_DEMO",
     "BALTER_URL",
     "BALTER_USER",
     "BALTER_TOKEN",

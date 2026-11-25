@@ -39,4 +39,4 @@ Qué se elige, cómo funciona y por qué. Si es una combinación, qué papel tie
 | 005 | [Conectores ERP/CRM, atención y captación, y entrada de datos](005-conectores-y-captacion.md) | aceptada, ampliada por 006 |
 | 006 | [Qué permite la API de BALTER y cómo la usa Vigía](006-api-balter.md) | aceptada, ampliada por 008 |
 | 007 | [CRM de Vigía: una ficha única por cliente](007-ficha-unica-de-cliente.md) | aceptada |
-| 008 | [Asistente de WhatsApp de la demo: Zernio → Hermes → BALTER (empresa ficticia)](008-asistente-whatsapp-en-balter.md) | aceptada (rama Miguel) |
+| 008 | [Asistente de WhatsApp de la demo: Zernio → Hermes → ERP de demo de Vigía (BALTER solo con permiso)](008-asistente-whatsapp-en-balter.md) | aceptada |

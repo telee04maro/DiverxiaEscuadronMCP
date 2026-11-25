@@ -110,6 +110,7 @@ Los correos se identifican como escritos por IA, nunca se envían dos veces y en
 ### 🧩 Se adapta a cada empresa
 - **«Tu empresa»:** entrevista inicial y Excel/CSV con plantillas en español (facturas, banco, ventas, consultas, reseñas, competidores). Cada fila se valida; los errores salen como avisos con su número de fila.
 - **ERP/CRM:** mediante el contrato `CrmConnector`. El ERP de demo tiene la forma de BALTER y una API con token para el asistente de WhatsApp ([contrato](docs/integracion-whatsapp-erp.md)).
+- **Asistente de WhatsApp** (`whatsapp-hack/`, [ADR 008](docs/decisiones/008-asistente-whatsapp-en-balter.md)): Zernio → Hermes → ERP de demo de Vigía. Una consulta por conversación, sin duplicados; el agente de atención y captación la mide. BALTER, solo con permiso por escrito.
 - **BALTER real:** su API v1 no permite leer oportunidades, así que hoy entran por exportación a «Tu empresa». La clave se probó en solo lectura (HTTP 200) sin tocar datos personales ([ADR 006](docs/decisiones/006-api-balter.md)).
 - **Un especialista nuevo** se añade implementando `Specialist` y registrándolo en `pipeline.default_specialists()`, sin tocar el coordinador.
 
@@ -158,7 +159,7 @@ flowchart LR
 | 3 · Marketing (logo, eslogan, estrategia) | [`docs/entrega/3-marketing.pdf`](docs/entrega/3-marketing.pdf), [`3-logo.png`](docs/entrega/3-logo.png) |
 | 4 · Guion del pitch | [`docs/entrega/4-guion-del-pitch.pdf`](docs/entrega/4-guion-del-pitch.pdf) |
 
-**Herramientas y componentes declarados:** Claude Opus 5.5 y Haiku 5.5 (producto), Claude Code (construcción, registrado en [`docs/uso-ia.md`](docs/uso-ia.md)), Python 3.13, Streamlit, Pydantic, pandas, SQLite. El asistente de WhatsApp (Hermes) es un componente previo de un miembro del equipo.
+**Herramientas y componentes declarados:** Claude Opus 5.5 y Haiku 5.5 (producto), Claude Code (construcción, registrado en [`docs/uso-ia.md`](docs/uso-ia.md)), Python 3.13, Streamlit, Pydantic, pandas, SQLite. El asistente de WhatsApp (`whatsapp-hack/`: Hermes y Zernio) es un componente previo de un miembro del equipo, adaptado en el hackathon para escribir en el ERP de demo; el modelo de IA de Hermes está pendiente de declarar.
 
 ---
 

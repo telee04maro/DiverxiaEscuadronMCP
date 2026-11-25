@@ -11,6 +11,8 @@ Cliente ──WhatsApp──► Zernio (cuenta de prueba) ──► Hermes (port
                                      ERP de demo de Vigía (/api/v1)  ◄── Vigía lo lee y lo cruza
 ```
 
+**El asistente real** está en `whatsapp-hack/` (ADR 008): usa `GET /contacts` para no duplicar y `POST /enquiries` para registrar. Instalación y uso en `whatsapp-hack/README.md`.
+
 ## Arrancar el ERP de demo
 
 ```bash
