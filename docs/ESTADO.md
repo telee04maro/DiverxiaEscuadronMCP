@@ -168,6 +168,7 @@ Registro de pivotes, errores de enfoque y cambios de dirección, el más recient
 
 | Fecha | Cambio | Motivo | Decisión |
 |---|---|---|---|
+| 2026-11-25 | **Eslogan nuevo: «Tu negocio grita, nosotros escuchamos.»** (5 palabras) en la web, los entregables, el pitch y la presentación; el logo se usa sin lema | Decisión del equipo | [009](decisiones/009-marca-pymbrain.md) |
 | 2026-11-25 | **Marca nueva: pymbrain** («IA que impulsa tu pyme»), en la rama `marca-pymbrain`: la web de `demo-1.1` con el logo, el icono, la pestaña y el lema nuevos | El equipo cerró el logo final (G6) | [009](decisiones/009-marca-pymbrain.md) |
 | 2026-11-25 | **Asistente de WhatsApp en vivo** (`whatsapp-hack/`, de la rama `Miguel`, integrado en `development`): Zernio → Hermes → **ERP de demo de Vigía**; BALTER solo con permiso por escrito; QR para el público y pruebas `HTEST` | El jurado ve cómo un agente atiende por WhatsApp y cómo Vigía mide esa consulta; la API de BALTER no deja leerla y las ADR 005 y 006 prohíben escribir en su producción | [008](decisiones/008-asistente-whatsapp-en-balter.md) |
 | 2026-11-24 | **CRM de Vigía: ficha única de cliente** (función nueva tras la congelación E8, a petición del equipo) | Sin CRM, cada agente veía a los clientes por su lado; la ficha única cruza deuda y consultas del mismo cliente | [007](decisiones/007-ficha-unica-de-cliente.md) |

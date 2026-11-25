@@ -19,4 +19,4 @@ git archive --format=zip --prefix=pymbrain/ -o ..\pymbrain-prototipo-codigo.zip 
 
 `2-prototipo.pdf` se genera desde `docs/negocio/prototipo.html` con las capturas de `capturas/` (panel con la marca nueva, en modo reglas). El resto se genera desde `docs/negocio/*.md`, `docs/uso-ia.md` y `docs/negocio/lienzo.html`. Si se cambia el texto, hay que volver a exportarlos.
 
-**Marca:** pymbrain (ADR 009). Logo de la guía G6 del equipo (`docs/negocio/pymbrain/`), colores índigo `#4F46E5` y noche `#0F172A`, Space Grotesk en el logo e Inter en los textos. Eslogan: «IA que impulsa tu pyme.»
+**Marca:** pymbrain (ADR 009). Logo de la guía G6 del equipo (`docs/negocio/pymbrain/`), colores índigo `#4F46E5` y noche `#0F172A`, Space Grotesk en el logo e Inter en los textos. Eslogan: «Tu negocio grita, nosotros escuchamos.»

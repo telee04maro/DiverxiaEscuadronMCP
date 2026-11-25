@@ -42,7 +42,7 @@ El método es el que el equipo ya usaba en proyectos anteriores: decidir con dat
 **Un equipo de expertos de IA para toda tu pyme, en un solo sitio.**
 
 ### Tesis
-> **«Cada proveedor ve su parte. Vigía ve la causa.»** (idea que sostiene el producto). **Eslogan** (menos de siete palabras, criterio del taller): **«IA que impulsa tu pyme.»**. Nombre visible: **pymbrain** (ADR 009); el código sigue en el paquete `vigia`.
+> **«Cada proveedor ve su parte. Vigía ve la causa.»** (idea que sostiene el producto). **Eslogan** (menos de siete palabras, criterio del taller): **«Tu negocio grita, nosotros escuchamos.»**. Nombre visible: **pymbrain** (ADR 009); el código sigue en el paquete `vigia`.
 
 La gestoría ve los impuestos, la agencia ve las redes y el Excel ve las cuentas. Nadie cruza la información, así que los problemas se detectan tarde. **Centralizar no aporta valor por sí solo; lo que aporta valor es cruzar la información.** El argumento estrella es el **agente coordinador**: encuentra causas que ningún proveedor ve por separado. Toda decisión de diseño, demo o pitch se contrasta con esta frase.
 

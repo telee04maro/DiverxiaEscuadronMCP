@@ -1,10 +1,10 @@
-<p align="center"><img src="docs/negocio/pymbrain/logo.png" alt="pymbrain · IA que impulsa tu pyme" width="520"></p>
+<p align="center"><img src="docs/negocio/pymbrain/logo-simple.png" alt="pymbrain" width="480"></p>
 
 # Pymbrain — un equipo de agentes de IA para toda tu pyme
 
 **Encuentra por qué una pyme pierde dinero o clientes, cruzando lo que ve cada área, y actúa**: reclama cobros, valida precios, propone el plan a 7, 30 y 90 días y, un mes después, **mide si funcionó**.
 
-> **IA que impulsa tu pyme.**
+> **Tu negocio grita, nosotros escuchamos.**
 >
 > Cada proveedor ve su parte; Pymbrain ve la causa.
 

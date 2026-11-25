@@ -2,7 +2,7 @@
 
 ## Logo
 
-![Logo de pymbrain](pymbrain/logo.png)
+![Logo de pymbrain](pymbrain/logo-simple.png)
 
 **pymbrain** une *pyme* y *brain*: el cerebro de la pyme, que junta lo que ve cada área. El símbolo es una **línea que sube entre tres nodos hasta una flecha**: los datos de cada área, conectados, empujando el negocio hacia arriba. En el nombre, «pym» va en noche y «brain» en índigo.
 
@@ -17,11 +17,11 @@
 
 **Tipografía:** Space Grotesk en el logo y los titulares; Inter en los textos y la interfaz (las dos con licencia SIL OFL 1.1).
 
-**Versiones** (en [`pymbrain/`](pymbrain/)): `logo.png` (horizontal, con el lema), `logo-simple.png` (sin lema), `logo-grande.png` (alta resolución) e `icono.png` (app y redes). Según la guía, en tamaño favicon se quitan los nodos y se engrosa la flecha para que se siga leyendo. El nombre es provisional: antes de usarlo comercialmente hay que comprobar la marca en la OEPM y la EUIPO.
+**Versiones** (en [`pymbrain/`](pymbrain/)): `logo-simple.png` (horizontal), `logo-grande.png` (alta resolución) e `icono.png` (app y redes). El eslogan va aparte del logo. Según la guía, en tamaño favicon se quitan los nodos y se engrosa la flecha para que se siga leyendo. El nombre es provisional: antes de usarlo comercialmente hay que comprobar la marca en la OEPM y la EUIPO.
 
 ## Eslogan
 
-- **Principal:** «IA que impulsa tu pyme.» (5 palabras: lo que hace el producto, dicho como lo diría el dueño de una pyme). Va con el logo.
+- **Principal:** «Tu negocio grita, nosotros escuchamos.» (5 palabras). El dueño de una pyme recibe avisos por todas partes (facturas sin cobrar, reseñas, mensajes sin contestar, la competencia) y no le da la vida para atenderlos. pymbrain escucha todo eso a la vez y le dice qué importa y qué hacer.
 - **La idea que lo sostiene** (para explicar el producto, no como eslogan): «Cada proveedor ve su parte. Pymbrain ve la causa.»
 - **Descriptivo:** «Un equipo de expertos de IA para toda tu pyme, en un solo sitio.»
 - **Para gestorías:** «Ofrece a tus clientes un departamento completo sin contratar a nadie más.»

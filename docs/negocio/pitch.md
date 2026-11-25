@@ -6,7 +6,7 @@
 
 ## El arco en una línea
 
-**El ruido de proveedores que dicen «lo mío va bien» → la vida real del dueño (abrió su negocio para cuidar de la gente y acaba las noches entre facturas) → un dato real: no es un caso aislado → tres expertos, tres pistas → «Juntos son uno» (¡ajá!) → actúa y comprueba → «Imagínate…» → «Somos pymbrain» → «IA que impulsa tu pyme».**
+**El ruido de proveedores que dicen «lo mío va bien» → la vida real del dueño (abrió su negocio para cuidar de la gente y acaba las noches entre facturas) → un dato real: no es un caso aislado → tres expertos, tres pistas → «Juntos son uno» (¡ajá!) → actúa y comprueba → «Imagínate…» → «Somos pymbrain» → «Tu negocio grita, nosotros escuchamos.»**
 
 **El pitch tiene dos momentos de emoción:** «Juntos son uno», que es la sorpresa, y «Imagínate…», que es el deseo. Entre los dos van los datos, y cada dato se cuenta con cara humana: no «41 % de consultas perdidas», sino «cuatro de cada diez pacientes que escriben buscando cita… se van sin respuesta».
 
@@ -23,7 +23,7 @@ Las **negritas** se remarcan con la voz. ‖ = pausa de un segundo; ‖‖ = pau
 | **1:15–1:45 · La causa** *(primer clímax: la sorpresa)* | «Cada experto ve una parte. ‖ Nuestro coordinador **las junta**… ‖‖ y aparece la causa. **No es la temporada**: el año pasado no bajó. Los pacientes se van **porque al lado es más barato y atienden antes.** Y con nueve días de caja, bajar precios **hundiría la clínica.** ‖‖ Eso no lo ve nadie por separado. **Lo vemos nosotros.**» | Pausa larga en «las junta…» y juntar las manos. Señalar la pantalla en «Lo vemos nosotros» | Pestaña 3: la causa cruzada y «es la temporada» descartado |
 | **1:45–2:15 · Plan, actúa y comprueba** | «Y hace un **plan por orden de urgencia.** **Esta semana,** reclamar lo que le deben y contestar todos los mensajes. **Este mes,** una oferta a 30 €, porque **a 20 € cada primera sesión da pérdidas.** Lo importante, siempre con **el visto bueno de la dueña.** ‖ Y un mes después **comprueba si ha funcionado**: en la simulación, dos de tres facturas ya cobradas, comprobado con el banco.» | Seguro y concreto. Contar el orden con la mano: «esta semana… este mes…». Gesto de «alto» en «dice que no» | Pestaña 3 (plan a 7, 30 y 90 días) y pestañas 4 y 5 |
 | **2:15–2:40 · Imagínate** *(segundo clímax: el deseo)* | «Ahora, **imagínate.** ‖ Imagínate empezar el lunes **sabiendo por qué pierdes clientes.** ‖ Imagínate **dejar de perseguir facturas.** ‖ Imagínate tenerlo todo en un solo sitio… ‖ y volver a lo que te hizo abrir tu negocio: ‖‖ **dar a tus clientes la atención que se merecen.**» | **Cambio total de tono:** más lento, más cálido y más bajo. Una frase por respiración, dando un paso hacia el público en cada «imagínate». La última frase, casi en voz baja | Pantalla limpia: la misma mesa de antes, ordenada, y una persona atendiendo a un paciente |
-| **2:40–3:00 · Cierre** | «‖‖ **Somos pymbrain.** ‖ Tu equipo de expertos de IA. ‖‖ **IA que impulsa tu pyme.**» | Volver a subir la voz en «Somos pymbrain». **Es la primera vez que se dice el nombre**, con el logo apareciendo en ese momento. «IA que impulsa tu pyme», despacio, palabra a palabra, mirando al público, y quedarse quieto dos segundos antes de «gracias» | **El logo aparece justo en «Somos pymbrain»**, con el eslogan |
+| **2:40–3:00 · Cierre** | «‖‖ **Somos pymbrain.** ‖ Tu equipo de expertos de IA. ‖‖ **Tu negocio grita, nosotros escuchamos.**» | Volver a subir la voz en «Somos pymbrain». **Es la primera vez que se dice el nombre**, con el logo apareciendo en ese momento. «Tu negocio grita, nosotros escuchamos», despacio, palabra a palabra, mirando al público, y quedarse quieto dos segundos antes de «gracias» | **El logo aparece justo en «Somos pymbrain»**, con el eslogan |
 
 ### Texto corrido para ensayar
 
@@ -39,7 +39,7 @@ El mismo guion, sin tablas, para leerlo en voz alta o en el móvil.
 
 **Imagínate (segundo clímax: el deseo).** «Ahora, **imagínate.** ‖ Imagínate empezar el lunes **sabiendo por qué pierdes clientes.** ‖ Imagínate **dejar de perseguir facturas.** ‖ Imagínate tenerlo todo en un solo sitio… ‖ y volver a lo que te hizo abrir tu negocio: ‖‖ **dar a tus clientes la atención que se merecen.**»
 
-**Cierre.** «‖‖ **Somos pymbrain.** ‖ Tu equipo de expertos de IA. ‖‖ **IA que impulsa tu pyme.**»
+**Cierre.** «‖‖ **Somos pymbrain.** ‖ Tu equipo de expertos de IA. ‖‖ **Tu negocio grita, nosotros escuchamos.**»
 
 ### Las cifras y de dónde salen (verificadas el 25/11/2026)
 

@@ -122,7 +122,7 @@ def _sidebar() -> None:
     model: LanguageModel = st.session_state.model
     with st.sidebar:
         st.markdown("**Un equipo de expertos de IA para toda tu pyme, en un solo sitio.**")
-        st.caption("IA que impulsa tu pyme")
+        st.caption("Tu negocio grita, nosotros escuchamos.")
         st.divider()
         st.markdown("**Controles de la demo**")
         if st.button("Reiniciar la demo", use_container_width=True):

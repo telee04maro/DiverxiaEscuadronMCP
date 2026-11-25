@@ -40,4 +40,4 @@ Qué se elige, cómo funciona y por qué. Si es una combinación, qué papel tie
 | 006 | [Qué permite la API de BALTER y cómo la usa Vigía](006-api-balter.md) | aceptada, ampliada por 008 |
 | 007 | [CRM de Vigía: una ficha única por cliente](007-ficha-unica-de-cliente.md) | aceptada |
 | 008 | [Asistente de WhatsApp de la demo: Zernio → Hermes → ERP de demo de Vigía (BALTER solo con permiso)](008-asistente-whatsapp-en-balter.md) | aceptada |
-| 009 | [Marca nueva: pymbrain («IA que impulsa tu pyme»)](009-marca-pymbrain.md) | aceptada |
+| 009 | [Marca nueva: pymbrain («Tu negocio grita, nosotros escuchamos.»)](009-marca-pymbrain.md) | aceptada |
