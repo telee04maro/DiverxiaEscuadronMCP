@@ -1,0 +1,33 @@
+{
+  "schema": "wa_ciclo_config_v1",
+  "modo": "piloto_prueba",
+  "account_id": "<LO_RELLENA_HACK-Instalar.ps1>",
+  "conversaciones_prueba": [],
+  "sesion_prueba_inicio_utc": null,
+  "inicio_produccion_utc": null,
+  "max_respuestas_por_conversacion": 4,
+  "limite_mensajes_mes": 2000,
+  "automatico_habilitado": false,
+  "intervalo_minutos": 1,
+  "intervalo_segundos": 10,
+  "etiqueta": "Asistente Virtual Vigía:",
+  "saludo_automatico": "Gracias por escribir a Vigía",
+  "prefijo_prueba": "HTEST",
+  "deteccion_prueba_automatica": true,
+  "perfil_hermes": "hackaton-demo",
+  "carpeta_claves": "HACK-WhatsApp\\claves",
+  "mutex": "Local\\HACK_WhatsApp_Ciclo",
+  "registrado_por": "Asistente WhatsApp Vigía (demo del hackathon IA First, Hermes)",
+  "origen": "WhatsApp",
+  "etiquetas_extra": [
+    "DEMO",
+    "Vigia"
+  ],
+  "empresa": {
+    "nombre": "Vigía",
+    "actividad": "Vigía es un equipo de agentes de IA para pymes: se conecta a sus herramientas, detecta qué la frena, prioriza un plan y ejecuta mejoras. Es el proyecto del equipo EscuadronMCP en el hackathon IA First de Talent Land (Málaga).",
+    "quien_contacta": "una persona del equipo de Vigía",
+    "aviso_primer_mensaje": "Soy un asistente virtual de demostración; tus datos solo se usarán para esta prueba y se borrarán después del evento."
+  },
+  "balter_control_articulo": "Producto prueba 21%"
+}

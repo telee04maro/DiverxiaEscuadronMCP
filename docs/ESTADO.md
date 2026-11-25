@@ -137,6 +137,7 @@ Registro de pivotes, errores de enfoque y cambios de dirección, el más recient
 
 | Fecha | Cambio | Motivo | Decisión |
 |---|---|---|---|
+| 2026-11-25 | **Asistente de WhatsApp en vivo** (`whatsapp-hack/`, rama `Miguel`): Zernio → Hermes → BALTER, empresa ficticia; QR para el público y pruebas `HTEST` | El jurado ve cómo un agente atiende y crea la oportunidad en el ERP en tiempo real | [008](decisiones/008-asistente-whatsapp-en-balter.md) |
 | 2026-11-24 | **CRM de Vigía: ficha única de cliente** (función nueva tras la congelación E8, a petición del equipo) | Sin CRM, cada agente veía a los clientes por su lado; la ficha única cruza deuda y consultas del mismo cliente | [007](decisiones/007-ficha-unica-de-cliente.md) |
 | 2026-11-24 | **Visto bueno para una prueba de solo lectura en BALTER**, confirmado por el equipo en la sesión (16:27). Alcance: un artículo del catálogo, sin datos personales ni escrituras. Falta anotar quién lo dio | Requisito de la ADR 005 antes de tocar BALTER | [006](decisiones/006-api-balter.md) |
 | 2026-11-24 | **No hay conector de lectura de BALTER**; prueba de solo lectura del catálogo (con `--autorizado`) y consultas reales por exportación a «Tu empresa» | Su API v1 no permite listar oportunidades; las otras operaciones leen datos personales o escriben en producción | [006](decisiones/006-api-balter.md) |
