@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/negocio/logo.svg" alt="Pymbrain" width="520"></p>
+<p align="center"><img src="docs/negocio/pymbrain/logo.png" alt="pymbrain · IA que impulsa tu pyme" width="520"></p>
 
 # Pymbrain — un equipo de agentes de IA para toda tu pyme
 

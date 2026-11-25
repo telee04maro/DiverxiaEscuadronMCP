@@ -1,4 +1,4 @@
-"""Modelo financiero de Vigía: 36 meses y cuatro escenarios (ver plan-de-negocio.md).
+"""Modelo financiero de Pymbrain: 36 meses y cuatro escenarios (ver plan-de-negocio.md).
 
 Uso: python docs/negocio/plan-de-negocio-modelo.py [salida.json]
 Todas las cifras son hipótesis del equipo salvo el coste de la IA (medido). Dinero en Decimal.

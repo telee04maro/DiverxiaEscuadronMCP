@@ -40,7 +40,7 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 - [x] **E6. MVP de principio a fin** (hito: unas 3–4 h desde E0): panel con el recorrido completo de la demo y el ejemplo de causa cruzada.
 - [x] **E7. Re-medición:** el «mes después» simulado comprueba qué indicadores se movieron y reordena el plan.
 - [x] **N1. Canvas:** `docs/negocio/canvas.md`. **Falta subirlo al Drive** (B).
-- [x] **N2. Marketing:** `docs/negocio/marketing.md` y `logo.svg`. **Falta subirlo al Drive** (B).
+- [x] **N2. Marketing:** `docs/negocio/marketing.md` y el logo de `docs/negocio/pymbrain/`. **Falta subirlo al Drive** (B).
 - [x] **N3. Uso de la IA:** `docs/uso-ia.md`. **Falta subirlo al Drive, con capturas del panel.**
 - [x] **N4. Guion del pitch:** `docs/negocio/pitch.md` y `docs/DEMO.md`. **Falta ensayarlo con el tiempo real.**
 - [x] **E10. Atención y captación** (ADR 005): agente de consultas del ERP/CRM, contrato `CrmConnector`, ERP de demo con API para Hermes y entrada «Tu empresa» (Excel/CSV con plantillas).
@@ -96,7 +96,7 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
 
 ## Siguiente paso
 1. Hecho: probado con Claude real; coste medido en `docs/uso-ia.md`, el canvas y el pitch. Red team R3 cerrado.
-2. Subir los 4 entregables al Drive (los .md se pueden pegar en un documento o en diapositivas; el logo es `docs/negocio/logo.svg`).
+2. Subir los 4 entregables al Drive (los .md se pueden pegar en un documento o en diapositivas; el logo está en `docs/negocio/pymbrain/`).
 3. Ensayar el pitch con el tiempo real y las preguntas a los mentores (tabla de arriba). Confirmar el tamaño del equipo: las bases hablan de 6 y somos 3.
 4. Hecho: `docs/ideas.md` (interno) ya no está en el repositorio; sigue en el historial de git.
 5. **Pitch de 3 minutos reescrito** (rama `claude/pitch-3min`, desde `732066e`): audio de 5,5 s (gestoría, agencia y banco diciendo «lo mío va bien» a la vez; `docs/negocio/pitch-audio-gancho.mp3`), dos datos reales con fuente (INE: solo el 34,3 % de las empresas de 10 o más empleados analiza sus datos; PMcM vía PIMEC: el 85 % de las grandes empresas incumple el plazo legal de pago), la clínica como ejemplo inventado y **el nombre «Vigía» solo al final** («Somos Vigía y venimos a…»). 387 palabras (2:55 a ritmo vivo). Todas las cifras clasificadas en el guion: datos reales verificados, resultados de la demo (sintéticos, no son estudios) y cifras de negocio. En el canvas, la cifra de 62.234 gestorías queda **por verificar**. Cifras cuadradas entre pitch, canvas y demo: el canvas recoge los dos datos reales en «Problemas», el agente de atención en el caso de la demo y los cobros contados igual que en el pitch (2 de 3 de la aseguradora; 3 de las 4 reclamadas). El lienzo A3 no cambia: sus cifras ya coinciden. **Ojo:** la imagen de antes y después de la rama `claude/gracious-pascal-xq2iyx` dice 75 % de quejas por espera y con el código actual es 50 %: hay que rehacerla antes de usarla.

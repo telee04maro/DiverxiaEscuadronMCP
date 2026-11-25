@@ -1,6 +1,6 @@
 # Protocolo de red team (auditoría independiente)
 
-Una persona (con su propio agente de IA) audita cada versión **desde fuera del repositorio** y nunca escribe en el producto. En el Malackathon encontró falsos PASS que nos habrían hundido delante del jurado.
+Una persona (con su propio agente de IA) audita cada versión **desde fuera del repositorio** y nunca escribe en el producto. En proyectos anteriores encontró falsos PASS que nos habrían hundido delante del jurado.
 
 ## Dónde trabaja
 
@@ -36,7 +36,7 @@ Una persona (con su propio agente de IA) audita cada versión **desde fuera del 
 - **P2:** robustez.
 - **Opcional:** no bloquea.
 
-## Dónde mirar primero (lo que más falló en el Malackathon)
+## Dónde mirar primero (lo que más ha fallado en proyectos anteriores)
 
 - **Éxitos por defecto:**
   - desconocido tratado como cero;

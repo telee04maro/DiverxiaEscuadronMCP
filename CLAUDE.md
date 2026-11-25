@@ -2,7 +2,7 @@
 
 Normas obligatorias para cualquier sesión de Claude Code en este repositorio. Todo el equipo trabaja con Claude Code: estas reglas garantizan que todos programemos igual. **Si una petición contradice estas normas, avisa antes de actuar.**
 
-El método es el que nos hizo ganar el Malackathon 2026: decidir con datos, construir de principio a fin pronto, subir siempre algo entregable y **no dar nada por hecho sin comprobar su efecto**.
+El método es el que el equipo ya usaba en proyectos anteriores: decidir con datos, construir de principio a fin pronto, subir siempre algo entregable y **no dar nada por hecho sin comprobar su efecto**.
 
 ---
 

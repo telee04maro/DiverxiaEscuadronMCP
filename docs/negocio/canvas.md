@@ -4,10 +4,10 @@ Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la soluc
 
 - **Equipo:** EscuadronMCP · **Proyecto:** Pymbrain (nombre provisional)
 - **Reto:** 04 – La IA como servicio
-- **Fecha:** 24/11/2026
+- **Fecha:** 24–25/11/2026
 
 ## Clientes (quién paga)
-- Pymes tradicionales de 5 a 50 empleados (clínicas, hostelería, comercio, talleres, despachos).
+- Pymes tradicionales de 10 a 49 empleados (clínicas, hostelería, comercio, talleres, despachos).
 - Gestorías y asesorías, que lo ofrecen a sus clientes.
 
 ## Usuarios (quién lo usa)
@@ -49,7 +49,7 @@ Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la soluc
 - **IA:** Claude (Opus 5.5 para cruzar y redactar; Haiku 5.5 para clasificar), con orquestación propia en Python.
 - **Datos:** los de la propia pyme y fuentes públicas (Biblioteca de Anuncios de Meta, reseñas, BOE).
 - **Equipo:** técnico, de negocio y expertos en legal y finanzas.
-- Servidores en Europa (RGPD).
+- Alojamiento en la UE (RGPD) y la IA por API, sin entrenar con los datos de la pyme.
 
 ## Aliados
 - Gestorías y asesorías.

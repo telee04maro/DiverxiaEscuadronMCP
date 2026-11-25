@@ -31,7 +31,7 @@
 ### A quién le hablamos y qué le decimos
 | Público | Su problema | Mensaje |
 |---|---|---|
-| **Dueño de pyme** (5–50 empleados) | Es el único que tiene la visión global y siempre llega tarde | «Deja de ser tú quien une los puntos. Pymbrain te dice la causa y lo que hay que hacer esta semana.» |
+| **Dueño de pyme** (10–49 empleados) | Es el único que tiene la visión global y siempre llega tarde | «Deja de ser tú quien une los puntos. Pymbrain te dice la causa y lo que hay que hacer esta semana.» |
 | **Gestorías y asesorías** (canal) | Clientes que piden más que impuestos, márgenes bajos y falta de relevo | «Pasa de presentar impuestos a asesorar el negocio entero, con tu marca y con supervisión tuya.» |
 | **Asociaciones y cámaras** | Quieren servicios que ayuden de verdad a sus socios | «Un piloto que mide resultados en euros, no en informes.» |
 

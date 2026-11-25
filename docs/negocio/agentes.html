@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>pymbrain · Cómo trabajan los agentes</title>
+<style>
+  @font-face { font-family: Inter; src: url("../../src/vigia/static/Inter-Regular.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: Inter; src: url("../../src/vigia/static/Inter-SemiBold.woff2") format("woff2"); font-weight: 600; }
+  @font-face { font-family: Inter; src: url("../../src/vigia/static/Inter-Bold.woff2") format("woff2"); font-weight: 700; }
+  :root { --indigo: #4F46E5; --night: #0F172A; --lavender: #8B9BFF; --mist: #F4F5FA; --muted: #55607A; --soft: #ECEBFD; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { width: 1600px; height: 900px; background: var(--mist); color: var(--night); font-family: Inter, Arial, sans-serif; padding: 36px 56px; }
+  h1 { font-size: 36px; margin: 0 0 4px; }
+  .sub { font-size: 19px; color: var(--muted); margin: 0 0 22px; }
+  .row { display: grid; gap: 18px; }
+  .sources { grid-template-columns: repeat(3, 1fr); }
+  .box { background: #FFFFFF; border-radius: 14px; padding: 14px 18px; border: 2px solid #E2E4EE; }
+  .box h3 { margin: 0 0 6px; font-size: 20px; }
+  .box p { margin: 0; font-size: 15.5px; line-height: 1.4; color: var(--muted); }
+  .box p b { color: var(--night); }
+  .tag { display: inline-block; font-size: 13px; font-weight: 700; color: #FFFFFF; background: var(--indigo); border-radius: 6px; padding: 2px 8px; margin-left: 6px; vertical-align: 2px; }
+  .tag.rules { background: var(--muted); }
+  .src { border-style: dashed; }
+  .expert { border-color: var(--indigo); border-top: 6px solid var(--indigo); }
+  .arrow { text-align: center; font-size: 26px; color: var(--indigo); line-height: 1; margin: 6px 0; }
+  .coord { background: var(--night); color: #FFFFFF; border: none; padding: 18px 24px; }
+  .coord h3 { color: #FFFFFF; font-size: 23px; }
+  .coord p { color: #C9CEE6; font-size: 16.5px; }
+  .coord .tag { background: var(--lavender); color: var(--night); }
+  .loop { grid-template-columns: 1.1fr 1.3fr 1fr; }
+  .act { border-color: var(--lavender); }
+  .lvls { display: flex; gap: 8px; margin-top: 8px; }
+  .lvl { flex: 1; background: var(--soft); border-radius: 8px; padding: 6px 8px; font-size: 13.5px; line-height: 1.3; }
+  .lvl b { display: block; color: var(--indigo); font-size: 14px; }
+  .guard { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .guard .box { background: var(--soft); border: none; }
+</style>
+</head>
+<body>
+<h1>Cómo trabajan los agentes de pymbrain</h1>
+<p class="sub">Cada experto tiene sus propias fuentes. El coordinador cruza lo que ven, propone un plan, actúa con control y, un mes después, mide si funcionó.</p>
+
+<div class="row sources">
+  <div class="box src"><h3>Banco y facturas</h3><p>Extracto bancario y facturas (CSV o Excel), o el ERP</p></div>
+  <div class="box src"><h3>Mercado</h3><p>Anuncios de la competencia (formato de la Biblioteca de Anuncios de Meta), reseñas y buscadores</p></div>
+  <div class="box src"><h3>Consultas de clientes</h3><p>ERP/CRM y el asistente de WhatsApp, que las registra sin duplicar</p></div>
+</div>
+<div class="row sources"><div class="arrow">↓</div><div class="arrow">↓</div><div class="arrow">↓</div></div>
+<div class="row sources">
+  <div class="box expert"><h3>Experto en finanzas <span class="tag rules">reglas</span><span class="tag">Claude Opus</span></h3><p>Caja, cobros vencidos y margen de una oferta, con reglas. <b>Concilia cada cobro con el banco al céntimo.</b> Claude redacta la reclamación con el tono adecuado.</p></div>
+  <div class="box expert"><h3>Experto en mercado <span class="tag">Claude Haiku</span></h3><p>Lee los anuncios y clasifica las reseñas. <b>El precio que extrae tiene que estar en el anuncio.</b></p></div>
+  <div class="box expert"><h3>Experto en atención <span class="tag rules">reglas</span></h3><p>Tiempo de respuesta dentro y fuera de horario, consultas perdidas y sin responsable.</p></div>
+</div>
+<div class="arrow">↓ hallazgos con evidencia (dato, fuente, fecha y confianza) ↓</div>
+<div class="box coord"><h3>Coordinador <span class="tag">Claude Opus</span></h3><p>Cruza los hallazgos de los tres expertos y da con la causa: «no es la temporada; se van por precio y por la espera, y con 9 días de caja no puede bajar precios». Cita de qué experto sale cada parte y descarta lo que no tiene evidencia.</p></div>
+<div class="arrow">↓</div>
+<div class="row loop">
+  <div class="box"><h3>Plan a 7, 30 y 90 días</h3><p>Ordenado por impacto, esfuerzo y urgencia. La contraoferta solo se propone si finanzas confirma que deja margen.</p></div>
+  <div class="box act"><h3>Actúa con niveles de autonomía</h3>
+    <div class="lvls"><div class="lvl"><b>Lo hace solo</b>recordatorio amable, informes</div><div class="lvl"><b>Prepara y aprueba una persona</b>reclamación formal, precios</div><div class="lvl"><b>Deriva a un experto</b>lo legal y financiero serio</div></div></div>
+  <div class="box"><h3>Mide un mes después</h3><p>Comprueba qué indicadores se movieron (los cobros, contra el banco) y reordena el plan. Si no se mueve, lo dice.</p></div>
+</div>
+<div class="guard">
+  <div class="box"><h3>Todo lo que escribe la IA se comprueba</h3><p>Cada cifra, fecha, cuenta o enlace tiene que estar en los datos; si no, se descarta y se usa la regla. Sin clave de IA, todo funciona con reglas.</p></div>
+  <div class="box"><h3>Ficha única de cliente (CRM)</h3><p>Lo que sabe cada experto de un cliente se junta en una sola ficha, con alertas cruzadas: «te debe dinero y tiene una consulta sin contestar».</p></div>
+</div>
+</body>
+</html>

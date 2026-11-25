@@ -15,7 +15,7 @@ Hay que construir en pocas horas un prototipo de Vigía con:
 
 Las condiciones de partida:
 - El ordenador del equipo tiene `uv` y Python, pero no Node ni Docker.
-- El equipo ganó el Malackathon con Python, uv, ruff, mypy y pytest.
+- El equipo ya domina Python, uv, ruff, mypy y pytest de proyectos anteriores.
 - Las bases prohíben datos personales, así que los datos son sintéticos y viven en CSV y JSON, que es el formato en que las pymes tienen sus datos de verdad (Excel).
 
 ## Opciones evaluadas
