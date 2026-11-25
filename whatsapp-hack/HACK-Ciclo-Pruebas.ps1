@@ -25,7 +25,9 @@ $script:PRUEBA = 'convhtest00000000000001'
 function Reset-Mundo {
     $script:Reloj = [DateTimeOffset]::Parse('2026-11-10T09:00:00Z')
     $script:Z = @{ conv = @{}; posts = 0; fallarPost = $null; alLeer = $null }
-    $script:B = @{ personas = @(); altas = 0; fallarAlta = $null; articulos = @() }
+    $script:B = @{ personas = @(); altas = 0; fallarAlta = $null; articulos = @('Articulo control pruebas') }
+    $script:V = @{ contactos = @(); altas = 0; ultima = $null; fallar = $null; caido = $false; rutaMala = $false }
+    $script:WAEmpresaVerificada = $null
     $script:H = @{ llamadas = 0; forzar = $null }
     $script:WA.Contadores = @{ GET = 0; POST = 0; BALTER_LECTURAS = 0; BALTER_ALTAS = 0; HERMES = 0; AVISOS = 0 }
     $script:WA.Avisos.Clear()
@@ -44,7 +46,10 @@ function Set-Config([string]$Modo, [hashtable]$Extra = @{}) {
     $cfg = [ordered]@{ schema = 'wa_ciclo_config_v1'; modo = $Modo; account_id = $script:CUENTA
         conversaciones_prueba = @($script:PRUEBA); sesion_prueba_inicio_utc = $script:Reloj.AddHours(-1).ToString('o')
         inicio_produccion_utc = $script:Reloj.AddDays(-1).ToString('o'); max_respuestas_por_conversacion = 3
-        limite_mensajes_mes = 2000; automatico_habilitado = $true }
+        limite_mensajes_mes = 2000; automatico_habilitado = $true
+        # Las pruebas 1-36 son las del ciclo de produccion, contra BALTER (con permiso y articulo de control).
+        erp = [pscustomobject]@{ tipo = 'balter' }; balter_autorizado_por = 'Pruebas sin conexion'
+        balter_control_articulo = 'Articulo control pruebas' }
     foreach ($k in $Extra.Keys) { $cfg[$k] = $Extra[$k] }
     Write-WAJson (Join-Path $script:Raiz 'config.json') ([pscustomobject]$cfg)
 }
@@ -115,6 +120,32 @@ function Invoke-WABalter([string]$Fichero, $Cuerpo) {
     $script:B.ultimaPeticion = $Cuerpo
     if ($modo -eq 'timeout_con_alta') { return @{ ok = $false; status = 0; incierto = $true } }
     return @{ ok = $true; status = 201; data = [pscustomobject]@{ status = 'success'; person_id = $p.id; person_created = $true; chance_id = 12000 + $script:B.altas; chance_created = $true } }
+}
+function Invoke-WAVigia([string]$Metodo, [string]$Ruta, $Cuerpo) {
+    if ($Metodo -eq 'POST') { $script:WA.Contadores.BALTER_ALTAS++ } else { $script:WA.Contadores.BALTER_LECTURAS++ }
+    if ($script:V.caido) { return @{ ok = $false; status = 0; incierto = $true } }
+    if ($script:V.rutaMala) { return @{ ok = $false; status = 404; incierto = $false; cuerpo_error = '{"error": "Ruta no encontrada"}' } }
+    if ($Metodo -eq 'GET' -and $Ruta -match '^/contacts\?(email|phone)=(.+)$') {
+        $campo = $Matches[1]; $valor = [Uri]::UnescapeDataString($Matches[2])
+        $dig = $valor -replace '\D', ''
+        $c = @($script:V.contactos | Where-Object {
+            ($campo -eq 'email' -and $_.email -eq $valor.ToLowerInvariant()) -or
+            ($campo -eq 'phone' -and $dig -and $_.phone -and ($_.phone -replace '\D', '').EndsWith($dig)) }) | Select-Object -First 1
+        if ($c) { return @{ ok = $true; status = 200; incierto = $false; data = $c } }
+        return @{ ok = $false; status = 404; incierto = $false; cuerpo_error = '{"error": "Contacto no encontrado"}' }
+    }
+    if ($Metodo -eq 'POST' -and $Ruta -eq '/enquiries') {
+        $script:V.ultima = $Cuerpo
+        $modo = $script:V.fallar; $script:V.fallar = $null
+        if ($modo -eq 'timeout_sin_alta') { return @{ ok = $false; status = 0; incierto = $true } }
+        if ($modo -eq 'rechazo') { return @{ ok = $false; status = 422; incierto = $false; cuerpo_error = '{"error": "Datos no validos"}' } }
+        $script:V.altas++
+        $c = [pscustomobject]@{ id = 'C-' + $script:V.altas; name = $Cuerpo.name; email = $Cuerpo.email; phone = $Cuerpo.phone }
+        $script:V.contactos += $c
+        if ($modo -eq 'timeout_con_alta') { return @{ ok = $false; status = 0; incierto = $true } }
+        return @{ ok = $true; status = 201; incierto = $false; data = [pscustomobject]@{ contact = $c; opportunity_id = 'OP-' + $script:V.altas; new_contact = $true; new_opportunity = $true; escalated = $false } }
+    }
+    return @{ ok = $false; status = 404; incierto = $false; cuerpo_error = '{"error": "Ruta no encontrada"}' }
 }
 function Invoke-WAHermes([string]$Prompt) {
     $script:WA.Contadores.HERMES++; $script:H.llamadas++; $script:H.ultimoPrompt = $Prompt
@@ -535,6 +566,89 @@ Check ($err -eq 'CLAVE_BALTER_NO_ES_DE_LA_EMPRESA_DE_LA_DEMO' -and $script:B.alt
 $script:B.articulos = @('Producto control demo')
 $err = $null; try { $r = Ciclo } catch { $err = $_.Exception.Message }
 Check ($null -eq $err -and $r[0].accion -eq 'CREAR_OPORTUNIDAD_Y_CERRAR' -and $script:B.altas -eq 1) 'Con el articulo de control en el catalogo: funciona (crea la ficha)'
+
+Write-Host "`n37) Destino por defecto: ERP de demo de Vigia. HTEST crea UNA consulta" -ForegroundColor Cyan
+$vig = @{}; foreach ($k in $demo.Keys) { $vig[$k] = $demo[$k] }
+$vig['erp'] = [pscustomobject]@{ tipo = 'vigia'; url = 'http://127.0.0.1:8765/api/v1' }; $vig['balter_control_articulo'] = ''; $vig['balter_autorizado_por'] = ''
+Reset-Mundo; Set-Config 'produccion' $vig; New-Conv 'v1' '34611111111'
+Add-Msg 'v1' 'incoming' 'HTEST: Hola, soy Carlos. Quiero una demo de Vigia.' -1 | Out-Null
+$r = Ciclo
+Check ($r[0].accion -eq 'RESPONDER' -and $script:B.altas -eq 0 -and $script:WA.Contadores.BALTER_LECTURAS -ge 1) 'Comprueba el ERP de Vigia antes de nada y no toca BALTER'
+Add-Msg 'v1' 'incoming' 'Soy Carlos. Mis apellidos son Vega Romero y mi correo es carlos.htest@example.com.' | Out-Null
+$r = Ciclo
+$e = EstadoDe 'v1'; $u = $script:V.ultima
+Check ($script:V.altas -eq 1 -and $script:B.altas -eq 0 -and $e.estado -eq 'ALTA_CREADA' -and $e.opportunity_id -eq 'OP-1') 'Crea UNA consulta en el ERP de Vigia (OP-1) y ninguna en BALTER'
+Check ($u.name -eq 'Carlos Vega Romero' -and $u.email -eq 'carlos.htest@example.com' -and $null -eq $u.phone -and $u.channel -eq 'whatsapp') 'Nombre y correo validados, canal WhatsApp y sin el telefono del probador'
+Check ($u.summary.StartsWith('PRUEBA (HTEST)') -and $u.topic -eq 'Compra de local comercial' -and $u.summary.Length -le 2000) 'Resumen marcado como prueba, asunto de Hermes y dentro del limite del ERP'
+Check ((ConvertTo-WAFecha $u.answered_at) -ge (ConvertTo-WAFecha $u.received_at)) 'Hora de respuesta posterior a la de llegada (el agente de captacion mide ese tiempo)'
+Check (-not ([string]$u.summary).Contains('Mis apellidos son')) 'Minimo necesario: no copia la conversacion al ERP'
+$r = Ciclo; $r = Ciclo
+Check ($script:V.altas -eq 1 -and $script:Z.posts -eq 2) 'Mas ciclos: ni otra consulta ni otro mensaje'
+
+Write-Host "`n38) Vigia: contacto del publico ya registrado en el ERP" -ForegroundColor Cyan
+Reset-Mundo; Set-Config 'produccion' $vig; New-Conv 'v2' '34622222222'
+$script:V.contactos += [pscustomobject]@{ id = 'C-9'; name = 'Cliente Demo'; email = 'cliente@demo.es'; phone = '+34622222222' }
+Add-Msg 'v2' 'incoming' 'Hola, quiero informacion' -1 | Out-Null
+$r = Ciclo
+Check ((EstadoDe 'v2').estado -eq 'EXISTENTE' -and $script:Z.posts -eq 0 -and $script:V.altas -eq 0) 'Su telefono ya esta en el ERP: no responde ni crea nada'
+
+Write-Host "`n39) Vigia: contacto real nuevo, con su telefono" -ForegroundColor Cyan
+Reset-Mundo; Set-Config 'produccion' $vig; New-Conv 'v3' '34633333333'
+Add-Msg 'v3' 'incoming' 'Hola, soy Lucia. Mis apellidos son Gil Mora y mi correo es lucia.demo@example.com.' -1 | Out-Null
+$r = Ciclo
+Check ($script:V.altas -eq 1 -and $script:V.ultima.phone -eq '+34633333333' -and -not $script:V.ultima.summary.StartsWith('PRUEBA')) 'Crea la consulta con el telefono verificado por WhatsApp'
+
+Write-Host "`n40) Vigia: ERP caido o mal configurado" -ForegroundColor Cyan
+Reset-Mundo; Set-Config 'produccion' $vig; New-Conv 'v4' '34644444444'
+Add-Msg 'v4' 'incoming' 'HTEST: Soy Pepe. Mis apellidos son Paz Gil y mi correo es pepe.htest@example.com.' -1 | Out-Null
+$script:V.caido = $true
+$err = $null; try { $r = Ciclo } catch { $err = $_.Exception.Message }
+Check ($err -match '^ERP_DE_VIGIA_NO_DISPONIBLE' -and $script:Z.posts -eq 0 -and $script:H.llamadas -eq 0) 'ERP sin respuesta: el ciclo se para sin leer, responder ni llamar a Hermes'
+$script:V.caido = $false; $script:V.rutaMala = $true
+$err = $null; try { $r = Ciclo } catch { $err = $_.Exception.Message }
+Check ($err -match '^ERP_DE_VIGIA_NO_DISPONIBLE_HTTP_404' -and $script:V.altas -eq 0) 'URL mal escrita (404 de ruta, no de contacto): se para, no lo toma por no existe'
+$script:V.rutaMala = $false
+$err = $null; try { $r = Ciclo } catch { $err = $_.Exception.Message }
+Check ($null -eq $err -and $script:V.altas -eq 1) 'Con el ERP disponible: funciona'
+
+Write-Host "`n41) Vigia: alta sin respuesta del ERP" -ForegroundColor Cyan
+Reset-Mundo; Set-Config 'produccion' $vig; New-Conv 'v5' '34655555555'
+Add-Msg 'v5' 'incoming' 'HTEST: Soy Ana. Mis apellidos son Rey Sol y mi correo es ana.htest@example.com.' -1 | Out-Null
+$script:V.fallar = 'timeout_con_alta'
+$r = Ciclo
+Check ((EstadoDe 'v5').estado -eq 'ALTA_INCIERTA' -and $script:Z.posts -eq 0) 'Timeout: queda incierta y no envia el cierre'
+$r = Ciclo
+Check ((EstadoDe 'v5').estado -eq 'ALTA_CREADA' -and $script:V.altas -eq 1) 'Siguiente ciclo: la encuentra por correo y NO repite el alta'
+Reset-Mundo; Set-Config 'produccion' $vig; New-Conv 'v6' '34666666666'
+Add-Msg 'v6' 'incoming' 'HTEST: Soy Eva. Mis apellidos son Luz Mar y mi correo es eva.htest@example.com.' -1 | Out-Null
+$script:V.fallar = 'rechazo'
+$r = Ciclo
+Check ((EstadoDe 'v6').estado -eq 'REVISION' -and $script:V.altas -eq 0 -and $script:Z.posts -eq 0) 'El ERP rechaza los datos (422): revision humana, sin reintentos'
+
+Write-Host "`n42) BALTER solo con permiso por escrito; URL insegura" -ForegroundColor Cyan
+$sinPermiso = @{}; foreach ($k in $demo.Keys) { $sinPermiso[$k] = $demo[$k] }; $sinPermiso['balter_autorizado_por'] = ''
+Reset-Mundo; Set-Config 'produccion' $sinPermiso; New-Conv 'b1' '34677777777'
+Add-Msg 'b1' 'incoming' 'HTEST: Soy Leo. Mis apellidos son Mar Sol y mi correo es leo.htest@example.com.' -1 | Out-Null
+$err = $null; try { $r = Ciclo } catch { $err = $_.Exception.Message }
+Check ($err -eq 'BALTER_SIN_PERMISO_POR_ESCRITO' -and $script:B.altas -eq 0 -and $script:WA.Contadores.BALTER_LECTURAS -eq 0 -and $script:Z.posts -eq 0) 'Sin quien autorizo por escrito: no lee, no responde y no crea nada en BALTER'
+$insegura = @{}; foreach ($k in $vig.Keys) { $insegura[$k] = $vig[$k] }; $insegura['erp'] = [pscustomobject]@{ tipo = 'vigia'; url = 'http://erp.example.com/api/v1' }
+Reset-Mundo; Set-Config 'produccion' $insegura; New-Conv 'b2' '34688888888'
+Add-Msg 'b2' 'incoming' 'HTEST: Hola' -1 | Out-Null
+$err = $null; try { $r = Ciclo } catch { $err = $_.Exception.Message }
+Check ($err -eq 'URL_DEL_ERP_DE_VIGIA_NO_PERMITIDA' -and $script:WA.Contadores.BALTER_LECTURAS -eq 0) 'HTTP sin cifrar fuera de la red local: no envia el token'
+Check ((Test-WAUrlErpSegura 'http://192.168.1.20:8765/api/v1') -and (Test-WAUrlErpSegura 'https://erp.example.com/api/v1') -and -not (Test-WAUrlErpSegura 'ftp://127.0.0.1/x')) 'Red local por HTTP y cualquier sitio por HTTPS'
+
+Write-Host "`n43) Validacion de los datos que extrae Hermes" -ForegroundColor Cyan
+Check (Test-WAEmailEnTexto 'Ana@Example.com' 'mi correo es ana@example.com, gracias') 'Correo exacto (sin importar mayusculas): valido'
+Check (-not (Test-WAEmailEnTexto 'ana@gmail.co' 'mi correo es ana@gmail.com')) 'Correo recortado: NO valido'
+Check (-not (Test-WAEmailEnTexto 'a@b.co' 'escribeme a xa@b.co')) 'Correo contenido en otro: NO valido'
+Check (Test-WANombreEnTexto 'Ana López García' 'Hola, soy ana lopez garcia.') 'Nombre escrito tal cual: valido'
+Check (Test-WANombreEnTexto 'Carlos Vega Romero' "Soy Carlos.`nMis apellidos son Vega Romero") 'Nombre y apellidos en mensajes distintos: valido'
+Check (-not (Test-WANombreEnTexto 'Ana Ruiz' 'soy Ana, quiero informacion')) 'Un apellido que el contacto no escribio: NO valido'
+$err = $null; try { Format-WAMensajeAsistente 'Gracias. Completa tu alta en https://pago.example.com hoy mismo.' | Out-Null } catch { $err = $_.Exception.Message }
+Check ($err -eq 'RESPUESTA_CON_ENLACE') 'Respuesta con un enlace: no se envia'
+$err = $null; try { Format-WAMensajeAsistente 'Gracias. Visita www.ejemplo.es para mas informacion.' | Out-Null } catch { $err = $_.Exception.Message }
+Check ($err -eq 'RESPUESTA_CON_ENLACE') 'Respuesta con www: no se envia'
 
 Write-Host ''
 Write-Host ("RESULTADO: {0} comprobaciones correctas, {1} fallos" -f $script:T.ok, $script:T.fallos.Count) -ForegroundColor $(if ($script:T.fallos.Count -eq 0) { 'Green' } else { 'Red' })

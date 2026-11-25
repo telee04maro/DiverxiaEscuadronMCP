@@ -1,4 +1,4 @@
-﻿# Asistente de WhatsApp - Ciclo generico Zernio -> Hermes -> ERP (BALTER u otro)
+﻿# Asistente de WhatsApp - Ciclo generico Zernio -> Hermes -> ERP (ERP de demo de Vigia por defecto; BALTER con permiso)
 # Libreria. Compatible con Windows PowerShell 5.1 y PowerShell 7. No contiene claves:
 # se leen de archivos DPAPI. Los valores de cada instancia vienen de config.json.
 
@@ -26,6 +26,10 @@ $script:WAInstancia = @{
     etiquetas_extra = @()
     deteccion_prueba_automatica = $false
     empresa = $null
+    # Destino de las fichas (ADR 008): 'vigia' = ERP de demo de Vigia (por defecto); 'balter' = BALTER,
+    # solo con permiso por escrito de quien lo gestiona (balter_autorizado_por) y articulo de control.
+    erp = 'vigia'
+    erp_url = 'http://127.0.0.1:8765/api/v1'
 }
 function Set-WAInstancia($Cfg) {
     foreach ($k in @('etiqueta', 'saludo_automatico', 'prefijo_prueba', 'perfil_hermes', 'carpeta_claves', 'mutex', 'registrado_por', 'origen')) {
@@ -36,15 +40,42 @@ function Set-WAInstancia($Cfg) {
     if ($null -ne $extra) { $script:WAInstancia.etiquetas_extra = @($extra | Where-Object { $_ }) }
     $script:WAInstancia.deteccion_prueba_automatica = ((Get-WAProp $Cfg 'deteccion_prueba_automatica' $false) -eq $true)
     $script:WAInstancia.empresa = Get-WAProp $Cfg 'empresa' $null
+    $erp = Get-WAProp $Cfg 'erp' $null
+    $tipo = ([string](Get-WAProp $erp 'tipo' 'vigia')).ToLowerInvariant()
+    if (@('vigia', 'balter') -notcontains $tipo) { throw 'ERP_DESCONOCIDO' }
+    $script:WAInstancia.erp = $tipo
+    $url = [string](Get-WAProp $erp 'url' '')
+    if (-not [string]::IsNullOrWhiteSpace($url)) { $script:WAInstancia.erp_url = $url.TrimEnd('/') }
     $script:WAEtiqueta = $script:WAInstancia.etiqueta
 }
-# La clave de BALTER decide en que empresa se escribe. En la demo, antes de nada se comprueba que el
-# catalogo de esa empresa tiene el articulo de control (que solo existe en la empresa de la demo).
-# Si no, el ciclo se para: nunca se busca ni se crea nada con una clave de otra empresa.
+# HTTP sin cifrar solo dentro del equipo o de una red local; fuera, https.
+function Test-WAUrlErpSegura([string]$Url) {
+    $u = $null
+    if (-not [Uri]::TryCreate($Url, [UriKind]::Absolute, [ref]$u)) { return $false }
+    if ($u.Scheme -eq 'https') { return $true }
+    if ($u.Scheme -ne 'http') { return $false }
+    $h = $u.Host
+    return ($h -eq 'localhost' -or $h -match '^(127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)')
+}
+# Antes de leer o escribir nada se comprueba el destino:
+# - Vigia: URL permitida y token aceptado por el ERP de demo.
+# - BALTER: la clave decide en que empresa se escribe. Hace falta el permiso por escrito anotado en
+#   config.json y que el catalogo de esa empresa tenga el articulo de control (solo existe en la demo).
+# Si algo falla, el ciclo se para: nunca se busca ni se crea nada en un destino no comprobado.
 $script:WAEmpresaVerificada = $null
 function Assert-WAEmpresaDemo($Cfg) {
+    if ($script:WAInstancia.erp -eq 'vigia') {
+        if ($script:WAEmpresaVerificada -ceq $script:WAInstancia.erp_url) { return }
+        if (-not (Test-WAUrlErpSegura $script:WAInstancia.erp_url)) { throw 'URL_DEL_ERP_DE_VIGIA_NO_PERMITIDA' }
+        $r = Invoke-WAVigia 'GET' '/contacts?email=comprobacion-del-ciclo@example.com' $null
+        if ($r.status -eq 401) { throw 'TOKEN_DEL_ERP_DE_VIGIA_NO_VALIDO' }
+        if (-not $r.ok -and -not (Test-WAContactoNoEncontrado $r)) { throw "ERP_DE_VIGIA_NO_DISPONIBLE_HTTP_$($r.status)" }
+        $script:WAEmpresaVerificada = $script:WAInstancia.erp_url
+        return
+    }
+    if ([string]::IsNullOrWhiteSpace([string](Get-WAProp $Cfg 'balter_autorizado_por' ''))) { throw 'BALTER_SIN_PERMISO_POR_ESCRITO' }
     $control = [string](Get-WAProp $Cfg 'balter_control_articulo' '')
-    if ([string]::IsNullOrWhiteSpace($control)) { return }
+    if ([string]::IsNullOrWhiteSpace($control)) { throw 'BALTER_SIN_ARTICULO_DE_CONTROL' }
     if ($script:WAEmpresaVerificada -ceq $control) { return }
     $r = Invoke-WABalter 'articles.php' ([ordered]@{ action = 'search'; name = $control; limit = 25 })
     $ok = $false
@@ -146,8 +177,10 @@ function ConvertTo-WAPalabras([string]$t) {
     $n = [regex]::Replace($n, '[^\p{L}\p{Nd}]+', ' ')
     return $n.Trim().ToLowerInvariant()
 }
-# Un nombre es valido si tiene al menos 2 palabras y TODAS aparecen escritas
-# por el contacto (sin importar acentos, mayusculas, espacios o puntuacion).
+# Un nombre es valido si tiene al menos 2 palabras y TODAS aparecen escritas por el contacto (sin
+# importar acentos, mayusculas, espacios o puntuacion). No se exige que vayan seguidas: el nombre y
+# los apellidos suelen llegar en mensajes distintos («soy Carlos» ... «Vega Romero»). Limite conocido:
+# no distingue un nombre armado con palabras sueltas del mensaje; por eso el ERP lo revisa una persona.
 function Test-WANombreEnTexto([string]$Nombre, [string]$Texto) {
     $tokens = @((ConvertTo-WAPalabras $Nombre) -split ' ' | Where-Object { $_.Length -ge 2 })
     if ($tokens.Count -lt 2) { return $false }
@@ -155,10 +188,16 @@ function Test-WANombreEnTexto([string]$Nombre, [string]$Texto) {
     foreach ($tk in $tokens) { if (-not $fuente.Contains(" $tk ")) { return $false } }
     return $true
 }
+# El correo tiene que ser EXACTAMENTE uno de los que escribio el contacto: una parte recortada
+# (ana@gmail.co de ana@gmail.com) o contenida en otro (a@b.co en xa@b.co) no vale.
+$script:WAPatronEmail = '[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}'
 function Test-WAEmailEnTexto([string]$Email, [string]$Texto) {
     if ([string]::IsNullOrWhiteSpace($Email) -or $Email.Length -gt 254) { return $false }
-    if (-not [regex]::IsMatch($Email, '^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$')) { return $false }
-    return ($Texto.IndexOf($Email, [StringComparison]::OrdinalIgnoreCase) -ge 0)
+    if (-not [regex]::IsMatch($Email, '^' + $script:WAPatronEmail + '$')) { return $false }
+    foreach ($m in [regex]::Matches([string]$Texto, $script:WAPatronEmail)) {
+        if ([string]::Equals($m.Value, $Email, [StringComparison]::OrdinalIgnoreCase)) { return $true }
+    }
+    return $false
 }
 function Get-WAPrefijo { return ([char]::ConvertFromUtf32(0x1F916) + ' ' + $script:WAEtiqueta) }
 function Format-WAMensajeAsistente([string]$Texto) {
@@ -171,6 +210,8 @@ function Format-WAMensajeAsistente([string]$Texto) {
     if ($cuerpo.Contains('```') -or $cuerpo.TrimStart().StartsWith('{')) { throw 'RESPUESTA_CON_FORMATO_TECNICO' }
     if ($cuerpo.IndexOf($script:WAEtiqueta, [StringComparison]::OrdinalIgnoreCase) -ge 0) { throw 'PREFIJO_DUPLICADO' }
     if ([regex]::IsMatch($cuerpo, '[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}')) { throw 'RESPUESTA_REPITE_UN_EMAIL' }
+    # Un enlace en la respuesta podria venir de una instruccion inyectada en el chat: no se envia.
+    if ([regex]::IsMatch($cuerpo, '(?i)(https?://|www\.)')) { throw 'RESPUESTA_CON_ENLACE' }
     if ([regex]::IsMatch($cuerpo, '(?<!\d)\+?\d[\d\s\-]{7,}\d(?!\d)')) { throw 'RESPUESTA_CONTIENE_UN_NUMERO_DE_TELEFONO' }
     return (Get-WAPrefijo) + "`n`n" + $cuerpo
 }
@@ -206,7 +247,7 @@ function Get-WATipoMensaje($m, [string[]]$IdsBot) {
 # ---------------------------------------------------------------- credenciales e IO (sustituibles en pruebas)
 function Get-WAToken([string]$Nombre) {
     if ($script:WA.Tokens.ContainsKey($Nombre)) { return $script:WA.Tokens[$Nombre] }
-    $rutas = @{ zernio_lectura = 'zernio.dpapi'; zernio_envio = 'zernio.dpapi'; balter = 'balter.dpapi' }
+    $rutas = @{ zernio_lectura = 'zernio.dpapi'; zernio_envio = 'zernio.dpapi'; balter = 'balter.dpapi'; vigia = 'vigia.dpapi' }
     $p = Join-Path $env:LOCALAPPDATA ($script:WAInstancia.carpeta_claves + '\' + $rutas[$Nombre])
     $cifrado = (Get-Content -LiteralPath $p -Encoding UTF8 -TotalCount 1).Trim()
     if ([string]::IsNullOrWhiteSpace($cifrado)) { throw "CLAVE_NO_DISPONIBLE_$Nombre" }
@@ -237,7 +278,8 @@ function Invoke-WAHttp([string]$Metodo, [string]$Uri, [hashtable]$Headers, $Cuer
         return @{ ok = $true; status = [int]$web.StatusCode; data = $data; incierto = $false }
     } catch {
         $code = Get-WACodigoHttp $_
-        return @{ ok = $false; status = $code; data = $null; incierto = ($code -eq 0 -or $code -ge 500); error = $_.Exception.Message }
+        $cuerpoError = $null; try { $cuerpoError = [string]$_.ErrorDetails.Message } catch { }
+        return @{ ok = $false; status = $code; data = $null; incierto = ($code -eq 0 -or $code -ge 500); error = $_.Exception.Message; cuerpo_error = $cuerpoError }
     }
 }
 function Invoke-WAZernioGet([string]$Ruta) {
@@ -256,6 +298,12 @@ function Invoke-WABalter([string]$Fichero, $Cuerpo) {
     if ($Cuerpo.action -eq 'create_opportunity') { $script:WA.Contadores.BALTER_ALTAS++ } else { $script:WA.Contadores.BALTER_LECTURAS++ }
     $h = @{ Authorization = 'Bearer ' + (Get-WAToken 'balter') }
     return (Invoke-WAHttp 'POST' ($script:WABalterBase + '/' + $Fichero) $h $Cuerpo 40)
+}
+# ERP de demo de Vigia (contrato: docs/integracion-whatsapp-erp.md).
+function Invoke-WAVigia([string]$Metodo, [string]$Ruta, $Cuerpo) {
+    if ($Metodo -eq 'POST') { $script:WA.Contadores.BALTER_ALTAS++ } else { $script:WA.Contadores.BALTER_LECTURAS++ }
+    $h = @{ Authorization = 'Bearer ' + (Get-WAToken 'vigia') }
+    return (Invoke-WAHttp $Metodo ($script:WAInstancia.erp_url + $Ruta) $h $Cuerpo 20)
 }
 function Invoke-WAHermes([string]$Prompt) {
     $script:WA.Contadores.HERMES++
@@ -282,6 +330,7 @@ function Read-WAConfirmacion([string]$Frase, [string]$Pregunta) {
 # ---------------------------------------------------------------- BALTER
 # Devuelve @{ estado = 'NO_ENCONTRADO' | 'ENCONTRADO' | 'ERROR'; matches; person_ids; roles }
 function Find-WAContactoBalter([string]$Email, [string[]]$Telefonos) {
+    if ($script:WAInstancia.erp -eq 'vigia') { return (Find-WAContactoVigia $Email $Telefonos) }
     $consultas = @()
     if ($Email) { $consultas += ,@{ action = 'lookup_contact'; email = $Email.ToLowerInvariant() } }
     foreach ($t in @($Telefonos | Where-Object { $_ })) { $consultas += ,@{ action = 'lookup_contact'; phone = $t } }
@@ -299,6 +348,29 @@ function Find-WAContactoBalter([string]$Email, [string[]]$Telefonos) {
     }
     if ($ids.Count -eq 0) { return @{ estado = 'NO_ENCONTRADO'; matches = 0 } }
     return @{ estado = 'ENCONTRADO'; matches = $ids.Count; person_ids = @($ids); roles = @($roles | Select-Object -Unique) }
+}
+# Un 404 solo significa «no existe» si lo dice el ERP: una ruta mal escrita tambien da 404.
+function Test-WAContactoNoEncontrado($R) {
+    return ($R.status -eq 404 -and ([string]$R.cuerpo_error).Contains('Contacto no encontrado'))
+}
+# Mismo resultado que en BALTER: 200 = existe, 404 = no existe; cualquier otra respuesta es ERROR
+# (desconocido no es «no existe»: no se responde ni se crea nada).
+function Find-WAContactoVigia([string]$Email, [string[]]$Telefonos) {
+    $consultas = @()
+    if ($Email) { $consultas += ('email=' + [Uri]::EscapeDataString($Email.ToLowerInvariant())) }
+    foreach ($t in @($Telefonos | Where-Object { $_ })) { $consultas += ('phone=' + [Uri]::EscapeDataString($t)) }
+    if ($consultas.Count -eq 0) { return @{ estado = 'ERROR'; motivo = 'SIN_DATOS_DE_BUSQUEDA' } }
+    $ids = New-Object System.Collections.Generic.HashSet[string]
+    foreach ($q in $consultas) {
+        $r = Invoke-WAVigia 'GET' ('/contacts?' + $q) $null
+        if (Test-WAContactoNoEncontrado $r) { continue }
+        if (-not $r.ok -or $null -eq $r.data -or [string]::IsNullOrWhiteSpace([string](Get-WAProp $r.data 'id' ''))) {
+            return @{ estado = 'ERROR'; motivo = "VIGIA_LOOKUP_HTTP_$($r.status)" }
+        }
+        [void]$ids.Add([string]$r.data.id)
+    }
+    if ($ids.Count -eq 0) { return @{ estado = 'NO_ENCONTRADO'; matches = 0 } }
+    return @{ estado = 'ENCONTRADO'; matches = $ids.Count; person_ids = @($ids); roles = @('contacto') }
 }
 function Get-WATelefonosBusqueda([string]$Digitos) {
     $l = @($Digitos)
@@ -349,8 +421,8 @@ function Get-WAWebhook {
     try { return (New-Object System.Net.NetworkCredential('', $seguro)).Password } finally { $seguro.Dispose() }
 }
 function New-WATarjetaAviso($A) {
-    $titulos = @{ REVISION = 'WhatsApp: conversacion para revisar'; ALTA_CREADA = 'WhatsApp: nueva oportunidad en BALTER'
-        ALTA_INCIERTA = 'WhatsApp: alta sin confirmar en BALTER'; ERROR = 'WhatsApp: el ciclo automatico tiene errores'; RECUPERADO = 'WhatsApp: el ciclo se ha recuperado'; PRUEBA = 'WhatsApp: aviso de prueba'; RESUMEN = 'WhatsApp: resumen del dia' }
+    $titulos = @{ REVISION = 'WhatsApp: conversacion para revisar'; ALTA_CREADA = 'WhatsApp: nueva oportunidad en el ERP'
+        ALTA_INCIERTA = 'WhatsApp: alta sin confirmar en el ERP'; ERROR = 'WhatsApp: el ciclo automatico tiene errores'; RECUPERADO = 'WhatsApp: el ciclo se ha recuperado'; PRUEBA = 'WhatsApp: aviso de prueba'; RESUMEN = 'WhatsApp: resumen del dia' }
     $hechos = @()
     if ([string]$A.tipo -eq 'RESUMEN') {
         $card = [ordered]@{
@@ -368,7 +440,7 @@ function New-WATarjetaAviso($A) {
     if ($A.nombre) { $hechos += @{ title = 'Nombre'; value = [string]$A.nombre } }
     if ($A.email) { $hechos += @{ title = 'Correo'; value = [string]$A.email } }
     if ($A.servicio) { $hechos += @{ title = 'Consulta'; value = [string]$A.servicio } }
-    if ($A.opportunity_id) { $hechos += @{ title = 'Oportunidad'; value = "https://app.balter.es/chance_view/$($A.opportunity_id)/" } }
+    if ($A.opportunity_id) { $hechos += @{ title = 'Oportunidad'; value = (Get-WAEnlaceOportunidad $A.opportunity_id) } }
     if ($A.conversation_id) { $hechos += @{ title = 'Conversacion Zernio'; value = [string]$A.conversation_id } }
     if ($A.prueba) { $hechos += @{ title = 'Prueba'; value = ('Si (' + $script:WAInstancia.prefijo_prueba + ')') } }
     $titulo = $titulos[[string]$A.tipo]; if (-not $titulo) { $titulo = 'WhatsApp: aviso' }
@@ -656,6 +728,54 @@ function New-WADescripcion($E, $Mensajes, [bool]$Prueba, [string]$CierreTexto) {
     return $sb.ToString()
 }
 
+function Get-WANombreErp { if ($script:WAInstancia.erp -eq 'vigia') { return 'el ERP de Vigia' } else { return 'BALTER' } }
+function Get-WAEnlaceOportunidad($Id) {
+    if ($script:WAInstancia.erp -eq 'balter') { return "https://app.balter.es/chance_view/$Id/" }
+    return "$Id (ERP de demo de Vigia, pestana 7 del panel)"
+}
+function Limit-WATexto([string]$Texto, [int]$Max) {
+    if ($null -eq $Texto) { return '' }
+    if ($Texto.Length -le $Max) { return $Texto }
+    return $Texto.Substring(0, $Max - 1) + [char]0x2026
+}
+# Crea UNA oportunidad en el ERP de destino. Devuelve @{ creada; incierto; status; opportunity_id; person_id }.
+function New-WAAltaErp($E, $Entrantes, $Hist, [bool]$Prueba, [string]$Cierre, $Info) {
+    if ($script:WAInstancia.erp -eq 'vigia') {
+        # Minimo necesario: nombre, contacto, asunto y un resumen; la conversacion entera se queda en Zernio.
+        $primerBot = @($Hist | Where-Object { $_.tipo -eq 'bot' -and (ConvertTo-WAFecha $_.fecha) -ge (ConvertTo-WAFecha $Entrantes[0].fecha) }) | Select-Object -First 1
+        $resumen = $(if ($Prueba) { 'PRUEBA (' + $script:WAInstancia.prefijo_prueba + '). ' } else { '' }) +
+            [string]$E.resumen + ' | Idioma: ' + [string]$E.idioma + ' | Conversacion Zernio: ' + $E.conversation_id +
+            ' | Registrado por: ' + $script:WAInstancia.registrado_por
+        $cuerpo = [ordered]@{
+            name = $E.nombre; email = $E.email
+            topic = Limit-WATexto $(if ($E.servicio) { [string]$E.servicio } else { 'Consulta por WhatsApp' }) 120
+            summary = Limit-WATexto $resumen 2000; urgent = $false; channel = 'whatsapp'
+            received_at = $Entrantes[0].fecha
+            answered_at = $(if ($primerBot) { $primerBot.fecha } else { Format-WAFecha (Get-WAAhora) })
+        }
+        if (-not $Prueba) { $cuerpo.phone = '+' + $Info.telefono }
+        $r = Invoke-WAVigia 'POST' '/enquiries' $cuerpo
+        $op = [string](Get-WAProp $r.data 'opportunity_id' '')
+        if ($r.ok -and $r.status -eq 201 -and $op) {
+            return @{ creada = $true; incierto = $false; status = $r.status; opportunity_id = $op; person_id = [string](Get-WAProp (Get-WAProp $r.data 'contact') 'id' '') }
+        }
+        return @{ creada = $false; incierto = [bool]$r.incierto; status = $r.status }
+    }
+    $tags = @('WhatsApp', 'Hermes') + @($script:WAInstancia.etiquetas_extra); if ($Prueba) { $tags += 'PRUEBA_IA_HERMES' }
+    $tags = @($tags | Select-Object -Unique | Select-Object -First 10)
+    $peticion = [ordered]@{
+        action = 'create_opportunity'; full_name = $E.nombre; person_type = 'physical'; email = $E.email
+        source = $script:WAInstancia.origen; message = $Entrantes[0].texto
+        description = New-WADescripcion $E $Hist $Prueba $Cierre; tags = $tags
+    }
+    if (-not $Prueba) { $peticion.phone = '+' + $Info.telefono }
+    $r = Invoke-WABalter 'obtaining.php' $peticion
+    if ($r.ok -and [string]$r.data.status -ceq 'success' -and $r.data.chance_created -eq $true -and [int]$r.data.chance_id -gt 0) {
+        return @{ creada = $true; incierto = $false; status = $r.status; opportunity_id = [int]$r.data.chance_id; person_id = [int]$r.data.person_id }
+    }
+    return @{ creada = $false; incierto = [bool]$r.incierto; status = $r.status }
+}
+
 # ---------------------------------------------------------------- nucleo: una conversacion
 # Devuelve un objeto con la decision tomada (para el resumen).
 function Invoke-WAConversacion([string]$Cid, [bool]$Ejecutar, [bool]$Automatico) {
@@ -741,9 +861,9 @@ function Invoke-WAConversacion([string]$Cid, [bool]$Ejecutar, [bool]$Automatico)
         $b = Find-WAContactoBalter $E.email @()
         if ($b.estado -eq 'ENCONTRADO' -and $b.matches -eq 1) {
             $E.person_id = $b.person_ids[0]
-            Set-WAEstado $E 'ALTA_CREADA' 'Alta incierta confirmada: la persona ya figura en BALTER (no se repite)'
+            Set-WAEstado $E 'ALTA_CREADA' "Alta incierta confirmada: la persona ya figura en $(Get-WANombreErp) (no se repite)"
         } else {
-            Set-WAEstado $E 'REVISION' "Alta incierta sin confirmar en BALTER ($($b.estado)): revisar a mano, no se reintenta"
+            Set-WAEstado $E 'REVISION' "Alta incierta sin confirmar en $(Get-WANombreErp) ($($b.estado)): revisar a mano, no se reintenta"
         }
         if ($Ejecutar) { Save-WAEstadoConv $E }
         $res.estado = $E.estado; $res.detalle = $E.motivo; return [pscustomobject]$res
@@ -768,13 +888,13 @@ function Invoke-WAConversacion([string]$Cid, [bool]$Ejecutar, [bool]$Automatico)
         return [pscustomobject]$res
     }
 
-    # Telefono -> BALTER (una vez por conversacion). En prueba no se busca el telefono del probador.
+    # Telefono -> ERP (una vez por conversacion). En prueba no se busca el telefono del probador.
     $info = Get-WAInfoConversacion $Cid
     if (-not $prueba -and -not $E.balter_telefono_comprobado) {
         $b = Find-WAContactoBalter $null (Get-WATelefonosBusqueda $info.telefono)
-        if ($b.estado -eq 'ERROR') { throw "BALTER_NO_DISPONIBLE: $($b.motivo)" }
+        if ($b.estado -eq 'ERROR') { throw "ERP_NO_DISPONIBLE: $($b.motivo)" }
         if ($b.estado -eq 'ENCONTRADO') {
-            Set-WAEstado $E 'EXISTENTE' ("Telefono ya registrado en BALTER (roles: " + (@($b.roles) -join ',') + ')')
+            Set-WAEstado $E 'EXISTENTE' ("Telefono ya registrado en $(Get-WANombreErp) (roles: " + (@($b.roles) -join ',') + ')')
             if ($Ejecutar) { Save-WAEstadoConv $E }
             $res.estado = $E.estado; $res.detalle = $E.motivo; return [pscustomobject]$res
         }
@@ -817,7 +937,7 @@ function Invoke-WAConversacion([string]$Cid, [bool]$Ejecutar, [bool]$Automatico)
         $res.estado = $E.estado; $res.detalle = $E.motivo; return [pscustomobject]$res
     }
 
-    # Email nuevo -> BALTER y registro local.
+    # Email nuevo -> ERP y registro local.
     if ($E.email -and $E.email_comprobado -ne $E.email) {
         $idx = Get-WAIndiceEmails
         $previo = Get-WAProp $idx.emails $E.email
@@ -827,9 +947,9 @@ function Invoke-WAConversacion([string]$Cid, [bool]$Ejecutar, [bool]$Automatico)
             $res.estado = $E.estado; $res.detalle = $E.motivo; return [pscustomobject]$res
         }
         $b = Find-WAContactoBalter $E.email @()
-        if ($b.estado -eq 'ERROR') { throw "BALTER_NO_DISPONIBLE: $($b.motivo)" }
+        if ($b.estado -eq 'ERROR') { throw "ERP_NO_DISPONIBLE: $($b.motivo)" }
         if ($b.estado -eq 'ENCONTRADO') {
-            Set-WAEstado $E 'EXISTENTE' ("Email ya registrado en BALTER (roles: " + (@($b.roles) -join ',') + ')')
+            Set-WAEstado $E 'EXISTENTE' ("Email ya registrado en $(Get-WANombreErp) (roles: " + (@($b.roles) -join ',') + ')')
             if ($Ejecutar) { Save-WAEstadoConv $E }
             $res.estado = $E.estado; $res.detalle = $E.motivo; return [pscustomobject]$res
         }
@@ -871,9 +991,9 @@ function Invoke-WAConversacion([string]$Cid, [bool]$Ejecutar, [bool]$Automatico)
         return [pscustomobject]$res
     }
 
-    # ALTA en BALTER (una sola vez por conversacion).
+    # ALTA en el ERP (una sola vez por conversacion).
     if ($completo) {
-        if (-not $Automatico -and -not (Read-WAConfirmacion 'CREAR' 'Escribe CREAR para registrar UNA oportunidad en BALTER (cualquier otra cosa = no)')) {
+        if (-not $Automatico -and -not (Read-WAConfirmacion 'CREAR' "Escribe CREAR para registrar UNA oportunidad en $(Get-WANombreErp) (cualquier otra cosa = no)")) {
             $res.accion = 'CANCELADA_POR_USUARIO'; Save-WAEstadoConv $E; return [pscustomobject]$res
         }
         $b = Find-WAContactoBalter $E.email $(if ($prueba) { @() } else { Get-WATelefonosBusqueda $info.telefono })
@@ -888,26 +1008,19 @@ function Invoke-WAConversacion([string]$Cid, [bool]$Ejecutar, [bool]$Automatico)
         }
         Set-WAEstado $E 'ALTA_INCIERTA' 'Alta iniciada'; Save-WAEstadoConv $E
         $hist = @($vista | Where-Object { $_.tipo -eq 'entrante' -or $_.tipo -eq 'bot' })
-        $tags = @('WhatsApp', 'Hermes') + @($script:WAInstancia.etiquetas_extra); if ($prueba) { $tags += 'PRUEBA_IA_HERMES' }
-        $tags = @($tags | Select-Object -Unique | Select-Object -First 10)
-        $peticion = [ordered]@{
-            action = 'create_opportunity'; full_name = $E.nombre; person_type = 'physical'; email = $E.email
-            source = $script:WAInstancia.origen; message = $entrantes[0].texto
-            description = New-WADescripcion $E $hist $prueba $texto; tags = $tags
-        }
-        if (-not $prueba) { $peticion.phone = '+' + $info.telefono }
-        $r = Invoke-WABalter 'obtaining.php' $peticion
-        if ($r.ok -and [string]$r.data.status -ceq 'success' -and $r.data.chance_created -eq $true -and [int]$r.data.chance_id -gt 0) {
-            $E.opportunity_id = [int]$r.data.chance_id; $E.person_id = [int]$r.data.person_id
-            Set-WAEstado $E 'ALTA_CREADA' "Oportunidad $($E.opportunity_id) creada (persona $($E.person_id))"
+        $erpNombre = Get-WANombreErp
+        $a = New-WAAltaErp $E $entrantes $hist $prueba $texto $info
+        if ($a.creada) {
+            $E.opportunity_id = $a.opportunity_id; $E.person_id = $a.person_id
+            Set-WAEstado $E 'ALTA_CREADA' "Oportunidad $($E.opportunity_id) creada en $erpNombre (persona $($E.person_id))"
             Save-WAEstadoConv $E
             Add-WAIndiceEmail $E.email $Cid $E.opportunity_id
-            $res.detalle = "Oportunidad BALTER $($E.opportunity_id)"
-        } elseif ($r.incierto) {
-            Set-WAEstado $E 'ALTA_INCIERTA' "Sin respuesta de BALTER (HTTP $($r.status)): se comprobara en el siguiente ciclo, sin repetir"
+            $res.detalle = "Oportunidad $erpNombre $($E.opportunity_id)"
+        } elseif ($a.incierto) {
+            Set-WAEstado $E 'ALTA_INCIERTA' "Sin respuesta de $erpNombre (HTTP $($a.status)): se comprobara en el siguiente ciclo, sin repetir"
             Save-WAEstadoConv $E; $res.estado = $E.estado; $res.detalle = $E.motivo; return [pscustomobject]$res
         } else {
-            Set-WAEstado $E 'REVISION' "BALTER rechazo el alta (HTTP $($r.status)): revisar"
+            Set-WAEstado $E 'REVISION' "$erpNombre rechazo el alta (HTTP $($a.status)): revisar"
             Save-WAEstadoConv $E; $res.estado = $E.estado; $res.detalle = $E.motivo; return [pscustomobject]$res
         }
     } elseif (-not $Automatico -and -not (Read-WAConfirmacion 'ENVIAR' 'Escribe ENVIAR para mandar este WhatsApp (cualquier otra cosa = no)')) {
@@ -981,7 +1094,7 @@ function New-WAResumenDia([datetime]$Dia) {
             if ($ev -eq 'ALTA_CREADA') {
                 $e = Read-WAJson (Get-WARutaConv ([string]$x.conv))
                 $id = Get-WAProp $e 'opportunity_id'
-                $altas += ('- ' + [string](Get-WAProp $e 'nombre' 'sin nombre') + ' (' + [string](Get-WAProp $e 'servicio' '') + '): https://app.balter.es/chance_view/' + $id + '/')
+                $altas += ('- ' + [string](Get-WAProp $e 'nombre' 'sin nombre') + ' (' + [string](Get-WAProp $e 'servicio' '') + '): ' + (Get-WAEnlaceOportunidad $id))
             }
             if ($ev -eq 'REVISION') { $revisiones += ('- ' + [string]$x.motivo + [string]$x.detalle) }
             if ($ev -eq 'ERROR') { $errores++ }
@@ -993,7 +1106,7 @@ function New-WAResumenDia([datetime]$Dia) {
     $enviadosMes = [int](Get-WAProp $script:WA.Global.envios_por_mes $mes 0)
     $lineas = @(
         "Chats de WhatsApp con movimiento (de cualquier tipo): $chats",
-        "Oportunidades creadas en BALTER (revisa su asignacion): $(@($altas).Count)"
+        "Oportunidades creadas en $(Get-WANombreErp) (revisa su asignacion): $(@($altas).Count)"
     ) + $altas + @(
         "Mensajes enviados por el asistente: $([int]$cuenta['ENVIO_OK'])",
         "Conversaciones para revisar: $(@($revisiones).Count)"

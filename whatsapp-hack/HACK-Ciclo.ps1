@@ -1,7 +1,7 @@
 ﻿<#
   Asistente de WhatsApp del hackathon (instancia de demostracion, separada de cualquier instalacion de produccion)
-  Zernio -> Hermes (perfil hackaton-demo) -> BALTER (entidad ficticia de la demo)
-  Nuevo: -ActivarFondo [-Segundos N]  el asistente funciona SOLO, oculto, cada N segundos (2 a 60), sin depender de
+  Zernio -> Hermes (perfil hackaton-demo) -> ERP de demo de Vigia (por defecto; BALTER solo con permiso, ADR 008)
+  Nuevo: -ActivarFondo [-Segundos N]  el asistente funciona SOLO, oculto, cada N segundos (5 a 60), sin depender de
          ninguna ventana. Si se cae, el Programador de tareas lo relanza en 1 minuto. -Parar lo detiene.
          -Monitor   muestra en directo lo que hace (cerrar esta ventana NO lo para).
          -Bucle [-Segundos N]  lo mismo pero en esta ventana (solo para pruebas).
@@ -69,8 +69,10 @@ if ([string]::IsNullOrWhiteSpace([string](Get-WAProp $cfgInstancia 'carpeta_clav
     @(Get-WAProp $proteger 'mutex' @()) -contains [string](Get-WAProp $cfgInstancia 'mutex' '') -or
     @(Get-WAProp $proteger 'perfil_hermes' @()) -contains [string](Get-WAProp $cfgInstancia 'perfil_hermes' '') -or
     (-not ($Parar -or $Estado -or $Monitor -or $Revisiones) -and
-     [string]::IsNullOrWhiteSpace([string](Get-WAProp $cfgInstancia 'balter_control_articulo' '')))) {
-    Write-Host 'PARADO: config.json no tiene los valores propios de la demo (claves, mutex, perfil de Hermes o articulo de control de BALTER). Ejecuta HACK-ClaveBalter.ps1.' -ForegroundColor Red; return
+     ([string](Get-WAProp (Get-WAProp $cfgInstancia 'erp' $null) 'tipo' 'vigia')).ToLowerInvariant() -eq 'balter' -and
+     ([string]::IsNullOrWhiteSpace([string](Get-WAProp $cfgInstancia 'balter_control_articulo' '')) -or
+      [string]::IsNullOrWhiteSpace([string](Get-WAProp $cfgInstancia 'balter_autorizado_por' ''))))) {
+    Write-Host 'PARADO: config.json no tiene los valores propios de la demo (claves, mutex, perfil de Hermes o, con BALTER, el articulo de control y quien autorizo por escrito). Revisa HACK-Instalar.ps1.' -ForegroundColor Red; return
 }
 Set-WAInstancia $cfgInstancia
 
@@ -152,7 +154,7 @@ if ($ActivarFondo) {
     if ($cfg.modo -ne 'produccion') { Write-Host 'Primero activa la produccion (-ActivarProduccion).' -ForegroundColor Red; return }
     $seg = $Segundos
     if ($seg -eq 0) { $seg = [int](Get-WAProp $cfg 'intervalo_segundos' 10) }
-    if ($seg -lt 2) { $seg = 2 }
+    if ($seg -lt 5) { $seg = 5 }  # menos de 5 s castiga a Zernio sin mejorar la demo
     $vbs = Join-Path $raiz 'HACK-Bucle-Oculto.vbs'
     if (-not (Test-Path -LiteralPath $vbs)) { Write-Host 'Falta HACK-Bucle-Oculto.vbs: vuelve a ejecutar HACK-Instalar.ps1.' -ForegroundColor Red; return }
     Write-Host "El asistente funcionara SOLO y OCULTO: revisa el WhatsApp cada $seg segundos, responde y crea oportunidades."
@@ -186,7 +188,7 @@ if ($Bucle) {
     if ($cfg.modo -ne 'produccion') { Write-Host 'Primero activa la produccion (-ActivarProduccion).' -ForegroundColor Red; return }
     $seg = $Segundos
     if ($seg -eq 0) { $seg = [int](Get-WAProp $cfg 'intervalo_segundos' 10) }
-    if ($seg -lt 2) { $seg = 2 }
+    if ($seg -lt 5) { $seg = 5 }  # menos de 5 s castiga a Zernio sin mejorar la demo
     if ($Oculto) {
         if ($cfg.automatico_habilitado -ne $true) { return }
     } else {
@@ -394,4 +396,4 @@ foreach ($r in $resultados) {
     Write-Host ('[' + $r.accion + '] estado=' + $r.estado + ' :: ' + $r.detalle)
 }
 $c = $script:WA.Contadores
-Write-Host ("Llamadas -> Zernio GET: {0} | Zernio envios: {1} | BALTER consultas: {2} | BALTER altas: {3} | Hermes: {4} | Avisos Teams: {5}" -f $c.GET, $c.POST, $c.BALTER_LECTURAS, $c.BALTER_ALTAS, $c.HERMES, $c.AVISOS)
+Write-Host ("Llamadas -> Zernio GET: {0} | Zernio envios: {1} | ERP consultas: {2} | ERP altas: {3} | Hermes: {4} | Avisos Teams: {5}" -f $c.GET, $c.POST, $c.BALTER_LECTURAS, $c.BALTER_ALTAS, $c.HERMES, $c.AVISOS)
