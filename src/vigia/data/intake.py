@@ -68,7 +68,7 @@ TEMPLATES: dict[str, Template] = {
             (
                 "Una fila por factura. tipo_cliente: aseguradora, empresa o particular. "
                 "Para un particular basta un identificador (p. ej. «Particular 12»); "
-                "su correo, solo si quieres que Vigía le reclame."
+                "su correo, solo si quieres que Pymbrain le reclame."
             ),
         ),
         Template(

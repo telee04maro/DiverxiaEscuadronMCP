@@ -31,7 +31,7 @@ AREA_COLOR: dict[Area, str] = {
 
 # (text colour, background, plain words for the owner)
 AUTONOMY_STYLE: dict[Autonomy, tuple[str, str, str]] = {
-    Autonomy.AUTO: ("#1F6B43", "#E4F3EA", "Lo hace Vigía solo"),
+    Autonomy.AUTO: ("#1F6B43", "#E4F3EA", "Lo hace Pymbrain solo"),
     Autonomy.APPROVAL: ("#9A4F22", "#FBEADF", "Te lo prepara y tú apruebas"),
     Autonomy.PERSON: (PETROL, "#E2EEF4", "Lo hace una persona"),
     Autonomy.EXPERT: ("#5B3F8C", "#EEE8F7", "Lo revisa un experto"),
@@ -203,6 +203,6 @@ def legend() -> None:
     html(
         '<div class="vg-legend">'
         + " ".join(autonomy_pill(a) for a in Autonomy)
-        + "<br>Vigía solo actúa sin preguntar en lo reversible; "
+        + "<br>Pymbrain solo actúa sin preguntar en lo reversible; "
         + "lo serio lo decides tú o un experto.</div>"
     )

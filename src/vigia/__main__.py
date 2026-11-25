@@ -55,7 +55,7 @@ def _print_results(execution: Execution, result: Remeasurement) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Recorrido completo de la demo de Vigía")
+    parser = argparse.ArgumentParser(description="Recorrido completo de la demo de Pymbrain")
     parser.add_argument("--fallo", action="store_true", help="un pago llega con 1 céntimo de menos")
     args = parser.parse_args()
     if hasattr(sys.stdout, "reconfigure"):

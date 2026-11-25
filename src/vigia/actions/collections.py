@@ -34,7 +34,7 @@ _NOT_FRIENDLY = re.compile(
 MAX_SUBJECT = 120
 CLIENT_PLACEHOLDER = "[CLIENTE]"
 DISCLOSURE = (
-    "Este mensaje lo ha redactado Vigía, el asistente de IA de {company}, en su nombre. "
+    "Este mensaje lo ha redactado Pymbrain, el asistente de IA de {company}, en su nombre. "
     "Si ya ha realizado el pago, por favor ignórelo y disculpe las molestias."
 )
 

@@ -1,4 +1,4 @@
-"""Vigía demo panel. Run with: uv run streamlit run src/vigia/app.py
+"""Pymbrain demo panel. Run with: uv run streamlit run src/vigia/app.py
 
 The panel only presents; every decision lives in the agents (see vigia.pipeline).
 """
@@ -64,7 +64,7 @@ FIELD_LABELS = {
     "opening_hour": "hora de apertura",
     "closing_hour": "hora de cierre",
 }
-BRAND = Path(__file__).resolve().parents[2] / "docs" / "negocio"
+BRAND = Path(__file__).resolve().parents[2] / "docs" / "negocio" / "pymbrain"
 TABS = (
     "1 · Tu empresa", "2 · Expertos", "3 · Causa y plan", "4 · Actuar",
     "5 · ¿Funcionó?", "6 · Transparencia", "7 · WhatsApp", "8 · Clientes",
@@ -122,7 +122,7 @@ def _sidebar() -> None:
     model: LanguageModel = st.session_state.model
     with st.sidebar:
         st.markdown("**Un equipo de expertos de IA para toda tu pyme, en un solo sitio.**")
-        st.caption("Vuelve a lo que importa.")
+        st.caption("IA que impulsa tu pyme")
         st.divider()
         st.markdown("**Controles de la demo**")
         if st.button("Reiniciar la demo", use_container_width=True):
@@ -726,7 +726,7 @@ def _customer_card(card: CustomerCard) -> None:
 
 def main() -> None:
     icon = str(BRAND / "icono.png") if (BRAND / "icono.png").exists() else "🧭"
-    st.set_page_config(page_title="Vigía", page_icon=icon, layout="wide")
+    st.set_page_config(page_title="pymbrain", page_icon=icon, layout="wide")
     if (BRAND / "logo-simple.png").exists():
         st.logo(str(BRAND / "logo-simple.png"), size="large", icon_image=icon)
     ui.apply_theme()

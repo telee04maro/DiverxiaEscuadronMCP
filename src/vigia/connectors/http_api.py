@@ -173,7 +173,7 @@ def build_server(host: str, port: int, erp: DemoErp, token: str) -> ThreadingHTT
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="API del ERP de demo de Vigía")
+    parser = argparse.ArgumentParser(description="API del ERP de demo de Pymbrain")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument(
