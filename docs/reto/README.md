@@ -34,7 +34,7 @@ Fuente: <https://talent-land.es/bases-legales-hackathon/> (leídas el 24/11/2026
 
 - **Organiza:** Rupture Events S.L. (Talent Land España). **Gestiona:** Diverxia (inscripciones, equipos, mentores y jurado).
 - **Fechas:** 24 y 25/11/2026, unas 16 h, presencial. El pie de la web dice 24–26: hay que confirmarlo.
-- **Equipos:** las bases hablan de equipos de **6 personas**, con ajustes razonables por bajas. **Nosotros somos 3: confirmarlo con la organización.**
+- **Equipos:** las bases hablan de equipos de **6 personas**, con ajustes razonables por bajas. **Somos 6.**
 - **Criterios de evaluación** (lista abierta; los pesos «se comunicarán antes de la evaluación»):
   - innovación;
   - impacto;

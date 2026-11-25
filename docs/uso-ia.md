@@ -89,9 +89,9 @@ Capturas del panel con el código entregado, en **modo reglas** (sin clave de IA
 
 ## 4. Cómo lo hemos construido
 
-Lo hemos construido **los tres miembros del equipo con Claude Code** (Claude Opus 5.5), en unas 16 horas de hackathon, del 24 al 25 de noviembre de 2026. Claude ha escrito la mayor parte del código y de los documentos; **el equipo ha decidido** el problema, la idea, el enfoque, los precios, la marca y el pitch, y ha revisado cada cambio.
+Lo hemos construido **los seis miembros del equipo con Claude Code** (Claude Opus 5.5), en unas 16 horas de hackathon, del 24 al 25 de noviembre de 2026. Claude ha escrito la mayor parte del código y de los documentos; **el equipo ha decidido** el problema, la idea, el enfoque, los precios, la marca y el pitch, y ha revisado cada cambio.
 
-**Método de trabajo** (normas comunes en [`CLAUDE.md`](../CLAUDE.md), para que los tres programemos igual con Claude Code):
+**Método de trabajo** (normas comunes en [`CLAUDE.md`](../CLAUDE.md), para que todos programemos igual con Claude Code):
 1. **Investigar antes de implementar.** Leímos el reto y las bases, buscamos problemas reales con datos (pymes en España y Málaga) y comprobamos en la documentación oficial las condiciones de cada fuente (Meta, Google, reseñas). Cada decisión importante queda en una ADR (`docs/decisiones/`, 9 decisiones).
 2. **Construir de principio a fin pronto** y subir siempre algo entregable: cada paso pequeño, con su commit y su CI en Linux y Windows (96 commits).
 3. **Verificación honesta.** Una acción no es una prueba: se comprueba el efecto (el correo llegó, el pago cuadra, el indicador se movió). Desconocido no es cero. Un fallo inyectado (un pago con un céntimo de menos) tiene que detectarse.

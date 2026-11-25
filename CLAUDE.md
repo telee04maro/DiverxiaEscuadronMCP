@@ -8,7 +8,7 @@ El método es el que el equipo ya usaba en proyectos anteriores: decidir con dat
 
 ## Contexto
 
-- **Evento:** hackathon *IA First* de Talent Land España, gestionado por Diverxia. Málaga, 24 y 25/11/2026, unas 16 h. Somos un equipo de 3.
+- **Evento:** hackathon *IA First* de Talent Land España, gestionado por Diverxia. Málaga, 24 y 25/11/2026, unas 16 h. Somos un equipo de 6.
 - **Reto:** **04 «La IA como servicio»: agentes inteligentes que actúan.** Crear agentes de IA que identifiquen necesidades reales, tomen decisiones y ejecuten tareas de forma autónoma para empresas y ciudadanos, **más allá de los asistentes tradicionales**: que actúen, conecten servicios y generen impacto real.
 - **Fuente de verdad:** el enunciado, los entregables y las bases oficiales están en `docs/reto/`. Si contradicen este archivo, mandan ellos y hay que actualizar este archivo.
 - **Plazos:** _pendiente de confirmar_ (hora de cada hito, entrega en el Drive, pitch).
@@ -168,7 +168,7 @@ El repositorio remoto debe tener siempre una versión entregable y funcional.
 - Antes de empezar una tarea, haz `git pull --rebase` y apúntala en «En curso» de `docs/ESTADO.md` (commit y push inmediatos) para que nadie la duplique.
 - **Un agente, un módulo:** cada persona trabaja en agentes distintos siempre que sea posible. El **contrato del hallazgo** (su estructura) y la interfaz entre especialistas y coordinador son compartidos: solo se cambian avisando al equipo.
 - **Recursos compartidos** (claves de API, buzón de prueba, cuotas): coordínalos desde el minuto 0.
-- **Roles para 3 personas:**
+- **Roles (equipo de 6; cada rol puede llevarlo más de una persona):**
   - **A — Construcción:** desarrolla con Claude y es dueño de `main`.
   - **B — Negocio:** canvas, marketing, pitch, ejemplo de causa cruzada, cifras del mercado y canal de gestorías.
   - **C — Datos, red team y demo:** genera la empresa sintética, audita cada pull desde fuera del repositorio (ver `docs/red-team.md`) y prepara los ensayos.
