@@ -37,5 +37,6 @@ Qué se elige, cómo funciona y por qué. Si es una combinación, qué papel tie
 | 003 | [Stack del prototipo](003-stack-del-prototipo.md) | aceptada |
 | 004 | [Cambio de nombre: de Centra a Vigía](004-nombre-vigia.md) | aceptada |
 | 005 | [Conectores ERP/CRM, atención y captación, y entrada de datos](005-conectores-y-captacion.md) | aceptada, ampliada por 006 |
-| 006 | [Qué permite la API de BALTER y cómo la usa Vigía](006-api-balter.md) | aceptada |
+| 006 | [Qué permite la API de BALTER y cómo la usa Vigía](006-api-balter.md) | aceptada, ampliada por 008 |
 | 007 | [CRM de Vigía: una ficha única por cliente](007-ficha-unica-de-cliente.md) | aceptada |
+| 008 | [Asistente de WhatsApp de la demo: Zernio → Hermes → BALTER (empresa ficticia)](008-asistente-whatsapp-en-balter.md) | aceptada (rama Miguel) |
