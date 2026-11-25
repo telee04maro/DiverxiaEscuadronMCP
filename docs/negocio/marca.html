@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>pymbrain · Marca</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=block">
+<style>
+  @font-face { font-family: Inter; src: url("../../src/vigia/static/Inter-Regular.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: Inter; src: url("../../src/vigia/static/Inter-SemiBold.woff2") format("woff2"); font-weight: 600; }
+  @font-face { font-family: Inter; src: url("../../src/vigia/static/Inter-Bold.woff2") format("woff2"); font-weight: 700; }
+  @page { size: A4 landscape; margin: 0; }
+  :root { --indigo: #4F46E5; --night: #0F172A; --lavender: #8B9BFF; --mist: #F4F5FA; --muted: #55607A; --line: #E2E4EE; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { width: 297mm; height: 210mm; background: var(--mist); color: var(--night); font-family: Inter, Arial, sans-serif;
+         -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 12mm 14mm 10mm; display: flex; flex-direction: column; overflow: hidden; }
+  .top { display: flex; justify-content: space-between; font-size: 8.5pt; color: var(--muted); border-bottom: 1.2pt solid var(--indigo); padding-bottom: 2.5mm; }
+  .grid { flex: 1; display: grid; grid-template-columns: 112mm 1fr; gap: 9mm; padding-top: 7mm; min-height: 0; }
+  .left { display: flex; flex-direction: column; gap: 5mm; min-height: 0; }
+  .label { font-size: 7.5pt; font-weight: 700; letter-spacing: 1.4pt; text-transform: uppercase; color: var(--muted); margin: 0 0 2mm; }
+  .card { background: #FFFFFF; border-radius: 4mm; padding: 5mm 6mm; }
+  .logo img { width: 100%; display: block; }
+  .slogan { font-family: 'Space Grotesk', Inter, sans-serif; font-weight: 700; font-size: 25pt; line-height: 1.05; letter-spacing: -0.3pt; color: var(--night); margin: 0; }
+  .slogan span { color: var(--indigo); }
+  .note { font-size: 8.5pt; color: var(--muted); margin: 2mm 0 0; }
+  .type { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+  .face h3 { margin: 0; font-size: 20pt; line-height: 1.1; }
+  .face .use { font-size: 8pt; color: var(--muted); margin: 1mm 0 2mm; }
+  .face .abc { font-size: 10.5pt; line-height: 1.35; }
+  .sg { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
+  .sg .abc { font-weight: 500; }
+  .colors { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; }
+  .sw { border-radius: 2.5mm; height: 11mm; border: 0.6pt solid var(--line); }
+  .sw-name { font-size: 8pt; font-weight: 700; margin-top: 1.2mm; }
+  .sw-hex { font-size: 7.5pt; color: var(--muted); }
+  .right { display: flex; flex-direction: column; min-height: 0; }
+  .frame { flex: 1; background: #FFFFFF; border-radius: 4mm; box-shadow: 0 2mm 6mm rgba(15, 23, 42, 0.12); overflow: hidden; display: flex; flex-direction: column; min-height: 0; }
+  .bar { display: flex; align-items: center; gap: 1.6mm; padding: 2.6mm 4mm; background: #E8EAF3; font-size: 7.5pt; color: var(--muted); }
+  .dot { width: 2.4mm; height: 2.4mm; border-radius: 50%; background: #C6CAD9; }
+  .url { margin-left: 3mm; background: #FFFFFF; border-radius: 2mm; padding: 0.8mm 3mm; }
+  .shot { flex: 1; min-height: 0; background: url("../img/prototipo-3-la-causa-y-el-plan.png") top center / cover no-repeat; }
+  .caption { font-size: 8.5pt; color: var(--muted); margin: 2.5mm 0 0; }
+  .caption b { color: var(--night); }
+</style>
+</head>
+<body>
+<div class="top"><span>pymbrain · EscuadronMCP · Hackathon IA First · Reto 04 «La IA como servicio»</span><span>Entregable 3 · Marca · 25/11/2026</span></div>
+<div class="grid">
+  <div class="left">
+    <div>
+      <p class="label">Nombre y logo</p>
+      <div class="card logo"><img src="pymbrain/logo-simple.png" alt="Logo de pymbrain"></div>
+      <p class="note"><b>pymbrain</b>: <i>pyme</i> + <i>brain</i>, el cerebro de la pyme. El icono es una línea que sube entre tres nodos hasta una flecha: los datos de cada área, conectados, empujando el negocio.</p>
+    </div>
+    <div>
+      <p class="label">Eslogan · 5 palabras</p>
+      <p class="slogan">IA que <span>impulsa</span> tu pyme.</p>
+    </div>
+    <div>
+      <p class="label">Tipografía</p>
+      <div class="type">
+        <div class="card face sg"><h3>Space Grotesk</h3><p class="use">Logo y titulares</p><p class="abc">Aa Bb Cc 123<br>Ve la causa y actúa.</p></div>
+        <div class="card face"><h3 style="font-weight:700">Inter</h3><p class="use">Textos e interfaz del panel</p><p class="abc">Aa Bb Cc 123<br>Caja para 9 días.</p></div>
+      </div>
+    </div>
+    <div>
+      <p class="label">Colores</p>
+      <div class="colors">
+        <div><div class="sw" style="background:#4F46E5"></div><div class="sw-name">Índigo</div><div class="sw-hex">#4F46E5</div></div>
+        <div><div class="sw" style="background:#0F172A"></div><div class="sw-name">Noche</div><div class="sw-hex">#0F172A</div></div>
+        <div><div class="sw" style="background:#8B9BFF"></div><div class="sw-name">Lavanda</div><div class="sw-hex">#8B9BFF</div></div>
+        <div><div class="sw" style="background:#F4F5FA"></div><div class="sw-name">Niebla</div><div class="sw-hex">#F4F5FA</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="right">
+    <p class="label">El prototipo funcionando</p>
+    <div class="frame">
+      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">localhost:8501 · pymbrain</span></div>
+      <div class="shot" role="img" aria-label="Captura del panel de pymbrain: la causa cruzada de finanzas, mercado y atención"></div>
+    </div>
+    <p class="caption"><b>Causa y plan:</b> el coordinador cruza lo que ven los expertos de finanzas, mercado y atención y da con la causa real (clínica ficticia, datos sintéticos).</p>
+  </div>
+</div>
+</body>
+</html>
