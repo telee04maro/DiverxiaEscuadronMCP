@@ -7,8 +7,27 @@ showErrorDetails = "none"
 
 [server]
 headless = true
+enableStaticServing = true
 
 [theme]
-primaryColor = "#0F766E"
-textColor = "#0F2E2B"
-font = "sans serif"  # Source Sans 3, the same typeface as the logo and the PDFs
+primaryColor = "#1D5C7A"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#FAF7F2"
+textColor = "#1B2B34"
+font = "Inter, sans-serif"
+
+
+[[theme.fontFaces]]
+family = "Inter"
+url = "app/static/Inter-Regular.woff2"
+weight = 400
+
+[[theme.fontFaces]]
+family = "Inter"
+url = "app/static/Inter-SemiBold.woff2"
+weight = 600
+
+[[theme.fontFaces]]
+family = "Inter"
+url = "app/static/Inter-Bold.woff2"
+weight = 700

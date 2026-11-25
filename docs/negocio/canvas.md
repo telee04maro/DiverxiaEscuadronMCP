@@ -16,8 +16,8 @@ Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la soluc
 - El asesor de la gestoría, que supervisa.
 
 ## Problemas
-1. La gestión está repartida entre proveedores que no se comunican: se decide sin el contexto completo.
-2. No detectan a tiempo dónde pierden dinero (cobros, caja) ni clientes, ni en qué les supera la competencia.
+1. La gestión está repartida entre proveedores que no se comunican: se decide sin el contexto completo. Solo **una de cada tres** empresas de 10 o más empleados analiza sus propios datos (INE, 2026; fuente 4).
+2. No detectan a tiempo dónde pierden dinero (cobros, caja) ni clientes, ni en qué les supera la competencia. El **85 %** de las grandes empresas incumple el plazo legal de pago (PMcM, 2025; fuente 3).
 3. No tienen dinero ni tiempo para una consultora ni para tener departamentos propios.
 
 ## Soluciones (con la IA como herramienta)
@@ -27,7 +27,7 @@ Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la soluc
 - Entra con sus Excel o con su ERP/CRM. **Hoja de ruta:** marketing, legal, RR. HH. y organización.
 
 ## Propuesta de valor
-**«Vigía ve la causa.»** Cada proveedor ve su parte; Vigía cruza lo que ve cada uno. Todos los departamentos de tu pyme decidiendo juntos, con todo el contexto… y ejecutando.
+**«Vuelve a lo que importa.»** Cada proveedor ve su parte; Vigía ve la causa. Todos los departamentos de tu pyme decidiendo juntos, con todo el contexto… y ejecutando.
 - Te dice por qué pierdes dinero o clientes.
 - Plan priorizado y adaptado a cada pyme.
 - Actúa y comprueba el resultado: no es un informe que se queda en un cajón.
@@ -91,14 +91,17 @@ Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la soluc
 - 10.554,10 € vencidos; Mutua Beta paga a 95 días.
 - Las sesiones de particulares caen un 15,4 %, y el año pasado no bajaron.
 - La clínica de al lado ofrece la primera sesión a 20 € y promete «sin esperas»; el 86 % de las reseñas recientes se quejan de la espera.
-- **Causa cruzada:** se pierden particulares por precio y espera, y la caja no aguanta una guerra de precios.
+- El 59 % de las consultas por WhatsApp llegan fuera de horario: tardan 12 h en contestarse (0,4 h en horario) y se pierde el 41 %.
+- **Causa cruzada** (finanzas + competencia + atención): se pierden particulares por precio y por espera, también cuando escriben fuera de horario, y la caja no aguanta una guerra de precios.
 - **Plan:**
   - reclamar lo vencido (un recordatorio enviado solo y una reclamación formal aprobada);
   - contraoferta validada por finanzas: 30 € y no 20 €;
-  - cita en 48 horas.
-- **Un mes después:** cobradas 3 de las 4 facturas reclamadas, comprobado con el banco, y lo que no funcionó vuelve al plan.
+  - cita en 48 horas;
+  - activar el asistente de WhatsApp fuera de horario, con aprobación.
+- **Un mes después** (simulado): de la aseguradora que paga tarde, **2 de 3 facturas** cobradas, y la otra aseguradora, al completo (3 de las 4 facturas reclamadas), comprobado con el banco; la respuesta fuera de horario pasa de 12 h a minutos y las quejas por la espera, del 86 % al 50 % (coincide en el tiempo, no lo demuestra); lo que no funcionó vuelve al plan.
 
 ## Fuentes
-1. Ministerio de Industria, *Cifras PYME*, mayo de 2026 (1,36 millones de pymes con asalariados): <https://ipyme.org/Publicaciones/Cifras%20PYME/CifrasPyme_mayo_2026.pdf>
-2. INE, DIRCE a 1/1/2025 (62.234 empresas de contabilidad, asesoría y gestoría), citado por Legalitas: <https://www.legalitas.com/actualidad/futuro-gestorias>
-3. Plazo medio de pago de 67 días, frente a los 60 legales (Plataforma Multisectorial contra la Morosidad, 2025), vía Forbes: <https://forbes.es/economia/907227/el-85-de-las-grandes-empresas-incumple-los-plazos-legales-de-pago-segun-pmcm/>
+1. Ministerio de Industria, *Cifras PYME*, mayo de 2026 (1,36 millones de pymes con asalariados; exactamente 1.355.023). **Verificado** en el PDF: <https://ipyme.org/Publicaciones/Cifras%20PYME/CifrasPyme_mayo_2026.pdf>
+2. INE, DIRCE a 1/1/2025 (62.234 empresas de contabilidad, asesoría y gestoría), citado por Legalitas: <https://www.legalitas.com/actualidad/futuro-gestorias>. **Por verificar** (25/11/2026): no se encontró la tabla del INE y otras fuentes dan cifras distintas (unas 54.000–61.000 empresas en el grupo 69.2). No usar esta cifra en el pitch.
+3. Plazo medio de pago de 67 días, frente a los 60 legales, y el 85 % de las grandes empresas lo incumple (Plataforma Multisectorial contra la Morosidad, *Estudio Plazos de Pago en España 2025*). **Verificado** el 25/11/2026 a través de PIMEC, miembro de la PMcM: <https://pimec.org/es/actualidad/noticia/n/la-pmcm-reclama-reformar-urgentemente-la-ley-para-combatir-los-retrasos-en-los-pagos>
+4. INE, *Encuesta sobre el uso de TIC y del comercio electrónico en las empresas* 2025 (nota de 22/10/2026): solo el 34,3 % de las empresas de 10 o más empleados analiza sus datos con su propio personal y el 33,9 % usa CRM. **Verificado**: <https://www.ine.es/dyngs/Prensa/ETICCE20251T2026.htm>

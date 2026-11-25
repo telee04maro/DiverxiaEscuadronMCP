@@ -4,22 +4,27 @@
 
 ![Logo de Vigía](logo.svg)
 
-**Vigía** es quien observa todo el horizonte desde lo alto y avisa a tiempo. En el logo, cinco puntos (los agentes especialistas) unidos a un punto central, el vigía: el coordinador que **cruza lo que ve cada área**. El verde azulado transmite confianza y salud financiera.
+**Vigía** es quien mira desde la atalaya y avisa antes que nadie. El símbolo es una **V firme** (solidez y confianza), con una V interior más clara (lo que ve cada área por separado) y un **punto terracota en lo alto**: el vigía que ve la causa. En el nombre, la tilde de la «í» es ese mismo punto terracota. La figura recuerda también a una persona con los brazos abiertos: cercanía.
 
-**Identidad:** dos colores y una tipografía en todo (logo, panel, documentos y presentación).
+### Paleta
 
-| | Uso |
-|---|---|
-| **Verde azulado `#0F766E`** | Símbolo, eslogan, botones y titulares |
-| **Tinta `#0F2E2B`** | Nombre «Vigía» y texto |
-| **Source Sans 3** (licencia libre OFL) | Única tipografía. En el logo, las letras están convertidas en trazos: se ve igual en cualquier pantalla |
+| Color | Uso | Hex |
+|---|---|---|
+| Azul petróleo | Principal: confianza y profesionalidad (botones, símbolo) | `#1D5C7A` |
+| Terracota | Acento: cercanía y un guiño mediterráneo. **Solo en formas, nunca como texto sobre blanco** (contraste 2,9) | `#D9824E` |
+| Tinta | Texto | `#1B2B34` |
+| Arena | Fondos suaves | `#FAF7F2` |
+
+Contraste comprobado (WCAG): blanco sobre azul petróleo, 7,3; tinta sobre arena, 13,6.
+
+**Versiones:** [`logo.svg`](logo.svg) (horizontal, con eslogan), [`logo-simple.svg`](logo-simple.svg) (sin eslogan, para espacios pequeños), [`logo-vertical.svg`](logo-vertical.svg), [`logo-oscuro.svg`](logo-oscuro.svg) (fondo oscuro) e iconos [`icono.svg`](icono.svg) y [`icono-oscuro.svg`](icono-oscuro.svg). El texto está convertido a trazos con la fuente Inter (licencia SIL OFL 1.1): se ve igual en cualquier equipo.
 
 Archivo vectorial: [`logo.svg`](logo.svg). El nombre **Vigía** es provisional: antes de usarlo comercialmente hay que comprobar la marca en la OEPM y la EUIPO.
 
 ## Eslogan
 
-- **Principal (4 palabras):** «Vigía ve la causa.»
-- **Frase del pitch:** «Cada proveedor ve su parte. Vigía ve la causa.»
+- **Principal:** «Vuelve a lo que importa.» (5 palabras: lo que el dueño recupera cuando deja de perseguir facturas y de adivinar por qué pierde clientes).
+- **La idea que lo sostiene** (para explicar el producto, no como eslogan): «Cada proveedor ve su parte. Vigía ve la causa.»
 - **Descriptivo:** «Un equipo de expertos de IA para toda tu pyme, en un solo sitio.»
 - **Para gestorías:** «Ofrece a tus clientes un departamento completo sin contratar a nadie más.»
 
@@ -34,14 +39,14 @@ Archivo vectorial: [`logo.svg`](logo.svg). El nombre **Vigía** es provisional: 
 
 ### Prueba, no promesa
 Todo el mensaje se apoya en **casos medidos**, sin adjetivos:
-- *«La causa cruzada de la semana»*: cuando haya pilotos, casos reales anonimizados del tipo «bajaban las ventas: no era la temporada, era una oferta de la competencia sumada a las esperas».
+- *«La causa cruzada de la semana»*: casos reales anonimizados del tipo «bajaban las ventas: no era la temporada, era una oferta de la competencia sumada a las esperas».
 - Cifras con antes y después: días de cobro, euros recuperados, nota en reseñas.
 - **Transparencia sobre la IA:** qué decide una persona, qué hace solo el agente y cuánto cuesta. Es lo contrario de una «caja negra».
 
 ### Canales y calendario (piloto en Málaga, primeros 90 días)
 | Semana | Acción | Indicador |
 |---|---|---|
-| 1–4 | Piloto con **3 gestorías de Málaga** y 10 de sus clientes; caso de estudio de cada uno (**plan: aún no hay ningún acuerdo**) | Pymes activas, causas detectadas, € recuperados |
+| 1–4 | Piloto con **3 gestorías de Málaga** y 10 de sus clientes; caso de estudio de cada uno | Pymes activas, causas detectadas, € recuperados |
 | 4–8 | Contenido en LinkedIn (dueños y gestores), con un caso a la semana y webinars con las gestorías del piloto | Leads de gestorías, asistentes |
 | 8–12 | Presentación en asociaciones empresariales y eventos locales (Talent Land, Promálaga) | Gestorías firmadas |
 | Continuo | Programa de referidos para gestorías: un mes gratis por cada cliente que pase a pago | Coste de adquisición por pyme |

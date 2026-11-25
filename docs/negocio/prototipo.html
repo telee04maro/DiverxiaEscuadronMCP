@@ -5,10 +5,8 @@
 <title>Vigía · Prototipo</title>
 <style>
   @page { size: A4; margin: 14mm 13mm; }
-  @font-face { font-family: "Source Sans 3"; src: url("../../.venv/Lib/site-packages/streamlit/static/static/media/SourceSansVF-Upright.ttf.BsWL4Kly.woff2") format("woff2"); font-weight: 200 900; }
-  /* Two colours (teal and ink) and one typeface (Source Sans 3), as in the logo and the panel. */
-  :root { --ink: #0F2E2B; --brand: #0F766E; --deep: #0F2E2B; --lime: #0F766E; --muted: #4f6461; --line: #cfdedc; }
-  body { font-family: "Source Sans 3", "Segoe UI", sans-serif; color: var(--ink); font-size: 10.5pt; line-height: 1.45; margin: 0; }
+  :root { --ink: #1B2B34; --brand: #1D5C7A; --deep: #1B2B34; --lime: #D9824E; --muted: #5B6B75; --line: #E6E1D8; }
+  body { font-family: Inter, "Segoe UI", Helvetica, Arial, sans-serif; color: var(--ink); font-size: 10.5pt; line-height: 1.45; margin: 0; }
   .brand { display: flex; justify-content: space-between; font-size: 8.5pt; color: var(--muted); margin-bottom: 6mm; }
   h1 { font-size: 26pt; color: var(--deep); margin: 0 0 2mm; }
   .thesis { font-size: 14pt; color: var(--brand); font-weight: 600; margin: 0 0 6mm; }
@@ -18,8 +16,8 @@
   li { margin-bottom: 1.2mm; }
   table { border-collapse: collapse; width: 100%; font-size: 9.5pt; margin: 2mm 0 4mm; }
   th, td { border: 1px solid var(--line); padding: 1.6mm 2.2mm; text-align: left; vertical-align: top; }
-  th { background: #e6f1f0; }
-  code { font-family: inherit; background: #e6f1f0; padding: 0 1mm; border-radius: 2px; font-size: 10pt; }
+  th { background: #FAF7F2; }
+  code { background: #f1f3f5; padding: 0 1mm; border-radius: 2px; font-size: 9pt; }
   section { break-before: page; }
   .look { color: var(--muted); font-size: 9.5pt; margin-bottom: 3mm; }
   .look b { color: var(--ink); }
@@ -30,57 +28,57 @@
 <body>
 <div class="brand"><span>Vigía · EscuadronMCP · Hackathon IA First</span><span>Reto 04 · Entregable 2 · Prototipo</span></div>
 <h1>Vigía: el prototipo</h1>
-<p class="thesis">Vigía ve la causa.</p>
+<p class="thesis">Vuelve a lo que importa.</p>
 <p>Tres agentes especialistas (finanzas, competencia, y atención y captación), cada uno con sus fuentes, y un coordinador que cruza lo que ven. Encuentra la causa, propone un plan a 7, 30 y 90 días, actúa con niveles de autonomía y, un mes después, mide si funcionó. Si la pyme no tiene CRM, genera una ficha única por cliente con lo que sabe cada agente.</p>
 <table>
   <tr><th>Repositorio</th><td>https://github.com/telee04maro/DiverxiaEscuadronMCP (también, el ZIP del código en el Drive)</td></tr>
   <tr><th>Probarlo en 5 minutos</th><td><code>uv sync</code> · <code>uv run streamlit run src/vigia/app.py</code> → «Analizar con el equipo de agentes». Sin clave de IA funciona igual, con reglas.</td></tr>
   <tr><th>IA</th><td>Claude Opus 5.5 cruza y redacta; Haiku 5.5 lee anuncios y reseñas. <b>0,04 $ por análisis</b>, medido. Todo lo que escribe se comprueba contra los datos.</td></tr>
   <tr><th>Datos</th><td>Clínica de fisioterapia <b>ficticia</b>, datos sintéticos (las bases prohíben datos personales).</td></tr>
-  <tr><th>Calidad</th><td>177 tests, tres auditorías independientes (red team) con todos los hallazgos corregidos, rendimiento medido con oha.</td></tr>
+  <tr><th>Calidad</th><td>183 tests, tres auditorías independientes (red team) con todos los hallazgos corregidos, rendimiento medido con oha.</td></tr>
 </table>
-<p class="note">Capturas del panel con Claude real, tomadas con el código entregado. Cada sección dice qué mirar.</p>
+<p class="note">Capturas del panel tomadas con el código entregado, en <b>modo reglas</b> (sin clave de IA): las cifras son las mismas que con Claude real; con Claude, la causa se redacta con otras palabras. Cada sección dice qué mirar.</p>
 
 <section>
-  <h2>1 · Empresa</h2>
+  <h2>1 · Tu empresa</h2>
   <p class="look"><b>Qué mirar:</b> la clínica de ejemplo y sus fuentes conectadas. Con «Tu empresa», cualquier pyme entra con una entrevista y sus Excel o CSV, con plantillas en español.</p>
-  <img src="../entrega/capturas/1-empresa.png" alt="Pestaña 1 · Empresa">
+  <img src="../entrega/capturas/1-tu-empresa.png" alt="Pestaña 1 · Empresa">
 </section>
 
 <section>
-  <h2>2 · Especialistas</h2>
+  <h2>2 · Expertos</h2>
   <p class="look"><b>Qué mirar:</b> cada hallazgo con su evidencia y su confianza. Caja para 9 días, la competencia anuncia una primera sesión a 20 €, el 59 % de las consultas llega fuera de horario. Y «lo que me falta para afinar»: no inventa datos.</p>
-  <img src="../entrega/capturas/2-especialistas.png" alt="Pestaña 2 · Especialistas">
+  <img src="../entrega/capturas/2-que-ve-cada-experto.png" alt="Pestaña 2 · Especialistas">
 </section>
 
 <section>
-  <h2>3 · Coordinador</h2>
+  <h2>3 · Causa y plan</h2>
   <p class="look"><b>Qué mirar:</b> la causa cruzada, qué agentes la sostienen y las hipótesis descartadas con datos («no es la temporada»). Debajo, el plan a 7, 30 y 90 días con su nivel de autonomía.</p>
-  <img src="../entrega/capturas/3-coordinador.png" alt="Pestaña 3 · Coordinador">
+  <img src="../entrega/capturas/3-la-causa-y-el-plan.png" alt="Pestaña 3 · Coordinador">
 </section>
 
 <section>
-  <h2>4 · Acciones</h2>
-  <p class="look"><b>Qué mirar:</b> el recordatorio amable sale solo; la reclamación formal, redactada por Claude y verificada, espera aprobación. Enviar no es cobrar. Lo que hace una persona se marca como hecho.</p>
-  <img src="../entrega/capturas/4-acciones.png" alt="Pestaña 4 · Acciones">
+  <h2>4 · Actuar</h2>
+  <p class="look"><b>Qué mirar:</b> el recordatorio amable sale solo; la reclamación formal, redactada por Claude (en estas capturas, con la plantilla del modo reglas) y verificada, espera aprobación. Enviar no es cobrar. Lo que hace una persona se marca como hecho.</p>
+  <img src="../entrega/capturas/4-actuar.png" alt="Pestaña 4 · Acciones">
 </section>
 
 <section>
-  <h2>5 · Un mes después</h2>
+  <h2>5 · ¿Funcionó?</h2>
   <p class="look"><b>Qué mirar:</b> los cobros se comprueban con el banco (2 de 3 facturas de la aseguradora, la otra al completo). La respuesta fuera de horario pasa de 12 h a minutos y las quejas por la espera, del 86 % al 50 %. Vigía dice «coincide», no «lo causó»; lo que no se hizo no se mide.</p>
-  <img src="../entrega/capturas/5-un-mes-despues.png" alt="Pestaña 5 · Un mes después">
+  <img src="../entrega/capturas/5-ha-funcionado.png" alt="Pestaña 5 · Un mes después">
 </section>
 
 <section>
-  <h2>6 · Registro y uso de la IA</h2>
+  <h2>6 · Transparencia (registro y uso de la IA)</h2>
   <p class="look"><b>Qué mirar:</b> qué vio, decidió e hizo cada agente, y cada llamada a Claude con sus tokens, su coste y su tiempo.</p>
-  <img src="../entrega/capturas/6-registro-y-uso-de-ia.png" alt="Pestaña 6 · Registro y uso de IA">
+  <img src="../entrega/capturas/6-transparencia-ia.png" alt="Pestaña 6 · Registro y uso de IA">
 </section>
 
 <section>
-  <h2>7 · ERP y WhatsApp</h2>
+  <h2>7 · WhatsApp (ERP de demo)</h2>
   <p class="look"><b>Qué mirar:</b> el asistente de WhatsApp registra las consultas en el ERP de demo sin duplicar: el segundo mensaje del mismo paciente va como nota. Aguanta 1.500 peticiones por segundo sin rechazos (medido con oha).</p>
-  <img src="../entrega/capturas/7-erp-y-whatsapp.png" alt="Pestaña 7 · ERP y WhatsApp">
+  <img src="../entrega/capturas/7-whatsapp-y-erp.png" alt="Pestaña 7 · ERP y WhatsApp">
 </section>
 
 <section>

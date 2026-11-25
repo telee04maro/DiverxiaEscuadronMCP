@@ -3,19 +3,22 @@
 The panel only presents; every decision lives in the agents (see vigia.pipeline).
 """
 
+from collections import Counter
 from datetime import date, datetime
 from decimal import Decimal
+from html import escape
 from pathlib import Path
 
 import streamlit as st
 from pydantic import ValidationError
 
+from vigia import ui
 from vigia.actions.mailer import build_mailer
 from vigia.audit import AuditLog
 from vigia.config import Settings
 from vigia.connectors.base import Enquiry, register_enquiry
 from vigia.connectors.demo_erp import DemoErp
-from vigia.coordinator.plan import Autonomy, Kind, PlanItem
+from vigia.coordinator.plan import Kind, PlanItem
 from vigia.crm import CustomerCard, build_cards
 from vigia.data.intake import TEMPLATES, Interview, build_company_data
 from vigia.data.loader import load_company_data
@@ -24,6 +27,7 @@ from vigia.data.synthetic import AFTER, BEFORE, DEMO_ROOT
 from vigia.domain.findings import AREA_LABELS, Area, Finding, Kpi, SpecialistReport
 from vigia.domain.money import MoneyError, eur, fmt_eur, fmt_num
 from vigia.domain.priority import HORIZON_LABELS, Horizon
+from vigia.finance.reconciliation import PaymentStatus
 from vigia.llm.base import LanguageModel, total_cost
 from vigia.llm.factory import build_model
 from vigia.pipeline import (
@@ -35,7 +39,7 @@ from vigia.pipeline import (
     mark_done,
     measure_after,
 )
-from vigia.remeasure import Effect, Remeasurement
+from vigia.remeasure import Effect, ItemResult, Remeasurement
 
 ROOT = Path(__file__).resolve().parents[2]
 ROADMAP = (
@@ -60,19 +64,14 @@ FIELD_LABELS = {
     "opening_hour": "hora de apertura",
     "closing_hour": "hora de cierre",
 }
-AUTONOMY_COLOR = {
-    Autonomy.AUTO: "green",
-    Autonomy.APPROVAL: "orange",
-    Autonomy.PERSON: "blue",
-    Autonomy.EXPERT: "violet",
-}
-EFFECT_ICON = {
-    Effect.CONFIRMED: "✅",
-    Effect.PARTIAL: "🟡",
-    Effect.NONE: "❌",
-    Effect.NOT_DONE: "⏸️",
-    Effect.NOT_MEASURABLE: "❔",
-}
+BRAND = Path(__file__).resolve().parents[2] / "docs" / "negocio"
+TABS = (
+    "1 · Tu empresa", "2 · Expertos", "3 · Causa y plan", "4 · Actuar",
+    "5 · ¿Funcionó?", "6 · Transparencia", "7 · WhatsApp", "8 · Clientes",
+)  # fmt: skip
+# Owner's key numbers, in this order, when the specialist measured them (never shown as zero).
+KEY_KPIS = ("dias_de_caja", "vencido", "perdidas_fuera_horario", "nota_reciente")
+NO_ANALYSIS = "Primero pulsa «Analizar con el equipo de agentes» en la pestaña 1 · Tu empresa."
 
 
 def _state() -> None:
@@ -99,6 +98,10 @@ def _fmt_kpi(kpi: Kpi) -> str:
         return "—"
     if kpi.unit == "€":
         return fmt_eur(kpi.value.quantize(Decimal(1))).replace(",00 €", " €")
+    if kpi.unit == "★":  # a rating keeps its decimal: 3,0 ★, never 3 ★
+        return f"{fmt_num(kpi.value.quantize(Decimal('0.1')))} ★"
+    if kpi.unit == "h":
+        return _fmt_value(kpi.value, "h")
     return f"{_fmt_value(kpi.value, '')} {kpi.unit}".strip()
 
 
@@ -107,6 +110,8 @@ def _fmt_value(value: Decimal | None, unit_hint: str) -> str:
         return "—"
     if unit_hint == "€":
         return fmt_eur(value)
+    if unit_hint == "★":
+        return f"{fmt_num(value.quantize(Decimal('0.1')))} ★"
     if unit_hint == "h":  # 0,0 h reads as "minutes", never as a bare 0
         return f"{fmt_num(value.quantize(Decimal('0.1')))} h"
     number = fmt_num(Decimal(format(value.normalize(), "f")))
@@ -116,24 +121,24 @@ def _fmt_value(value: Decimal | None, unit_hint: str) -> str:
 def _sidebar() -> None:
     model: LanguageModel = st.session_state.model
     with st.sidebar:
-        st.markdown("## Vigía")
-        st.caption("Un equipo de expertos de IA para toda tu pyme, en un solo sitio.")
-        st.markdown("> **Vigía ve la causa.**")
+        st.markdown("**Un equipo de expertos de IA para toda tu pyme, en un solo sitio.**")
+        st.caption("Vuelve a lo que importa.")
         st.divider()
-        st.markdown("**Modo de IA**")
-        st.caption(model.mode)
-        st.markdown("**Envío de correos**")
-        settings: Settings = st.session_state.settings
-        st.caption(
-            "SMTP al buzón de prueba"
-            if settings.smtp and settings.demo_recipient
-            else f"Bandeja local ({settings.outbox_dir.as_posix()}/)"
-        )
-        st.divider()
+        st.markdown("**Controles de la demo**")
         if st.button("Reiniciar la demo", use_container_width=True):
             for key in list(st.session_state.keys()):
                 del st.session_state[key]
             st.rerun()
+        with st.expander("Detalles técnicos"):
+            st.markdown("**Modo de IA**")
+            st.caption(model.mode)
+            st.markdown("**Envío de correos**")
+            settings: Settings = st.session_state.settings
+            st.caption(
+                "SMTP al buzón de prueba"
+                if settings.smtp and settings.demo_recipient
+                else f"Bandeja local ({settings.outbox_dir.as_posix()}/)"
+            )
         st.caption(
             "La clínica de ejemplo es 100 % sintética. Con «Tu empresa», sube solo datos de tu "
             "negocio: no hacen falta datos personales de clientes."
@@ -161,8 +166,14 @@ def _company_tab() -> None:
     data = _current_data()
     if data is None:
         return
+    summary_slot = st.container()  # the owner's summary goes first once there is an analysis
     st.divider()
-    _company_summary(data)
+    previous: Analysis | None = st.session_state.analysis
+    if previous is not None and previous.data.company.name == data.company.name:
+        with st.expander("Datos de la empresa y fuentes conectadas"):
+            _company_summary(data)
+    else:
+        _company_summary(data)
     st.toggle(
         "Incluir también las consultas registradas en el ERP de demo (pestaña 7)",
         key="with_erp",
@@ -181,7 +192,39 @@ def _company_tab() -> None:
             st.session_state.execution = executions.setdefault(data.company.name, Execution())
             st.session_state.analysed_demo = choice == DEMO
             st.session_state.remeasure = None
-        st.success("Análisis listo: revisa las pestañas 2 y 3.")
+    analysis: Analysis | None = st.session_state.analysis
+    if analysis is not None and analysis.data.company.name == data.company.name:
+        with summary_slot:
+            _owner_summary(analysis)
+
+
+def _owner_summary(analysis: Analysis) -> None:
+    """What the owner needs first: the cause, a few numbers and this week's actions."""
+    st.markdown("### Lo más importante")
+    causes = analysis.crossing.causes
+    if causes:
+        cause = causes[0]
+        ui.cause_card(
+            "Causa cruzada" if cause.is_cross else "Causa principal",
+            cause.title,
+            f"Lo ven: {_areas_label(cause.areas)}. El detalle, en la pestaña 3.",
+            [],
+            cross=cause.is_cross,
+        )
+    else:
+        st.info(
+            "No hay evidencia suficiente para señalar una causa: mira qué falta en la pestaña 2."
+        )
+    kpis = {k.key: k for report in analysis.reports for k in report.kpis if k.value is not None}
+    numbers = [(_fmt_kpi(kpis[key]), kpis[key].label) for key in KEY_KPIS if key in kpis]
+    if numbers:
+        ui.tiles(numbers)
+    week = analysis.plan.by_horizon(Horizon.WEEK)[:3]
+    if week:
+        st.markdown("#### Qué hacer esta semana")
+        for item in week:
+            ui.html(f"{ui.autonomy_pill(item.autonomy)} {escape(item.title)}")
+        st.caption("El plan completo, a 7, 30 y 90 días, está en la pestaña 3; para actuar, la 4.")
 
 
 def _company_summary(data: CompanyData) -> None:
@@ -197,7 +240,7 @@ def _company_summary(data: CompanyData) -> None:
         if company.goals:
             st.markdown("Objetivos:\n" + "\n".join(f"- {g}" for g in company.goals))
         if company.resources:
-            st.markdown(f"Recursos: {company.resources}")
+            st.markdown(f"Recursos: {ui.md_safe(company.resources)}")
         st.markdown(
             "Servicios: " + ", ".join(f"{s.name} ({fmt_eur(s.price)})" for s in company.services)
         )
@@ -296,11 +339,13 @@ def _intake_section() -> None:
 
 
 def _finding_card(finding: Finding) -> None:
-    with st.expander(f"**{finding.title}**  ·  confianza {finding.confidence.value}"):
-        st.caption(f"{finding.id} · {finding.detail}")
+    with st.expander(f"**{ui.md_safe(finding.title)}**  ·  confianza {finding.confidence.value}"):
+        st.caption(f"{finding.id} · {ui.md_safe(finding.detail)}")
         for evidence in finding.evidence:
             when = f" ({evidence.on:%d/%m/%Y})" if evidence.on else ""
-            st.markdown(f"- {evidence.fact}{when}  \n  :gray[{evidence.source}]")
+            st.markdown(
+                f"- {ui.md_safe(evidence.fact)}{when}  \n  :gray[{ui.md_safe(evidence.source)}]"
+            )
         st.caption(
             f"Impacto {finding.impact}/5 · urgencia {finding.urgency}/5 · "
             f"esfuerzo {finding.effort}/5"
@@ -309,23 +354,21 @@ def _finding_card(finding: Finding) -> None:
 
 def _report_column(report: SpecialistReport) -> None:
     with st.container(border=True):
-        st.markdown(f"### {report.specialist}")
-        st.caption("Fuentes: " + " · ".join(report.sources))
+        ui.html(f'<div class="vg-head">{ui.area_chip(report.area, report.specialist)}</div>')
+        st.caption("Sus fuentes: " + " · ".join(report.sources))
         kpis = [k for k in report.kpis if not k.key.startswith("dias_cobro_")] or list(report.kpis)
-        for row in range(0, len(kpis), 2):
-            columns = st.columns(2)
-            for column, kpi in zip(columns, kpis[row : row + 2], strict=False):
-                column.metric(
-                    kpi.label,
-                    _fmt_kpi(kpi),
-                    help=kpi.note or ("No disponible" if kpi.value is None else None),
-                )
-        st.markdown("**Hallazgos**")
+        ui.kpi_tiles(
+            [
+                (_fmt_kpi(k), k.label, k.note or ("No disponible" if k.value is None else ""))
+                for k in kpis
+            ]
+        )
+        st.markdown("**Lo que ha visto** (abre cada uno para ver la evidencia)")
         for finding in report.findings:
             _finding_card(finding)
         with st.expander("Lo que me falta para afinar"):
             for gap in report.gaps:
-                st.markdown(f"- **{gap.missing}**: {gap.why_it_matters}")
+                st.markdown(f"- **{ui.md_safe(gap.missing)}**: {ui.md_safe(gap.why_it_matters)}")
 
 
 def _specialists_tab(analysis: Analysis) -> None:
@@ -347,26 +390,33 @@ def _areas_label(areas: tuple[Area, ...]) -> str:
 
 def _coordinator_tab(analysis: Analysis) -> None:
     crossing = analysis.crossing
-    st.caption(f"Cómo se ha cruzado: {crossing.origin.value}")
+    st.markdown("### Por qué pasa")
+    st.caption(
+        f"El coordinador cruza lo que ve cada experto · cómo se ha cruzado: {crossing.origin.value}"
+    )
     for cause in crossing.causes:
-        with st.container(border=True):
-            badge = ":red[**Causa cruzada**]" if cause.is_cross else ":gray[Causa de un área]"
-            st.markdown(
-                f"{badge} · {_areas_label(cause.areas)} · confianza {cause.confidence.value}"
-            )
-            st.markdown(f"### {cause.title}")
-            st.markdown(cause.explanation)
-            st.markdown("**Lo sostienen:**")
-            for finding_id in cause.finding_ids:
-                finding = analysis.finding(finding_id)
-                if finding:
-                    st.markdown(f"- :gray[{AREA_LABELS[finding.area]}] {finding.title}")
+        support = [
+            f"{ui.area_chip(f.area, AREA_LABELS[f.area])} · {escape(f.title)}"
+            for f in (analysis.finding(i) for i in cause.finding_ids)
+            if f
+        ]
+        kicker = "Causa cruzada" if cause.is_cross else "Causa de un área"
+        ui.cause_card(
+            f"{kicker} · {_areas_label(cause.areas)} · confianza {cause.confidence.value}",
+            cause.title,
+            cause.explanation,
+            support,
+            cross=cause.is_cross,
+        )
     for hypothesis in crossing.discarded:
-        st.info(f"**Descartado:** {hypothesis.hypothesis}. {hypothesis.reason}")
+        st.info(
+            f"**Descartado:** {ui.md_safe(hypothesis.hypothesis)}. {ui.md_safe(hypothesis.reason)}"
+        )
     for note in crossing.rejected:
-        st.warning(f"Rechazado por falta de evidencia: {note}")
+        st.warning(f"Rechazado por falta de evidencia: {ui.md_safe(note)}")
     st.divider()
-    st.markdown("## Plan")
+    st.markdown("### Qué hacer y cuándo")
+    ui.legend()
     columns = st.columns(3)
     for column, horizon in zip(columns, Horizon, strict=True):
         with column:
@@ -377,17 +427,18 @@ def _coordinator_tab(analysis: Analysis) -> None:
         with st.expander("Cómo validó finanzas la contraoferta"):
             for check in analysis.plan.offer_checks:
                 mark = "✅" if check.viable else "❌"
-                st.markdown(f"{mark} {check.reason}")
+                st.markdown(f"{mark} {ui.md_safe(check.reason)}")
 
 
 def _plan_card(item: PlanItem) -> None:
     with st.container(border=True):
-        color = AUTONOMY_COLOR[item.autonomy]
-        st.markdown(f"**{item.title}**")
-        st.markdown(f":{color}[{item.autonomy.value}] · {item.owner}")
-        st.caption(f"Por qué: {item.why}")
+        st.markdown(f"**{ui.md_safe(item.title)}**")
+        ui.html(
+            f"{ui.autonomy_pill(item.autonomy)} <span class='vg-note'>{escape(item.owner)}</span>"
+        )
+        st.caption(f"Por qué: {ui.md_safe(item.why)}")
         if item.detail:
-            st.caption(item.detail)
+            st.caption(ui.md_safe(item.detail))
 
 
 def _actions_tab(analysis: Analysis) -> None:
@@ -405,7 +456,8 @@ def _actions_tab(analysis: Analysis) -> None:
         for item_id, claim in list(execution.pending.items()):
             with st.container(border=True):
                 st.markdown(
-                    f"**{claim.subject}** → {claim.to}  \n:orange[Tono {claim.tone.value}] · "
+                    f"**{ui.md_safe(claim.subject)}** → {ui.md_safe(claim.to)}  \n"
+                    f":orange[Tono {claim.tone.value}] · "
                     f"{claim.origin.value} · total {fmt_eur(claim.total)}"
                 )
                 st.text(claim.body)
@@ -415,7 +467,9 @@ def _actions_tab(analysis: Analysis) -> None:
     if execution.sent:
         st.markdown("### Enviado")
         for sent in execution.sent:
-            with st.expander(f"✉️ {sent.claim.subject} → {sent.claim.client_name}"):
+            with st.expander(
+                f"✉️ {ui.md_safe(sent.claim.subject)} → {ui.md_safe(sent.claim.client_name)}"
+            ):
                 st.caption(f"{sent.delivery} · {sent.claim.origin.value}")
                 st.text(sent.claim.body)
         st.info(
@@ -461,6 +515,13 @@ def _remeasure_tab(analysis: Analysis) -> None:
     result: Remeasurement | None = st.session_state.remeasure
     if result is None:
         return
+    counts = Counter(
+        ui.effect_label(
+            r.effect, collection=r.item.kind is Kind.COLLECT, short_payment=_short_payment(r)
+        )
+        for r in result.results
+    )
+    ui.tiles([(str(n), label) for label, n in counts.items()])
     units = {k.key: k.unit for report in analysis.reports for k in report.kpis}
     done = [r for r in result.results if r.effect is not Effect.NOT_DONE]
     skipped = [r for r in result.results if r.effect is Effect.NOT_DONE]
@@ -471,12 +532,14 @@ def _remeasure_tab(analysis: Analysis) -> None:
         )
     for r in done:
         unit = "€" if r.item.kind is Kind.COLLECT else units.get(r.item.target_kpi, "")
+        badge = ui.effect_pill(
+            r.effect, collection=r.item.kind is Kind.COLLECT, short_payment=_short_payment(r)
+        )
         with st.container(border=True):
+            ui.html(f"{badge} <b>{escape(r.item.title)}</b>")
             st.markdown(
-                f"{EFFECT_ICON[r.effect]} **{r.effect.value.capitalize()}** · {r.item.title}"
-            )
-            st.markdown(
-                f"{r.kpi_label}: **{_fmt_value(r.before, unit)} → {_fmt_value(r.after, unit)}**"
+                f"{ui.md_safe(r.kpi_label)}: "
+                f"**{_fmt_value(r.before, unit)} → {_fmt_value(r.after, unit)}**"
             )
             st.caption(r.note)
             for check in r.invoices:
@@ -491,7 +554,11 @@ def _remeasure_tab(analysis: Analysis) -> None:
         )
     st.markdown("### Plan reordenado")
     for item in result.next_plan:
-        st.markdown(f"- **{HORIZON_LABELS[item.horizon]}** · {item.title}")
+        st.markdown(f"- **{HORIZON_LABELS[item.horizon]}** · {ui.md_safe(item.title)}")
+
+
+def _short_payment(result: ItemResult) -> bool:
+    return any(c.status is PaymentStatus.PARTIAL for c in result.invoices)
 
 
 def _erp_tab() -> None:
@@ -658,18 +725,15 @@ def _customer_card(card: CustomerCard) -> None:
 
 
 def main() -> None:
-    st.set_page_config(page_title="Vigía", page_icon="🧭", layout="wide")
+    icon = str(BRAND / "icono.png") if (BRAND / "icono.png").exists() else "🧭"
+    st.set_page_config(page_title="Vigía", page_icon=icon, layout="wide")
+    if (BRAND / "logo-simple.png").exists():
+        st.logo(str(BRAND / "logo-simple.png"), size="large", icon_image=icon)
+    ui.apply_theme()
     _state()
     _sidebar()
-    st.title("Vigía")
-    st.caption(
-        "Especialistas de IA que detectan, un coordinador que cruza la información, actúa y mide."
-    )
-    tabs = st.tabs(
-        ["1 · Empresa", "2 · Especialistas", "3 · Coordinador", "4 · Acciones",
-         "5 · Un mes después", "6 · Registro y uso de IA", "7 · ERP y WhatsApp",
-         "8 · Clientes (CRM)"]
-    )  # fmt: skip
+    header = st.empty()  # filled at the end, once this run's actions are known
+    tabs = st.tabs(list(TABS))
     with tabs[6]:
         _erp_tab()
     with tabs[0]:
@@ -681,16 +745,40 @@ def main() -> None:
     ):
         with tab:
             if analysis is None:
-                st.info("Primero pulsa «Analizar con el equipo de agentes» en la pestaña 1.")
+                st.info(NO_ANALYSIS)
             else:
                 render(analysis)
     with tabs[5]:
         _log_tab()
     with tabs[7]:
         if analysis is None:
-            st.info("Primero pulsa «Analizar con el equipo de agentes» en la pestaña 1.")
+            st.info(NO_ANALYSIS)
         else:
             _crm_tab(analysis)
+    with header.container():
+        ui.hero(
+            "Tu equipo de expertos de IA",
+            "Ve la causa de lo que pasa en tu negocio, actúa y comprueba que ha funcionado.",
+            _journey(),
+        )
+
+
+def _journey() -> list[tuple[str, str]]:
+    """Where the owner is: analyse → understand → act → measure."""
+    execution: Execution = st.session_state.execution
+    analysed = st.session_state.analysis is not None
+    done = [
+        analysed,
+        analysed,
+        bool(execution.sent or execution.claimed),
+        st.session_state.remeasure is not None,
+    ]
+    labels = ["1 Analizar", "2 Entender la causa", "3 Actuar", "4 Medir"]
+    current = next((i for i, d in enumerate(done) if not d), None)
+    return [
+        (("✓ " if d else "") + label, "done" if d else ("now" if i == current else ""))
+        for i, (label, d) in enumerate(zip(labels, done, strict=True))
+    ]
 
 
 main()

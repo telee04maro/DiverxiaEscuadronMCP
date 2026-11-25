@@ -58,10 +58,12 @@ Todo eso lo hacen reglas deterministas o una persona.
 | Programar el prototipo, los tests y la CI | Claude Code (Claude Opus 5.5) | Revisión del diff en cada commit; puertas de calidad (ruff, mypy estricto, pytest en Linux y Windows) |
 | Auditoría independiente («red team») del código | Agente de Claude separado, solo lectura | El equipo decide qué se corrige |
 | Canvas, marketing, logo y guion del pitch | Claude Code, a partir de la idea y las notas del equipo | Revisados y ajustados por el equipo |
+| Plan de negocio (cliente, precio, cuentas e inversión) y verificación de las cifras del pitch en fuentes oficiales (INE, Cifras PYME, PMcM) | Claude Code con búsqueda web; modelo financiero en Python (`docs/negocio/plan-de-negocio-modelo.py`) | El equipo decide el cliente, el precio y el canal; cada cifra va marcada como verificada, fuente secundaria o hipótesis |
+| Audio del gancho del pitch: tres voces de proveedores que se pisan (`docs/negocio/pitch-audio-gancho.mp3`) | ElevenLabs (modelo `eleven_v4`, voces de su biblioteca) para las voces y ffmpeg para la mezcla | Textos escritos por el equipo; el equipo aprueba el audio antes del pitch |
 
 ## Herramientas, modelos y datos (declaración)
 
 - **Modelos:** Claude Opus 5.5 y Claude Haiku 5.5 (Anthropic), a través del SDK oficial `anthropic` 2.12.0.
-- **Software:** Python 3.13, Streamlit 1.67, pandas 3.1, Pydantic 2.14 y python-dotenv. En desarrollo: ruff, mypy y pytest. Versiones fijadas en `uv.lock`.
+- **Software:** Python 3.13, Streamlit 1.67, pandas 3.1, Pydantic 2.14 y python-dotenv. Fuente Inter (SIL OFL 1.1) para el logo (convertida a trazos), el panel y los documentos. En desarrollo: ruff, mypy y pytest. Versiones fijadas en `uv.lock`.
 - **Datos:** **todos sintéticos**, generados por `vigia.data.synthetic`. La clínica, las aseguradoras y los competidores son ficticios, y los correos usan el dominio reservado `.example`. Los datos de la competencia imitan el formato oficial de la Biblioteca de Anuncios de Meta y de los resultados de búsqueda (`docs/fuentes.md`).
 - **Componentes previos:** la plantilla de normas del equipo (`CLAUDE.md`), adaptada de nuestro proyecto del Malackathon 2026. El código de Vigía se ha escrito durante el hackathon.
