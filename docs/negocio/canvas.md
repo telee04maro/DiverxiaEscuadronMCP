@@ -99,6 +99,7 @@ Plantilla oficial del Hackathon IA First («Lienzo del reto: del reto a la soluc
 - **Un mes después:** cobradas 3 de las 4 facturas reclamadas, comprobado con el banco, y lo que no funcionó vuelve al plan.
 
 ## Fuentes
-1. Ministerio de Industria, *Cifras PYME*, mayo de 2026 (1,36 millones de pymes con asalariados): <https://ipyme.org/Publicaciones/Cifras%20PYME/CifrasPyme_mayo_2026.pdf>
-2. INE, DIRCE a 1/1/2025 (62.234 empresas de contabilidad, asesoría y gestoría), citado por Legalitas: <https://www.legalitas.com/actualidad/futuro-gestorias>
-3. Plazo medio de pago de 67 días, frente a los 60 legales (Plataforma Multisectorial contra la Morosidad, 2025), vía Forbes: <https://forbes.es/economia/907227/el-85-de-las-grandes-empresas-incumple-los-plazos-legales-de-pago-segun-pmcm/>
+1. Ministerio de Industria, *Cifras PYME*, mayo de 2026 (1,36 millones de pymes con asalariados; exactamente 1.355.023). **Verificado** en el PDF: <https://ipyme.org/Publicaciones/Cifras%20PYME/CifrasPyme_mayo_2026.pdf>
+2. INE, DIRCE a 1/1/2025 (62.234 empresas de contabilidad, asesoría y gestoría), citado por Legalitas: <https://www.legalitas.com/actualidad/futuro-gestorias>. **Por verificar** (25/11/2026): no se encontró la tabla del INE y otras fuentes dan cifras distintas (unas 54.000–61.000 empresas en el grupo 69.2). No usar esta cifra en el pitch.
+3. Plazo medio de pago de 67 días, frente a los 60 legales, y el 85 % de las grandes empresas lo incumple (Plataforma Multisectorial contra la Morosidad, *Estudio Plazos de Pago en España 2025*). **Verificado** el 25/11/2026 a través de PIMEC, miembro de la PMcM: <https://pimec.org/es/actualidad/noticia/n/la-pmcm-reclama-reformar-urgentemente-la-ley-para-combatir-los-retrasos-en-los-pagos>
+4. INE, *Encuesta sobre el uso de TIC y del comercio electrónico en las empresas* 2025 (nota de 22/10/2026): solo el 34,3 % de las empresas de 10 o más empleados analiza sus datos con su propio personal y el 33,9 % usa CRM. **Verificado**: <https://www.ine.es/dyngs/Prensa/ETICCE20251T2026.htm>

@@ -1,12 +1,14 @@
 # Entregable 4 · Guion del pitch: Vigía
 
-**Duración:** 3 minutos: 5,5 s de audio, 382 palabras y unos 21 s de pausas. A ritmo vivo (160 palabras por minuto) dura 2:50; a ritmo lento (150), 3:00, y entonces se recorta «Actúa».
+**Duración:** 3 minutos: 5,5 s de audio, 387 palabras y unos 24 s de pausas. A ritmo vivo (160 palabras por minuto) dura 2:55; a ritmo lento (150), 3:04, y entonces se recorta «Actúa».
 **Un único presentador**, de pie y sin papel, y otra persona manejando la demo o las diapositivas.
 **Regla de oro:** amplitud en el pitch, profundidad en la demo. Contamos una historia, no una lista de funciones.
 
 ## El arco en una línea
 
-**El ruido de proveedores que dicen «lo mío va bien» → tres expertos ven tres pistas sueltas → el coordinador las une (¡ajá!) → Vigía actúa → comprueba si ha funcionado → «Vigía ve la causa».**
+**El ruido de proveedores que dicen «lo mío va bien» → un dato real: no es un caso aislado → tres expertos ven tres pistas sueltas → el coordinador las une (¡ajá!) → actúa → comprueba si ha funcionado → «Somos Vigía» → «Vigía ve la causa».**
+
+**El nombre se guarda para el final.** Durante el pitch se habla de «nuestro equipo de expertos» y de «nosotros»; «Vigía» se dice por primera vez en el cierre, a la vez que aparece el logo. Así el nombre llega cuando el público ya sabe qué hace, y se queda unido al eslogan. (El panel de la demo lleva el logo en una esquina: no pasa nada, pero el presentador no lo nombra.)
 
 La energía sube hasta el minuto 2 (la causa) y se remata en el cierre. Las pausas (‖) son tan importantes como las palabras.
 
@@ -16,32 +18,44 @@ Las **negritas** se remarcan con la voz. ‖ = pausa de un segundo; ‖‖ = pau
 
 | Tiempo | Qué se dice | Cómo se dice | Qué se ve |
 |---|---|---|---|
-| **0:00–0:25 · El gancho** | **[Audio, 5,5 s: tres voces que se pisan, cada vez más fuerte. Corte en seco.]** ‖‖ «Esto es lo que oye cada día el dueño de una pyme. ‖ **Todos le dicen que lo suyo va bien. ‖‖ Y nadie le dice por qué está perdiendo clientes.** ‖ **Cada proveedor ve su parte. ‖ Nadie ve la causa.**» | El presentador ya está en el centro, quieto y en silencio mientras suena el audio, mirando al público. Tras el corte, dos segundos de silencio. Empezar bajo y cercano; «Nadie ve la causa», despacio | Pantalla en negro mientras suena el audio; después, logo y eslogan |
-| **0:25–1:10 · Los expertos** | «Por eso hemos creado **Vigía: un equipo de expertos de IA para toda tu pyme.** Un agente por área, cada uno con sus propias fuentes. Os lo enseño con una clínica de fisioterapia inventada, en Málaga, que desde septiembre pierde pacientes. ‖ **Finanzas** lee el banco: la caja aguanta **nueve días**. ‖ Nueve. Y una aseguradora le paga a noventa y cinco. **Competencia** lee los anuncios de Meta: la clínica de al lado lanzó hace dieciocho días **"primera sesión a 20 €, sin esperas"**. Y **atención al cliente** lee los WhatsApp: el 59 % llega fuera de horario, tarda **doce horas** en contestarse… ‖ **y se pierde el 41 %.**» | Ritmo rápido, tres golpes iguales (finanzas, competencia, atención). Contar con los dedos: uno, dos, tres. Repetir «nueve» más despacio | Pestaña 2: un hallazgo de cada experto, con su evidencia |
-| **1:10–1:47 · La causa** *(el momento clave)* | «Por separado son tres problemas. ‖‖ **Juntos son uno.** ‖ Ahí entra nuestro coordinador. **No es la temporada**: el año pasado no bajó. La clínica pierde pacientes **por precio y por espera, también cuando escriben fuera de horario**, ‖ justo lo que promete la competencia. Y con la caja así, una guerra de precios la hunde. ‖‖ Eso no lo ve la gestoría. No lo ve la agencia. ‖ **Lo ve Vigía.**» | Aquí está la máxima energía. Pausa larga antes de «Juntos son uno» y juntar las manos. Señalar la pantalla en «Lo ve Vigía» | Pestaña 3: la causa cruzada y «es la temporada» descartado |
-| **1:47–2:10 · Actúa** | «Y no se queda en un informe: **actúa.** El recordatorio amable lo envía solo. La reclamación formal **espera a que la dueña dé el visto bueno**. ¿Bajar a 20 € como la competencia? Finanzas dice que no: cada paciente nuevo dejaría un 21 % menos. Propone **30 €, con cita en 48 horas**. No se dan la razón: **se contrastan.**» | Seguro y concreto. Gesto de «alto» en «Finanzas dice que no» | Pestaña 4: aprobar y enviar |
-| **2:10–2:35 · Comprueba** | «Y lo más importante: **comprueba si ha funcionado.** En la simulación de un mes después: **dos de tres facturas** de la aseguradora, cobradas y comprobadas con el banco. Las consultas de fuera de horario se contestan **en minutos**, y las quejas por la espera bajan **del 86 al 50 %**. Y es honesto: **dice que coincide, no que lo demuestre.**» | Bajar un punto la velocidad: credibilidad. «Honesto» mirando al jurado | Pestaña 5 |
-| **2:35–3:00 · Cierre** | «Desde **99 € al mes**, menos de cinco céntimos de IA por análisis, y entramos por quien ya tiene su confianza: **su gestoría.** ‖‖ Hasta hoy, cada pyme tenía proveedores que veían su parte. Ahora tiene a alguien que ve la causa. ‖‖ **Cada proveedor ve su parte. Vigía ve la causa.**» | Subir la energía en las gestorías. Pausa larga. La frase final, despacio, palabra a palabra, y quedarse quieto dos segundos antes de «gracias» | Logo y eslogan |
+| **0:00–0:25 · El gancho** | **[Audio, 5,5 s: tres voces que se pisan, cada vez más fuerte. Corte en seco.]** ‖‖ «Esto es lo que oye cada día el dueño de una pyme. ‖ **Todos le dicen que lo suyo va bien. ‖‖ Y nadie le dice por qué está perdiendo clientes.** ‖ **Cada proveedor ve su parte. ‖ Nadie ve la causa.** ‖ Y no es un caso aislado: en España, **solo una de cada tres empresas** de diez o más empleados analiza sus propios datos.» | El presentador ya está en el centro, quieto y en silencio mientras suena el audio, mirando al público. Tras el corte, dos segundos de silencio. Empezar bajo y cercano; «Nadie ve la causa», despacio | Pantalla en negro mientras suena el audio; después, «Cada proveedor ve su parte» y el dato del INE con su fuente. **Todavía sin logo** |
+| **0:25–1:10 · Los expertos** | «Por eso hemos creado **un equipo de expertos de IA para toda la pyme.** Uno por área, con sus propias fuentes. Mirad esta clínica de Málaga, inventada para la demo, que desde septiembre pierde pacientes. ‖ **Finanzas** lee el banco: la caja aguanta **nueve días**. ‖ Nueve. Y una aseguradora le paga a noventa y cinco. ‖ No es raro: el 85 % de las grandes empresas se salta el plazo legal de pago. **Competencia** lee los anuncios de Meta: la clínica de al lado lanzó hace dieciocho días **"primera sesión a 20 €, sin esperas"**. Y **atención al cliente** lee los WhatsApp: el 59 % llega fuera de horario, tarda **doce horas** en contestarse… ‖ **y se pierde el 41 %.**» | Ritmo rápido, tres golpes iguales (finanzas, competencia, atención). Contar con los dedos: uno, dos, tres. Repetir «nueve» más despacio | Pestaña 2: un hallazgo de cada experto, con su evidencia |
+| **1:10–1:47 · La causa** *(el momento clave)* | «Por separado son tres problemas. ‖‖ **Juntos son uno.** ‖ Ahí entra nuestro coordinador. **No es la temporada**: el año pasado no bajó. La clínica pierde pacientes **por precio y por espera, también cuando escriben fuera de horario**, ‖ justo lo que promete la competencia. Y con la caja así, una guerra de precios la hunde. ‖‖ Eso no lo ve la gestoría. No lo ve la agencia. ‖ **Lo vemos nosotros.**» | Aquí está la máxima energía. Pausa larga antes de «Juntos son uno» y juntar las manos. Señalar la pantalla en «Lo vemos nosotros» | Pestaña 3: la causa cruzada y «es la temporada» descartado |
+| **1:47–2:10 · Actúa** | «Y no se queda en un informe: **actúa.** El recordatorio amable lo envía solo. La reclamación formal **espera a que la dueña dé el visto bueno**. ¿Bajar a 20 € como la competencia? Finanzas dice que no: cada paciente nuevo dejaría un 21 % menos. Propone **30 €, con cita en 48 horas**.» | Seguro y concreto. Gesto de «alto» en «Finanzas dice que no» | Pestaña 4: aprobar y enviar |
+| **2:10–2:35 · Comprueba** | «Y luego **comprueba si ha funcionado.** En la simulación de un mes después: **dos de tres facturas** de la aseguradora, cobradas y comprobadas con el banco. Las consultas de fuera de horario se contestan **en minutos**. Y somos honestos: **decimos que coincide, no que lo demuestre.**» | Bajar un punto la velocidad: credibilidad. «Honesto» mirando al jurado | Pestaña 5 |
+| **2:35–3:00 · Cierre** | «Desde **99 € al mes**, y de la mano de quien ya tiene su confianza: **su gestoría.** ‖‖ **Somos Vigía.** ‖ Y venimos a que ninguna pyme vuelva a perder clientes sin saber por qué. ‖‖ **Cada proveedor ve su parte. Vigía ve la causa.**» | Subir la energía en las gestorías. Pausa larga. **«Somos Vigía» es la primera vez que se dice el nombre**: con el logo apareciendo en ese momento. La frase final, despacio, palabra a palabra, y quedarse quieto dos segundos antes de «gracias» | **El logo aparece justo en «Somos Vigía»**, con el eslogan |
 
 ### Texto corrido para ensayar
 
 El mismo guion, sin tablas, para leerlo en voz alta o en el móvil.
 
-**El gancho.** **[Audio, 5,5 s: tres voces que se pisan, cada vez más fuerte. Corte en seco.]** ‖‖ «Esto es lo que oye cada día el dueño de una pyme. ‖ **Todos le dicen que lo suyo va bien. ‖‖ Y nadie le dice por qué está perdiendo clientes.** ‖ **Cada proveedor ve su parte. ‖ Nadie ve la causa.**»
+**El gancho.** **[Audio, 5,5 s: tres voces que se pisan, cada vez más fuerte. Corte en seco.]** ‖‖ «Esto es lo que oye cada día el dueño de una pyme. ‖ **Todos le dicen que lo suyo va bien. ‖‖ Y nadie le dice por qué está perdiendo clientes.** ‖ **Cada proveedor ve su parte. ‖ Nadie ve la causa.** ‖ Y no es un caso aislado: en España, **solo una de cada tres empresas** de diez o más empleados analiza sus propios datos.»
 
-**Los expertos.** «Por eso hemos creado **Vigía: un equipo de expertos de IA para toda tu pyme.** Un agente por área, cada uno con sus propias fuentes. Os lo enseño con una clínica de fisioterapia inventada, en Málaga, que desde septiembre pierde pacientes. ‖ **Finanzas** lee el banco: la caja aguanta **nueve días**. ‖ Nueve. Y una aseguradora le paga a noventa y cinco. **Competencia** lee los anuncios de Meta: la clínica de al lado lanzó hace dieciocho días **"primera sesión a 20 €, sin esperas"**. Y **atención al cliente** lee los WhatsApp: el 59 % llega fuera de horario, tarda **doce horas** en contestarse… ‖ **y se pierde el 41 %.**»
+**Los expertos.** «Por eso hemos creado **un equipo de expertos de IA para toda la pyme.** Uno por área, con sus propias fuentes. Mirad esta clínica de Málaga, inventada para la demo, que desde septiembre pierde pacientes. ‖ **Finanzas** lee el banco: la caja aguanta **nueve días**. ‖ Nueve. Y una aseguradora le paga a noventa y cinco. ‖ No es raro: el 85 % de las grandes empresas se salta el plazo legal de pago. **Competencia** lee los anuncios de Meta: la clínica de al lado lanzó hace dieciocho días **"primera sesión a 20 €, sin esperas"**. Y **atención al cliente** lee los WhatsApp: el 59 % llega fuera de horario, tarda **doce horas** en contestarse… ‖ **y se pierde el 41 %.**»
 
-**La causa (el momento clave).** «Por separado son tres problemas. ‖‖ **Juntos son uno.** ‖ Ahí entra nuestro coordinador. **No es la temporada**: el año pasado no bajó. La clínica pierde pacientes **por precio y por espera, también cuando escriben fuera de horario**, ‖ justo lo que promete la competencia. Y con la caja así, una guerra de precios la hunde. ‖‖ Eso no lo ve la gestoría. No lo ve la agencia. ‖ **Lo ve Vigía.**»
+**La causa (el momento clave).** «Por separado son tres problemas. ‖‖ **Juntos son uno.** ‖ Ahí entra nuestro coordinador. **No es la temporada**: el año pasado no bajó. La clínica pierde pacientes **por precio y por espera, también cuando escriben fuera de horario**, ‖ justo lo que promete la competencia. Y con la caja así, una guerra de precios la hunde. ‖‖ Eso no lo ve la gestoría. No lo ve la agencia. ‖ **Lo vemos nosotros.**»
 
-**Actúa.** «Y no se queda en un informe: **actúa.** El recordatorio amable lo envía solo. La reclamación formal **espera a que la dueña dé el visto bueno**. ¿Bajar a 20 € como la competencia? Finanzas dice que no: cada paciente nuevo dejaría un 21 % menos. Propone **30 €, con cita en 48 horas**. No se dan la razón: **se contrastan.**»
+**Actúa.** «Y no se queda en un informe: **actúa.** El recordatorio amable lo envía solo. La reclamación formal **espera a que la dueña dé el visto bueno**. ¿Bajar a 20 € como la competencia? Finanzas dice que no: cada paciente nuevo dejaría un 21 % menos. Propone **30 €, con cita en 48 horas**.»
 
-**Comprueba.** «Y lo más importante: **comprueba si ha funcionado.** En la simulación de un mes después: **dos de tres facturas** de la aseguradora, cobradas y comprobadas con el banco. Las consultas de fuera de horario se contestan **en minutos**, y las quejas por la espera bajan **del 86 al 50 %**. Y es honesto: **dice que coincide, no que lo demuestre.**»
+**Comprueba.** «Y luego **comprueba si ha funcionado.** En la simulación de un mes después: **dos de tres facturas** de la aseguradora, cobradas y comprobadas con el banco. Las consultas de fuera de horario se contestan **en minutos**. Y somos honestos: **decimos que coincide, no que lo demuestre.**»
 
-**Cierre.** «Desde **99 € al mes**, menos de cinco céntimos de IA por análisis, y entramos por quien ya tiene su confianza: **su gestoría.** ‖‖ Hasta hoy, cada pyme tenía proveedores que veían su parte. Ahora tiene a alguien que ve la causa. ‖‖ **Cada proveedor ve su parte. Vigía ve la causa.**»
+**Cierre.** «Desde **99 € al mes**, y de la mano de quien ya tiene su confianza: **su gestoría.** ‖‖ **Somos Vigía.** ‖ Y venimos a que ninguna pyme vuelva a perder clientes sin saber por qué. ‖‖ **Cada proveedor ve su parte. Vigía ve la causa.**»
 
-### Las cifras y de dónde salen
+### Las cifras y de dónde salen (verificadas el 25/11/2026)
 
-Todas salen de la demo con el código de `main` en modo reglas (`uv run python -m vigia`, comprobado el 25/11/2026). La clínica, la aseguradora y el competidor son **ficticios** y los datos, sintéticos.
+Hay **dos tipos de cifras** y no se pueden mezclar:
+
+**1. Datos reales del problema, con estudio detrás.** Se dicen como datos de España:
+
+| Cifra del pitch | Fuente | Estado |
+|---|---|---|
+| Solo **una de cada tres** empresas de diez o más empleados analiza sus propios datos | INE, *Encuesta sobre el uso de TIC y del comercio electrónico en las empresas*, año 2025 – primer trimestre de 2026, nota de prensa del 22/10/2026: «Empresas que realizaron analítica de datos por parte de sus propios empleados: **34,3 %**» (sobre las empresas con conexión a Internet). <https://www.ine.es/dyngs/Prensa/ETICCE20251T2026.htm> | **Verificado** en la nota de prensa original |
+| El **85 %** de las grandes empresas se salta el plazo legal de pago | Plataforma Multisectorial contra la Morosidad (PMcM), *Informe sobre la Morosidad: Estudio Plazos de Pago en España 2025*. Recogido por PIMEC (miembro de la PMcM) el 05/05/2026: «El 85 % de las grandes empresas incumplen los plazos legales» y «El plazo medio de pago del sector privado se sitúa en 67 días» (el máximo legal entre empresas es de 60). <https://pimec.org/es/actualidad/noticia/n/la-pmcm-reclama-reformar-urgentemente-la-ley-para-combatir-los-retrasos-en-los-pagos> | **Verificado a través de PIMEC.** El PDF original de la PMcM no se pudo abrir desde aquí (su web no respondía) |
+| 1,36 millones de pymes con asalariados (solo en el bloque opcional) | Ministerio de Industria, *Cifras PYME*, datos de mayo de 2026, tabla 1: «PYME con asalariados (1-249 asalariados): **1.355.023**», con datos de la Seguridad Social. <https://ipyme.org/Publicaciones/Cifras%20PYME/CifrasPyme_mayo_2026.pdf> | **Verificado** en el PDF original |
+
+Si el jurado pregunta, se puede citar también, del mismo informe del INE, que solo el **33,9 %** usa un programa de gestión de clientes (CRM) y el **33,6 %**, inteligencia artificial.
+
+**2. Resultados de la demo.** Los calcula Vigía sobre una clínica **inventada** con datos sintéticos escritos por el equipo. **No son estadísticas del mercado** y no se basan en ningún estudio: demuestran que el producto funciona, no cómo son las pymes. Por eso el pitch dice en voz alta que la clínica es inventada. Comprobados con el código de `main` en modo reglas (`uv run python -m vigia`):
 
 | Cifra | Dato de la demo |
 |---|---|
@@ -51,11 +65,11 @@ Todas salen de la demo con el código de `main` en modo reglas (`uv run python -
 | No es la temporada | Coordinador: los mismos meses del año pasado no bajaron |
 | 20 € deja un 21 % menos; 30 € con cita en 48 h | Validación de la contraoferta (20 € −21 %, 25 € −16 %, 30 € −10 %) |
 | 2 de 3 facturas de la aseguradora cobradas | Re-medición con el «mes después» **simulado**, conciliada con el banco |
-| De 12 h a minutos; quejas por espera del 86 % al 50 % | Re-medición con el «mes después» **simulado** (mediana de 0,0 h) |
-| Menos de 5 céntimos de IA por análisis | Medido con Claude real: 0,038–0,042 $ (`docs/uso-ia.md`) |
-| Desde 99 € al mes | Precio previsto en el canvas; **por validar con pilotos** |
+| De 12 h a minutos | Re-medición con el «mes después» **simulado** (mediana de 0,0 h) |
 
-**Lo que no se dice:** que Vigía haya «demostrado» una mejora (solo coincide en el tiempo, salvo los cobros); que la clínica sea real (se dice en voz alta que es inventada); cifras de mercado sin fuente.
+**3. Del negocio:** «desde 99 € al mes» es el precio **previsto** en el canvas, por validar con pilotos; el coste de la IA (0,04 $ por análisis) está **medido** por el equipo con Claude real (`docs/uso-ia.md`).
+
+**Lo que no se dice:** que Vigía haya «demostrado» una mejora (solo coincide en el tiempo, salvo los cobros); que la clínica sea real; ninguna cifra de mercado que no esté en la primera tabla.
 
 ## Cómo defenderlo en el escenario
 
@@ -94,7 +108,7 @@ Archivo: `docs/negocio/pitch-audio-gancho.mp3` (5,5 s; el volumen sube de −29 
 
 - **Uso responsable de la IA** (pestaña 6). «Las reglas calculan y la IA interpreta. Todo lo que escribe la IA se comprueba contra los datos: una cifra, una fecha, una cuenta bancaria o un enlace que no estén en ellos y el texto se descarta. Claude no ve los nombres de quien debe dinero. Cada decisión queda registrada y el coste se mide.»
 - **Una ficha única por cliente** (pestaña 8, ADR 007). «Si la pyme no tiene CRM, Vigía le da uno: cada experto aporta lo que sabe de cada cliente y se junta en una sola ficha. Y avisa: "te debe dinero y tiene una consulta sin contestar; contéstale antes de reclamarle".»
-- **Escala.** Añadir un especialista (marketing, legal, personas) es enchufar un módulo: el coordinador cruza sus hallazgos sin cambios y solo se añaden sus acciones al plan. Hay unas 1,36 millones de pymes con asalariados en España (Ministerio de Industria, *Cifras PYME*, mayo de 2026).
+- **Escala.** Añadir un especialista (marketing, legal, personas) es enchufar un módulo: el coordinador cruza sus hallazgos sin cambios y solo se añaden sus acciones al plan. Hay unos 1,36 millones de pymes con asalariados en España (Ministerio de Industria, *Cifras PYME*, mayo de 2026).
 
 ## Preguntas probables del jurado
 
