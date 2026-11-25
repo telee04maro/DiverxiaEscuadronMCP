@@ -70,7 +70,7 @@ Cada etapa deja una versión entregable. Marca `[x]` al terminar, con su evidenc
   - validación de la contraoferta (20 € y 25 € no compensan; 30 € sí).
 - **Competencia:** oferta nueva en Meta (instantánea sintética), precio, reseñas con quejas por espera y visibilidad en Google. Lo que propone la IA se verifica contra el texto.
 - **Coordinador:**
-  - causa cruzada (finanzas + competencia) y «es la temporada» descartada;
+  - causa cruzada (finanzas + competencia + atención y captación) y «es la temporada» descartada;
   - causas de la IA validadas (se rechazan los hallazgos inexistentes);
   - modo reglas sin clave.
 - **Acciones:**

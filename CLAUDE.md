@@ -67,7 +67,7 @@ La gestoría ve los impuestos, la agencia ve las redes y el Excel ve las cuentas
 **Seis agentes a medias son peores que dos muy buenos.** En el hackathon se construyen **en profundidad**:
 1. **Agente de competencia y mercado.**
 2. **Agente de finanzas.**
-3. **Coordinador cruzando los dos**, con el plan a 7, 30 y 90 días, ejecución y re-medición.
+3. **Coordinador cruzando los hallazgos** (también los de atención y captación, punto 4), con el plan a 7, 30 y 90 días, ejecución y re-medición.
 4. **Atención y captación** (ADR 005): ERP de demo con API para el asistente de WhatsApp del compañero (Hermes) y entrada «Tu empresa» con Excel/CSV.
 
 El resto (marketing y clientes, legal, organización y personas, chat del dueño) aparece en el pitch como **hoja de ruta**. **BALTER real:** nunca en producción; solo con documentación de su API, visto bueno de la empresa y una primera prueba de solo lectura sin datos personales. Si sobra tiempo, solo se añade después del MVP completo y siempre con la misma calidad.
